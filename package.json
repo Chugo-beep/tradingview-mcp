@@ -14,6 +14,7 @@
   "scripts": {
     "start": "node src/server.js",
     "tv": "node src/cli/index.js",
+    "calendar:sync": "node scripts/sync-economic-calendar.mjs",
     "lint": "eslint src/",
     "test": "node --test tests/e2e.test.js tests/pine_analyze.test.js",
     "test:e2e": "node --test tests/e2e.test.js",

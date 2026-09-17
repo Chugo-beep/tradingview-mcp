@@ -39,7 +39,7 @@ export async function create({ condition, price, message }) {
           resolution: '1',
           message: msg,
           sound_file: 'alert/fired', sound_duration: 0,
-          popup: true, auto_deactivate: true,
+          popup: true, auto_deactivate: false,
           email: false, sms_over_email: false, mobile_push: true,
           web_hook: null, name: null,
           expiration: new Date(Date.now() + 30 * 24 * 3600 * 1000).toISOString(),
