@@ -9,11 +9,13 @@
  * (« après trois erreurs du même type, renforcer la règle »).
  */
 import { TF_LABEL, CATEGORIES } from './engine.js';
+import { marketById } from './markets.js';
 
 export const FEATURE_LABEL = {
   category: 'Catégorie', tf: 'Timeframe', direction: 'Sens', gapAtr: 'Imbalance / ATR', zoneAtr: 'Hauteur de zone / ATR',
   sweepAtr: 'Profondeur du balayage / ATR', session: 'Session', trend: 'Tendance (EMA 50)', news: 'Annonce proche',
   stars: 'Étoiles à la détection', fibZone: 'Fibonacci', liqRisk: 'Liquidité au-delà de l\'OB', supertrend: 'Supertrend',
+  market: 'Marché',
 };
 
 const VALUE_LABEL = {
@@ -40,8 +42,10 @@ export function sessionOf(t) {
   return 'Clôture US';
 }
 
-/** Caractéristiques d'une zone, connues à la clôture de C3. */
-export function featuresOf(zone, { hasNewsNear } = {}) {
+/** Caractéristiques d'une zone, connues à la clôture de C3. `marketId` : marché analysé (analyse
+ * complète multi-marchés) — ajoute la dimension `market` aux règles apprises ; omis (undefined/null)
+ * en analyse mono-marché (compatibilité). */
+export function featuresOf(zone, { hasNewsNear } = {}, marketId = null) {
   const a = zone.atr || null;
   const { P } = zone.candles;
   const sweep = zone.direction === 'BUY' ? zone.liquidity.level - P.low : P.high - zone.liquidity.level;
@@ -65,6 +69,7 @@ export function featuresOf(zone, { hasNewsNear } = {}) {
       liqRisk: zone.liq?.risk ? 'yes' : 'no',
       supertrend: zone.trend?.ranging ? 'range' : zone.trend?.aligned ? 'with' : 'against',
     } : {}),
+    ...(marketId ? { market: marketId } : {}),
   };
 }
 
@@ -72,6 +77,7 @@ export function valueLabel(feature, value) {
   if (feature.includes(SEP)) { const fs = feature.split(SEP), vs = String(value).split('|'); return fs.map((f, i) => valueLabel(f, vs[i])).join(' + '); }
   if (feature === 'tf') return TF_LABEL[value] || value;
   if (feature === 'category') return CATEGORIES[value]?.label || value;
+  if (feature === 'market') return marketById(value)?.label || value;
   return VALUE_LABEL[feature]?.[value] ?? value;
 }
 

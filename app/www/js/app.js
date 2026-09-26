@@ -1,12 +1,18 @@
 import { TIMEFRAMES, TF_LABEL, TF_SECONDS, STATUS_LABEL, DEFAULT_OPTIONS, CATEGORIES, normalizeCandles } from './engine.js';
-import { fetchAll, hasLocalServer, isNativeApp, pair, unpair, isPaired, remoteBase, adminApi } from './providers.js';
+import { fetchAll, fetchNews, hasLocalServer, isNativeApp, pair, unpair, isPaired, remoteBase, adminApi, scanApi, needsFullRefetch } from './providers.js';
+import { nativePlugin } from './native.js';
 import { CandleChart } from './chart.js';
 import { runAgents, followZone, unfollowZone, setEntryLot, transitions } from './agents.js';
 import { DEFAULT_RISK, POS, POS_LABEL, MAX_SL_PIPS, CATEGORY_DEFAULTS, balance, money, notifText } from './trades.js';
 import { featureLabel, valueLabel } from './learning.js';
+import { NEWS_COUNTRIES, COUNTRY_FLAG, interpretEvent, formatNewsValue } from './news.js';
+import { MARKETS, MARKET_IDS, DEFAULT_MARKET, marketById, LIVE_CHARTS_OPTIONS, DEFAULT_LIVE_CHARTS } from './markets.js';
 
 const $ = (s) => document.querySelector(s);
-const K = { settings: 'xauz.settings.v2', journal: 'xauz.journal.v1', learn: 'xauz.learn.v1', seen: 'xauz.seen.v2', watch: 'xauz.watch.v1' };
+const K = {
+  settings: 'xauz.settings.v2', journal: 'xauz.journal.v1', learn: 'xauz.learn.v1', seen: 'xauz.seen.v2', watch: 'xauz.watch.v1', burned: 'xauz.pairing.burned.v1',
+  news: 'xauz.news.v1', newsSeq: 'xauz.news.seq.v1', newsSeen: 'xauz.news.seen.v1',
+};
 const DEMO = new URLSearchParams(location.search).has('demo');
 /** Adresse Tailscale du PC, préréglée dans l'application (remplacée par www/provision.json à chaque compilation). */
 const DEFAULT_REMOTE_URL = 'https://joshua.taila406c5.ts.net/';
@@ -17,6 +23,9 @@ const DEFAULT_SETTINGS = {
   liveSec: 15, timeframes: [...TIMEFRAMES], notify: true,
   risk: structuredClone(DEFAULT_RISK),
   learning: { minSamples: 8, threshold: -0.15 },
+  notifyNews: true, newsAlertMin: 30, // annonces économiques (US/EU/CN/JP, impact majeur)
+  market: DEFAULT_MARKET, // marché affiché (graphique/liste) — indépendant des marchés en direct
+  liveCharts: DEFAULT_LIVE_CHARTS, // « Graphiques disponibles dans TradingView » : marchés analysés en direct simultanément (défaut 2)
 };
 
 const load = (k, fb) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; } catch { return fb; } };
@@ -31,11 +40,19 @@ function loadSettings() {
   if (!s.allTfMigrated) { s.timeframes = [...TIMEFRAMES]; s.allTfMigrated = true; } // migration : toutes les TF (1/5/15/60/240/D) activées par défaut
   s.risk.minStars = 5; // seules les zones 5★ sont valides (moins de 5★ = invalidée) ; jamais réglable
   s.learning = { ...DEFAULT_SETTINGS.learning, ...(s.learning || {}) };
+  if (s.notifyNews == null) s.notifyNews = true;
+  if (![5, 15, 30, 60].includes(s.newsAlertMin)) s.newsAlertMin = 30;
   // minimisation des données : anciennes clés de fournisseurs supprimées
   for (const k of ['source', 'oandaToken', 'oandaEnv', 'twelveKey', 'pcUrl', 'pairCode']) delete s[k];
   s.risk.eurUsd = 'manual';
   if (!remoteBase(s.remoteUrl || '')) s.remoteUrl = DEFAULT_REMOTE_URL;
   delete s.count; // « Bougies par TF » supprimé : toutes les bougies chargées dans TradingView sont utilisées
+  if (!MARKET_IDS.includes(s.market)) s.market = DEFAULT_MARKET;
+  // migration : l'ancien réglage par abonnement TradingView (tvPlan) est remplacé par le nombre
+  // direct de graphiques disponibles ; les réglages existants basculent sur le nouveau défaut (2).
+  if (s.tvPlan && !s.liveChartsMigrated) { s.liveCharts = DEFAULT_LIVE_CHARTS; delete s.tvPlan; }
+  s.liveChartsMigrated = true;
+  if (!LIVE_CHARTS_OPTIONS.includes(s.liveCharts)) s.liveCharts = DEFAULT_LIVE_CHARTS;
   return s;
 }
 
@@ -50,6 +67,10 @@ const state = {
   cal: null,
   data: null,
   out: null,
+  news: load(K.news, []), // événements bruts du serveur (app/newsfeed.js), fusionnés par id
+  newsSeq: load(K.newsSeq, 0),
+  newsSeen: load(K.newsSeen, {}), // id -> { prealerted, resultNotified }
+  newsFirstRun: true,
   chartTf: '5',
   cat: 'all',
   panel: 'positions',
@@ -61,12 +82,19 @@ const state = {
   live: false,
   timer: null,
   newIds: new Set(),
+  lastFull: null, // horodatage (ms) du dernier téléchargement complet (sans "since") d'une timeframe
+  forceFull: false, // vrai : le prochain runOnce ignore "since" (historique TradingView agrandi, ou 30 min écoulées)
+  scan: { running: false, status: null, ranking: null, timer: null }, // « analyse complète » (§ Marchés)
+  liveState: {}, // par marché en direct : { data, out, lastFull, forceFull } — cf. computeLiveMarkets / runOnceFor
+  liveMarkets: [], // marchés actuellement en direct (mis à jour à chaque cycle quand state.live)
 };
 state.learn.disabled ||= [];
 // v4 : seules les zones que l'utilisateur a marquées « suivies » restent dans le journal réel
 state.journal.entries = (state.journal.entries || []).filter((j) => j.followed);
 
 const chart = new CandleChart($('#chart'), { onZoneClick: (id) => openDetail(id) });
+/** Préconfiguration lue une fois dans provision.json (adresse du PC + code d'appairage éventuel). */
+let provisionCache = null;
 
 // ── démarrage ─────────────────────────────────────────────────────────────
 async function init() {
@@ -76,30 +104,101 @@ async function init() {
   bindUi();
   setupNotifications();
   renderAll();
+  if (!DEMO) { fetchNewsOnce(); setInterval(fetchNewsOnce, 60000); } // au moins toutes les 60 s
   if (DEMO) { runOnce(); return; }
   if (!state.server) await applyProvision();
-  if (!state.server && !(await isPaired())) {
-    showBanner('Pour commencer, saisis le code d\'appairage affiché sur ton PC.', 'info', 'Saisir le code', openPairing);
-  } else if (!state.settings.risk.validated) {
+  const paired = state.server || (await isPaired());
+  if (!state.server) await refreshPairingBanner();
+  if (paired && !state.settings.risk.validated) {
     showBanner('Valide ton lot et ton stop loss, puis appuie sur « Suivre » pour chaque trade que tu prends.', 'info', 'Lot & stop', openRisk);
+  }
+  if (!DEMO && (state.server || paired)) {
+    loadScanResult();
+    scanApi.status(state.settings, { serverAvailable: state.server }).then((st) => {
+      state.scan.status = st; state.scan.running = !!st.running;
+      if (st.running) { setScanButtonsDisabled(true); pollScan(); }
+    }).catch(() => {});
   }
 }
 
-/** Adresse du PC écrite dans l'APK à chaque compilation (installer-android) : elle prime sur l'adresse par défaut. */
+/** Adresse du PC écrite dans l'APK à chaque compilation (installer-android) : elle prime sur l'adresse par défaut.
+ * Peut aussi contenir un code d'appairage à usage unique préconfiguré (pairCode/expiresAt) : dans ce cas,
+ * l'appairage est tenté automatiquement, sans saisie manuelle. */
 async function applyProvision() {
   let pv = null;
   try { pv = await (await fetch('provision.json', { cache: 'no-store' })).json(); } catch { return; }
+  provisionCache = pv;
   const url = pv?.remoteUrl ? remoteBase(pv.remoteUrl) : null;
   if (url && url !== state.settings.remoteUrl) { state.settings.remoteUrl = url; save(K.settings, state.settings); }
+  await tryAutoPair(pv);
+}
+
+/** Code d'appairage préconfiguré valide et pas encore définitivement refusé par le serveur. */
+function usablePairCode(pv) {
+  const code = pv?.pairCode;
+  if (!code || !/^\d{8}$/.test(code)) return null;
+  if (pv.expiresAt && Date.now() > pv.expiresAt) return null;
+  if (load(K.burned, []).includes(code)) return null;
+  return code;
+}
+
+/** Tente l'appairage automatique avec le code préconfiguré dans l'APK.
+ * Un échec réseau ne « grille » pas le code (nouvelle tentative au prochain lancement ou appui sur
+ * « Analyser ») ; seule une réponse explicite du serveur (code déjà utilisé, invalide, expiré…) le fait. */
+async function tryAutoPair(pv) {
+  if (state.server || DEMO) return false;
+  if (await isPaired()) return true;
+  const code = usablePairCode(pv);
+  if (!code) return false;
+  try {
+    const r = await pair(state.settings, code);
+    save(K.settings, state.settings);
+    toast('Téléphone appairé automatiquement au PC.');
+    syncAnalyseButtonLabel();
+    await refreshPairingBanner();
+    refreshPairStatus();
+    return true;
+  } catch (e) {
+    if (!/injoignable/i.test(e.message)) {
+      // le serveur a répondu (code invalide/expiré/déjà utilisé) : inutile de réessayer ce code
+      save(K.burned, [...new Set([...load(K.burned, []), code])].slice(-20));
+    }
+    return false;
+  }
+}
+
+/** Hôte affiché dans le bandeau d'appairage (adresse du PC déjà validée). */
+function pairingHost() {
+  try { return new URL(remoteBase(state.settings.remoteUrl) || state.settings.remoteUrl).host; } catch { return ''; }
+}
+
+/** Bandeau d'état d'appairage du téléphone (jamais affiché côté PC). */
+async function refreshPairingBanner() {
+  if (state.server || DEMO) return;
+  if (await isPaired()) showBanner(`✓ Téléphone appairé au PC · ${pairingHost()}`, 'ok');
+  else showBanner('Téléphone non appairé.', 'error', 'Saisir le code', openPairing);
+}
+
+/** Remet le bouton « Analyser » dans son état normal (après un appairage réussi). */
+function syncAnalyseButtonLabel() {
+  if (state.live) return;
+  const b = $('#analyseBtn');
+  b.classList.remove('live', 'busy');
+  b.setAttribute('aria-pressed', 'false');
+  b.querySelector('.lbl').textContent = 'Analyser';
+  b.title = 'Lancer l\'analyse en temps réel';
 }
 
 function bindUi() {
   $('#analyseBtn').onclick = toggleLive;
+  $('#scanBtn').onclick = startFullScan;
+  $('#scanBtnHeader').onclick = startFullScan;
   $('#settingsBtn').onclick = openSettings;
   $('#riskBtn').onclick = openRisk;
   $('#showBands').onchange = () => renderChart(true);
+  $('#fitAllBtn').onclick = () => chart.fitAll();
   segment('#catTabs', (v) => { state.cat = v; ensureTfInCat(); renderAll(false); });
-  segment('#panelTabs', (v) => { state.panel = v; for (const p of ['positions', 'agents', 'learning']) $(`#pane-${p}`).hidden = p !== v; });
+  segment('#panelTabs', (v) => { state.panel = v; for (const p of ['positions', 'markets', 'agents', 'learning', 'news']) $(`#pane-${p}`).hidden = p !== v; if (v === 'news') renderNews(); if (v === 'markets') renderMarkets(); });
   segment('#stateFilter', (v) => { state.stateFilter = v; renderPositions(); });
   segment('#dirFilter', (v) => { state.dirFilter = v; renderPositions(); });
   segment('#scopeSeg', (v) => { state.scope = v; renderBalance(); renderPositions(); });
@@ -107,10 +206,18 @@ function bindUi() {
   $('#riskForm').addEventListener('submit', onRiskSubmit);
   $('#riskForm').addEventListener('input', riskPreview);
   bindAdmin(); bindPhone();
-  $('#batteryBtn').onclick = async () => { try { await window.Capacitor.Plugins.LiveKeeper.requestBatteryExemption(); } catch { toast('Réglage batterie indisponible sur ce téléphone.'); } };
+  $('#batteryBtn').onclick = async () => {
+    const LK = nativePlugin('LiveKeeper');
+    if (!LK) { toast('Réglage batterie indisponible sur ce téléphone.'); return; }
+    try { await LK.requestBatteryExemption(); } catch { toast('Réglage batterie indisponible sur ce téléphone.'); }
+  };
   $('#resetJournal').onclick = () => { if (confirmInline('#resetJournal')) { state.journal = { entries: [] }; save(K.journal, state.journal); renderAll(); toast('Journal effacé.'); } };
   $('#resetLearning').onclick = () => { if (confirmInline('#resetLearning')) { state.learn = { samples: {}, disabled: [], acceptedRules: [], config: null, configHistory: [], quarantine: { rules: {} } }; save(K.learn, state.learn); toast('Apprentissage réinitialisé.'); } };
-  document.addEventListener('visibilitychange', () => { if (!document.hidden && state.live) runOnce(); });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) return;
+    refreshBatteryStatus();
+    if (state.live) runOnce();
+  });
 }
 
 /** Double appui pour confirmer (évite les boîtes de dialogue bloquantes). */
@@ -131,7 +238,24 @@ function segment(sel, fn) {
 }
 
 // ── analyse temps réel ───────────────────────────────────────────────────
-function toggleLive() {
+async function toggleLive() {
+  if (!state.server && !DEMO && !(await isPaired())) {
+    await tryAutoPair(provisionCache); // dernière chance : code réseau-indisponible plus tôt, PC peut-être joignable maintenant
+    if (!(await isPaired())) {
+      state.live = false;
+      const b = $('#analyseBtn');
+      b.classList.remove('live', 'busy');
+      b.setAttribute('aria-pressed', 'false');
+      b.querySelector('.lbl').textContent = 'Non connecté';
+      b.title = 'Appaire d\'abord le téléphone';
+      clearTimeout(state.timer);
+      keepAlive(false);
+      showBanner('Appaire d\'abord le téléphone.', 'error', 'Saisir le code', openPairing);
+      toast('Appaire d\'abord le téléphone.');
+      openPairing();
+      return;
+    }
+  }
   state.live = !state.live;
   const b = $('#analyseBtn');
   b.classList.toggle('live', state.live);
@@ -140,6 +264,7 @@ function toggleLive() {
   b.title = state.live ? 'Arrêter l\'analyse en temps réel' : 'Lancer l\'analyse en temps réel';
   clearTimeout(state.timer);
   keepAlive(state.live);
+  if (!state.live) state.liveMarkets = [];
   if (state.live) runOnce();
 }
 
@@ -148,10 +273,11 @@ function scheduleNext() {
   if (state.live) state.timer = setTimeout(runOnce, state.settings.liveSec * 1000);
 }
 
-/** Bougie la plus ancienne à redemander pour chaque TF activée (dernière bougie en cache − 2 bougies) ; null si le cache est incomplet (première analyse → tout retélécharger). */
-function computeSince() {
-  const prev = state.data?.candles;
+/** Bougie la plus ancienne à redemander pour chaque TF activée (dernière bougie en cache − 2 bougies) ; null si le cache est incomplet ou qu'un retéléchargement complet est dû (première analyse, historique TradingView agrandi, ou 30 min écoulées) → tout retélécharger. Un slot par marché (voir runOnceFor) : les marchés en direct simultanés ont chacun leur propre cache/curseur, jamais partagé. */
+function computeSinceFor(slot) {
+  const prev = slot.data?.candles;
   if (!prev) return null;
+  if (slot.forceFull) { slot.forceFull = false; return null; }
   let since = null;
   for (const tf of state.settings.timeframes) {
     const arr = prev[tf];
@@ -171,32 +297,66 @@ function mergeCandles(oldArr, newArr) {
   return [...byTime.values()].sort((a, b) => a.time - b.time);
 }
 
+/**
+ * Analyse UN marché (glissant sur son propre curseur `since`/cache — `state.liveState[marketId]`)
+ * et déclenche ses notifications. Ne touche pas au rendu : l'appelant (`runOnce`) recopie ensuite
+ * le résultat du marché AFFICHÉ (`state.settings.market`) dans `state.data`/`state.out` pour que
+ * tout le reste de l'UI (graphique, liste, détail…) continue de fonctionner sans changement.
+ */
+async function runOnceFor(marketId) {
+  const s = { ...state.settings, market: marketId };
+  const slot = state.liveState[marketId] || (state.liveState[marketId] = { data: null, out: null, lastFull: null, forceFull: true });
+  const since = DEMO ? null : computeSinceFor(slot);
+  const data = DEMO && state.server ? await import('./demo.js').then((m) => m.demoData(s)) : await fetchAll(s, { serverAvailable: state.server, since });
+  const prevCandles = slot.data?.candles || {};
+  const candles = {};
+  for (const tf of s.timeframes) {
+    if (data.errors?.[tf]) { candles[tf] = prevCandles[tf] || []; continue; } // erreur sur cette TF : on garde le cache
+    const norm = normalizeCandles(data.candles?.[tf] || []);
+    candles[tf] = since != null ? mergeCandles(prevCandles[tf], norm) : norm;
+  }
+  if (!DEMO) {
+    const now = Date.now();
+    if (since == null) slot.lastFull = now;
+    for (const tf of s.timeframes) {
+      const arr = candles[tf];
+      const cacheInfo = arr?.length ? { count: arr.length, first: arr[0].time } : null;
+      if (needsFullRefetch(cacheInfo, data.meta?.[tf], slot.lastFull, now)) { slot.forceFull = true; break; }
+    }
+  }
+  slot.data = { ...data, candles };
+  // journal (réel) et apprentissage sont partagés entre tous les marchés en direct (un seul compte) ;
+  // seules les bougies/analyses sont propres à chaque marché.
+  const out = runAgents({ data: slot.data, settings: s, cal: state.cal, learnStore: state.learn, journal: state.journal, newsEvents: state.news });
+  slot.out = out;
+  handleEvents(out);
+  return { data: slot.data, out, errors: data.errors };
+}
+
 async function runOnce() {
   if (state.running) return;
   state.running = true;
   $('#analyseBtn').classList.add('busy');
+  let last = null;
+  state.newIds = new Set();
   try {
-    const s = state.settings;
-    const since = DEMO ? null : computeSince();
-    const data = DEMO && state.server ? await import('./demo.js').then((m) => m.demoData(s)) : await fetchAll(s, { serverAvailable: state.server, since });
-    const prevCandles = state.data?.candles || {};
-    const candles = {};
-    for (const tf of s.timeframes) {
-      if (data.errors?.[tf]) { candles[tf] = prevCandles[tf] || []; continue; } // erreur sur cette TF : on garde le cache
-      const norm = normalizeCandles(data.candles?.[tf] || []);
-      candles[tf] = since != null ? mergeCandles(prevCandles[tf], norm) : norm;
-    }
-    state.data = { ...data, candles };
-    const out = runAgents({ data: state.data, settings: s, cal: state.cal, learnStore: state.learn, journal: state.journal });
-    state.out = out;
+    const selected = state.settings.market;
+    const liveIds = state.live ? computeLiveMarkets() : [];
+    state.liveMarkets = liveIds;
+    // le marché affiché est toujours analysé, même s'il n'est pas (encore) l'un des marchés en direct.
+    const fetchIds = state.live ? [...new Set([...liveIds, selected])] : [selected];
+    for (const mid of fetchIds) last = await runOnceFor(mid);
+    if (!DEMO) await fetchNewsOnce(); // au moins une fois par analyse (cadence ≤ 60 s)
+    const sel = state.liveState[selected] || last;
+    state.data = sel.data; state.out = sel.out;
     save(K.journal, state.journal);
     save(K.learn, state.learn);
-    handleEvents(out);
-    const errs = Object.entries(data.errors || {});
+    const errs = Object.entries(sel.errors || sel.data?.errors || {});
     if (DEMO) showBanner('Mode démo : données simulées, uniquement pour tester l\'interface.', 'info');
-    else if (!s.risk.validated) showBanner('Valide ton lot et ton stop loss, puis appuie sur « Suivre » pour chaque trade que tu prends.', 'info', 'Lot & stop', openRisk);
-    else if (out.guards?.dailyBreaker) showBanner('Pause : 2 pertes aujourd\'hui, protection du capital.', 'info');
+    else if (!state.settings.risk.validated) showBanner('Valide ton lot et ton stop loss, puis appuie sur « Suivre » pour chaque trade que tu prends.', 'info', 'Lot & stop', openRisk);
+    else if (sel.out.guards?.dailyBreaker) showBanner('Pause : 2 pertes aujourd\'hui, protection du capital.', 'info');
     else if (errs.length) showBanner(`Timeframes indisponibles : ${errs.map(([tf, m]) => `${TF_LABEL[tf]} (${m})`).join(' · ')}`, 'info');
+    else if (!state.server) await refreshPairingBanner(); // remet le bandeau vert « appairé » après une analyse réussie
     else hideBanner();
   } catch (e) {
     showBanner(e.message, 'error', 'Réglages', openSettings);
@@ -216,7 +376,6 @@ async function runOnce() {
  */
 function handleEvents(out) {
   const notes = [];
-  state.newIds = new Set();
   const firstRun = state.seen.size === 0;
   const followed = new Set(state.journal.entries.filter((j) => j.followed).map((j) => j.id));
   const tpl = (a, p = a.pos) => ({ dir: a.direction, category: a.category, ...a.plan, ...p, entry: a.plan.entry, sl: a.plan.sl, tp1: a.plan.tp1, tp2: a.plan.tp2, tp3: a.plan.tp3, grade: a.grade, zoneLow: a.zoneLow, zoneHigh: a.zoneHigh });
@@ -227,12 +386,12 @@ function handleEvents(out) {
       state.seen.add(a.id); state.newIds.add(a.id);
       // préservation du compte (§B) : pas notifié « à prendre » si un garde-fou bloque, mais la zone reste visible
       const blocked = guards?.maxPositions || guards?.dailyBreaker || a.guardOverlap;
-      if (!firstRun && !blocked) { notes.push(notifText('new', tpl(a), { tfLabel, reducedSize: guards?.reducedSize })); state.watch[a.id] = { state: a.pos.state, hits: 0, beDone: false, trailFrom: null }; }
+      if (!firstRun && !blocked) { notes.push(notifText('new', tpl(a), { tfLabel, reducedSize: guards?.reducedSize, market: out.market })); state.watch[a.id] = { state: a.pos.state, hits: 0, beDone: false, trailFrom: null }; }
     }
     // suivi des opportunités notifiées (non suivies) : TP1, BE, trailing…
     const w = state.watch[a.id];
     if (w && !followed.has(a.id)) {
-      for (const type of transitions(w.state, w.hits, a.pos, w.beDone, w.trailFrom)) notes.push(notifText(type, tpl(a), { tfLabel, pips: a.pos.pips }));
+      for (const type of transitions(w.state, w.hits, a.pos, w.beDone, w.trailFrom)) notes.push(notifText(type, tpl(a), { tfLabel, pips: a.pos.pips, market: out.market }));
       state.watch[a.id] = { state: a.pos.state, hits: a.pos.hits || 0, beDone: !!a.pos.beDone, trailFrom: a.pos.trailFrom ?? null };
       if (![POS.PENDING, POS.OPEN].includes(a.pos.state)) delete state.watch[a.id];
     }
@@ -243,20 +402,20 @@ function handleEvents(out) {
   for (const ev of state.journal.events || []) {
     if (ev.type === 'new') continue;
     const j = ev.entry;
-    notes.push(notifText(ev.type, { ...j, dir: j.dir }, { tfLabel: TF_LABEL[j.timeframe], pips: j.pips }));
+    notes.push(notifText(ev.type, { ...j, dir: j.dir }, { tfLabel: TF_LABEL[j.timeframe], pips: j.pips, market: out.market }));
   }
   notes.slice(0, 4).forEach((n) => toast(`${n.title} — ${n.body}`));
   if (notes.length && state.settings.notify) notify(notes);
 }
 
 let notifId = Date.now() % 1000000;
-async function notify(notes) {
+async function notify(notes, channelId = 'xauz_signals') {
   try {
-    const LN = window.Capacitor?.Plugins?.LocalNotifications;
+    const LN = nativePlugin('LocalNotifications');
     if (LN) {
       await LN.schedule({ notifications: notes.slice(0, 6).map((n) => ({
         id: ++notifId % 2147483647, title: n.title, body: n.body, largeBody: `${n.body}\n${n.detail || ''}`.trim(),
-        summaryText: 'XAUUSD Zones', channelId: 'xauz_signals',
+        summaryText: 'XAUUSD Zones', channelId,
       })) });
     } else if ('Notification' in window && Notification.permission === 'granted') {
       for (const n of notes.slice(0, 6)) new Notification(n.title, { body: `${n.body}\n${n.detail || ''}`.trim(), icon: 'icons/icon.svg', tag: `${n.title}` });
@@ -264,21 +423,234 @@ async function notify(notes) {
   } catch { /* notifications indisponibles */ }
 }
 
-/** Canal Android « Signaux de trading » : priorité haute (bannière + son). */
+/** Canaux Android : « Signaux de trading » (priorité haute) et « Annonces économiques » (importance normale). */
 async function setupNotifications() {
-  const LN = window.Capacitor?.Plugins?.LocalNotifications;
+  const LN = nativePlugin('LocalNotifications');
   if (!LN) return;
   try {
     await LN.createChannel({ id: 'xauz_signals', name: 'Signaux de trading', description: 'Opportunités, TP, BE, SL', importance: 5, visibility: 1, vibration: true });
-    if (state.settings.notify) await LN.requestPermissions();
+    await LN.createChannel({ id: 'xauz_news', name: 'Annonces économiques', description: 'Alertes avant annonce et résultats (US/EU/CN/JP, impact majeur)', importance: 4, visibility: 1, vibration: true });
+    if (state.settings.notify || state.settings.notifyNews) await LN.requestPermissions();
   } catch { /* */ }
 }
 
-/** Android : garde l'analyse en direct active en arrière-plan / écran éteint. */
+// ── annonces économiques (US/EU/CN/JP, impact majeur) ─────────────────────
+/** Récupère les nouveaux/modifiés événements depuis le serveur (fusion par id), puis notifie. */
+async function fetchNewsOnce() {
+  try {
+    const r = await fetchNews(state.settings, { serverAvailable: state.server, since: state.newsSeq });
+    if (r.events.length) {
+      const byId = new Map(state.news.map((e) => [e.id, e]));
+      for (const e of r.events) byId.set(e.id, e);
+      state.news = [...byId.values()];
+      save(K.news, state.news);
+    }
+    if (r.seq != null) { state.newsSeq = r.seq; save(K.newsSeq, state.newsSeq); }
+  } catch { /* silencieux : le calendrier embarqué reste disponible */ }
+  processNewsNotifications();
+  if (state.panel === 'news') renderNews();
+  renderNewsCountdown();
+}
+
+/** Prochaine annonce majeure suivie (US/EU/CN/JP), ou `null`. */
+function nextNewsEvent(now = Date.now() / 1000) {
+  return state.news.filter((e) => e.t >= now).sort((a, b) => a.t - b.t)[0] || null;
+}
+
+const fmtCountdown = (sec) => {
+  if (sec <= 0) return 'maintenant';
+  const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60);
+  return h > 0 ? `${h} h ${m} min` : `${m} min`;
+};
+
+function renderNewsCountdown() {
+  const el = $('#nextNews');
+  if (!el) return;
+  const nx = nextNewsEvent();
+  if (!nx) { el.textContent = ''; el.hidden = true; return; }
+  el.hidden = false;
+  el.textContent = `Prochaine annonce : ${COUNTRY_FLAG[nx.country] || ''} ${nx.title} dans ${fmtCountdown(Math.round(nx.t - Date.now() / 1000))}`;
+}
+
+/** Pré-alerte (N min avant) et notification de résultat (dès que `actual` est publié), 5 max par appel. */
+function processNewsNotifications() {
+  const now = Date.now() / 1000;
+  const notes = [];
+  const firstRun = state.newsFirstRun;
+  state.newsFirstRun = false;
+  for (const ev of [...state.news].sort((a, b) => a.t - b.t)) {
+    const seen = state.newsSeen[ev.id] || {};
+    const flag = COUNTRY_FLAG[ev.country] || '';
+    // évite l'inondation de notifications au premier lancement pour des annonces déjà anciennes
+    if (firstRun && now - ev.t > 2 * 3600) { state.newsSeen[ev.id] = { prealerted: true, resultNotified: ev.actual != null }; continue; }
+    if (!seen.prealerted && ev.t > now && ev.t - now <= state.settings.newsAlertMin * 60) {
+      const hhmm = new Date(ev.t * 1000).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+      const body = `Consensus ${formatNewsValue(ev.forecast, ev.unit, ev.scale) ?? '—'} · Précédent ${formatNewsValue(ev.previous, ev.unit, ev.scale) ?? '—'}`;
+      notes.push({ title: `⚠️ ${hhmm} · ${flag} ${ev.title} · impact majeur`, body });
+      state.newsSeen[ev.id] = { ...seen, prealerted: true };
+    }
+    if (!seen.resultNotified && ev.actual != null) {
+      const it = interpretEvent(ev);
+      const parts = [it.comparisonText, it.tendency, it.indirectNote, ev.previous != null ? `précédent ${formatNewsValue(ev.previous, ev.unit, ev.scale)}` : null].filter(Boolean);
+      notes.push({ title: `📊 ${flag} ${ev.title} : ${formatNewsValue(ev.actual, ev.unit, ev.scale)} (consensus ${formatNewsValue(ev.forecast, ev.unit, ev.scale) ?? '—'})`, body: parts.join(' · ') });
+      state.newsSeen[ev.id] = { ...seen, resultNotified: true };
+    }
+  }
+  save(K.newsSeen, state.newsSeen);
+  if (notes.length) {
+    notes.slice(0, 5).forEach((n) => toast(`${n.title} — ${n.body}`));
+    if (state.settings.notifyNews) notify(notes.slice(0, 5), 'xauz_news');
+  }
+}
+
+/** Onglet « Annonces » : à venir (7 jours) et résultats récents (24 h). */
+function renderNews() {
+  const el = $('#newsBody');
+  if (!el) return;
+  const now = Date.now() / 1000;
+  const upcoming = state.news.filter((e) => e.t >= now).sort((a, b) => a.t - b.t);
+  const recent = state.news.filter((e) => e.t < now && e.t >= now - 86400).sort((a, b) => b.t - a.t);
+  $('#cntNews').textContent = upcoming.length ? String(upcoming.length) : '';
+  const row = (e) => {
+    const it = interpretEvent(e);
+    const flag = COUNTRY_FLAG[e.country] || '';
+    const when = new Date(e.t * 1000).toLocaleString('fr-FR', { weekday: 'short', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+    const vals = `Consensus ${formatNewsValue(e.forecast, e.unit, e.scale) ?? '—'} · Précédent ${formatNewsValue(e.previous, e.unit, e.scale) ?? '—'}${e.actual != null ? ` · Actuel ${formatNewsValue(e.actual, e.unit, e.scale)}` : ''}`;
+    const tendency = [it.comparisonText, it.tendency, it.indirectNote].filter(Boolean).join(' · ');
+    return `<article class="agent"><div class="agent-head"><span class="num-i">${flag}</span><div><b>${esc(e.title)}</b><small>${esc(when)}</small></div></div><ul><li>${esc(vals)}</li>${tendency ? `<li>${esc(tendency)}</li>` : ''}</ul></article>`;
+  };
+  if (!upcoming.length && !recent.length) { el.innerHTML = '<div class="empty">Aucune annonce majeure (US/EU/CN/JP) dans la fenêtre suivie.</div>'; return; }
+  el.innerHTML = `${upcoming.length ? `<h3>À venir</h3>${upcoming.slice(0, 30).map(row).join('')}` : ''}${recent.length ? `<h3>Résultats récents</h3>${recent.slice(0, 20).map(row).join('')}` : ''}`;
+}
+
+/** Android : garde l'analyse en direct active en arrière-plan / écran éteint ; affiche le témoin visuel. */
 async function keepAlive(on) {
-  const LK = window.Capacitor?.Plugins?.LiveKeeper;
+  const LK = nativePlugin('LiveKeeper');
+  const chip = $('#bgChip');
+  if (chip) chip.hidden = !(on && LK);
   if (!LK) return;
   try { if (on) await LK.start({ text: 'Analyse XAUUSD en direct · notifications actives' }); else await LK.stop(); } catch { /* */ }
+  refreshBatteryStatus();
+}
+
+/** Statut de l'exemption d'optimisation batterie (rafraîchi aussi au retour au premier plan). */
+async function refreshBatteryStatus() {
+  const LK = nativePlugin('LiveKeeper');
+  const el = $('#bgStatus');
+  if (!LK || !el) return;
+  try {
+    const st = await LK.status();
+    el.textContent = st.batteryExempt ? 'Optimisation batterie désactivée ✓' : 'Non autorisée : appuie sur le bouton ci-dessus.';
+    el.classList.toggle('g', !!st.batteryExempt);
+  } catch { /* indisponible */ }
+}
+
+// ── analyse complète (« Marchés ») ─────────────────────────────────────────
+/** Bouton du panneau « Marchés » ET bouton d'en-tête (desktop) : toujours synchronisés. */
+function setScanButtonsDisabled(v) { for (const id of ['#scanBtn', '#scanBtnHeader']) { const b = $(id); if (b) b.disabled = v; } }
+
+/** Démarre le scan de tous les marchés (PC : route locale ; téléphone : route distante du PC). */
+async function startFullScan() {
+  try {
+    await scanApi.start(state.settings, { serverAvailable: state.server });
+    toast('Analyse complète démarrée : tous les marchés, 6 timeframes chacun. Cela prend plusieurs minutes.');
+  } catch (e) {
+    if (/cours|429/i.test(e.message)) toast('Une analyse complète est déjà en cours (ou vient d\'être lancée).');
+    else toast(e.message);
+    return;
+  }
+  state.scan.running = true;
+  setScanButtonsDisabled(true);
+  pollScan();
+}
+
+function pollScan() {
+  clearTimeout(state.scan.timer);
+  state.scan.timer = setTimeout(async () => {
+    try {
+      const st = await scanApi.status(state.settings, { serverAvailable: state.server });
+      state.scan.status = st;
+      state.scan.running = !!st.running;
+      renderScanProgress();
+      if (st.running) { pollScan(); return; }
+      await loadScanResult();
+    } catch { /* réseau indisponible : abandonne ce suivi, le bouton reste réactivable */ }
+    setScanButtonsDisabled(false);
+  }, 2000);
+}
+
+/** Classement persisté par le serveur (DATA_DIR/scan.json), ou `null` si aucun scan n'a encore terminé. */
+async function loadScanResult() {
+  try { state.scan.ranking = (await scanApi.result(state.settings, { serverAvailable: state.server })).ranking || null; }
+  catch { /* aucun résultat pour le moment */ }
+  if (state.panel === 'markets') renderMarkets();
+}
+
+function renderScanProgress() {
+  const el = $('#scanProgress');
+  if (!el) return;
+  const st = state.scan.status;
+  if (!st?.running) { el.textContent = state.scan.ranking ? `Dernière analyse complète terminée.` : ''; return; }
+  const pct = st.total ? Math.round((st.done / st.total) * 100) : 0;
+  el.innerHTML = `${st.done}/${st.total} · ${esc(st.current?.marketLabel || '')} · ${esc(TF_LABEL[st.current?.tf] || '')}<span class="scan-bar"><i style="width:${pct}%"></i></span>`;
+}
+
+/** Marché choisi pour l'AFFICHAGE (graphique/liste) — indépendant des marchés en direct (voir computeLiveMarkets). */
+function selectMarket(id) {
+  if (!MARKET_IDS.includes(id) || id === state.settings.market) return;
+  state.settings.market = id;
+  save(K.settings, state.settings);
+  const ls = state.liveState[id];
+  state.data = ls?.data || null; state.out = ls?.out || null;
+  renderMarkets();
+  toast(`Marché affiché : ${marketById(id).label}.`);
+  if (state.live) runOnce(); else renderAll(true);
+}
+
+/**
+ * Marchés analysés EN DIRECT simultanément (jusqu'à `settings.liveCharts`, plafonné à 2 panneaux
+ * dédiés côté serveur) : les mieux classés par la dernière analyse complète ; à défaut de
+ * classement, XAUUSD + le marché suivant du registre (ou XAUUSD seul si un seul graphique).
+ */
+function computeLiveMarkets() {
+  const n = state.settings.liveCharts >= 2 ? 2 : 1;
+  const ranking = state.scan.ranking;
+  if (ranking?.length) return ranking.slice(0, n).map((r) => r.market);
+  if (n <= 1) return [DEFAULT_MARKET];
+  const second = MARKET_IDS.find((id) => id !== DEFAULT_MARKET);
+  return second ? [DEFAULT_MARKET, second] : [DEFAULT_MARKET];
+}
+
+/** Onglet « Marchés » : progression du scan, classement, et chips de sélection du marché affiché. */
+function renderMarkets() {
+  const liveIds = computeLiveMarkets();
+  const hint = $('#scanHint');
+  if (hint) hint.textContent = `Analyse tous les marchés suivis (${MARKETS.length}) sur les ${TIMEFRAMES.length} timeframes, puis les classe par gains en pips et taux de réussite. Graphiques disponibles dans TradingView : ${state.settings.liveCharts} → en direct simultané : ${liveIds.map((id) => marketById(id)?.label || id).join(' · ')}. Durée : plusieurs minutes.`;
+  renderScanProgress();
+  const ranking = state.scan.ranking;
+  const chips = $('#marketChips');
+  if (chips) {
+    chips.innerHTML = MARKETS.map((m) => {
+      const live = liveIds.includes(m.id);
+      return `<button type="button" class="chip select ${m.id === state.settings.market ? 'on' : ''}" data-market="${m.id}">${esc(m.label)}${live ? '<span class="live">● en direct</span>' : ''}</button>`;
+    }).join('');
+    chips.querySelectorAll('[data-market]').forEach((b) => (b.onclick = () => selectMarket(b.dataset.market)));
+  }
+  const body = $('#marketsBody');
+  if (!body) return;
+  $('#cntMarkets').textContent = ranking ? String(ranking.length) : '';
+  if (!ranking) { body.innerHTML = '<div class="empty">Aucune analyse complète pour le moment. Appuie sur « Analyse complète ».</div>'; return; }
+  body.innerHTML = ranking.map((r, i) => `
+    <div class="rank-row ${r.insufficient ? 'insufficient' : ''}">
+      <div class="rr-head"><span class="rk">#${i + 1}</span><span class="lbl">${esc(r.label)}${liveIds.includes(r.market) ? ' · en direct' : ''}</span></div>
+      <div class="rr-stats">
+        <span><b>${fmtPips(r.pips)}</b></span>
+        <span>${r.trades} trade(s)</span>
+        <span>${r.winRate != null ? Math.round(r.winRate * 100) + ' % réussite' : '—'}</span>
+        ${r.proposals ? `<span>${r.proposals} opportunité(s) 5★</span>` : ''}
+        ${r.insufficient ? '<span>échantillon insuffisant (&lt; 8 trades)</span>' : ''}
+      </div>
+    </div>`).join('');
 }
 
 // ── modèle de vue ────────────────────────────────────────────────────────
@@ -290,7 +662,7 @@ function eurUsdRate() {
   const r = state.settings.risk;
   return r.eurUsdManual;
 }
-function eurOf(pips, lot) { return pips == null ? null : money(pips, state.settings.risk, eurUsdRate(), lot).eur; }
+function eurOf(pips, lot) { return pips == null ? null : money(pips, state.out?.risk || state.settings.risk, eurUsdRate(), lot).eur; }
 
 /** Zones affichées : celles que tu suis (journal réel) + toutes les zones auditées (simulées). */
 function items() {
@@ -337,25 +709,45 @@ function renderAll(keepView = true) {
   renderPositions();
   renderAgents();
   renderLearning();
+  renderNewsCountdown();
+  if (state.panel === 'news') renderNews();
 }
 
 function renderHeader() {
   const o = state.out;
   $('#price').textContent = o?.currentPrice != null ? fmtP(o.currentPrice) : '—';
-  $('#sourceLine').textContent = state.data ? `${state.data.symbol} · ${state.data.source}` : (state.server ? 'PC · TradingView Desktop' : 'Téléphone · PC distant');
+  const marketLabel = o?.market?.label || marketById(state.settings.market)?.label || '';
+  const liveTxt = state.live && state.liveMarkets.length ? ` · En direct : ${state.liveMarkets.map((id) => marketById(id)?.label || id).join(' · ')}` : '';
+  $('#sourceLine').textContent = (state.data ? `${marketLabel}${marketLabel.includes(String(state.data.symbol).split(':').pop()) ? '' : ` (${state.data.symbol})`} · ${state.data.source}` : (state.server ? `${marketLabel} · PC · TradingView Desktop` : `${marketLabel} · Téléphone · PC distant`)) + liveTxt;
   $('#updated').textContent = o ? `analysé à ${new Date(o.analyzedAt).toLocaleTimeString('fr-FR')}` : 'pas encore analysé';
 }
 
+/** Risque (pip/valeur de contrat) du marché `mid`, à partir des positions du groupe (qui portent
+ * déjà leur propre pipSize/contractSize pour les trades suivis) ou, à défaut, du registre. */
+function riskForMarket(mid, ps) {
+  const m = marketById(mid) || marketById(DEFAULT_MARKET);
+  return { ...state.settings.risk, pipSize: ps?.[0]?.pipSize ?? m.pip, contractSize: ps?.[0]?.contractSize ?? m.contractSize };
+}
+
 function renderBalance() {
-  const r = state.settings.risk;
   const list = items();
-  const positions = list.filter((x) => state.scope === 'reel' ? x.followed : !x.followed || x.zone).map((x) => ({ ...(state.scope === 'reel' ? x.pos : x.zone?.pos || x.pos), lot: x.lot }));
-  const b = balance(positions, r, eurUsdRate());
+  const positions = list.filter((x) => state.scope === 'reel' ? x.followed : !x.followed || x.zone).map((x) => {
+    const pos = state.scope === 'reel' ? x.pos : (x.zone?.pos || x.pos);
+    return { ...pos, lot: x.lot, market: pos.market ?? x.zone?.market ?? state.settings.market };
+  });
+  // les pips ne sont jamais additionnés entre marchés (leur pip diffère) : un groupe par marché.
+  const groups = new Map();
+  for (const p of positions) { const mid = p.market || DEFAULT_MARKET; if (!groups.has(mid)) groups.set(mid, []); groups.get(mid).push(p); }
+  const marketIds = [...groups.keys()];
+  const multi = marketIds.length > 1;
+  const mainId = groups.has(state.settings.market) ? state.settings.market : (marketIds[0] || state.settings.market);
+  const r = riskForMarket(mainId, groups.get(mainId));
+  const b = balance(groups.get(mainId) || [], r, eurUsdRate());
   const sign = b.pips > 0 ? 'is-pos' : b.pips < 0 ? 'is-neg' : '';
   $('#balance').className = `balance ${sign} ${state.scope === 'reel' && !r.validated ? 'locked' : ''}`;
   const nFollowed = state.journal.entries.filter((j) => j.followed).length;
   $('#balScopeLabel').textContent = state.scope === 'reel'
-    ? (r.validated ? `Mes trades suivis (${nFollowed})` : 'Lot et stop à valider avant de suivre un trade')
+    ? (r.validated ? `Mes trades suivis (${nFollowed})${multi ? ` · ${marketById(mainId)?.label || mainId}` : ''}` : 'Lot et stop à valider avant de suivre un trade')
     : 'Backtest : toutes les zones, simulées sur l\'historique chargé';
   $('#balLot').textContent = `lot ${fmtNum(r.lot, 2)} · 1 pip = ${fmtEur(money(1, r, eurUsdRate()).eur)}`;
   $('#balPips').textContent = fmtPips(b.pips);
@@ -365,6 +757,26 @@ function renderBalance() {
   $('#balWL').innerHTML = `<span class="g">✓ ${b.wins}</span> · <span class="r">✕ ${b.losses}</span><small>${b.pending} ordre(s) en attente</small>`;
   $('#balRate').innerHTML = `${b.winRate != null ? Math.round(b.winRate * 100) + ' %' : '—'}<small>${b.expectancyR != null ? fmtR(b.expectancyR) + ' / trade' : ''}</small>`;
   $('#riskBtn').classList.toggle('primary', !r.validated);
+  renderBalanceMarkets(groups, multi);
+}
+
+/** Détail par marché (sous la balance principale) : uniquement quand plusieurs marchés ont des
+ * positions dans le périmètre affiché. Les pips ne sont jamais additionnés entre marchés ; seul
+ * le total en € (valeur de pip par défaut de chaque marché) est sommé. */
+function renderBalanceMarkets(groups, multi) {
+  const el = $('#balMarkets');
+  if (!el) return;
+  el.hidden = !multi;
+  if (!multi) { el.innerHTML = ''; return; }
+  let totalEur = 0;
+  const rows = [...groups.entries()].map(([mid, ps]) => {
+    const rr = riskForMarket(mid, ps);
+    const gb = balance(ps, rr, eurUsdRate());
+    totalEur += gb.eur || 0;
+    const m = marketById(mid);
+    return `<div class="bal-market-row ${mid === state.settings.market ? 'active' : ''}"><span class="bmr-lbl">${esc(m?.label || mid)}</span><span class="bmr-pips">${fmtPips(gb.pips)}</span><span class="bmr-eur">${fmtEur(gb.eur)}</span></div>`;
+  }).join('');
+  el.innerHTML = `<div class="bal-market-total">Total tous marchés <b>${fmtEur(totalEur)}</b><small>€ uniquement (pips non additionnables entre marchés)</small></div>${rows}`;
 }
 
 function renderTfTabs() {
@@ -376,6 +788,8 @@ function renderTfTabs() {
 
 function renderChart(keepView = true) {
   const candles = state.data?.candles?.[state.chartTf] || [];
+  const hint = $('#chartHint');
+  hint.textContent = candles.length ? `${candles.length} bougies · depuis ${new Date(candles[0].time * 1000).toLocaleDateString('fr-FR')}` : '';
   const all = items();
   const byId = new Map(all.map((x) => [x.id, x]));
   const audited = state.out?.audited || [];
@@ -389,7 +803,7 @@ function renderChart(keepView = true) {
   const sel = all.find((x) => x.id === state.selected);
   chart.selectedId = state.selected;
   chart.plan = sel && sel.timeframe === state.chartTf ? { ...sel.plan, from: sel.c1Time, dir: sel.direction, fill: sel.pos.fillTime, exit: sel.pos.exitTime } : null;
-  chart.setData(candles, zones, bands, state.out?.currentPrice ?? null, { keepView });
+  chart.setData(candles, zones, bands, state.out?.currentPrice ?? null, { keepView, decimals: activeDecimals() });
 }
 
 const TAB_EMPTY = {
@@ -454,7 +868,7 @@ function toggleFollow(id, btn) {
 /** Recalcule P&L et balance sans nouvelle collecte (après suivi / changement de lot). */
 function recompute() {
   if (state.data && state.out) {
-    state.out = runAgents({ data: state.data, settings: state.settings, cal: state.cal, learnStore: state.learn, journal: state.journal });
+    state.out = runAgents({ data: state.data, settings: state.settings, cal: state.cal, learnStore: state.learn, journal: state.journal, newsEvents: state.news });
     state.journal.events = [];
     save(K.journal, state.journal);
   }
@@ -687,13 +1101,16 @@ function openSettings() {
   const f = $('#settingsForm'), s = state.settings;
   f.liquidityLookback.value = s.liquidityLookback; f.fragileGapAtrRatio.value = s.fragileGapAtrRatio;
   f.liveSec.value = String(s.liveSec); f.notify.checked = s.notify;
+  f.notifyNews.checked = s.notifyNews; f.newsAlertMin.value = String(s.newsAlertMin);
   f.minSamples.value = s.learning.minSamples; f.threshold.value = s.learning.threshold;
+  f.liveCharts.value = String(s.liveCharts);
   $('#tfChecks').innerHTML = TIMEFRAMES.map((tf) => `<label><input type="checkbox" name="tf" value="${tf}" ${s.timeframes.includes(tf) ? 'checked' : ''}> ${TF_LABEL[tf]}</label>`).join('');
   $('#pcRemote').hidden = !state.server;
-  $('#bgBox').hidden = !window.Capacitor?.Plugins?.LiveKeeper;
+  $('#bgBox').hidden = !nativePlugin('LiveKeeper');
+  if (!$('#bgBox').hidden) refreshBatteryStatus();
   $('#phoneRemote').hidden = state.server;
   if (state.server) refreshAdmin();
-  else { f.remoteUrl.value = s.remoteUrl || ''; f.deviceName.value = s.deviceName || 'Téléphone'; f.pairCode.value = ''; refreshPairStatus(); }
+  else { f.remoteUrl.value = s.remoteUrl || ''; f.deviceName.value = s.deviceName || 'Téléphone'; f.pairCode.value = usablePairCode(provisionCache) || ''; refreshPairStatus(); }
   $('#settingsDialog').showModal();
 }
 
@@ -748,8 +1165,27 @@ function bindAdmin() {
     const b = $('#setupTvBtn');
     if (!confirmInline(b)) return;
     b.disabled = true;
-    try { const r = await adminApi.setupTv(); toast(`TradingView préparé : ${r.charts} graphique(s) XAUUSD (${r.timeframes.map((t) => TF_LABEL[t]).join(', ')}).`); }
-    catch (e) { toast(e.message); }
+    try {
+      if (state.settings.liveCharts >= 2) {
+        const ids = computeLiveMarkets();
+        const r = await adminApi.setupLive(ids);
+        if (r.live?.length >= 2) toast(`Marchés en direct préparés : ${r.live.map((id) => marketById(id)?.label || id).join(' · ')} (${r.charts} graphique(s)).`);
+        else toast(`Un seul graphique disponible : bascule sur ${marketById(r.live?.[0] || ids[0])?.label || ''} (rotation).`);
+      } else {
+        const r = await adminApi.setupTv();
+        toast(`TradingView préparé : ${r.charts} graphique(s) XAUUSD (${r.timeframes.map((t) => TF_LABEL[t]).join(', ')}).`);
+      }
+    } catch (e) { toast(e.message); }
+    b.disabled = false;
+  };
+  $('#loadHistoryBtn').onclick = async () => {
+    const b = $('#loadHistoryBtn');
+    b.disabled = true;
+    try {
+      const r = await adminApi.loadHistory();
+      const detail = (r.results || []).map((x) => `${TF_LABEL[x.interval] || x.interval} ${x.bars}`).join(' · ');
+      toast(detail ? `Historique chargé : ${detail}.` : 'Aucun graphique XAUUSD à charger.');
+    } catch (e) { toast(e.message); }
     b.disabled = false;
   };
 }
@@ -773,7 +1209,8 @@ function bindPhone() {
       const r = await pair(state.settings, f.pairCode.value.trim());
       f.pairCode.value = '';
       toast(r.secure ? 'Téléphone connecté au PC.' : 'Connecté pour cette session uniquement (coffre chiffré indisponible).');
-      hideBanner();
+      syncAnalyseButtonLabel();
+      await refreshPairingBanner();
       $('#settingsDialog').close();
       if (!state.live) toggleLive();
     } catch (e) { toast(e.message); }
@@ -782,6 +1219,7 @@ function bindPhone() {
   $('#unpairBtn').onclick = async () => {
     if (!confirmInline($('#unpairBtn'))) return;
     await unpair(); toast('Jeton supprimé de ce téléphone. Pense à révoquer l\'appareil sur le PC.'); refreshPairStatus();
+    await refreshPairingBanner();
   };
 }
 
@@ -799,9 +1237,11 @@ async function onSettingsSubmit(e) {
     fragileGapAtrRatio: clamp(+f.fragileGapAtrRatio.value || 0, 0, 2),
     liveSec: [5, 10, 15, 30, 60].includes(+f.liveSec.value) ? +f.liveSec.value : 15,
     timeframes: tfs.length ? tfs : [...TIMEFRAMES], notify: f.notify.checked,
+    notifyNews: f.notifyNews.checked, newsAlertMin: [5, 15, 30, 60].includes(+f.newsAlertMin.value) ? +f.newsAlertMin.value : 30,
     learning: { minSamples: clamp(Math.round(+f.minSamples.value) || 8, 3, 100), threshold: clamp(+f.threshold.value || -0.15, -2, 0) },
+    liveCharts: LIVE_CHARTS_OPTIONS.includes(+f.liveCharts.value) ? +f.liveCharts.value : DEFAULT_LIVE_CHARTS,
   });
-  if (s.notify) await askNotifyPermission();
+  if (s.notify || s.notifyNews) await askNotifyPermission();
   ensureTfInCat();
   save(K.settings, s);
   $('#settingsDialog').close();
@@ -864,7 +1304,7 @@ function onRiskSubmit(e) {
 
 async function askNotifyPermission() {
   try {
-    const LN = window.Capacitor?.Plugins?.LocalNotifications;
+    const LN = nativePlugin('LocalNotifications');
     if (LN) { await LN.requestPermissions(); return; }
     if ('Notification' in window && Notification.permission === 'default') await Notification.requestPermission();
   } catch { /* */ }
@@ -873,7 +1313,7 @@ async function askNotifyPermission() {
 // ── utilitaires ──────────────────────────────────────────────────────────
 function showBanner(msg, kind = 'error', action, fn) {
   const b = $('#banner');
-  b.className = `banner ${kind === 'info' ? 'info' : ''}`;
+  b.className = `banner ${kind === 'info' ? 'info' : kind === 'ok' ? 'ok' : ''}`;
   b.textContent = msg;
   if (action) { const btn = document.createElement('button'); btn.className = 'btn small'; btn.textContent = action; btn.onclick = fn; b.appendChild(btn); }
   b.hidden = false;
@@ -881,7 +1321,9 @@ function showBanner(msg, kind = 'error', action, fn) {
 function hideBanner() { $('#banner').hidden = true; }
 function toast(msg) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; $('#toasts').appendChild(t); setTimeout(() => t.remove(), 6000); }
 const nf = (d) => new Intl.NumberFormat('fr-FR', { minimumFractionDigits: d, maximumFractionDigits: d });
-function fmtP(v) { return v == null ? '—' : nf(3).format(v).replace(/ /g, ' '); }
+/** Décimales du marché en cours (dérivées de son pip, cf. markets.js) : 2 (XAUUSD) par défaut. */
+function activeDecimals() { return (state.out?.market || marketById(state.settings.market))?.decimals ?? 2; }
+function fmtP(v, decimals = activeDecimals()) { return v == null ? '—' : nf(decimals).format(v).replace(/ /g, ' '); }
 function fmtNum(v, d = 2) { return v == null || !Number.isFinite(v) ? '—' : nf(d).format(v); }
 function fmtPips(v) { return v == null ? '—' : `${v > 0 ? '+' : ''}${nf(1).format(v)} pips`; }
 function fmtEur(v) { return v == null || !Number.isFinite(v) ? '—' : new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', signDisplay: 'exceptZero' }).format(v); }

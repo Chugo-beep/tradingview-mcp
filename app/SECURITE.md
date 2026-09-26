@@ -18,7 +18,9 @@ Navigateur du PC ─────────────────────
 ```
 
 - **Aucun port n'est ouvert sur Internet ni sur le réseau local.** Les deux services écoutent uniquement sur `127.0.0.1`. Le téléphone passe par Tailscale Serve, qui relaie en HTTPS uniquement pour les appareils connectés à ton compte Tailscale.
-- **L'API distante n'expose que trois routes :** `GET /api/health`, `POST /api/pair` et `GET /api/tv/candles`, cette dernière avec un jeton. Rien ne permet de modifier TradingView ou de lire des fichiers.
+- **L'API distante n'expose que sept routes :** `GET /api/health`, `POST /api/pair`, `GET /api/tv/candles`, `GET /api/news`, `GET /api/session`, `POST /api/scan/start` et `GET /api/scan/{status,result}`, toutes sauf les deux premières avec un jeton. Rien ne permet de modifier TradingView ou de lire des fichiers.
+- **« Analyse complète » (`/api/scan/*`)** parcourt tous les marchés d'une liste blanche fixe (`app/www/js/markets.js`, 11 entrées) : `market` (sur `/api/tv/candles`) et les marchés scannés ne sont jamais des chaînes arbitraires, seulement des identifiants de ce registre. Un seul scan à la fois côté serveur (409 sinon) ; le déclenchement distant (téléphone) est en plus limité à 1 par appareil et 10 minutes (429 sinon), ce scan étant coûteux (plusieurs minutes, bascules répétées du graphique TradingView).
+- **Nouvel appel réseau sortant, depuis le PC uniquement :** `app/newsfeed.js` interroge en HTTPS `https://economic-calendar.tradingview.com/events` (calendrier économique TradingView, même service que `scripts/sync-economic-calendar.mjs`) pour les annonces majeures US/EU/CN/JP. Aucun secret n'est envoyé (aucune authentification, aucun cookie) ; chaque champ reçu est assaini avant stockage (liste blanche, longueurs bornées, nombres finis) et persisté sans donnée sensible dans `DATA_DIR/news.json`. Le téléphone ne fait jamais cet appel : il lit `/api/news` sur le PC (ou via l'API distante, avec jeton).
 - **L'administration est réservée au PC :** codes d'appairage, appareils, journal et préparation de TradingView passent par le port local 3777.
 - **Aucun ordre n'est passé chez un courtier.** L'application lit des bougies, rien d'autre.
 
@@ -65,7 +67,8 @@ Navigateur du PC ─────────────────────
 - **Signature de l'APK :** clé RSA 3072 générée localement. Son mot de passe est protégé par Windows DPAPI et le dossier par des ACL limitées à ton compte.
 
 ## A05:2025 – Injection
-- **Paramètres validés par liste blanche :** timeframes, nombre de bougies (entier de 50 à 20 000, ou littéral `all`) et `since` (entier unix, 0 < since < 4102444800) (testé).
+- **Paramètres validés par liste blanche :** timeframes, nombre de bougies (entier de 50 à 20 000, ou littéral `all`), `since` (entier unix, 0 < since < 4102444800 ; entier ≥ 0 pour `/api/news`) et `market` (identifiant du registre `markets.js`, 400 sinon) (testé).
+- **Annonces économiques (`/api/news`) assainies à la source :** seuls les champs whitelistés (id, titre, pays, heure, actual/forecast/previous, unité, échelle, période) sont conservés, importance MAJEURE et 4 pays whitelistés uniquement, chaînes nettoyées des caractères de contrôle et bornées en longueur, nombres finis (testé, avec des fixtures — le bac à sable n'a pas d'accès réseau à TradingView).
 - **Pas de code injecté dans TradingView :** tout ce que le serveur exécute via CDP est soit un nombre validé, soit une chaîne sérialisée par `JSON.stringify` et vérifiée par une expression régulière.
 - **Interface :** les données affichées passent par `textContent` ou par un échappement HTML systématique (`esc`), et la CSP interdit tout script en ligne.
 - **Journal :** les retours à la ligne sont neutralisés (pas d'injection de lignes).
@@ -80,7 +83,9 @@ Navigateur du PC ─────────────────────
 - **Données minimales :** aucune clé de fournisseur ni donnée personnelle. Les anciennes clés OANDA stockées sont effacées au démarrage.
 
 ## A07:2025 – Défaillances d'authentification
-- **Appairage :** code à usage unique (testé), grillé après 5 essais (testé), expirant en 10 minutes.
+- **Appairage :** code à usage unique (testé), grillé après 5 essais (testé), expirant en 10 minutes (manuel) ou 30 minutes maximum (préconfiguration APK, `purpose=apk`, testé).
+- **Persistance du code en attente :** le code d'appairage courant (empreinte SHA-256 seule, jamais le code en clair) est écrit sur disque (`DATA_DIR/pairing.json`, permissions `0600`) à chaque création/tentative/purge, et rechargé paresseusement par `redeemPairing` — un code créé par un autre processus (`scripts/new-pairing-code.mjs`, utilisé par l'installeur quand le serveur PC ne tourne pas) ou pendant que le serveur était arrêté reste donc valable dès que le serveur y accède, en retenant toujours la version la plus récente (testé).
+- **Code embedded dans l'APK (préconfiguration) :** pour éviter toute saisie, l'installeur génère un code d'appairage (30 min, usage unique) et l'écrit dans `www/provision.json`, empaqueté tel quel dans l'APK compilé. **Risque accepté :** quiconque obtient ce fichier APK avant l'expiration du code (30 min après compilation) pourrait tenter de l'utiliser pour s'appairer à ta place ; passé ce délai, ou une fois utilisé (usage unique), le code figé dans l'APK est définitivement inerte. Le fichier `provision.json` source sur le PC est remis à `{}` juste après la compilation (le code ne reste que dans l'APK déjà installé sur ton téléphone).
 - **Verrouillage :** après 10 échecs en 10 minutes, l'API distante est bloquée 15 minutes (testé).
 - **Débit :** limité à 120 requêtes par minute et par compte.
 - **Gestion des jetons :** expiration, révocation immédiate depuis le PC (testé) et effacement sur le téléphone.

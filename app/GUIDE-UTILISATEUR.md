@@ -4,22 +4,28 @@ Ce guide s'adresse à un trader qui utilise l'application, sans connaissance en 
 
 ## Table des matières
 
-1. [À quoi sert l'application](#1-à-quoi-sert-lapplication)
-2. [Prérequis complets](#2-prérequis-complets)
+1. [Présentation](#1-présentation)
+2. [Prérequis](#2-prérequis)
 3. [Installation pas à pas (première fois)](#3-installation-pas-à-pas-première-fois)
-4. [Utilisation quotidienne](#4-utilisation-quotidienne)
-5. [Toutes les notifications](#5-toutes-les-notifications)
-6. [Réglages](#6-réglages)
-7. [Comprendre l'analyse](#7-comprendre-lanalyse)
-8. [Sécurité en bref](#8-sécurité-en-bref)
-9. [Dépannage / FAQ](#9-dépannage--faq)
-10. [Glossaire](#10-glossaire)
+4. [Démarrage rapide](#4-démarrage-rapide)
+5. [L'écran expliqué](#5-lécran-expliqué)
+6. [Prendre un trade chez ton courtier à partir d'une notification](#6-prendre-un-trade-chez-ton-courtier-à-partir-dune-notification)
+7. [Analyse complète, classement et marchés en direct](#7-analyse-complète-classement-et-marchés-en-direct)
+8. [Annonces économiques](#8-annonces-économiques)
+9. [Toutes les notifications](#9-toutes-les-notifications)
+10. [Réglages](#10-réglages)
+11. [Comprendre l'analyse](#11-comprendre-lanalyse)
+12. [Sécurité en bref](#12-sécurité-en-bref)
+13. [Dépannage / FAQ](#13-dépannage--faq)
+14. [Glossaire](#14-glossaire)
 
 ---
 
-## 1. À quoi sert l'application
+## 1. Présentation
 
-XAUUSD Zones détecte, sur l'or (XAUUSD), des zones d'achat et de vente appelées **order blocks**, selon une méthode fixe et documentée (`TRADING_RULES_MASTER_PROMPT.md`), **sans intelligence artificielle**. Pour chaque zone, elle indique si elle est encore valable, calcule un plan de trade complet (entrée, stop, objectifs) et suit son évolution.
+XAUUSD Zones détecte des zones d'achat et de vente appelées **order blocks**, selon une méthode fixe et documentée (`TRADING_RULES_MASTER_PROMPT.md`), **sans intelligence artificielle**. Pour chaque zone, elle indique si elle est encore valable, calcule un plan de trade complet (entrée, stop, objectifs) et suit son évolution.
+
+Au-delà de l'or (XAUUSD), l'application suit en tout **11 marchés** : XAUUSD, US30, S&P 500, Nasdaq 100, EUR/USD, GBP/USD, USD/JPY, DAX 40, CAC 40, pétrole WTI et pétrole Brent (§7).
 
 Le même code tourne :
 - sur **PC** (fenêtre Edge, lancée par `XAUUSD-Zones.bat`) ;
@@ -35,14 +41,14 @@ Les deux lisent les **mêmes bougies**, venues uniquement de **TradingView Deskt
 
 ---
 
-## 2. Prérequis complets
+## 2. Prérequis
 
 ### Sur le PC (Windows)
 
 | Élément | Détail |
 |---|---|
-| **TradingView Desktop** | Installé et connecté. Un abonnement TradingView (gratuit ou payant) donnant accès aux timeframes 1m, 5m, 15m, 1h, 4h et 1D sur XAUUSD est nécessaire pour profiter des 3 catégories (Scalp/Daily/Swing) ; avec un compte gratuit, certaines timeframes ou le nombre de graphiques simultanés peuvent être limités — l'application s'adapte à ce qui est disponible. |
-| **Un graphique XAUUSD ouvert** | Au moins un graphique du symbole XAUUSD doit être ouvert dans TradingView Desktop. Sans cela, l'analyse est bloquée (garde-fou). |
+| **TradingView Desktop** | Installé et connecté. Un abonnement **gratuit** suffit pour l'or (XAUUSD) sur les timeframes 1m à 1D, mais il n'affiche qu'**1 seul graphique à la fois** — l'application s'y adapte (voir « Graphiques disponibles dans TradingView », §7 et §10). Avec 2 graphiques ou plus (essential et au-delà), 2 marchés (ou plus) peuvent être suivis en direct simultanément. |
+| **Un graphique ouvert sur un marché suivi** | Au moins un graphique d'un des 11 marchés du registre (XAUUSD par défaut) doit être ouvert dans TradingView Desktop. Sans cela, l'analyse est bloquée (garde-fou). |
 | **Node.js 18 ou plus récent** | Requis pour lancer le serveur (`app/package.json`, `engines.node >= 18`). Téléchargement : nodejs.org. |
 | **Dossier du projet** | `C:\Users\Joshu\tradingview-mcp` (le dossier `app` s'y trouve, ex. `C:\Users\Joshu\tradingview-mcp\app`). |
 | **Tailscale** | Installé sur le PC (tailscale.com/download/windows), connecté avec ton compte, **authentification à deux facteurs (2FA) activée sur ce compte**. Nécessaire uniquement si tu veux utiliser le téléphone à distance. |
@@ -57,8 +63,9 @@ Les deux lisent les **mêmes bougies**, venues uniquement de **TradingView Deskt
 | **Android 8.0 ou plus récent** | Version minimale supportée par l'application (`minSdkVersion = 26`). |
 | **Application Tailscale** | Installée depuis le Play Store, connectée avec le **même compte** que le PC. |
 | **Autorisation des notifications** | À accorder quand l'application le demande (sinon aucune alerte de trading n'arrive). |
-| **Exemption d'optimisation de batterie** | À accorder dans Réglages de l'application (bouton « Autoriser l'analyse en arrière-plan »), sinon OnePlus peut arrêter l'analyse en arrière-plan. |
+| **Exemption d'optimisation de batterie** | À accorder dans Réglages de l'application (bouton « Autoriser l'analyse en arrière-plan »), sinon OnePlus peut arrêter l'analyse en arrière-plan (service **LiveKeeper**, §5). |
 | **Débogage USB** (une seule fois, à l'installation) | Options pour les développeurs → Débogage USB, puis accepter la fenêtre « Autoriser le débogage USB » qui apparaît quand le téléphone est branché. |
+| **Android Studio** | Uniquement sur le PC qui **compile** l'APK — jamais nécessaire sur le téléphone. |
 
 ---
 
@@ -75,8 +82,8 @@ Les deux lisent les **mêmes bougies**, venues uniquement de **TradingView Deskt
 Double-clique sur `app\XAUUSD-Zones.bat`. Une fenêtre noire (invite de commandes) s'ouvre et affiche, dans l'ordre :
 
 1. Si besoin, l'installation des dépendances (`npm ci`, versions figées) — uniquement la toute première fois.
-2. Une vérification du port de débogage de TradingView (`127.0.0.1:9222`). S'il ne répond pas, le script lance lui-même TradingView Desktop en mode débogage (`scripts\launch_tv_debug.bat`).
-3. La ligne `XAUUSD Zones : http://localhost:3777` — le serveur est démarré, et une fenêtre Edge s'ouvre automatiquement sur l'application.
+2. Une vérification du port de débogage de TradingView (`127.0.0.1:9222`). S'il ne répond pas, le script lance lui-même TradingView Desktop en mode débogage.
+3. La ligne `XAUUSD Zones (PC) → http://localhost:3777` — le serveur est démarré, et une fenêtre Edge s'ouvre automatiquement sur l'application.
 4. Un encadré **« CODE D'APPAIRAGE »** avec 8 chiffres, valable jusqu'à une heure indiquée, à usage unique. En dessous : « Nouveau code : appuie sur Entrée dans cette fenêtre. » — à tout moment, appuyer sur **Entrée** dans cette fenêtre invalide l'ancien code et en affiche un nouveau.
 
 **Garde cette fenêtre ouverte** : la fermer arrête le serveur (et donc l'accès depuis le téléphone).
@@ -87,11 +94,11 @@ Pour que l'application dispose de toutes les timeframes (1m, 5m, 15m, 1h, 4h, 1D
 
 1. Dans l'application PC, ouvre **Réglages** (icône engrenage).
 2. Clique sur **« Préparer TradingView (multi-graphiques) »**.
-3. TradingView Desktop bascule vers une disposition à plusieurs graphiques XAUUSD (autant que ton abonnement le permet), une timeframe par graphique. Un toast confirme : « TradingView préparé : X graphique(s) XAUUSD (…). »
+3. Avec 2 graphiques disponibles ou plus (réglage « Graphiques disponibles dans TradingView », §10), TradingView Desktop bascule vers une disposition à plusieurs graphiques, chacun dédié à l'un des marchés en direct (classement de l'analyse complète, XAUUSD par défaut). Avec 1 seul graphique, il bascule vers une disposition à plusieurs graphiques XAUUSD (une timeframe par graphique). Un toast confirme ce qui a été préparé.
 
 Le serveur lit ensuite chaque graphique **sans jamais changer ta timeframe** : si une timeframe manque à la disposition, le graphique actif bascule brièvement puis revient à ta timeframe d'origine (un cache limite ces bascules).
 
-**Charger plus d'historique :** l'application utilise toutes les bougies déjà chargées dans TradingView Desktop pour chaque graphique (plafond de sécurité : 20 000 bougies par timeframe). Pour en avoir plus (utile pour l'apprentissage, qui demande au moins 20 trades clôturés), **fais défiler chaque graphique vers le passé** (glisser vers la droite, ou molette) : TradingView charge alors plus d'historique, que l'application réutilisera à la prochaine analyse.
+**Charger plus d'historique :** automatique — le serveur PC demande lui-même à TradingView de charger davantage de bougies (peu après le démarrage, puis toutes les 30 minutes), sans jamais toucher à ta timeframe ou ton symbole affichés. Pour forcer un chargement immédiat (utile juste après avoir ouvert un nouveau graphique, ou pour l'apprentissage qui demande au moins 20 trades clôturés), utilise le bouton **« Charger tout l'historique TradingView »** dans **Réglages → Accès depuis le téléphone**. Plafond de sécurité inchangé : 20 000 bougies par timeframe. L'application détecte quand l'historique a grandi côté TradingView et retélécharge alors automatiquement la timeframe concernée à l'analyse suivante ; un bouton **« Tout voir »** sur le graphique ajuste le zoom pour afficher toutes les bougies chargées.
 
 ### 3.4 Activer l'accès à distance (téléphone, via Tailscale)
 
@@ -112,7 +119,7 @@ Sur un PC avec **Android Studio** déjà ouvert une fois (SDK téléchargé, lic
 1. Double-clique sur `app\installer-android.bat`. Le script (visible dans la fenêtre, avec des étapes `=== … ===`) :
    1. **Recherche du JDK et du SDK Android** (Android Studio, puis un JDK 21 portable si besoin) ;
    2. **Installe les dépendances** à versions figées (`npm ci`) et lance un **audit de sécurité** (`npm audit`), qui arrête tout si une vulnérabilité critique est trouvée ;
-   3. **Prépare le projet Android** (Capacitor) et lit l'adresse Tailscale actuelle du PC pour la **préconfigurer dans l'APK** — c'est l'« adresse préréglée » : sur le téléphone, il ne restera qu'à saisir le code d'appairage, pas l'adresse ;
+   3. **Prépare le projet Android** (Capacitor), lit l'adresse Tailscale actuelle du PC pour la **préconfigurer dans l'APK** (« adresse préréglée »), et **génère un code d'appairage à usage unique (30 min)** qu'il préconfigure aussi dans l'APK : demandé au serveur PC s'il tourne déjà, sinon généré directement (`scripts\new-pairing-code.mjs`) ;
    4. **Durcit le manifeste Android** : sauvegarde désactivée, HTTPS uniquement, coffre Keystore, captures d'écran bloquées, permissions de notification et d'analyse en arrière-plan, Android 8 minimum ;
    5. **Compile l'APK release** (Gradle) ;
    6. **Signe l'APK** avec une clé privée créée sur ce PC (`%USERPROFILE%\.xauusd-zones`, mot de passe protégé par Windows) ;
@@ -121,35 +128,56 @@ Sur un PC avec **Android Studio** déjà ouvert une fois (SDK téléchargé, lic
 
    L'APK signé est aussi copié dans `app\XAUUSD-Zones.apk`. Si le téléphone n'était pas prêt au moment de la compilation, relance juste l'installation avec `app\installer-telephone.bat` (attend jusqu'à 10 minutes).
 
-2. Sur le PC, lance `app\code-appairage.bat` : il affiche un code à 8 chiffres (encadré vert), valable 10 minutes, une seule fois. (Cette fenêtre exige que `XAUUSD-Zones.bat` tourne déjà.)
-3. Sur le téléphone, ouvre l'application XAUUSD Zones. Un bandeau invite à **« Saisir le code »** : appuie dessus (ou ouvre **Réglages → Connexion au PC**), tape les **8 chiffres uniquement** dans le champ **« Code d'appairage »**, puis appuie sur **« Connecter au PC »**.
-4. Un toast confirme « Téléphone connecté au PC. » et l'analyse démarre.
+2. Sur le téléphone, ouvre simplement l'application XAUUSD Zones. **L'appairage se fait automatiquement**, avec le code préconfiguré à la compilation : un toast confirme « Téléphone appairé automatiquement au PC. » et le bandeau passe au vert (**« ✓ Téléphone appairé au PC · … »**). Rien à saisir.
+3. Si le PC n'était pas joignable à ce moment (Wi-Fi, Tailscale pas encore connecté…), le code reste préréglé dans **Réglages → Connexion au PC** et l'appairage est retenté automatiquement à chaque relance de l'application et à chaque appui sur **« Analyser »**, jusqu'à ce qu'il réussisse ou que le code expire (30 min).
+4. **Solution de secours (saisie manuelle)** : si le code préconfiguré a expiré ou a déjà servi (ex. code compilé il y a plus de 30 min), lance `app\code-appairage.bat` sur le PC (il affiche un nouveau code à 8 chiffres, encadré vert, valable 10 minutes, une seule fois ; fenêtre exigeant que `XAUUSD-Zones.bat` tourne déjà), puis sur le téléphone ouvre le bandeau rouge **« Téléphone non appairé »** et appuie sur **« Saisir le code »** (ou **Réglages → Connexion au PC**), tape les **8 chiffres**, puis **« Connecter au PC »**.
 
 L'adresse du PC reste modifiable ensuite dans **Réglages → Connexion au PC → « Adresse du PC »** (champ sous « Adresse du PC (préréglée) et nom du téléphone »), utile si l'adresse Tailscale du PC change.
 
 ---
 
-## 4. Utilisation quotidienne
+## 4. Démarrage rapide
 
-### 4.1 Routine
+Une fois l'installation faite (§3), la routine de tous les jours :
 
-1. Sur le PC : lance `XAUUSD-Zones.bat` (si pas déjà fait) et laisse TradingView Desktop ouvert sur un graphique XAUUSD.
+1. Sur le PC : lance `XAUUSD-Zones.bat` (si pas déjà fait) et laisse TradingView Desktop ouvert sur un graphique d'un marché suivi.
 2. Ouvre l'application (fenêtre Edge sur PC, ou application sur le téléphone — connecté par Tailscale).
-3. Appuie sur **« Analyser »** (bouton en haut, avec l'icône ▶). Le bouton devient **« En direct »** avec un point rouge clignotant : l'analyse tourne désormais en continu (toutes les 5 à 60 secondes, réglable). Un nouvel appui arrête l'analyse.
+3. Sur le téléphone, vérifie le bandeau en haut de l'écran : **vert** = tout va bien, **rouge** = appaire d'abord (§3.5).
+4. Appuie sur **« Analyser »** (icône ▶). Le bouton devient **« En direct »** avec un point rouge clignotant : l'analyse tourne désormais en continu (toutes les 5 à 60 secondes, réglable). Un nouvel appui arrête l'analyse.
+5. Laisse tourner et attends une notification **5★** (§9). Elle indique la zone à surveiller, puis l'entrée quand elle est confirmée.
+6. Suis les instructions de la notification pour agir chez ton courtier (§6).
+7. En fin de journée : jette un œil à l'onglet **Annonces** (§8) pour anticiper la nuit, et à l'onglet **Marchés** (§7) si tu veux relancer une **Analyse complète**.
 
-### 4.2 Lire l'écran
+C'est tout ce qu'il faut pour une utilisation quotidienne ; les sections suivantes détaillent chaque écran, chaque réglage et chaque notification.
 
-| Zone de l'écran | Contenu |
+---
+
+## 5. L'écran expliqué
+
+### En-tête et bandeaux
+
+| Zone | Contenu |
 |---|---|
-| **En-tête** | Prix actuel de l'or, heure de la dernière analyse, source (PC · TradingView Desktop, ou Téléphone · PC distant). |
-| **Balance** | Pips et euros cumulés, réalisé/latent, gagnants/perdants, taux de réussite. Bascule **« Mes trades »** / **« Backtest »** (voir 4.5). Bouton **« Lot & stop »**. |
+| **En-tête** | Prix actuel du marché affiché, heure de la dernière analyse, source (PC · TradingView Desktop, ou Téléphone · PC distant). |
+| **Chip « Analyse en arrière-plan activée »** (Android) | Apparaît sous l'en-tête pendant que « En direct » tourne, tant que le service d'arrière-plan (LiveKeeper) est actif. |
+| **Chip « Prochaine annonce »** | Ex. « Prochaine annonce : 🇺🇸 CPI dans 2 h 10 » : compte à rebours vers la prochaine annonce économique majeure suivie (§8). |
+| **Bandeau d'appairage** (téléphone uniquement) | **Vert** — **« ✓ Téléphone appairé au PC · <adresse> »** : tout fonctionne. **Rouge** — **« Téléphone non appairé »**, avec le bouton **« Saisir le code »** qui ouvre directement les réglages d'appairage. Une erreur d'analyse (PC injoignable, TradingView fermé…) affiche temporairement un bandeau rouge d'erreur à sa place ; dès l'analyse suivante réussie, le bandeau vert réapparaît automatiquement. |
+| **Bouton « Analyser »** | Icône ▶. Devient **« En direct »** (point rouge clignotant) pendant l'analyse continue. Sur téléphone non appairé, affiche **« Non connecté »** : l'analyse ne peut pas tourner sans PC appairé (toast + bandeau rouge, fenêtre de code ouverte automatiquement). |
+| **Bouton « Analyse complète »** (en-tête et onglet Marchés) | Lance l'analyse complète des 11 marchés (§7). |
+
+### Balance et onglets
+
+| Zone | Contenu |
+|---|---|
+| **Balance** | Pips et euros cumulés, réalisé/latent, gagnants/perdants, taux de réussite. Bascule **« Mes trades »** / **« Backtest »** (§11). Bouton **« Lot & stop »** (§10). |
 | **Onglets de catégorie** | **Tous** · **Scalp** (1m·5m) · **Daily** (15m·1h) · **Swing** (4h·1D). |
 | **Onglets de timeframe** | 1m 5m 15m 1h 4h 1D, au-dessus du graphique. Un point vert = une opportunité 5★ est disponible sur cette timeframe. |
-| **Graphique** | Bougies (creuse = hausse, pleine = baisse, neutres pour réserver vert/rouge aux résultats), zones colorées, ligne d'objectif, ligne de stop. Case **« Zones des autres TF »** : affiche aussi les zones des autres timeframes en fond. |
+| **Chips de marché** | Boutons ronds pour choisir le marché affiché en direct (§7). |
+| **Graphique** | Bougies (neutres : creuse = hausse, pleine = baisse, pour réserver vert/rouge aux résultats), zones colorées, ligne d'objectif, ligne de stop. Bouton **« Tout voir »** : zoom sur toutes les bougies chargées. Case **« Zones des autres TF »** : affiche aussi les zones des autres timeframes en fond. |
 | **Légende** | ◷ Opportunité · ✓ Gagnant · ✕ Perdant · ⊘ Non validée · – Annulée · ligne objectif · ligne stop · bougie creuse = hausse. |
-| **Onglets de la liste** | **Trades** / **Agents** / **Apprentissage** (panneau latéral), puis dans « Trades » : **Opportunités** · **Suivis** · **Historique** · **Non validées**, et un filtre **Achat et vente** / **▲ Achat** / **▼ Vente**. |
+| **Onglets latéraux** | **Trades** · **Marchés** · **Agents** · **Apprentissage** · **Annonces**. Dans « Trades » : **Opportunités** · **Suivis** · **Historique** · **Non validées**, plus un filtre **Achat et vente** / **▲ Achat** / **▼ Vente**. |
 
-### 4.3 Le code couleur des cartes
+### Le code couleur des cartes
 
 | Couleur | Icône | Signification |
 |---|---|---|
@@ -162,12 +190,12 @@ L'adresse du PC reste modifiable ensuite dans **Réglages → Connexion au PC �
 
 Le sens est toujours indiqué en plus par ▲ Achat / ▼ Vente, jamais par la couleur seule.
 
-### 4.4 Le détail d'une zone
+### Le détail d'une zone
 
 Clique sur une carte (dans la liste ou sur le graphique) pour ouvrir sa fiche complète :
 
 - **Statut** en grand, avec le résultat en pips/€ s'il y en a un.
-- **Grille des 5 étoiles** : chaque critère (imbalance, tendance, liquidité, OB vierge, Fibonacci) avec ✓/✗ et son détail chiffré.
+- **Grille des 5 étoiles** : chaque critère (imbalance, tendance, liquidité, OB vierge, Fibonacci) avec ✓/✗ et son détail chiffré — le **checklist** complet de la note (§11).
 - **Zone d'entrée (OB)** : les deux bords, avec l'explication « Entrée à la clôture de la première bougie haussière/baissière dans l'OB » (mode par défaut), ou le prix exact si le mode « ordre limite » est choisi.
 - **Stop loss (invalidation)** : prix, pips et perte en euros.
 - **TP1, TP2, TP3** : prix, pips et ratio R pour chacun, avec une coche ✓ si déjà atteint.
@@ -175,9 +203,23 @@ Clique sur une carte (dans la liste ou sur le graphique) pour ouvrir sa fiche co
 - **Zone C1**, l'imbalance, les OHLC de P/C1/C2/C3, et la preuve complète (liquidité prise, order block, imbalance stricte, retest ou non).
 - Bouton **« Suivre »** / **« J'ai suivi cette zone »** (selon l'état), ou **« Ne plus suivre »** si déjà suivi, avec un champ **Lot** modifiable pour ce trade précis.
 
-### 4.5 Prendre un trade chez ton courtier
+### Marquer « Suivre » / « J'ai suivi »
 
-L'application ne passe aucun ordre : c'est toi qui agis chez ton courtier, en suivant les notifications.
+- Dans **Opportunités**, appuie sur **« Suivre »** dès que tu comptes prendre le trade (ou l'as déjà pris) : la zone entre dans **« Mes trades »** et compte dans ta balance réelle.
+- Si le trade est déjà en cours ou terminé au moment où tu le marques, le bouton affiche **« Je l'ai pris »** : l'application reprend alors l'exécution déjà simulée (prix d'entrée, TP atteints...) comme si tu l'avais suivi depuis le début.
+- Pour retirer un trade de ton suivi, ouvre sa fiche ou la liste **Suivis**, et appuie deux fois sur **« Ne plus suivre »** (double confirmation).
+- Le **lot** de chaque trade suivi est modifiable individuellement dans sa fiche (champ « Lot »), indépendamment du lot par défaut réglé dans « Lot & stop ».
+
+### « Mes trades » vs « Backtest »
+
+- **Mes trades** (case cochée par défaut) : uniquement les zones que tu as marquées « Suivre » — ta balance réelle.
+- **Backtest** : toutes les zones détectées, simulées sur tout l'historique chargé dans TradingView — utile pour juger la méthode elle-même, sans que tes propres décisions n'influencent le résultat.
+
+---
+
+## 6. Prendre un trade chez ton courtier à partir d'une notification
+
+L'application ne passe aucun ordre : c'est toi qui agis chez ton courtier, en suivant les notifications (table complète §9).
 
 1. **Notification "à surveiller"** (`👀 ★★★★★ ACHAT/VENTE GOLD · zone …`) : ne fais rien encore, la zone est simplement à surveiller.
 2. **Notification "entrée"** (`▶ Entrée déclenchée` ou `🟢/🔴 … GOLD @ prix`) : le prix vient de confirmer l'entrée (réaction dans l'OB, ou arrivée sur l'ordre limite selon ton réglage). **Place ton ordre chez ton courtier maintenant**, au prix indiqué (ou au marché si tu es en retard de quelques secondes), avec :
@@ -193,21 +235,29 @@ L'application ne passe aucun ordre : c'est toi qui agis chez ton courtier, en su
    - Si le stop est touché après un TP (`⚖️ Clôturé en gain …`) ou avant tout TP (`🛑 SL touché …`), le trade se termine à ce niveau.
 8. **Annulation** (`⛔ Annule l'ordre …`) : ne prends pas (ou annule) l'ordre — le motif est donné (ex. « SL de 122 pips > 100 pips : zone non viable »).
 
-### 4.6 Marquer « Suivre » / « J'ai suivi »
-
-- Dans **Opportunités**, appuie sur **« Suivre »** dès que tu comptes prendre le trade (ou l'as déjà pris) : la zone entre dans **« Mes trades »** et compte dans ta balance réelle.
-- Si le trade est déjà en cours ou terminé au moment où tu le marques, le bouton affiche **« Je l'ai pris »** : l'application reprend alors l'exécution déjà simulée (prix d'entrée, TP atteints...) comme si tu l'avais suivi depuis le début.
-- Pour retirer un trade de ton suivi, ouvre sa fiche ou la liste **Suivis**, et appuie deux fois sur **« Ne plus suivre »** (double confirmation).
-- Le **lot** de chaque trade suivi est modifiable individuellement dans sa fiche (champ « Lot »), indépendamment du lot par défaut réglé dans « Lot & stop ».
-
-### 4.7 « Mes trades » vs « Backtest »
-
-- **Mes trades** (case cochée par défaut) : uniquement les zones que tu as marquées « Suivre » — ta balance réelle.
-- **Backtest** : toutes les zones détectées, simulées sur tout l'historique chargé dans TradingView — utile pour juger la méthode elle-même, sans que tes propres décisions n'influencent le résultat.
+Les distances de TP (+100/+200/+350 en Scalp/Daily, +100/+400/+600 en Swing) et les règles de gestion du stop sont détaillées en §11.
 
 ---
 
-## 5. Toutes les notifications
+## 7. Analyse complète, classement et marchés en direct
+
+L'onglet **« Marchés »** (panneau latéral) analyse, en plus de l'or, tous les marchés suivis : US30, S&P 500, Nasdaq 100, EUR/USD, GBP/USD, USD/JPY, DAX 40, CAC 40, pétrole WTI et pétrole Brent (11 marchés en tout).
+
+1. Appuie sur **« Analyse complète »** : l'application passe en revue chacun de ces marchés sur les **9 timeframes** (1m, 5m, 15m, 1h, 4h, 1D, 1W, 1Mo, 1A), à partir de l'historique déjà chargé dans TradingView Desktop. **Compte plusieurs minutes** (le graphique bascule brièvement de marché et de timeframe pendant l'opération, puis revient à ta position de départ ; les lectures en direct sont mises en pause pendant ce temps).
+2. Une fois terminée, un **classement** apparaît : chaque marché avec ses gains en pips (backtest), son nombre de trades, son taux de réussite et ses opportunités 5★ actuelles. Les marchés avec moins de 8 trades clôturés dans l'historique chargé sont listés à part (« échantillon insuffisant »), en dessous des autres.
+3. Des **chips** (boutons ronds) permettent de choisir le marché analysé **en direct** : appuie sur un marché pour que « Analyser » y bascule le graphique TradingView. Le nombre de marchés marqués « ● en direct » dans le classement dépend de ton abonnement TradingView (réglage « Graphiques disponibles dans TradingView », §10) : avec un compte gratuit, un seul marché à la fois — celui-ci passe automatiquement au n°1 du classement tant que tu n'en choisis pas un autre toi-même. Avec 2 graphiques ou plus, les meilleurs marchés du classement sont suivis **en direct simultanément**, chacun sur son propre graphique TradingView dédié.
+
+Les règles (5★, SL ≤ 100 pips, échelle de TP, gestion du stop) sont strictement identiques pour tous les marchés ; seule la taille du pip change (ex. 0,0001 pour l'EUR/USD, 1 point pour le DAX 40) — les notifications et le journal l'indiquent toujours en toutes lettres (« EUR/USD », « DAX 40 »…) au lieu de « GOLD » quand ce n'est pas l'or.
+
+---
+
+## 8. Annonces économiques
+
+L'onglet **Annonces** (panneau latéral) liste les annonces majeures à venir (7 prochains jours) et les résultats récents (24 dernières heures) pour les États-Unis 🇺🇸, la zone euro 🇪🇺, la Chine 🇨🇳 et le Japon 🇯🇵 — impact **majeur** uniquement. Pour chaque annonce : heure locale, consensus, précédent, puis valeur réelle et tendance dès sa publication (« Supérieur/Inférieur/Conforme aux attentes », et pour les États-Unis la tendance habituelle pour l'or — jamais une prédiction). Le sous-titre de l'application affiche un compte à rebours vers la prochaine annonce majeure (« Prochaine annonce : 🇺🇸 CPI dans 2 h 10 »). Ces annonces alimentent aussi la fenêtre de pause du calendrier (§11, agent Calendrier économique).
+
+---
+
+## 9. Toutes les notifications
 
 | Événement | Titre (exemple) | Que faire |
 |---|---|---|
@@ -224,12 +274,14 @@ L'application ne passe aucun ordre : c'est toi qui agis chez ton courtier, en su
 | Clôture en gain (après BE/trailing) | `⚖️ Clôturé en gain +35 pips` | Le stop protégé a été touché après un ou plusieurs TP : trade terminé en gain. |
 | SL touché (avant tout TP) | `🛑 SL touché · ACHAT GOLD −45 pips` | Trade terminé en perte, au stop initial. |
 | Annulation (zone invalidée / SL > 100 pips) | `⛔ Annule l'ordre d'ACHAT GOLD 4269.97` | N'entre pas (ou annule) l'ordre ; le motif est donné dans la notification. |
+| Pré-alerte annonce économique majeure | `⚠️ 14:30 · 🇺🇸 NFP · impact majeur` avec `Consensus 150K · Précédent 142K` | Prépare-toi : une annonce à fort impact (US/zone euro/Chine/Japon) arrive dans le délai choisi (« Alerte avant annonce »). |
+| Résultat d'une annonce économique majeure | `📊 🇺🇸 NFP : 210K (consensus 150K)` avec `Supérieur aux attentes · généralement baissier pour l'or · précédent 142K` | Résultat publié : la tendance indiquée pour l'or est habituelle, jamais une prédiction. |
 
-Ces notifications ne s'affichent (en toast dans l'application, et en notification système si activées) que pendant que **« Analyser »/« En direct »** tourne. Sur Android, elles continuent d'arriver écran éteint ou application en arrière-plan grâce au service de premier plan (voir « Autoriser l'analyse en arrière-plan », §6). Si l'application est **complètement fermée**, aucune analyse ne tourne, donc aucune notification n'arrive.
+Ces notifications ne s'affichent (en toast dans l'application, et en notification système si activées) que pendant que **« Analyser »/« En direct »** tourne. Sur Android, elles continuent d'arriver écran éteint ou application en arrière-plan grâce au service de premier plan LiveKeeper (voir « Autoriser l'analyse en arrière-plan », §10). Si l'application est **complètement fermée**, aucune analyse ne tourne, donc aucune notification n'arrive.
 
 ---
 
-## 6. Réglages
+## 10. Réglages
 
 Ouvre les réglages avec l'icône engrenage en haut à droite.
 
@@ -239,15 +291,16 @@ Ouvre les réglages avec l'icône engrenage en haut à droite.
 |---|---|
 | Encadré d'état | Indique si Tailscale est installé, connecté, et si l'API téléphone est publiée, avec l'adresse à saisir sur le téléphone. |
 | **« Générer un code d'appairage »** | Crée un nouveau code à 8 chiffres, affiché à l'écran, valable jusqu'à l'heure indiquée, à usage unique. |
-| **« Préparer TradingView (multi-graphiques) »** | Bascule TradingView Desktop vers une disposition multi-graphiques XAUUSD (voir §3.3). |
-| **Appareils autorisés** | Liste des téléphones appairés (nom, compte Tailscale, date d'appairage, dernière connexion) avec un bouton **« Révoquer »** par appareil (double confirmation). |
+| **« Préparer TradingView (multi-graphiques) »** | Bascule TradingView Desktop vers une disposition multi-graphiques (§3.3). |
+| **« Charger tout l'historique TradingView »** | Force un chargement immédiat de l'historique (§3.3), plafonné à 20 000 bougies par timeframe. |
+| **Appareils autorisés** | Liste des téléphones appairés (nom, compte Tailscale, date d'appairage, dernière connexion) avec un bouton **« Révoquer »** par appareil (double confirmation). Maximum 5 appareils ; ré-appairer un même nom remplace l'appareil existant. |
 | **Journal de sécurité** | Derniers événements de sécurité (appairages, échecs, verrouillages…), et le nombre d'événements suspects sur 24 h. |
 
 ### Connexion au PC (visible seulement sur téléphone)
 
 | Champ / bouton | Rôle |
 |---|---|
-| **Code d'appairage** | Les 8 chiffres affichés sur le PC. |
+| **Code d'appairage** | Les 8 chiffres affichés sur le PC. Prérempli automatiquement avec le code préconfiguré à la compilation de l'APK tant qu'il n'a pas été utilisé ou refusé par le PC — l'appairage se fait alors sans rien taper (§3.5). |
 | **Adresse du PC** (dans « Adresse du PC (préréglée) et nom du téléphone ») | Adresse Tailscale du PC ; préréglée automatiquement à la compilation de l'APK, modifiable ici si elle change. |
 | **Nom de ce téléphone** | Nom affiché côté PC dans « Appareils autorisés ». |
 | **« Connecter au PC »** | Envoie le code au PC et enregistre le jeton d'accès (chiffré dans le Keystore Android). |
@@ -262,6 +315,12 @@ Ouvre les réglages avec l'icône engrenage en haut à droite.
 | **Gap fragile (× ATR)** | Seuil sous lequel une imbalance est marquée « gap fragile » (défaut : 0,1 × ATR). |
 | Cases par timeframe | Active ou désactive chaque timeframe (1m à 1D) dans l'analyse. |
 
+### Marchés en direct
+
+| Champ | Rôle |
+|---|---|
+| **Graphiques disponibles dans TradingView** | Combien de graphiques ton compte TradingView permet d'afficher en même temps (1, 2, 4, 8 ou 16). Détermine combien de marchés du classement (onglet « Marchés ») sont analysés **en direct simultanément**, chacun sur son propre graphique dédié. **Par défaut : 2** (la plupart des comptes TradingView affichent au moins 2 graphiques). Avec 1 seul graphique, TradingView bascule sur le marché n°1 du classement. |
+
 ### Apprentissage
 
 | Champ | Rôle |
@@ -274,7 +333,9 @@ Ouvre les réglages avec l'icône engrenage en haut à droite.
 | Champ / bouton | Rôle |
 |---|---|
 | **Notifications de trading** (case) | Active les notifications (opportunité, entrée, TP1/2/3, BE, trailing, SL). Demande la permission système si nécessaire. |
-| **« Autoriser l'analyse en arrière-plan »** (Android uniquement) | Demande l'exemption d'optimisation de batterie, pour que l'analyse et les notifications continuent écran éteint. |
+| **Notifications des annonces économiques** (case, activée par défaut) | Pré-alerte avant chaque annonce majeure (US, zone euro, Chine, Japon) et notification de son résultat, avec la tendance habituelle pour l'or (US uniquement). |
+| **Alerte avant annonce** | Délai de la pré-alerte : 5, 15, 30 (défaut) ou 60 minutes avant l'annonce. |
+| **« Autoriser l'analyse en arrière-plan »** (Android uniquement) | Demande l'exemption d'optimisation de batterie, pour que l'analyse et les notifications continuent écran éteint. Une ligne d'état juste en dessous affiche **« Optimisation batterie désactivée ✓ »** ou **« Non autorisée »**, mise à jour dès que tu reviens dans l'application. |
 | **« Effacer le journal »** | Supprime toutes les positions suivies (double confirmation). |
 | **« Réinitialiser l'apprentissage »** | Efface les échantillons appris et les règles actives (double confirmation). |
 
@@ -293,11 +354,11 @@ Ouvert par le bouton **« Lot & stop »** de la barre de balance.
 | Case **« J'accepte ce lot et cette gestion du risque… »** | Obligatoire pour valider le formulaire. |
 | **« Valider le paramétrage »** | Enregistre et débloque le suivi des trades. |
 
-Le stop loss et les objectifs (TP1/TP2/TP3) ne sont **pas** réglables : ils sont entièrement automatiques (voir §7). Seuls le lot, la valeur du pip, le taux de change, le mode d'entrée et la pause autour des annonces sont paramétrables ici.
+Le stop loss et les objectifs (TP1/TP2/TP3) ne sont **pas** réglables : ils sont entièrement automatiques (§11). Seuls le lot, la valeur du pip, le taux de change, le mode d'entrée et la pause autour des annonces sont paramétrables ici.
 
 ---
 
-## 7. Comprendre l'analyse
+## 11. Comprendre l'analyse
 
 ### Les 5 étoiles
 
@@ -313,9 +374,19 @@ Chaque order block est noté sur 5, à la clôture de C3 (sans information futur
 
 **Seules les zones notées 5★ sont proposées.** Moins de 5★ (même 4★) = zone **invalidée**, quel que soit le détail. ⭐1 ou ⭐2 manquante invalide toujours la zone, quel que soit le total.
 
+### Pip par marché
+
+| Marché | Taille du pip |
+|---|---|
+| Or (XAUUSD) | 0,10 $ |
+| US30, S&P 500, Nasdaq 100, DAX 40, CAC 40 | 1 point |
+| EUR/USD, GBP/USD | 0,0001 |
+| USD/JPY | 0,01 |
+| Pétrole WTI, pétrole Brent | 0,01 |
+
 ### Règle SL ≤ 100 pips
 
-Le risque (distance entrée → stop) ne doit **jamais dépasser 100 pips**, quelle que soit la catégorie. Au-delà, la zone est **refusée** (« non viable »). Comme l'entrée se fait par défaut après une bougie de réaction, le risque réel est **revérifié à l'entrée** : s'il dépasse 100 pips à ce moment-là, le trade est **annulé**, même si le plan initial était valide.
+Le risque (distance entrée → stop) ne doit **jamais dépasser 100 pips**, quelle que soit la catégorie ou le marché. Au-delà, la zone est **refusée** (« non viable »). Comme l'entrée se fait par défaut après une bougie de réaction, le risque réel est **revérifié à l'entrée** : s'il dépasse 100 pips à ce moment-là, le trade est **annulé**, même si le plan initial était valide.
 
 ### Échelles d'objectifs (TP)
 
@@ -352,23 +423,24 @@ Chaque position clôturée (backtest et réelle, réelle comptant double) enrich
 |---|---|
 | **Collecteur** | Vérifie la couverture des bougies, les trous, les données anciennes. |
 | **Scanner** | Détecte les candidats et compte les rejets par règle. |
-| **Calendrier économique** | 241 annonces USD à fort impact embarquées, avec fenêtre de pause. |
+| **Calendrier économique** | Annonces USD à fort impact embarquées + annonces majeures en direct de TradingView (US, zone euro, Chine, Japon, onglet « Annonces ») fusionnées, avec fenêtre de pause ; indique la source (embarqué/direct) et le compte par pays. |
 | **Historique des trades** | Journal, backtest et apprentissage. |
 | **Auditeur** | Revérifie chaque zone à partir des bougies brutes (code indépendant du scanner), applique la règle SL ≤ 100 pips, les annonces et les règles apprises, et rend le verdict final. |
 
 Chaque agent produit un rapport avec un statut :
 - **COMPLET** : tout est disponible et cohérent.
 - **PARTIEL** : une partie manque ou est incomplète (ex. une timeframe indisponible).
-- **ÉCHEC** : l'agent ne peut pas fonctionner (ex. TradingView non joignable, symbole ≠ XAUUSD).
+- **ÉCHEC** : l'agent ne peut pas fonctionner (ex. TradingView non joignable, symbole non suivi).
 
 L'agent **Historique** reste en **PARTIEL** tant que **moins de 20 trades clôturés** ont été appris (message : « seulement N trades clôturés appris (20 nécessaires) »). Fais défiler les graphiques TradingView vers le passé pour charger plus d'historique : plus de bougies anciennes donnent plus de trades simulés dans le backtest, donc plus d'échantillons d'apprentissage.
 
 ---
 
-## 8. Sécurité en bref
+## 12. Sécurité en bref
 
-- **Appairage** : code à 8 chiffres, valable 10 minutes, à usage unique, grillé après 5 essais.
+- **Appairage** : code à 8 chiffres, à usage unique, grillé après 5 essais ; 10 minutes en saisie manuelle, 30 minutes pour le code préconfiguré dans l'APK (appairage automatique, §3.5 et SECURITE.md). Plusieurs codes peuvent être valables en même temps.
 - **Jeton du téléphone** : 256 bits, chiffré en AES-256-GCM dans le Keystore Android (jamais en clair), lié au compte Tailscale qui a fait l'appairage, expirant après 180 jours.
+- **Appareils** : jusqu'à 5 appareils autorisés à la fois ; ré-appairer un appareil déjà connu (même nom) remplace l'entrée existante.
 - **Révoquer un appareil** : Réglages PC → Appareils autorisés → « Révoquer » (immédiat).
 - **Journal de sécurité** : visible dans Réglages PC, aucun secret n'y figure.
 - **Ce qui est exposé** : uniquement 3 routes distantes en lecture seule (`/api/health`, `/api/pair`, `/api/tv/candles`), accessibles seulement via Tailscale, jamais directement sur Internet ni sur le réseau local. Aucun ordre de courtier, aucune donnée personnelle.
@@ -378,7 +450,7 @@ Détail complet, catégorie par catégorie de l'OWASP Top 10:2025, dans **[SECUR
 
 ---
 
-## 9. Dépannage / FAQ
+## 13. Dépannage / FAQ
 
 **« Serveur injoignable » (code-appairage.bat ou l'application PC)**
 → Lance `XAUUSD-Zones.bat` et garde sa fenêtre ouverte ; le message précis apparaît en rouge dans la fenêtre du script.
@@ -389,17 +461,32 @@ Détail complet, catégorie par catégorie de l'OWASP Top 10:2025, dans **[SECUR
 **« HTTPS Certificates » ou MagicDNS non activé**
 → Un lien s'affiche dans la fenêtre de `acces-distant.bat` : ouvre-le, active l'option sur admin.tailscale.com, puis relance le script.
 
-**Code d'appairage refusé ou expiré**
-→ Le code n'est valable que 10 minutes et une seule fois. Génère-en un nouveau (« Générer un code d'appairage » sur PC, ou appuie sur Entrée dans la fenêtre du serveur, ou relance `code-appairage.bat`).
+**Code d'appairage refusé ou expiré (plusieurs codes, verrouillage 15 min, limite d'appareils)**
+→ Le code préconfiguré à la compilation de l'APK est valable 30 minutes, une seule fois. Le code manuel (« Générer un code d'appairage », `code-appairage.bat`, ou Entrée dans la fenêtre du serveur) est valable 10 minutes ; plusieurs codes générés séparément peuvent être valables en même temps, mais chacun n'est utilisable qu'une fois. Passé le délai ou après usage, génère-en un nouveau puis saisis-le dans **Réglages → Connexion au PC**. Après 5 essais erronés, les codes en attente sont grillés (relance-en un). Après 10 échecs d'authentification en 10 minutes, l'accès distant est bloqué 15 minutes (§12). Si « Nombre maximal d'appareils atteint (5) » apparaît, révoque un appareil existant côté PC (Réglages → Appareils autorisés) avant de ré-appairer.
 
-**TradingView n'affiche pas XAUUSD**
-→ Ouvre un graphique du symbole XAUUSD dans TradingView Desktop : sans cela, l'agent Collecteur bloque l'analyse (« Symbole … ≠ XAUUSD : analyse bloquée »).
+**Bouton « Analyser » qui affiche « Non connecté »**
+→ Le téléphone n'est pas (encore) appairé au PC : appaire-le d'abord (§3.5). Si un code était préconfiguré dans l'APK mais que le PC était injoignable au premier lancement, une nouvelle tentative automatique a lieu à chaque appui sur « Analyser » — vérifie que le PC est allumé, `XAUUSD-Zones.bat` lancé, et Tailscale connecté des deux côtés.
+
+**TradingView n'affiche pas de graphique du marché suivi**
+→ Ouvre un graphique d'un des marchés suivis (XAUUSD par défaut) dans TradingView Desktop : sans cela, l'agent Collecteur bloque l'analyse (« Symbole non suivi : analyse bloquée »).
+
+**Le graphique et l'application se chevauchent visuellement pendant le scan**
+→ C'est normal pendant une « Analyse complète » ou un chargement d'historique : le graphique bascule brièvement de marché/timeframe. Si l'affichage reste décalé après coup, recompile l'APK (`installer-android.bat`) pour repartir d'une disposition propre.
 
 **Aucune opportunité n'apparaît**
-→ C'est normal : seules les zones **5★** sont proposées (moins de 5★ = toujours invalidée). Laisse « Analyser » tourner ; les zones 5★ sont rares par nature. Consulte l'onglet « Non validées » pour voir ce qui a été écarté et pourquoi.
+→ C'est normal : seules les zones **5★** sont proposées (moins de 5★ = toujours invalidée), et le risque doit rester ≤ 100 pips (SL). Laisse « Analyser » tourner ; les zones 5★ sont rares par nature. Consulte l'onglet « Non validées » pour voir ce qui a été écarté et pourquoi.
+
+**Peu de bougies affichées / historique trop court**
+→ Force un chargement avec **« Charger tout l'historique TradingView »** (Réglages → Accès depuis le téléphone), ou fais défiler manuellement le graphique TradingView vers le passé. Plafond : 20 000 bougies par timeframe.
+
+**La timeframe 1A (1 an) semble peu exploitable**
+→ Normal : peu de marchés ont assez d'historique annuel chargé dans TradingView pour produire des zones ou des trades fiables sur cette timeframe ; elle reste incluse dans l'analyse complète mais donne rarement des résultats exploitables.
 
 **Les notifications n'arrivent pas**
-→ Vérifie, dans l'ordre : la case « Notifications de trading » est cochée dans Réglages ; la permission de notification est accordée à l'application (réglages Android) ; l'exemption de batterie a été accordée (« Autoriser l'analyse en arrière-plan ») ; l'application n'est pas **complètement fermée** — l'analyse en direct doit continuer à tourner (service de premier plan visible en notification discrète).
+→ Vérifie, dans l'ordre : la case « Notifications de trading » est cochée dans Réglages ; la permission de notification est accordée à l'application (réglages Android) ; l'exemption de batterie a été accordée (« Autoriser l'analyse en arrière-plan ») ; l'application n'est pas **complètement fermée** — l'analyse en direct doit continuer à tourner (service LiveKeeper de premier plan, visible en notification discrète).
+
+**Le graphique TradingView change de marché/timeframe pendant une analyse**
+→ Comportement normal pendant une « Analyse complète » ou une bascule multi-graphiques (§3.3, §7) : le graphique revient à ta position de départ une fois l'opération terminée, un cache limite ces bascules le reste du temps.
 
 **« INSTALL_FAILED_UPDATE_INCOMPATIBLE » / signatures différentes lors de l'installation de l'APK**
 → Une version précédente signée différemment (ex. version de débogage) est déjà installée. `installer-android.bat`/`installer-telephone.bat` désinstallent puis réinstallent automatiquement dans ce cas ; si le message persiste, désinstalle manuellement l'application sur le téléphone avant de relancer.
@@ -409,7 +496,7 @@ Détail complet, catégorie par catégorie de l'OWASP Top 10:2025, dans **[SECUR
 
 ---
 
-## 10. Glossaire
+## 14. Glossaire
 
 | Terme | Définition |
 |---|---|
@@ -421,7 +508,7 @@ Détail complet, catégorie par catégorie de l'OWASP Top 10:2025, dans **[SECUR
 | **Retest** | Le fait qu'une bougie postérieure à C3 revienne toucher la zone de l'order block. |
 | **BE (point mort / break-even)** | Stop replacé au niveau d'entrée (± 3 pips ici), pour ne plus risquer de perte sur le trade. |
 | **R** | Unité de risque : 1 R = la distance initiale entrée → stop loss. Un résultat de « +2 R » signifie deux fois le risque initial gagné. |
-| **Pip** | Plus petite variation de prix suivie par l'application. Sur l'or (XAUUSD), 1 pip = 0,10 $ (convention standard). |
+| **Pip** | Plus petite variation de prix suivie par l'application, propre à chaque marché (§11). Sur l'or (XAUUSD), 1 pip = 0,10 $ (convention standard). |
 | **Premium / Discount** | Position du prix par rapport au milieu (0,5) d'un mouvement récent : Discount = moitié basse (zone d'achat recherchée), Premium = moitié haute (zone de vente recherchée). |
 | **Supertrend** | Indicateur de tendance basé sur l'ATR, utilisé ici pour valider le sens (⭐2) et détecter un marché en range. |
 | **ATR** | Average True Range : mesure de la volatilité moyenne récente, utilisée pour la marge de stop, le seuil « gap fragile » et le Supertrend. |
@@ -429,3 +516,6 @@ Détail complet, catégorie par catégorie de l'OWASP Top 10:2025, dans **[SECUR
 | **Order block mitigé** | Order block déjà retesté (donc non vierge). |
 | **Champion / challenger** | Mécanisme qui n'adopte une règle apprise que si elle prouve une amélioration mesurée, avec retour arrière automatique si elle se révèle pire ensuite. |
 | **Scalp / Daily / Swing** | Les trois catégories de trade de l'application, selon la timeframe : Scalp (1m·5m), Daily (15m·1h), Swing (4h·1D). |
+| **Analyse complète** | Backtest et classement de tous les marchés suivis sur toutes les timeframes (§7). |
+| **Marché en direct** | Marché dont le graphique TradingView est actuellement lu en continu par l'analyse (§7). |
+| **LiveKeeper** | Service Android de premier plan qui maintient l'analyse et les notifications actives écran éteint (§9, §10). |

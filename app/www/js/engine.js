@@ -13,17 +13,17 @@
  * Module ES pur : fonctionne dans le navigateur, l'APK Android et Node.js.
  */
 
-export const TIMEFRAMES = ['1', '5', '15', '60', '240', 'D'];
+export const TIMEFRAMES = ['1', '5', '15', '60', '240', 'D', 'W', 'M', '12M'];
 
-export const TF_LABEL = { '1': '1m', '5': '5m', '15': '15m', '60': '1h', '240': '4h', 'D': '1D' };
+export const TF_LABEL = { '1': '1m', '5': '5m', '15': '15m', '60': '1h', '240': '4h', 'D': '1D', 'W': '1W', 'M': '1Mo', '12M': '1A' };
 
-export const TF_SECONDS = { '1': 60, '5': 300, '15': 900, '60': 3600, '240': 14400, 'D': 86400 };
+export const TF_SECONDS = { '1': 60, '5': 300, '15': 900, '60': 3600, '240': 14400, 'D': 86400, 'W': 604800, 'M': 2629800, '12M': 31557600 };
 
 /** Catégories de trading : timeframes d'exécution associées. */
 export const CATEGORIES = {
   scalping: { label: 'Scalp', long: 'Scalping', tfs: ['1', '5'] },
   day: { label: 'Daily', long: 'Day trading', tfs: ['15', '60'] },
-  swing: { label: 'Swing', long: 'Swing trading', tfs: ['240', 'D'] },
+  swing: { label: 'Swing', long: 'Swing trading', tfs: ['240', 'D', 'W', 'M', '12M'] },
 };
 export const categoryOf = (tf) => Object.keys(CATEGORIES).find((k) => CATEGORIES[k].tfs.includes(tf)) || 'day';
 
@@ -328,7 +328,7 @@ export function detectZones(rawCandles, opts = {}) {
       const grade = evaluateStars(candles, p, dir, zoneLow, zoneHigh, atrValue, stArr, o, status === STATUS.VIABLE);
 
       zones.push({
-        id: `${o.timeframe || 'tf'}-${C1.time}-${dir}`,
+        id: `${o.marketId || 'tf'}:${o.timeframe || 'tf'}-${C1.time}-${dir}`,
         liqTargets,
         stars: grade.stars, grade: grade.score, trend: grade.trend, liq: grade.liquidity, fib: grade.fib,
         direction: dir,

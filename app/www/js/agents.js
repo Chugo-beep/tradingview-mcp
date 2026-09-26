@@ -11,6 +11,7 @@
 import { detectZones, TIMEFRAMES, TF_LABEL, TF_SECONDS, STATUS, normalizeCandles, CATEGORIES } from './engine.js';
 import { simulateZone, planFor, advance, finalize, POS, DEFAULT_RISK } from './trades.js';
 import { featuresOf, buildModel, scoreZone, reviewRules, passesActive } from './learning.js';
+import { marketById, marketOf, DEFAULT_MARKET } from './markets.js';
 
 const MAX_CONFIG_HISTORY = 50;
 const MIN_FORWARD_TRADES = 8;
@@ -18,20 +19,46 @@ const MIN_FORWARD_TRADES = 8;
 const STATUS_OK = 'COMPLET', STATUS_PART = 'PARTIEL', STATUS_KO = 'ÉCHEC';
 const MAX_PENDING_SEC = { scalping: 86400, day: 5 * 86400, swing: 30 * 86400 };
 
+/**
+ * Fusionne le calendrier embarqué (US, fort impact, dans history/economic-calendar-2026.md) avec
+ * les annonces MAJEURES en direct de TradingView (US/EU/CN/JP, app/newsfeed.js) : dédupliquées par
+ * minute + pays + titre, l'annonce en direct prime sur l'entrée embarquée en cas de doublon.
+ */
+export function mergeCalendarNews(cal, newsEvents) {
+  const embedded = (cal?.events || []).map((e) => ({ t: e.t, title: e.title, country: 'US', source: 'embarqué' }));
+  const live = (newsEvents || []).filter((e) => e && Number.isFinite(e.t) && e.country).map((e) => ({ t: e.t, title: e.title, country: e.country, source: 'direct' }));
+  const key = (e) => `${Math.floor(e.t / 60)}|${e.country}|${e.title}`;
+  const byKey = new Map();
+  for (const e of embedded) byKey.set(key(e), e);
+  for (const e of live) byKey.set(key(e), e); // le direct prime sur l'embarqué en cas de doublon
+  const events = [...byKey.values()].sort((a, b) => a.t - b.t);
+  const counts = {};
+  for (const e of events) counts[e.country] = (counts[e.country] || 0) + 1;
+  return { events, counts, embeddedCount: embedded.length, liveCount: live.length };
+}
+
 // ── Calendrier ─────────────────────────────────────────────────────────────
-export function makeCalendar(cal, blackoutMin) {
-  const ev = (cal?.events || []).map((e) => e.t).sort((a, b) => a - b);
+/**
+ * @param {string[]|null} countries  filtre le calendrier aux pays du marché analysé (blackout
+ *   par marché, §7) ; `null`/omis = pas de filtre (compatibilité mono-marché XAUUSD, où toutes
+ *   les annonces embarquées sont déjà US).
+ */
+export function makeCalendar(cal, blackoutMin, newsEvents = [], countries = null) {
+  const merge = mergeCalendarNews(cal, newsEvents);
+  const events = countries ? merge.events.filter((e) => countries.includes(e.country)) : merge.events;
+  const ev = events.map((e) => e.t).sort((a, b) => a - b);
   const near = (t, min) => {
     let lo = 0, hi = ev.length;
     while (lo < hi) { const m = (lo + hi) >> 1; if (ev[m] < t - min * 60) lo = m + 1; else hi = m; }
     return lo < ev.length && ev[lo] <= t + min * 60;
   };
   return {
-    events: cal?.events || [],
+    events,
     isBlackout: (t) => blackoutMin > 0 && near(t, blackoutMin),
     hasNewsNear: (t, min) => near(t, min),
-    next: (t) => (cal?.events || []).find((e) => e.t >= t) || null,
+    next: (t) => events.find((e) => e.t >= t) || null,
     lastTime: ev.at(-1) ?? null,
+    sources: merge,
   };
 }
 
@@ -42,18 +69,20 @@ function isWeekendGap(a, b) {
   return (da.getUTCDay() === 5 && da.getUTCHours() >= 20) || da.getUTCDay() === 6 || (db.getUTCDay() === 0) || (db.getUTCDay() === 1 && db.getUTCHours() < 1);
 }
 
-export function agentCollector({ candles, symbol, wantedTfs, now }) {
+export function agentCollector({ candles, symbol, wantedTfs, now, market }) {
   const lines = [], perTf = {};
   let status = STATUS_OK;
-  if (symbol && !/XAU.?USD/i.test(symbol)) {
-    return { agent: 'Collecteur', role: 'candle-by-candle-reporter', at: now, status: STATUS_KO, lines: [`Symbole ${symbol} ≠ XAUUSD : analyse bloquée.`], perTf };
+  const mkt = market || marketById(DEFAULT_MARKET);
+  // Verrou de symbole obligatoire : seul le marché whitelisté demandé peut être analysé.
+  if (symbol && marketOf(symbol)?.id !== mkt.id) {
+    return { agent: 'Collecteur', role: 'candle-by-candle-reporter', at: now, status: STATUS_KO, lines: [`Symbole ${symbol} ≠ ${mkt.label} (${mkt.tv}) : analyse bloquée.`], perTf };
   }
   for (const tf of wantedTfs) {
     const c = candles[tf];
     if (!c || !c.length) { perTf[tf] = { ok: false }; lines.push(`${TF_LABEL[tf]} : INDISPONIBLE`); status = STATUS_PART; continue; }
     const step = TF_SECONDS[tf];
     let gaps = 0;
-    if (tf !== 'D') for (let i = 1; i < c.length; i++) if (c[i].time - c[i - 1].time > step * 3 && !isWeekendGap(c[i - 1].time, c[i].time)) gaps++;
+    if (!['D', 'W', 'M', '12M'].includes(tf)) for (let i = 1; i < c.length; i++) if (c[i].time - c[i - 1].time > step * 3 && !isWeekendGap(c[i - 1].time, c[i].time)) gaps++;
     const live = c.at(-1).complete === false;
     const stale = now / 1000 - c.at(-1).time > Math.max(step * 3, 3600) && !isWeekendGap(c.at(-1).time, now / 1000);
     perTf[tf] = { ok: c.length >= 30 && !stale, n: c.length, from: c[0].time, to: c.at(-1).time, gaps, live, stale };
@@ -71,7 +100,7 @@ export function agentScanner({ candles, wantedTfs, currentPrice, opts, now }) {
   const rej = { liquidite: 0, imbalance: 0, egalite: 0 };
   for (const tf of wantedTfs) {
     if (!candles[tf]?.length) continue;
-    const r = detectZones(candles[tf], { ...opts, timeframe: tf, currentPrice });
+    const r = detectZones(candles[tf], { ...opts, timeframe: tf, currentPrice, marketId: opts.marketId });
     zones = zones.concat(r.zones);
     for (const k in rej) rej[k] += r.stats.rejected[k];
     lines.push(`${TF_LABEL[tf]} : ${r.stats.candidates} candidats → ${r.zones.length} zones (${r.zones.filter((z) => z.viable).length} viables)`);
@@ -95,6 +124,8 @@ export function agentCalendar({ cal, calendar, now }) {
   const nx = calendar.next(t);
   if (nx) lines.push(`Prochaine : ${nx.title}, ${new Date(nx.t * 1000).toLocaleString('fr-FR', { weekday: 'short', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}`);
   if (calendar.isBlackout(t)) lines.push('⚠ Fenêtre d\'annonce en cours : aucune nouvelle entrée.');
+  const src = calendar.sources;
+  if (src) lines.push(`Source : calendrier embarqué (${src.embeddedCount}) + TradingView en direct (${src.liveCount}) · ${Object.entries(src.counts).map(([c, n]) => `${c} ${n}`).join(', ') || 'aucune annonce en direct'}`);
   return { agent: 'Calendrier économique', role: 'economic-calendar-agent', at: now, status, lines, blackoutNow: calendar.isBlackout(t) };
 }
 
@@ -102,25 +133,25 @@ const fmtPips2 = (v) => `${v >= 0 ? '+' : ''}${Math.round(v)}`;
 
 // ── Amélioration continue (champion / challenger sur les règles apprises, déterministe, sans IA) ──
 /** Performance (n, pips/trade) des trades clôturés du backtest, filtrés par un ensemble de règles actives. */
-function summarizeUnderRules(backtest, rules, calendar) {
+function summarizeUnderRules(backtest, rules, calendar, marketId) {
   const activeSet = new Set(rules);
   let n = 0, pips = 0;
   for (const { zone, pos } of backtest) {
     if (pos.state !== POS.TP && pos.state !== POS.SL) continue;
-    if (activeSet.size && !passesActive(featuresOf(zone, calendar), activeSet)) continue;
+    if (activeSet.size && !passesActive(featuresOf(zone, calendar, marketId), activeSet)) continue;
     n++; pips += pos.pips ?? 0;
   }
   return { n, pipsPerTrade: n ? round(pips / n) : null };
 }
 
 /** Idem, restreint aux zones détectées après l'adoption d'une configuration (contrôle « avancé »). */
-function forwardUnderConfig(backtest, config, calendar) {
+function forwardUnderConfig(backtest, config, calendar, marketId) {
   const activeSet = new Set(config.rules);
   let n = 0, pips = 0;
   for (const { zone, pos } of backtest) {
     if (pos.state !== POS.TP && pos.state !== POS.SL) continue;
     if (!(zone.c3Time > config.adoptedAt)) continue;
-    if (activeSet.size && !passesActive(featuresOf(zone, calendar), activeSet)) continue;
+    if (activeSet.size && !passesActive(featuresOf(zone, calendar, marketId), activeSet)) continue;
     n++; pips += pos.pips ?? 0;
   }
   return { n, pipsPerTrade: n ? round(pips / n) : null };
@@ -145,7 +176,7 @@ function pushConfigHistory(learnStore, entry) {
  *   l'échantillon complet leur semble encore favorable.
  */
 const QUARANTINE_DAYS = 7;
-export function applyContinuousImprovement(learnStore, { ruleDecisions = [], backtest, calendar, now }) {
+export function applyContinuousImprovement(learnStore, { ruleDecisions = [], backtest, calendar, now, marketId }) {
   const nowSec = Math.floor(now / 1000);
   const cfg = learnStore.config;
   const rules = (learnStore.acceptedRules || []).filter((k) => !(learnStore.disabled || []).includes(k));
@@ -159,12 +190,12 @@ export function applyContinuousImprovement(learnStore, { ruleDecisions = [], bac
   let rollback = null;
   if (!cfg || rulesChanged) {
     if (cfg) pushConfigHistory(learnStore, { version: cfg.version, at: nowSec, change: changeLines.join(' ; ') || 'ajustement', decision: 'adopté', reason: changeLines.join(' ; ') || 'règles mises à jour', rules: cfg.rules, adoptedAt: cfg.adoptedAt, validation: cfg.validation });
-    const validation = summarizeUnderRules(backtest, rules, calendar);
+    const validation = summarizeUnderRules(backtest, rules, calendar, marketId);
     learnStore.config = { version: (cfg?.version ?? 0) + 1, rules, adoptedAt: nowSec, validation };
   } else {
     const prevSnapshot = learnStore.configHistory?.at(-1);
     if (prevSnapshot?.validation?.pipsPerTrade != null) {
-      const fwd = forwardUnderConfig(backtest, cfg, calendar);
+      const fwd = forwardUnderConfig(backtest, cfg, calendar, marketId);
       if (fwd.n >= MIN_FORWARD_TRADES && fwd.pipsPerTrade < prevSnapshot.validation.pipsPerTrade) {
         pushConfigHistory(learnStore, { version: cfg.version, at: nowSec, change: 'retour arrière', decision: 'retour arrière',
           reason: `performance avancée ${fmtPips2(fwd.pipsPerTrade)} pips/trade (${fwd.n} trades) < ${fmtPips2(prevSnapshot.validation.pipsPerTrade)} pips/trade de la configuration précédente`,
@@ -193,7 +224,7 @@ function continuousImprovementLines(ci, ruleDecisions) {
 }
 
 // ── 4. Historique (journal + apprentissage) ───────────────────────────────
-export function agentHistory({ zones, candles, risk, calendar, learnStore, journal, learnParams, currentPrice, now }) {
+export function agentHistory({ zones, candles, risk, calendar, learnStore, journal, learnParams, currentPrice, now, marketId }) {
   const m1 = candles['1'] || null;
   // backtest : TOUTES les zones détectées par le scanner (pas seulement les 5★ valides),
   // sans filtre d'apprentissage (pas de boucle de rétroaction) — les échantillons d'apprentissage
@@ -203,7 +234,7 @@ export function agentHistory({ zones, candles, risk, calendar, learnStore, journ
     const pos = simulateZone(z, candles[z.timeframe], risk, { m1, isBlackout: calendar.isBlackout, currentPrice });
     backtest.push({ zone: z, pos });
     if ((pos.state === POS.TP || pos.state === POS.SL) && pos.r != null) {
-      learnStore.samples[z.id] = { features: featuresOf(z, calendar), r: round(pos.r), source: learnStore.samples[z.id]?.source === 'reel' ? 'reel' : 'backtest', t: pos.exitTime };
+      learnStore.samples[z.id] = { features: featuresOf(z, calendar, marketId), r: round(pos.r), source: learnStore.samples[z.id]?.source === 'reel' ? 'reel' : 'backtest', t: pos.exitTime };
     }
   }
   for (const j of journal.entries) {
@@ -260,7 +291,7 @@ function reverify(z, tfCandles, lookback) {
   return errs;
 }
 
-export function agentAuditor({ backtest, candles, collector, calReport, calendar, model, risk, opts, now }) {
+export function agentAuditor({ backtest, candles, collector, calReport, calendar, model, risk, opts, now, marketId }) {
   const audited = [];
   const counts = { validees: 0, rejetees: 0, nonVerifiables: 0, filtrees: 0, refusees: 0, etoiles: 0 };
   const t = now / 1000;
@@ -271,7 +302,7 @@ export function agentAuditor({ backtest, candles, collector, calReport, calendar
     const tfC = normalizeCandles(candles[z.timeframe]);
     const errs = z.viable ? reverify(z, tfC, opts.liquidityLookback) : [];
     if (errs.length) { verdict = 'REJETÉE'; reasons.push(...errs.map((e) => `désaccord scanner/auditeur : ${e}`)); }
-    const feats = featuresOf(z, calendar);
+    const feats = featuresOf(z, calendar, marketId);
     const sc = scoreZone(model, feats);
     let proposal = null;
     if (z.viable && verdict === 'VALIDÉE') {
@@ -290,7 +321,7 @@ export function agentAuditor({ backtest, candles, collector, calReport, calendar
       else proposal = 'PROPOSEE';
     }
     if (verdict === 'VALIDÉE') counts.validees++; else if (verdict === 'REJETÉE') counts.rejetees++; else counts.nonVerifiables++;
-    audited.push({ ...z, pos, verdict, reasons, proposal, features: feats, score: sc, plan: planFor(z, risk) });
+    audited.push({ ...z, pos, verdict, reasons, proposal, features: feats, score: sc, plan: planFor(z, risk), market: marketId });
   }
   // confluence multi-timeframe : même sens, zones qui se chevauchent sur d'autres UT
   for (const a of audited) {
@@ -344,7 +375,7 @@ function journalEntry(a, risk, now, liveTime, extra = {}) {
     entry: a.plan.entry, sl: a.plan.sl, tp1: a.plan.tp1, tp2: a.plan.tp2, tp3: a.plan.tp3, tp: a.plan.tp3,
     rr: a.plan.rr, slPips: a.plan.slPips, tp1Pips: a.plan.tp1Pips, hits: 0, hitTimes: [],
     riskPx: a.plan.riskPx, entryMode: a.plan.entryMode, inZone: false, grade: a.grade, stars: a.stars,
-    lot: risk.lot, pipSize: risk.pipSize, contractSize: risk.contractSize,
+    lot: risk.lot, pipSize: risk.pipSize, contractSize: risk.contractSize, market: a.market,
     features: a.features, state: POS.PENDING, createdAt: Math.floor(now / 1000), lastTime: liveTime,
     followed: true, ...extra,
   };
@@ -485,29 +516,33 @@ export function riskGuards(journal, audited, now = Date.now()) {
 }
 
 // ── Orchestrateur ────────────────────────────────────────────────────────
-export function runAgents({ data, settings, cal, learnStore, journal, now = Date.now() }) {
-  const risk = { ...DEFAULT_RISK, ...settings.risk };
-  const opts = { ...(settings.strategy || {}), liquidityLookback: settings.liquidityLookback, fragileGapAtrRatio: settings.fragileGapAtrRatio };
+export function runAgents({ data, settings, cal, learnStore, journal, newsEvents = [], now = Date.now() }) {
+  // Marché analysé : whitelisté (markets.js), XAUUSD par défaut (comportement historique inchangé).
+  const market = marketById(settings.market || data.market) || marketById(DEFAULT_MARKET);
+  // pip/contractSize sont des propriétés physiques du marché, jamais réglables par l'utilisateur.
+  const risk = { ...DEFAULT_RISK, ...settings.risk, pipSize: market.pip, contractSize: market.contractSize };
+  const opts = { ...(settings.strategy || {}), liquidityLookback: settings.liquidityLookback, fragileGapAtrRatio: settings.fragileGapAtrRatio, marketId: market.id };
   const wantedTfs = TIMEFRAMES.filter((tf) => settings.timeframes.includes(tf));
   const candles = data.candles;
   // prix courant : dernière clôture de la plus petite TF
   let currentPrice = null, priceTime = null;
   for (const tf of TIMEFRAMES) if (candles[tf]?.length) { currentPrice = candles[tf].at(-1).close; priceTime = candles[tf].at(-1).time; break; }
-  const calendar = makeCalendar(cal, risk.newsBlackoutMin);
+  // calendrier économique filtré aux pays du marché analysé (blackout par marché, §7)
+  const calendar = makeCalendar(cal, risk.newsBlackoutMin, newsEvents, market.calendarCountries);
 
-  const collector = agentCollector({ candles, symbol: data.symbol, wantedTfs, now });
+  const collector = agentCollector({ candles, symbol: data.symbol, wantedTfs, now, market });
   const reports = [collector];
   if (collector.status === STATUS_KO) {
-    return { reports, audited: [], journal, model: null, currentPrice, priceTime, analyzedAt: now, calendar };
+    return { reports, audited: [], journal, model: null, currentPrice, priceTime, analyzedAt: now, calendar, market };
   }
   const scan = agentScanner({ candles, wantedTfs, currentPrice, opts, now });
   const calReport = agentCalendar({ cal, calendar, now });
-  const hist = agentHistory({ zones: scan.zones, candles, risk, calendar, learnStore, journal, learnParams: settings.learning, currentPrice, now });
+  const hist = agentHistory({ zones: scan.zones, candles, risk, calendar, learnStore, journal, learnParams: settings.learning, currentPrice, now, marketId: market.id });
   // amélioration continue : n'adopte un changement de règle que s'il est prouvé meilleur ;
   // sinon conserve la configuration courante, voire revient en arrière si sa performance baisse ensuite
-  const ci = applyContinuousImprovement(learnStore, { ruleDecisions: hist.model.ruleDecisions || [], backtest: hist.backtest, calendar, now });
+  const ci = applyContinuousImprovement(learnStore, { ruleDecisions: hist.model.ruleDecisions || [], backtest: hist.backtest, calendar, now, marketId: market.id });
   hist.report.lines.push(...continuousImprovementLines(ci, hist.model.ruleDecisions || []));
-  const audit = agentAuditor({ backtest: hist.backtest, candles, collector, calReport, calendar, model: hist.model, risk, opts, now });
+  const audit = agentAuditor({ backtest: hist.backtest, candles, collector, calReport, calendar, model: hist.model, risk, opts, now, marketId: market.id });
   reports.push(scan.report, calReport, hist.report, audit.report);
   updateJournal(journal, { audited: audit.audited, candles, risk, calendar, currentPrice, now });
 
@@ -520,7 +555,7 @@ export function runAgents({ data, settings, cal, learnStore, journal, now = Date
   for (const a of audit.audited) {
     if (a.proposal === 'PROPOSEE' && guards.overlapsOpen(a.direction, a.zoneLow, a.zoneHigh)) a.guardOverlap = true;
   }
-  return { reports, audited: audit.audited, journal, model: hist.model, currentPrice, priceTime, analyzedAt: now, calendar, risk, guards };
+  return { reports, audited: audit.audited, journal, model: hist.model, currentPrice, priceTime, analyzedAt: now, calendar, risk, guards, market };
 }
 
 function pruneSamples(store, max) {

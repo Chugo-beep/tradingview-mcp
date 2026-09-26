@@ -33,6 +33,7 @@
  * la bougie 1 minute tranche ; sans elle, le stop est retenu.
  */
 import { CATEGORIES, TF_SECONDS } from './engine.js';
+import { marketById, DEFAULT_MARKET } from './markets.js';
 
 /** Risque maximal (entrée → SL) toléré, en pips : au-delà, la zone est « non viable ». */
 export const MAX_SL_PIPS = 100;
@@ -365,14 +366,19 @@ export function balance(positions, risk, eurUsd) {
 }
 
 // ── Notifications : messages courts, lisibles sans ouvrir l'application ─────
-const px = (v) => (v == null ? '—' : Number(v).toFixed(2));
 const catShort = (c) => CATEGORIES[c]?.label || '';
 
 /**
  * Message d'une notification. Le titre suffit à agir ; le corps donne tous les niveaux.
  * @param {string} type  new | fill | tp1 | tp2 | tp3 | be | trail | closeProfit | sl | cancel
+ * @param {object} extra peut inclure `market` (entrée de markets.js) : détermine le libellé
+ *   affiché (« GOLD » pour XAUUSD, sinon le libellé du marché) et le nombre de décimales des
+ *   prix affichés. XAUUSD par défaut si `extra.market` est absent (compatibilité).
  */
 export function notifText(type, t, extra = {}) {
+  const market = extra.market || marketById(DEFAULT_MARKET);
+  const label = market.notifLabel;
+  const px = (v) => (v == null ? '—' : Number(v).toFixed(market.decimals));
   const buy = t.dir === 'BUY';
   const side = buy ? '🟢 ACHAT' : '🔴 VENTE';
   const tag = `${catShort(t.category)} ${extra.tfLabel || ''}`.trim();
@@ -384,32 +390,32 @@ export function notifText(type, t, extra = {}) {
   const reduced = extra.reducedSize ? ' · taille réduite conseillée : 50 % du lot' : '';
   switch (type) {
     case 'new': return confirm ? {
-      title: `👀 ${stars}${buy ? 'ACHAT' : 'VENTE'} GOLD · zone ${px(t.zoneLow ?? Math.min(t.entry, t.sl))}–${px(t.zoneHigh ?? Math.max(t.entry, t.sl))}`,
+      title: `👀 ${stars}${buy ? 'ACHAT' : 'VENTE'} ${label} · zone ${px(t.zoneLow ?? Math.min(t.entry, t.sl))}–${px(t.zoneHigh ?? Math.max(t.entry, t.sl))}`,
       body: `Attends le retour du prix et une bougie ${buy ? 'haussière' : 'baissière'} · SL ${px(t.sl)} · TP1 ${px(t.tp1)}`,
       detail: `Order block ${tag} · une 2e notification donnera le point d'entrée${reduced}`,
     } : {
-      title: `${side} GOLD @ ${px(t.entry)} ${stars}`.trim(),
+      title: `${side} ${label} @ ${px(t.entry)} ${stars}`.trim(),
       body: levels,
       detail: `Ordre limite ${buy ? 'd\'achat' : 'de vente'} · ${tag} · risque ${Math.round(t.slPips)} pips · TP1 +${Math.round(t.tp1Pips)} pips${reduced}`,
     };
     case 'fill': return confirm ? {
-      title: `${side} GOLD @ ${px(t.fillPrice ?? t.entry)} ${stars}`.trim(),
+      title: `${side} ${label} @ ${px(t.fillPrice ?? t.entry)} ${stars}`.trim(),
       body: levels,
       detail: `Réaction confirmée dans l'order block · ${tag} · entre maintenant`,
-    } : { title: `▶ Entrée déclenchée · ${buy ? 'ACHAT' : 'VENTE'} GOLD ${px(t.fillPrice ?? t.entry)}`, body: `SL ${px(t.sl)} · TP1 ${px(t.tp1)}`, detail: tag };
-    case 'tp1': return { title: `✅ TP1 +100 atteint !`, body: `GOLD ${buy ? 'ACHAT' : 'VENTE'} · stop inchangé jusqu'à +1R · prochain TP2 ${px(t.tp2)}`, detail: tag };
-    case 'tp2': return { title: `✅ TP2 atteint ! Stop sur TP1 : ${px(t.tp1)}`, body: `GOLD ${buy ? 'ACHAT' : 'VENTE'} · reste TP3 ${px(t.tp3)}`, detail: tag };
+    } : { title: `▶ Entrée déclenchée · ${buy ? 'ACHAT' : 'VENTE'} ${label} ${px(t.fillPrice ?? t.entry)}`, body: `SL ${px(t.sl)} · TP1 ${px(t.tp1)}`, detail: tag };
+    case 'tp1': return { title: `✅ TP1 +100 atteint !`, body: `${label} ${buy ? 'ACHAT' : 'VENTE'} · stop inchangé jusqu'à +1R · prochain TP2 ${px(t.tp2)}`, detail: tag };
+    case 'tp2': return { title: `✅ TP2 atteint ! Stop sur TP1 : ${px(t.tp1)}`, body: `${label} ${buy ? 'ACHAT' : 'VENTE'} · reste TP3 ${px(t.tp3)}`, detail: tag };
     case 'tp3': return t.category === 'swing'
-      ? { title: `🏁 +600 pips atteints · CLÔTURE le trade SWING`, body: `GOLD ${buy ? 'ACHAT' : 'VENTE'} · entrée ${px(t.fillPrice ?? t.entry)} → ${px(t.tp3)}`, detail: tag }
-      : { title: `🏁 TP3 +350 atteint · trade terminé ${pips}`, body: `GOLD ${buy ? 'ACHAT' : 'VENTE'} · entrée ${px(t.fillPrice ?? t.entry)} → ${px(t.tp3)}`, detail: tag };
+      ? { title: `🏁 +600 pips atteints · CLÔTURE le trade SWING`, body: `${label} ${buy ? 'ACHAT' : 'VENTE'} · entrée ${px(t.fillPrice ?? t.entry)} → ${px(t.tp3)}`, detail: tag }
+      : { title: `🏁 TP3 +350 atteint · trade terminé ${pips}`, body: `${label} ${buy ? 'ACHAT' : 'VENTE'} · entrée ${px(t.fillPrice ?? t.entry)} → ${px(t.tp3)}`, detail: tag };
     // 'be' : le stop VIENT d'être déplacé au point mort (TP1 + 1R tous deux atteints) — la position reste ouverte
-    case 'be': return { title: `🛡️ Passer à BE : ${px(t.beLevel ?? currentStop(t))} (TP1 + 1R atteints)`, body: `GOLD ${buy ? 'ACHAT' : 'VENTE'} · stop protégé, frais couverts`, detail: tag };
+    case 'be': return { title: `🛡️ Passer à BE : ${px(t.beLevel ?? currentStop(t))} (TP1 + 1R atteints)`, body: `${label} ${buy ? 'ACHAT' : 'VENTE'} · stop protégé, frais couverts`, detail: tag };
     // 'trail' : le stop vient d'être resserré sur un nouveau swing structurel (après le BE)
-    case 'trail': return { title: `🔒 ${buy ? 'Remonter' : 'Descendre'} le stop à ${px(currentStop(t))}`, body: `GOLD ${buy ? 'ACHAT' : 'VENTE'} · nouveau swing structurel`, detail: tag };
+    case 'trail': return { title: `🔒 ${buy ? 'Remonter' : 'Descendre'} le stop à ${px(currentStop(t))}`, body: `${label} ${buy ? 'ACHAT' : 'VENTE'} · nouveau swing structurel`, detail: tag };
     // 'closeProfit' : clôture en gain après BE/trailing (anciennement nommé 'be')
-    case 'closeProfit': return { title: `⚖️ Clôturé en gain ${pips}`, body: `GOLD ${buy ? 'ACHAT' : 'VENTE'} · ${t.exitKind || 'stop protégé'} à ${px(t.exitPrice)}`, detail: tag };
-    case 'sl': return { title: `🛑 SL touché · ${buy ? 'ACHAT' : 'VENTE'} GOLD ${pips}`, body: `Sortie ${px(t.exitPrice)} · perte analysée pour les prochains trades`, detail: tag };
-    case 'cancel': return { title: `⛔ Annule l'ordre ${buy ? 'd\'ACHAT' : 'de VENTE'} GOLD ${px(t.entry)}`, body: `Motif : ${t.reason || 'zone invalidée'}`, detail: tag };
+    case 'closeProfit': return { title: `⚖️ Clôturé en gain ${pips}`, body: `${label} ${buy ? 'ACHAT' : 'VENTE'} · ${t.exitKind || 'stop protégé'} à ${px(t.exitPrice)}`, detail: tag };
+    case 'sl': return { title: `🛑 SL touché · ${buy ? 'ACHAT' : 'VENTE'} ${label} ${pips}`, body: `Sortie ${px(t.exitPrice)} · perte analysée pour les prochains trades`, detail: tag };
+    case 'cancel': return { title: `⛔ Annule l'ordre ${buy ? 'd\'ACHAT' : 'de VENTE'} ${label} ${px(t.entry)}`, body: `Motif : ${t.reason || 'zone invalidée'}`, detail: tag };
     default: return { title: 'XAUUSD Zones', body: '', detail: '' };
   }
 }

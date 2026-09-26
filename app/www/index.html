@@ -29,12 +29,15 @@
       <svg class="play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg>
       <span class="lbl">Analyser</span>
     </button>
+    <button type="button" class="btn small scan-btn-header" id="scanBtnHeader" title="Analyse complète : tous les marchés suivis">Analyse complète</button>
     <button class="icon-btn" id="settingsBtn" title="Réglages" aria-label="Réglages">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
     </button>
   </header>
+  <div class="bg-chip" id="bgChip" role="status" hidden>Analyse en arrière-plan activée</div>
 
   <div class="banner" id="banner" hidden></div>
+  <div class="bg-chip" id="nextNews" role="status" hidden></div>
 
   <!-- Balance -->
   <section class="balance" id="balance" aria-label="Balance des positions">
@@ -55,19 +58,22 @@
       </div>
       <button class="btn small" id="riskBtn">Lot &amp; stop</button>
     </div>
+    <div class="bal-markets" id="balMarkets" hidden></div>
   </section>
 
   <nav class="cats" id="catTabs" aria-label="Type de trade">
     <button data-v="all" class="on" aria-pressed="true">Tous</button>
     <button data-v="scalping" aria-pressed="false"><i aria-hidden="true">◔</i>Scalp <small>1m · 5m</small></button>
     <button data-v="day" aria-pressed="false"><i aria-hidden="true">◑</i>Daily <small>15m · 1h</small></button>
-    <button data-v="swing" aria-pressed="false"><i aria-hidden="true">●</i>Swing <small>4h · 1D</small></button>
+    <button data-v="swing" aria-pressed="false"><i aria-hidden="true">●</i>Swing <small>4h · 1D · 1W · 1Mo · 1A</small></button>
   </nav>
 
   <main class="layout">
     <section class="chart-panel">
       <div class="toolbar">
         <div class="seg" id="tfTabs" role="tablist" aria-label="Timeframe du graphique"></div>
+        <span class="hint chart-hint" id="chartHint"></span>
+        <button type="button" class="btn small" id="fitAllBtn" title="Voir toutes les bougies chargées">Tout voir</button>
         <label class="toggle"><input type="checkbox" id="showBands" checked> Zones des autres TF</label>
       </div>
       <div class="chart" id="chart"></div>
@@ -86,8 +92,10 @@
     <section class="side-panel">
       <div class="tabs" id="panelTabs" role="tablist">
         <button data-v="positions" class="on">Trades <em id="cntPos"></em></button>
+        <button data-v="markets">Marchés <em id="cntMarkets"></em></button>
         <button data-v="agents">Agents <em id="cntAgents"></em></button>
         <button data-v="learning">Apprentissage <em id="cntRules"></em></button>
+        <button data-v="news">Annonces <em id="cntNews"></em></button>
       </div>
 
       <div class="pane" id="pane-positions">
@@ -107,12 +115,26 @@
         <div id="posList" class="list"></div>
       </div>
 
+      <div class="pane" id="pane-markets" hidden>
+        <div class="filters">
+          <button type="button" class="btn small primary" id="scanBtn">Analyse complète</button>
+          <span class="hint" id="scanProgress"></span>
+        </div>
+        <p class="hint mt0" id="scanHint">Analyse tous les marchés suivis (11) sur les 6 timeframes, puis les classe par gains en pips et taux de réussite. Durée : plusieurs minutes.</p>
+        <div id="marketChips" class="chips" aria-label="Marché en cours d'analyse"></div>
+        <div id="marketsBody" class="list"></div>
+      </div>
+
       <div class="pane" id="pane-agents" hidden>
         <div id="agentList" class="list"></div>
       </div>
 
       <div class="pane" id="pane-learning" hidden>
         <div id="learnBody" class="list"></div>
+      </div>
+
+      <div class="pane" id="pane-news" hidden>
+        <div id="newsBody" class="list"></div>
       </div>
     </section>
   </main>
@@ -175,6 +197,7 @@
         <div class="row-btns">
           <button type="button" class="btn" id="newCodeBtn">Générer un code d'appairage</button>
           <button type="button" class="btn" id="setupTvBtn">Préparer TradingView (multi-graphiques)</button>
+          <button type="button" class="btn" id="loadHistoryBtn">Charger tout l'historique TradingView</button>
         </div>
         <div id="pairCodeBox" class="code-box" hidden></div>
         <h4>Appareils autorisés</h4>
@@ -209,6 +232,19 @@
         <div class="tf-checks" id="tfChecks"></div>
       </fieldset>
       <fieldset>
+        <legend>Marchés en direct</legend>
+        <div class="grid2">
+          <label>Graphiques disponibles dans TradingView <select name="liveCharts">
+            <option value="1">1 graphique</option>
+            <option value="2">2 graphiques</option>
+            <option value="4">4 graphiques</option>
+            <option value="8">8 graphiques</option>
+            <option value="16">16 graphiques</option>
+          </select></label>
+        </div>
+        <p class="hint mt0">Détermine combien de marchés (parmi le classement de l'analyse complète, onglet « Marchés ») sont analysés en direct simultanément, chacun sur son propre graphique dédié. Avec 1 seul graphique, TradingView bascule sur le marché n°1 du classement.</p>
+      </fieldset>
+      <fieldset>
         <legend>Apprentissage</legend>
         <div class="grid2">
           <label>Échantillons minimum par règle <input type="number" name="minSamples" min="3" max="100"></label>
@@ -219,9 +255,12 @@
       <fieldset>
         <legend>Alertes et données</legend>
         <label class="radio"><input type="checkbox" name="notify"> Notifications de trading : opportunité à prendre (entrée, TP1, TP2, TP3, SL), TP1 atteint → passer à BE, TP2, TP3, SL</label>
+        <label class="radio"><input type="checkbox" name="notifyNews"> Notifications des annonces économiques (US, zone euro, Chine, Japon · impact majeur)</label>
+        <label>Alerte avant annonce <select name="newsAlertMin"><option value="5">5 min</option><option value="15">15 min</option><option value="30">30 min</option><option value="60">60 min</option></select></label>
         <div id="bgBox" class="bg-note" hidden>
           <p class="hint">Téléphone : pendant « Analyser » (en direct), l'analyse continue écran éteint ou application en arrière-plan. Autorise l'application à ignorer l'optimisation de batterie, sinon OnePlus peut l'arrêter.</p>
           <button type="button" class="btn" id="batteryBtn">Autoriser l'analyse en arrière-plan</button>
+          <p class="hint" id="bgStatus"></p>
         </div>
         <div class="row-btns">
           <button type="button" class="btn" id="resetJournal">Effacer le journal</button>

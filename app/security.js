@@ -18,6 +18,7 @@ export const DATA_DIR = process.env.XAUZ_DATA_DIR
   || (process.platform === 'win32' ? join(process.env.APPDATA || join(homedir(), 'AppData', 'Roaming'), 'xauusd-zones') : join(homedir(), '.xauusd-zones'));
 const DEVICES_FILE = () => join(DATA_DIR, 'devices.json');
 const LOG_FILE = () => join(DATA_DIR, 'security.log');
+const PAIRING_FILE = () => join(DATA_DIR, 'pairing.json');
 
 export const LIMITS = {
   pairingTtlMs: 10 * 60 * 1000,
@@ -91,7 +92,44 @@ export async function revokeDevice(id) {
 }
 
 // ── codes d'appairage (usage unique) ─────────────────────────────────────
-let pairing = null; // { hash, expiresAt, attempts }
+// Persisté sur disque (DATA_DIR/pairing.json, hash uniquement, jamais le code en clair) : un code
+// créé pendant que le serveur est arrêté (ou par un autre processus, ex. l'installeur) reste valide
+// dès que le serveur redémarre ou relit le fichier (redeemPairing charge/compare via createdAt).
+// Plusieurs codes peuvent être en attente en même temps (ex. le code affiché dans la fenêtre du
+// serveur ET le code intégré à l'APK par l'installeur) : en créer un n'invalide plus les autres.
+const MAX_PENDING = 3;
+let pending = null; // [{ hash, expiresAt, purpose, createdAt }] (null = pas encore chargé)
+let badAttempts = 0; // essais erronés cumulés sur les codes en attente
+
+async function loadPendingFromDisk() {
+  try {
+    const raw = JSON.parse(await readFile(PAIRING_FILE(), 'utf8'));
+    const list = Array.isArray(raw?.codes) ? raw.codes : raw && typeof raw.hash === 'string' ? [raw] : []; // ancien format : un seul code
+    return {
+      codes: list.filter((c) => c && typeof c.hash === 'string' && /^[0-9a-f]{64}$/.test(c.hash) && Number.isFinite(c.expiresAt)),
+      badAttempts: Number.isInteger(raw?.badAttempts) ? raw.badAttempts : 0,
+    };
+  } catch { return { codes: [], badAttempts: 0 }; }
+}
+async function savePendingToDisk() {
+  try {
+    await mkdir(DATA_DIR, { recursive: true });
+    const tmp = PAIRING_FILE() + '.tmp';
+    await writeFile(tmp, JSON.stringify({ codes: pending || [], badAttempts }), { mode: 0o600 });
+    await rename(tmp, PAIRING_FILE());
+    try { await chmod(PAIRING_FILE(), 0o600); } catch { /* Windows : ACL du profil utilisateur */ }
+  } catch { /* la persistance ne doit jamais faire tomber le service */ }
+}
+/** Fusionne les codes du disque (créés par un autre processus, ex. l'installeur) avec ceux en mémoire. */
+async function syncPending() {
+  const disk = await loadPendingFromDisk();
+  const byHash = new Map((pending || []).map((c) => [c.hash, c]));
+  for (const c of disk.codes) if (!byHash.has(c.hash)) byHash.set(c.hash, c);
+  const now = Date.now();
+  pending = [...byHash.values()].filter((c) => c.expiresAt > now).sort((a, b) => a.createdAt - b.createdAt).slice(-MAX_PENDING);
+  badAttempts = Math.max(badAttempts, disk.badAttempts);
+}
+
 /**
  * @param {object} [o]
  * @param {number} [o.ttlMin] durée de validité (1 à 30 min, 10 par défaut) ; 30 min sert à la
@@ -99,39 +137,57 @@ let pairing = null; // { hash, expiresAt, attempts }
  * @param {string} [o.purpose] 'manuel' ou 'apk' (journalisé)
  */
 export async function newPairingCode({ ttlMin, purpose = 'manuel' } = {}) {
+  await syncPending();
   const ttlMs = Number.isInteger(ttlMin) && ttlMin >= 1 && ttlMin <= LIMITS.pairingMaxTtlMin ? ttlMin * 60000 : LIMITS.pairingTtlMs;
   const code = String(randomInt(0, 1e8)).padStart(8, '0');
-  pairing = { hash: sha256(code), expiresAt: Date.now() + ttlMs, attempts: 0 };
-  await secLog('pairing_code_created', { expiresInMin: ttlMs / 60000, purpose: purpose === 'apk' ? 'apk' : 'manuel' });
-  return { code, expiresAt: pairing.expiresAt };
+  const p = purpose === 'apk' ? 'apk' : 'manuel';
+  // un nouveau code remplace l'ancien code de même usage, pas les autres
+  pending = pending.filter((c) => c.purpose !== p);
+  pending.push({ hash: sha256(code), expiresAt: Date.now() + ttlMs, purpose: p, createdAt: Date.now() });
+  pending = pending.slice(-MAX_PENDING);
+  await savePendingToDisk();
+  await secLog('pairing_code_created', { expiresInMin: ttlMs / 60000, purpose: p });
+  return { code, expiresAt: Date.now() + ttlMs };
 }
 
 /** Échange un code d'appairage contre un jeton d'appareil (renvoyé une seule fois). */
 export async function redeemPairing({ code, name, login }) {
   if (isLocked()) { await secLog('pair_rejected_locked', { login }); return { ok: false, status: 429, error: 'Trop de tentatives : réessaie dans 15 minutes.' }; }
-  if (!pairing || Date.now() > pairing.expiresAt) {
+  await syncPending();
+  if (!pending.length) {
     await authFailure('pair_fail_no_code', { login });
     return { ok: false, status: 401, error: 'Code invalide ou expiré : génère un nouveau code sur le PC.' };
   }
-  pairing.attempts++;
-  const ok = /^\d{8}$/.test(String(code || '')) && safeEqualHex(sha256(String(code)), pairing.hash);
-  if (!ok) {
-    if (pairing.attempts >= LIMITS.pairingMaxAttempts) { pairing = null; await secLog('pairing_code_burned', { login }); }
+  const h = /^\d{8}$/.test(String(code || '')) ? sha256(String(code)) : null;
+  const match = h && pending.find((c) => safeEqualHex(c.hash, h));
+  if (!match) {
+    badAttempts++;
+    if (badAttempts >= LIMITS.pairingMaxAttempts) { pending = []; badAttempts = 0; await secLog('pairing_code_burned', { login }); }
+    await savePendingToDisk();
     await authFailure('pair_fail_bad_code', { login });
     return { ok: false, status: 401, error: 'Code invalide ou expiré : génère un nouveau code sur le PC.' };
   }
-  pairing = null; // usage unique
+  // place disponible AVANT de consommer le code (un refus ne doit pas griller le code)
   await loadDevices();
+  const cname = cleanName(name);
+  const now = Date.now();
+  // ré-appairage du même téléphone (même nom, même compte Tailscale) : l'ancienne entrée est remplacée
+  const before = devices.length;
+  devices = devices.filter((d) => d.expiresAt > now && !(d.name === cname && (d.login || null) === (login || null)));
+  if (devices.length !== before) await secLog('device_replaced', { name: cname, login, removed: before - devices.length });
   if (devices.length >= LIMITS.maxDevices) {
+    await saveDevices();
     await secLog('pair_rejected_max_devices', { login });
     return { ok: false, status: 409, error: `Nombre maximal d'appareils atteint (${LIMITS.maxDevices}) : révoque un appareil sur le PC.` };
   }
+  pending = pending.filter((c) => c !== match); // usage unique
+  badAttempts = 0;
+  await savePendingToDisk();
   const token = randomBytes(32).toString('base64url');
   const id = randomBytes(6).toString('hex');
-  const now = Date.now();
-  devices.push({ id, name: cleanName(name), login: login || null, hash: sha256(token), createdAt: now, lastSeen: now, expiresAt: now + LIMITS.tokenTtlMs });
+  devices.push({ id, name: cname, login: login || null, hash: sha256(token), createdAt: now, lastSeen: now, expiresAt: now + LIMITS.tokenTtlMs });
   await saveDevices();
-  await secLog('device_paired', { device: id, name: cleanName(name), login });
+  await secLog('device_paired', { device: id, name: cname, login });
   return { ok: true, token, deviceId: id, expiresAt: now + LIMITS.tokenTtlMs };
 }
 const cleanName = (n) => String(n || 'Téléphone').replace(/[^\p{L}\p{N} _.\-()]/gu, '').slice(0, 40) || 'Téléphone';
@@ -169,7 +225,7 @@ async function authFailure(event, details) {
 }
 
 /** Pour les tests. */
-export function _reset() { devices = null; pairing = null; failures.length = 0; lockedUntil = 0; recent.length = 0; }
+export function _reset() { devices = null; pending = []; badAttempts = 0; failures.length = 0; lockedUntil = 0; recent.length = 0; savePendingToDisk().catch(() => {}); }
 
 // ── en-têtes de sécurité (A02) ───────────────────────────────────────────
 export function securityHeaders({ html = false, remote = false } = {}) {

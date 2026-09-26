@@ -16,6 +16,7 @@ export class CandleChart {
     this.bands = [];
     this.plan = null;
     this.price = null;
+    this.decimals = 2; // décimales d'affichage du prix (dérivées du pip du marché, cf. markets.js)
     this.selectedId = null;
     this.spacing = 8;
     this.viewEnd = 0; // index (flottant) de la bougie la plus à droite
@@ -28,12 +29,13 @@ export class CandleChart {
     new ResizeObserver(() => this.draw()).observe(container);
   }
 
-  setData(candles, zones = [], bands = [], price = null, { keepView = false } = {}) {
+  setData(candles, zones = [], bands = [], price = null, { keepView = false, decimals } = {}) {
     const wasAtEnd = this.viewEnd >= this.candles.length - 1;
     this.candles = candles || [];
     this.zones = zones;
     this.bands = bands;
     this.price = price;
+    if (decimals != null) this.decimals = decimals;
     if (!keepView || wasAtEnd) this.viewEnd = this.candles.length - 1 + this.rightPad;
     this.draw();
   }
@@ -45,6 +47,15 @@ export class CandleChart {
     if (i == null) return;
     const w = this.#plotW() / this.spacing;
     this.viewEnd = Math.min(this.candles.length - 1 + this.rightPad, i + w * 0.6);
+    this.draw();
+  }
+
+  /** « Tout voir » : ajuste l'espacement pour que toutes les bougies chargées tiennent dans la largeur visible. */
+  fitAll() {
+    if (!this.candles.length) return;
+    const pw = this.#plotW();
+    this.#setSpacing(pw / this.candles.length);
+    this.viewEnd = this.candles.length - 1 + this.rightPad;
     this.draw();
   }
 
@@ -112,7 +123,7 @@ export class CandleChart {
     for (let p = Math.ceil(this.lo / step) * step; p <= this.hi; p += step) {
       const y = Math.round(this.#y(p)) + 0.5;
       ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(pw, y); ctx.stroke();
-      ctx.fillText(fmt(p, step), pw + 6, y);
+      ctx.fillText(fmt(p, step, this.decimals), pw + 6, y);
     }
     // axe du temps
     ctx.textAlign = 'center'; ctx.textBaseline = 'top';
@@ -173,17 +184,22 @@ export class CandleChart {
       this.zoneHits.push({ id: z.id, x1, x2, y1: Math.min(y1, y2) - 4, y2: Math.max(y1, y2) + 4 });
     }
 
-    // chandeliers
+    // chandeliers — sous 2 px d'espacement, corps/mèches illisibles : une simple ligne haut-bas par bougie
+    const tooTight = this.spacing < 2;
     const bw = Math.max(1, Math.min(this.spacing * 0.7, this.spacing - 1));
     for (let i = first; i <= last; i++) {
       const k = c[i], x = this.#x(i);
       // bougies neutres : creuse = hausse, pleine = baisse (le vert et le rouge sont réservés aux gains et aux pertes)
       const up = k.close >= k.open;
       ctx.strokeStyle = ctx.fillStyle = up ? C.up : C.down;
+      const xm = Math.round(x) + 0.5;
+      if (tooTight) {
+        ctx.beginPath(); ctx.moveTo(xm, this.#y(k.high)); ctx.lineTo(xm, this.#y(k.low)); ctx.stroke();
+        continue;
+      }
       const yo = this.#y(k.open), yc = this.#y(k.close);
       const top = Math.min(yo, yc), bh = Math.max(1, Math.abs(yc - yo));
       const bx = Math.round(x - bw / 2), bwr = Math.max(1, Math.round(bw));
-      const xm = Math.round(x) + 0.5;
       ctx.beginPath();
       if (up && bwr >= 3) {
         ctx.moveTo(xm, this.#y(k.high)); ctx.lineTo(xm, top); ctx.moveTo(xm, top + bh); ctx.lineTo(xm, this.#y(k.low)); ctx.stroke();
@@ -216,7 +232,7 @@ export class CandleChart {
     for (const l of planLabels) {
       ctx.fillStyle = l.col; ctx.fillRect(pw, l.y - 8, this.w - pw, 16);
       ctx.fillStyle = css('--chart-bg'); ctx.font = '600 10px ui-monospace, monospace'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-      ctx.fillText(l.v.toFixed(2), pw + 5, l.y);
+      ctx.fillText(l.v.toFixed(this.decimals), pw + 5, l.y);
     }
 
     // prix courant
@@ -226,7 +242,7 @@ export class CandleChart {
       ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(pw, y); ctx.stroke(); ctx.setLineDash([]);
       ctx.fillStyle = C.accent; ctx.fillRect(pw, y - 9, this.w - pw, 18);
       ctx.fillStyle = css('--on-accent'); ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.font = '600 11px ui-monospace, monospace';
-      ctx.fillText(this.price.toFixed(2), pw + 5, y);
+      ctx.fillText(this.price.toFixed(this.decimals), pw + 5, y);
     }
 
     // réticule + OHLC
@@ -237,12 +253,12 @@ export class CandleChart {
       ctx.setLineDash([]);
       ctx.fillStyle = C.line; ctx.fillRect(pw, y - 9, this.w - pw, 18);
       ctx.fillStyle = C.fg; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.font = '11px ui-monospace, monospace';
-      ctx.fillText(this.#priceAt(y).toFixed(2), pw + 5, y);
+      ctx.fillText(this.#priceAt(y).toFixed(this.decimals), pw + 5, y);
       const i = Math.round(this.viewEnd - (pw - x - this.spacing / 2) / this.spacing);
       const k = c[i];
       if (k) {
         ctx.textBaseline = 'top'; ctx.fillStyle = C.text;
-        ctx.fillText(`${new Date(k.time * 1000).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' })}  O ${k.open.toFixed(2)}  H ${k.high.toFixed(2)}  L ${k.low.toFixed(2)}  C ${k.close.toFixed(2)}`, 8, 6);
+        ctx.fillText(`${new Date(k.time * 1000).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' })}  O ${k.open.toFixed(this.decimals)}  H ${k.high.toFixed(this.decimals)}  L ${k.low.toFixed(this.decimals)}  C ${k.close.toFixed(this.decimals)}`, 8, 6);
       }
     }
   }
@@ -295,7 +311,7 @@ export class CandleChart {
     cv.addEventListener('dblclick', () => { this.viewEnd = this.candles.length - 1 + this.rightPad; this.spacing = 8; this.draw(); });
   }
 
-  #setSpacing(s) { this.spacing = Math.max(2, Math.min(40, s)); this.viewEnd = this.#clampEnd(this.viewEnd); this.draw(); }
+  #setSpacing(s) { this.spacing = Math.max(0.3, Math.min(40, s)); this.viewEnd = this.#clampEnd(this.viewEnd); this.draw(); }
   #clampEnd(v) { return Math.max(10, Math.min(this.candles.length - 1 + this.#plotW() / this.spacing * 0.8, v)); }
 
   #click(p) {
@@ -318,10 +334,14 @@ function niceStep(raw) {
   const n = raw / pow;
   return (n < 1.5 ? 1 : n < 3 ? 2 : n < 7 ? 5 : 10) * pow;
 }
-function fmt(p, step) { return p.toFixed(step < 1 ? 2 : step < 10 ? 1 : 0); }
+/** Décimales de l'axe des prix : celles du marché (`decimals`), réduites si l'écart entre deux
+ * graduations (`step`) est assez grand pour ne pas en avoir besoin (ex. indices à grand pas). */
+function fmt(p, step, decimals = 2) { return p.toFixed(Math.min(decimals, step < 1 ? decimals : step < 10 ? 1 : 0)); }
 function timeLabel(t, c) {
   const d = new Date(t * 1000);
   const span = c.length > 1 ? c[1].time - c[0].time : 60;
+  if (span >= 86400 * 300) return d.toLocaleDateString('fr-FR', { year: 'numeric' });
+  if (span >= 86400 * 25) return d.toLocaleDateString('fr-FR', { month: 'short', year: '2-digit' });
   if (span >= 86400) return d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
   if (d.getHours() === 0 && d.getMinutes() === 0) return d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
   return d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });

@@ -17,9 +17,45 @@ La synchronisation économique est un prérequis bloquant : elle doit indiquer u
 
 Tu adoptes le niveau de rigueur d'un trader senior ayant plus de 30 ans d'expérience en price action, structure de marché, liquidité, order flow et ICT/SMC. Cette expérience ne justifie jamais une supposition : toute zone doit être démontrée par les données.
 
-## Verrou de symbole obligatoire
+## Verrou de symbole obligatoire (liste blanche de marchés)
 
-Cette procédure analyse exclusivement `XAUUSD`, avec le fournisseur affiché par TradingView (`OANDA:XAUUSD` si celui-ci est utilisé). Aucun autre symbole, actif, indice, devise ou corrélation ne doit être analysé, utilisé comme signal ou mélangé aux données. Avant chaque agent, vérifier que `chart_get_state` retourne XAUUSD. Si le symbole est différent, arrêter l'analyse et répondre `Analyse bloquée : le graphique n'est pas XAUUSD.`
+Cette procédure analyse exclusivement les marchés du registre `app/www/js/markets.js` (liste blanche, jamais un symbole arbitraire) :
+
+| Marché | Symbole TradingView | Pip | Calendrier |
+|---|---|---|---|
+| Or (XAUUSD) | `OANDA:XAUUSD` | 0,10 | US |
+| US30 | `OANDA:US30USD` | 1 | US |
+| S&P 500 | `OANDA:SPX500USD` | 1 | US |
+| Nasdaq 100 | `OANDA:NAS100USD` | 1 | US |
+| EUR/USD | `OANDA:EURUSD` | 0,0001 | EU |
+| GBP/USD | `OANDA:GBPUSD` | 0,0001 | US (GB non suivi par le calendrier embarqué) |
+| USD/JPY | `OANDA:USDJPY` | 0,01 | JP |
+| DAX 40 | `OANDA:DE30EUR` | 1 | EU |
+| CAC 40 | `OANDA:FR40EUR` | 1 | EU |
+| Pétrole WTI | `OANDA:WTICOUSD` | 0,01 | US |
+| Pétrole Brent | `OANDA:BCOUSD` | 0,01 | US |
+
+Aucun autre symbole, actif, indice, devise ou corrélation ne doit être analysé, utilisé comme signal ou mélangé aux données. Avant chaque agent, vérifier que `chart_get_state` retourne un symbole du tableau ci-dessus, pour le marché demandé. Si le symbole est différent, arrêter l'analyse et répondre `Analyse bloquée : le graphique n'est pas <marché>.`
+
+Toutes les règles ci-dessous (order block 5★, SL ≤ 100 pips, échelle de TP, gestion institutionnelle du stop, garde-fous de compte) sont **identiques pour chaque marché**, appliquées avec le pip propre à ce marché (tableau ci-dessus) — jamais celui de l'or.
+
+### Analyse complète et classement
+
+La fonction **« Analyse complète »** analyse séquentiellement les 11 marchés ci-dessus sur les 9 timeframes (1m/5m/15m/1h/4h/1D/1W/1Mo/1A), à partir de l'historique déjà chargé dans TradingView Desktop (bascule bornée du graphique actif, jamais de tabs multiples nécessaires). Chaque marché est ensuite backtesté (zones 5★ uniquement) et classé par **gains en pips totaux** (critère principal), puis **taux de réussite** (départage) ; les marchés avec moins de 8 trades clôturés dans l'historique chargé sont listés à part, après les autres (« échantillon insuffisant »), pour ne pas fausser le classement sur un historique trop court.
+
+### Marchés en direct (limite du compte TradingView)
+
+Le nombre de marchés analysables **en direct simultanément** est plafonné au nombre de graphiques dispo dans TradingView, réglé dans l'application (« Réglages → Marchés en direct → Graphiques disponibles dans TradingView ») :
+
+| Graphiques disponibles | Marchés en direct simultanés |
+|---|---|
+| 1 | 1 |
+| 2 (défaut) | 2 |
+| 4 | 2 (2 panneaux dédiés au maximum ; le reste suit la rotation classique) |
+| 8 | 2 |
+| 16 | 2 |
+
+Par défaut (compte TradingView à 2 graphiques), les **2 meilleurs marchés** du dernier classement sont analysés en direct **simultanément**, chacun sur son propre graphique/panneau dédié (jamais de partage de graphique entre deux marchés en direct) : le symbole de ce panneau reste fixe, seule sa résolution est basculée temporairement pour lire les timeframes manquantes, puis restaurée. À défaut de classement, XAUUSD + le marché suivant du registre sont utilisés (XAUUSD seul si un seul graphique). Avec un seul graphique disponible (N = 1), le graphique TradingView bascule sur le marché n°1 du classement — l'application en informe clairement l'utilisateur avant de le faire. Pendant une « Analyse complète », les lectures en direct sont mises en pause (le graphique actif est repris pour le scan multi-marchés), puis reprennent ensuite automatiquement.
 
 ## Objectif
 
@@ -43,8 +79,13 @@ Sauf demande contraire explicite, les seules timeframes autorisées pour annonce
 - `60` minutes / `1h`
 - `240` minutes / `4h`
 - `D` / `1 jour`
+- `W` / `1 semaine`
+- `M` / `1 mois`
+- `12M` / `1 an`
 
-Une zone trouvée en `2m`, `3m`, `10m`, `20m`, `30m`, `45m`, `90m`, `2h`, `3h`, `6h`, `8h`, `12h`, `W` ou `M` peut servir de contexte ou être rejetée, mais ne doit pas être annoncée comme opportunité finale si la demande impose la liste ci-dessus.
+Une zone trouvée en `2m`, `3m`, `10m`, `20m`, `30m`, `45m`, `90m`, `2h`, `3h`, `6h`, `8h` ou `12h` peut servir de contexte ou être rejetée, mais ne doit pas être annoncée comme opportunité finale si la demande impose la liste ci-dessus.
+
+Sur `W`, `M` et `12M` (catégorie Swing, même règle SL ≤ 100 pips que 4h/1D), la hauteur de l'order block dépasse presque toujours 100 pips : la plupart des zones y seront `non viable`. Ces timeframes servent surtout de contexte long terme (structure, liquidité majeure) plutôt que de source réaliste d'opportunités 5★.
 
 ### Timeframes exploratoires
 

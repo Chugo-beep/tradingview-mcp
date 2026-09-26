@@ -75,12 +75,59 @@ try {
   } catch { }
   if ($pv.remoteUrl) { Write-Host "Adresse préréglée dans l'application : $($pv.remoteUrl)" -ForegroundColor Green }
   else { Write-Host 'Tailscale introuvable ou non connecté : l''application garde son adresse par défaut (https://joshua.taila406c5.ts.net/).' -ForegroundColor Yellow }
-  Write-Host 'Sur le téléphone, il ne restera qu''à saisir le code d''appairage (code-appairage.bat sur le PC).'
-  [IO.File]::WriteAllText($prov, ($pv | ConvertTo-Json -Compress))
+
+  Step 'Code d''appairage préconfiguré dans l''APK'
+  # 1) si le serveur PC tourne déjà, on lui demande un code (30 min, purpose=apk) ;
+  # 2) sinon, on le génère directement avec le même code que le serveur (scripts/new-pairing-code.mjs),
+  #    qui écrit dans le même DATA_DIR (pairing.json, hash seul) : le serveur, une fois relancé ou
+  #    interrogé, le charge depuis le disque (chargement paresseux / fichier le plus récent).
+  $pairCode = $null; $pairExpiresAt = $null
+  try {
+    $resp = Invoke-RestMethod -Uri 'http://127.0.0.1:3777/api/admin/pairing' -Method Post -Headers @{ 'X-XZ' = '1' } -ContentType 'application/json' -Body '{"ttlMin":30,"purpose":"apk"}' -TimeoutSec 5
+    $pairCode = $resp.code; $pairExpiresAt = $resp.expiresAt
+    Write-Host 'Code obtenu auprès du serveur PC en cours d''exécution (127.0.0.1:3777).'
+  } catch {
+    Write-Host 'Serveur PC injoignable sur 127.0.0.1:3777 : génération directe du code (scripts\new-pairing-code.mjs).' -ForegroundColor Yellow
+    try {
+      $out = (& node (Join-Path $PSScriptRoot 'scripts\new-pairing-code.mjs') --ttl 30 --purpose apk --json 2>&1 | Out-String).Trim()
+      $j = $out | ConvertFrom-Json
+      $pairCode = $j.code; $pairExpiresAt = $j.expiresAt
+    } catch { Write-Host "Génération du code d'appairage impossible : $($_.Exception.Message)" -ForegroundColor Yellow }
+  }
+  if ($pairCode) {
+    $pv.pairCode = $pairCode; $pv.expiresAt = $pairExpiresAt
+    $fin = [DateTimeOffset]::FromUnixTimeMilliseconds([int64]$pairExpiresAt).ToLocalTime().ToString('HH:mm')
+    Write-Host "CODE D'APPAIRAGE : $pairCode (valable jusqu'à $fin, une seule fois) — préconfiguré dans l'APK." -ForegroundColor Green
+    Write-Host 'Sur le téléphone, l''appairage se fera automatiquement au premier lancement de l''application (aucune saisie).'
+  } else {
+    Write-Host 'Aucun code d''appairage préconfiguré : saisis-en un manuellement sur le téléphone (code-appairage.bat sur le PC).' -ForegroundColor Yellow
+  }
+
+  # provision.json doit rester UTF-8 AVEC BOM (attendu par les outils Capacitor/Gradle qui le relisent) :
+  # écrit via Python (encoding='utf-8-sig') plutôt que [IO.File]::WriteAllText, qui omet le BOM.
+  function Write-ProvisionJson([string]$jsonText) {
+    $tmp = "$prov.tmp"
+    [IO.File]::WriteAllText($tmp, $jsonText, (New-Object Text.UTF8Encoding($false)))
+    $pyScript = @"
+import io
+with open(r'$tmp', 'r', encoding='utf-8') as f:
+    data = f.read()
+with open(r'$prov', 'w', encoding='utf-8-sig') as f:
+    f.write(data)
+"@
+    $pyFile = "$prov.py"
+    [IO.File]::WriteAllText($pyFile, $pyScript, (New-Object Text.UTF8Encoding($false)))
+    try {
+      $pyBin = Get-Command python -ErrorAction SilentlyContinue
+      if (-not $pyBin) { $pyBin = Get-Command py -ErrorAction SilentlyContinue }
+      if ($pyBin) { & $pyBin.Source $pyFile } else { Write-Host 'Python introuvable : provision.json écrit sans passer par Python (BOM ajouté directement).' -ForegroundColor Yellow; [IO.File]::WriteAllText($prov, $jsonText, (New-Object Text.UTF8Encoding($true))) }
+    } finally { Remove-Item $tmp, $pyFile -Force -ErrorAction SilentlyContinue }
+  }
+  Write-ProvisionJson ($pv | ConvertTo-Json -Compress)
   try {
     & npx cap sync android; if ($LASTEXITCODE) { throw 'cap sync a échoué' }
   } finally {
-    [IO.File]::WriteAllText($prov, '{}')
+    Write-ProvisionJson '{}'
   }
   "sdk.dir=$($sdk -replace '\\','\\')" | Set-Content -Encoding ASCII 'android\local.properties'
   $javaDir = 'android\app\src\main\java\fr\xauusd\zones'

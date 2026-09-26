@@ -3,8 +3,10 @@
  * Android : plugin natif TokenVault, chiffrement AES-256-GCM avec une clé du Keystore Android
  * (non exportable). Hors application native : mémoire vive uniquement, jamais localStorage.
  */
+import { nativePlugin } from './native.js';
+
 const mem = new Map();
-const native = () => window.Capacitor?.Plugins?.TokenVault || null;
+const native = () => nativePlugin('TokenVault');
 
 export const isSecure = () => !!native();
 

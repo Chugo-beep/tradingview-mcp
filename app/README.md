@@ -1,6 +1,6 @@
 # XAUUSD Zones : application sans IA
 
-> **Utilisateur final (trader, non développeur) :** ce document est un aperçu technique. Le mode d'emploi complet — installation, utilisation quotidienne, notifications, réglages, dépannage — est dans **[GUIDE-UTILISATEUR.md](GUIDE-UTILISATEUR.md)**.
+> **Utilisateur final (trader, non développeur) : commence par [GUIDE-UTILISATEUR.md](GUIDE-UTILISATEUR.md).** Ce document technique décrit l'implémentation ; le guide couvre l'installation, l'utilisation quotidienne, les notifications, les réglages et le dépannage.
 
 L'application détecte les zones d'achat et de vente sur XAUUSD avec les règles de `TRADING_RULES_MASTER_PROMPT.md` : liquidité prise sur P, order block C1, imbalance stricte C1/C3 mèches incluses, et absence de retest après C3. Pour chaque zone, elle indique si elle est **toujours viable** ou non.
 
@@ -22,7 +22,11 @@ Toutes les bougies viennent du **TradingView Desktop de ton PC**. Il n'y a ni OA
 
 - **Lecture sans perturbation :** avec « Préparer TradingView » (Réglages, sur le PC), la disposition passe à plusieurs graphiques XAUUSD (1m, 5m, 15m, 1h, 4h, 1D, selon ce que ton abonnement autorise). Le serveur lit alors chaque graphique sans jamais changer ta timeframe.
 - **Timeframes absentes de la disposition :** le graphique actif bascule brièvement, puis revient à ta timeframe d'origine. Un cache limite ces bascules.
-- **Garde-fou :** le graphique doit être XAUUSD, sinon l'analyse est bloquée.
+- **Garde-fou :** le graphique doit correspondre au marché analysé (liste blanche `www/js/markets.js` : XAUUSD par défaut, ou tout autre marché suivi), sinon l'analyse est bloquée.
+
+## Analyse complète et marchés en direct
+
+Au-delà de XAUUSD, l'application suit 10 autres marchés (US30, S&P 500, Nasdaq 100, EUR/USD, GBP/USD, USD/JPY, DAX 40, CAC 40, WTI, Brent — registre `www/js/markets.js`). L'onglet **« Marchés »** lance une **analyse complète** (tous ces marchés × 9 timeframes, 1m à 1 an, en tâche de fond côté serveur, `POST /api/scan/start`), publie un **classement** par gains en pips puis taux de réussite (`GET /api/scan/result`). Par défaut, les **2 meilleurs marchés** du classement sont analysés **en direct simultanément**, chacun sur son propre graphique TradingView dédié (`POST /api/tv/setup-live`) : le nombre de marchés en direct est réglable (« Graphiques disponibles dans TradingView » : 1/2/4/8/16, plafonné à 2 panneaux dédiés), et se réduit à 1 (rotation classique du graphique actif) si un seul graphique est disponible. Les règles de trading (5★, SL ≤ 100 pips, TP, gestion du stop) sont identiques pour tous les marchés, avec le pip propre à chacun.
 
 ## PC (Windows)
 
@@ -77,7 +81,8 @@ Mode d'emploi détaillé (boutons, onglets, notifications, réglages) : **[GUIDE
 |---|---|---|
 | Fenêtre de liquidité | 5 | P doit balayer l'extrême (creux pour un achat, sommet pour une vente) des N bougies précédentes, puis clôturer en réintégrant. |
 | Gap fragile | 0,1 × ATR | En dessous de ce seuil, la zone est marquée « gap fragile ». |
-| Bougies par TF | toutes | Toutes les bougies chargées dans TradingView Desktop (fais défiler le graphique en arrière pour en charger plus ; l'app les utilise ensuite). Plafond de sécurité : 20 000 par TF. |
+
+Historique des bougies (pas un réglage exposé, comportement fixe) : toutes les bougies chargées dans TradingView Desktop sont utilisées. Le serveur charge l'historique automatiquement (démarrage puis toutes les 30 min) ; bouton « Charger tout l'historique TradingView » pour forcer, bouton « Tout voir » sur le graphique pour tout afficher. Plafond de sécurité : 20 000 bougies par timeframe (`MAX_BARS`, `tvfeed.js`).
 
 ## Structure
 
@@ -86,6 +91,7 @@ app/
   server.js              serveur PC : interface + administration (127.0.0.1:3777) et API téléphone (127.0.0.1:3778)
   security.js            appairage, jetons hachés, verrouillage, journal de sécurité, en-têtes
   tvfeed.js              lecture de TradingView Desktop (multi-graphiques, bascule, validation)
+  newsfeed.js            annonces économiques majeures en direct (US/EU/CN/JP, TradingView) : polling, assainissement, /api/news
   XAUUSD-Zones.bat       lanceur Windows
   acces-distant.bat      publication HTTPS dans ton réseau Tailscale
   installer-android.bat  compilation release signée + installation sur le téléphone
@@ -159,7 +165,7 @@ Contrastes : texte ≥ 4,5:1, éléments graphiques ≥ 3:1, en thème sombre co
 ### Les 5 agents (sans IA)
 1. **Collecteur :** couverture des bougies, trous, données anciennes.
 2. **Scanner :** candidats et rejets par règle.
-3. **Calendrier économique :** 241 annonces USD à fort impact embarquées (`www/data/calendar.json`), avec la fenêtre d'annonce.
+3. **Calendrier économique :** annonces USD à fort impact embarquées (`www/data/calendar.json`) fusionnées avec les annonces MAJEURES en direct de TradingView (US, zone euro, Chine, Japon — `app/newsfeed.js`, onglet « Annonces »), avec la fenêtre d'annonce.
 4. **Historique des trades :** journal des positions, backtest et apprentissage.
 5. **Auditeur :** revérifie chaque zone à partir des bougies brutes, avec un code distinct du scanner. Il applique la règle SL ≤ 100 pips, les annonces et les règles apprises, puis rend le verdict.
 

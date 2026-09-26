@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "test": "node --test tests/engine.test.js tests/trades.test.js tests/security.test.js",
+    "test": "node --test tests/engine.test.js tests/trades.test.js tests/providers.test.js tests/security.test.js tests/news.test.js tests/markets.test.js tests/timeframes.test.js",
     "audit": "npm audit --omit=dev --audit-level=critical",
     "calendar:build": "node scripts/build-calendar.mjs"
   },

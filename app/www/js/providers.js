@@ -5,6 +5,12 @@
  */
 import { TIMEFRAMES } from './engine.js';
 import * as vault from './vault.js';
+import { isAndroid } from './native.js';
+
+/** Le serveur ne renvoie ce texte que lorsqu'il rejette explicitement le jeton présenté
+ * (appareil inconnu/révoqué ou appairage expiré) : dans ce cas seulement on efface le jeton local.
+ * Une 401 pour une autre raison (réseau, panne, 5xx) ne doit jamais désappairer le téléphone. */
+const isTokenRejected = (msg) => /inconnu ou révoqu|appairage expir/i.test(String(msg || ''));
 
 export const isNativeApp = () => !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 const LOCAL_HEADERS = { 'X-XZ': '1' };
@@ -44,7 +50,7 @@ async function call(url, opts = {}, timeoutMs = 45000) {
  */
 export async function fetchAll(settings, { serverAvailable, since } = {}) {
   const tfs = TIMEFRAMES.filter((tf) => settings.timeframes.includes(tf));
-  let qs = `tfs=${tfs.join(',')}&count=all`;
+  let qs = `tfs=${tfs.join(',')}&count=all&market=${encodeURIComponent(settings.market || 'XAUUSD')}`;
   if (Number.isFinite(since) && since > 0) qs += `&since=${Math.floor(since)}`;
   let res;
   if (serverAvailable) {
@@ -58,13 +64,54 @@ export async function fetchAll(settings, { serverAvailable, since } = {}) {
     try { res = await call(`${base}api/tv/candles?${qs}`, { headers: { Authorization: `Bearer ${token}` } }); }
     catch { throw new Error('PC injoignable : vérifie que le PC est allumé, que XAUUSD-Zones.bat tourne et que Tailscale est connecté sur les deux appareils.'); }
     if (res.r.status === 401 || res.r.status === 403) {
-      if (res.r.status === 401) await vault.remove('deviceToken');
+      // ne retirer le jeton que si le serveur dit explicitement qu'il est inconnu/révoqué/expiré,
+      // jamais sur une erreur réseau, une 5xx, ou un simple défaut d'en-tête (ne devrait pas arriver ici)
+      if (res.r.status === 401 && isTokenRejected(res.j.error)) await vault.remove('deviceToken');
       throw new Error(res.j.error || 'Accès refusé par le PC : appaire à nouveau ce téléphone.');
     }
   }
   const { r, j } = res;
   if (!r.ok || !j.success) throw new Error(j.error || `Serveur : HTTP ${r.status}`);
-  return { source: serverAvailable ? 'TradingView Desktop' : 'TradingView Desktop (PC distant)', symbol: String(j.symbol || ''), candles: j.candles || {}, errors: j.errors || {}, sources: j.sources || {} };
+  return { source: serverAvailable ? 'TradingView Desktop' : 'TradingView Desktop (PC distant)', symbol: String(j.symbol || ''), candles: j.candles || {}, errors: j.errors || {}, sources: j.sources || {}, meta: j.meta || {} };
+}
+
+/**
+ * Annonces économiques MAJEURES (US/EU/CN/JP) : mêmes routes locale/distante que `fetchAll`,
+ * incrémentales via `since` (numéro de séquence, 0 = tout renvoyer).
+ * @returns {Promise<{ seq, events, updatedAt }>}
+ */
+export async function fetchNews(settings, { serverAvailable, since = 0 } = {}) {
+  const qs = `since=${Math.max(0, Math.floor(since) || 0)}`;
+  let res;
+  if (serverAvailable) {
+    res = await call(`api/news?${qs}`, { headers: LOCAL_HEADERS });
+  } else {
+    const base = remoteBase(settings.remoteUrl);
+    if (!base) return { seq: since, events: [], updatedAt: null };
+    const token = await vault.get('deviceToken');
+    if (!token) return { seq: since, events: [], updatedAt: null };
+    try { res = await call(`${base}api/news?${qs}`, { headers: { Authorization: `Bearer ${token}` } }); }
+    catch { return { seq: since, events: [], updatedAt: null }; }
+  }
+  const { r, j } = res;
+  if (!r.ok || !j.success) return { seq: since, events: [], updatedAt: null };
+  return { seq: j.seq ?? since, events: j.events || [], updatedAt: j.updatedAt || null };
+}
+
+/**
+ * Faut-il ignorer le cache incrémental (`since`) au prochain appel et retélécharger toute la
+ * timeframe ? Oui quand l'historique côté serveur a grandi (première bougie plus ancienne, ou
+ * nombre de bougies en hausse notable) — TradingView a chargé plus d'historique depuis la dernière
+ * analyse — ou quand la dernière rafraîchissement complet remonte à plus de 30 minutes.
+ * Fonction pure (testée isolément) : `cacheInfo`/`meta` = { count, first } | null, `lastFull`/`now` en ms.
+ */
+export function needsFullRefetch(cacheInfo, meta, lastFull, now) {
+  if (!meta) return false;
+  if (!cacheInfo) return true;
+  if (meta.first != null && cacheInfo.first != null && meta.first < cacheInfo.first) return true;
+  if (meta.count != null && cacheInfo.count != null && meta.count > cacheInfo.count + 50) return true;
+  if (lastFull == null || now - lastFull >= 30 * 60 * 1000) return true;
+  return false;
 }
 
 /** Téléphone : échange le code d'appairage contre un jeton, stocké dans le coffre chiffré. */
@@ -81,6 +128,9 @@ export async function pair(settings, code) {
   } catch { throw new Error('PC injoignable : vérifie l\'adresse et que Tailscale est connecté sur le téléphone.'); }
   if (!res.r.ok || !res.j.token) throw new Error(res.j.error || `Appairage refusé (HTTP ${res.r.status}).`);
   await vault.set('deviceToken', res.j.token);
+  // ne jamais prétendre que l'appairage tiendra si le coffre chiffré Android est indisponible
+  // (pont de plugin natif non prêt) : le jeton n'est alors gardé qu'en mémoire, perdu à la fermeture.
+  if (isAndroid() && !vault.isSecure()) throw new Error('Coffre sécurisé indisponible : l\'appairage ne serait pas conservé.');
   return { expiresAt: res.j.expiresAt, secure: vault.isSecure() };
 }
 
@@ -88,8 +138,10 @@ export async function unpair() { await vault.remove('deviceToken'); }
 export async function isPaired() { return !!(await vault.get('deviceToken')); }
 
 // ── Administration (PC uniquement) ────────────────────────────────────────
-async function admin(path, method = 'GET') {
-  const { r, j } = await call(`api/${path}`, { method, headers: LOCAL_HEADERS }, 60000);
+async function admin(path, method = 'GET', body) {
+  const opts = { method, headers: LOCAL_HEADERS };
+  if (body !== undefined) { opts.headers = { ...LOCAL_HEADERS, 'Content-Type': 'application/json' }; opts.body = JSON.stringify(body); }
+  const { r, j } = await call(`api/${path}`, opts, 60000);
   if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
   return j;
 }
@@ -100,4 +152,27 @@ export const adminApi = {
   security: () => admin('admin/security'),
   remote: () => admin('admin/remote'),
   setupTv: () => admin('tv/setup', 'POST'),
+  setupLive: (marketIds) => admin('tv/setup-live', 'POST', { markets: marketIds }),
+  loadHistory: () => admin('tv/history', 'POST'),
+};
+
+/** « Analyse complète » (PC ou téléphone via le PC distant) : mêmes routes locale/distante que fetchAll. */
+async function scanCall(path, settings, { serverAvailable }, method = 'GET') {
+  if (serverAvailable) {
+    const { r, j } = await call(`api/${path}`, { method, headers: LOCAL_HEADERS }, 60000);
+    if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
+    return j;
+  }
+  const base = remoteBase(settings.remoteUrl);
+  if (!base) throw new Error('Indique l\'adresse HTTPS du PC dans les réglages.');
+  const token = await vault.get('deviceToken');
+  if (!token) throw new Error('Ce téléphone n\'est pas appairé : Réglages → Connexion au PC.');
+  const { r, j } = await call(`${base}api/${path}`, { method, headers: { Authorization: `Bearer ${token}` } }, 60000);
+  if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
+  return j;
+}
+export const scanApi = {
+  start: (settings, opts) => scanCall('scan/start', settings, opts, 'POST'),
+  status: (settings, opts) => scanCall('scan/status', settings, opts, 'GET'),
+  result: (settings, opts) => scanCall('scan/result', settings, opts, 'GET'),
 };

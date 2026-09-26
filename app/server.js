@@ -16,6 +16,9 @@ import { fileURLToPath } from 'node:url';
 import { spawn, execFile } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import * as sec from './security.js';
+import * as news from './newsfeed.js';
+import * as scan from './scan.js';
+import { MARKET_IDS, DEFAULT_MARKET } from './www/js/markets.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const WWW = resolve(__dirname, 'www');
@@ -27,7 +30,7 @@ const REMOTE = !args.includes('--no-remote');
 const OPEN = !args.includes('--no-open');
 const REQUIRE_TS = process.env.XAUZ_REQUIRE_TAILSCALE !== '0';
 const HOST = '127.0.0.1';
-const TFS = new Set(['1', '5', '15', '60', '240', 'D']);
+const TFS = new Set(['1', '5', '15', '60', '240', 'D', 'W', 'M', '12M']);
 const MAX_COUNT = 20000; // plafond de sécurité (A05), aligné sur tvfeed.MAX_BARS
 const MAX_SINCE = 4102444800; // 2100-01-01, borne haute de validation (A05)
 const APP_ORIGINS = new Set(['https://localhost', 'capacitor://localhost', 'http://localhost']);
@@ -54,7 +57,7 @@ async function readJson(req) {
 
 function parseCandlesQuery(url) {
   const raw = String(url.searchParams.get('tfs') || '1,5,15,60,240,D');
-  const tfs = raw.split(',').slice(0, 6);
+  const tfs = raw.split(',').slice(0, 9);
   if (!tfs.length || !tfs.every((t) => TFS.has(t))) throw Object.assign(new Error('Paramètre tfs invalide'), { status: 400 });
   const countRaw = String(url.searchParams.get('count') || '500');
   let count;
@@ -72,13 +75,30 @@ function parseCandlesQuery(url) {
     if (!Number.isInteger(s) || s <= 0 || s >= MAX_SINCE) throw Object.assign(new Error('Paramètre since invalide'), { status: 400 });
     since = s;
   }
-  return { tfs, count, since };
+  // `market` : liste blanche du registre (www/js/markets.js), XAUUSD par défaut (A05).
+  const marketRaw = url.searchParams.get('market');
+  const market = marketRaw == null ? DEFAULT_MARKET : String(marketRaw).toUpperCase();
+  if (!MARKET_IDS.includes(market)) throw Object.assign(new Error('Paramètre market invalide'), { status: 400 });
+  return { tfs, count, since, market };
+}
+
+/** GET /api/news?since=<seq> : `since` doit être un entier ≥ 0 (liste blanche, A05). */
+function parseNewsQuery(url) {
+  const raw = url.searchParams.get('since');
+  if (raw == null) return 0;
+  if (!/^\d{1,15}$/.test(raw)) throw Object.assign(new Error('Paramètre since invalide'), { status: 400 });
+  return Number(raw);
+}
+function newsResponse(url) {
+  const since = parseNewsQuery(url);
+  const st = news._state();
+  return { status: 200, body: { success: true, seq: st.seq, updatedAt: st.updatedAt, events: news.eventsSince(since) } };
 }
 
 async function tvCandles(url) {
-  const { tfs, count, since } = parseCandlesQuery(url);
+  const { tfs, count, since, market } = parseCandlesQuery(url);
   const { getCandles } = await import('./tvfeed.js');
-  const { status, body } = await getCandles({ tfs, count });
+  const { status, body } = await getCandles({ tfs, count, market });
   // `since` : ne renvoie que les bougies nouvelles/modifiées (le téléphone télécharge par incréments).
   if (since != null && body?.candles) {
     const filtered = {};
@@ -154,9 +174,25 @@ async function localApi(req, res, url) {
     try { const { status, body } = await tvCandles(url); return send(res, status, body); }
     catch (e) { if (e?.status) throw e; return send(res, 503, { success: false, error: tvErrorMessage(e) }); }
   }
+  if (p === '/api/news' && m === 'GET') {
+    const { status, body } = newsResponse(url);
+    return send(res, status, body);
+  }
   if (p === '/api/tv/setup' && m === 'POST') {
     try { const { setupLayout } = await import('./tvfeed.js'); return send(res, 200, await setupLayout()); }
     catch { return send(res, 503, { success: false, error: 'Impossible de préparer TradingView Desktop (est-il lancé ?).' }); }
+  }
+  if (p === '/api/tv/setup-live' && m === 'POST') {
+    try {
+      const body = req.headers['content-type'] ? await readJson(req) : {};
+      const ids = Array.isArray(body.markets) ? body.markets.filter((id) => MARKET_IDS.includes(id)).slice(0, 2) : [];
+      const { setupLiveLayout } = await import('./tvfeed.js');
+      return send(res, 200, await setupLiveLayout(ids));
+    } catch { return send(res, 503, { success: false, error: 'Impossible de préparer les marchés en direct (TradingView Desktop est-il lancé ?).' }); }
+  }
+  if (p === '/api/tv/history' && m === 'POST') {
+    try { const { loadHistory } = await import('./tvfeed.js'); return send(res, 200, { success: true, results: await loadHistory() }); }
+    catch { return send(res, 503, { success: false, error: 'Impossible de charger l\'historique TradingView (est-il lancé ?).' }); }
   }
   if (p === '/api/admin/pairing' && m === 'POST') {
     // corps facultatif : { ttlMin: 1..30, purpose: 'apk' } (préconfiguration de l'APK à la compilation)
@@ -168,6 +204,15 @@ async function localApi(req, res, url) {
   if (dm && m === 'DELETE') return send(res, (await sec.revokeDevice(dm[1])) ? 200 : 404, { ok: true });
   if (p === '/api/admin/security' && m === 'GET') return send(res, 200, { events: sec.recentEvents(), alerts: sec.alerts(), locked: sec.isLocked() });
   if (p === '/api/admin/remote' && m === 'GET') return send(res, 200, REMOTE ? await remoteStatus() : { disabled: true });
+  if (p === '/api/scan/start' && m === 'POST') {
+    const r = scan.startScan();
+    return send(res, r.started ? 200 : 409, r.started ? { success: true } : { success: false, error: 'Une analyse complète est déjà en cours.' });
+  }
+  if (p === '/api/scan/status' && m === 'GET') return send(res, 200, { success: true, ...scan.scanStatus() });
+  if (p === '/api/scan/result' && m === 'GET') {
+    const r = await scan.scanResult();
+    return send(res, r ? 200 : 404, r ? { success: true, ...r } : { success: false, error: 'Aucune analyse complète terminée pour le moment.' });
+  }
   return send(res, 404, { error: 'Introuvable' });
 }
 
@@ -227,7 +272,22 @@ const remoteServer = http.createServer(async (req, res) => {
       try { const { status, body } = await tvCandles(url); return out(status, body); }
       catch (e) { if (e?.status) throw e; return out(503, { success: false, error: tvErrorMessage(e) }); }
     }
+    if (p === '/api/news' && m === 'GET') {
+      const { status, body } = newsResponse(url);
+      return out(status, body);
+    }
     if (p === '/api/session' && m === 'GET') return out(200, { ok: true, device: auth.device });
+    if (p === '/api/scan/start' && m === 'POST') {
+      // limite dédiée : 1 déclenchement distant toutes les 10 minutes par appareil (scan coûteux)
+      if (rateLimited(`scan:${login || auth.device?.id || 'anon'}`, 1, 10 * 60000)) { await sec.secLog('remote_scan_rate_limited', { login }); return out(429, { error: 'Analyse complète déjà lancée récemment : réessaie dans 10 minutes.' }); }
+      const r = scan.startScan();
+      return out(r.started ? 200 : 409, r.started ? { success: true } : { success: false, error: 'Une analyse complète est déjà en cours.' });
+    }
+    if (p === '/api/scan/status' && m === 'GET') return out(200, { success: true, ...scan.scanStatus() });
+    if (p === '/api/scan/result' && m === 'GET') {
+      const r = await scan.scanResult();
+      return out(r ? 200 : 404, r ? { success: true, ...r } : { success: false, error: 'Aucune analyse complète terminée pour le moment.' });
+    }
     return out(404, { error: 'Introuvable' });
   } catch (e) {
     if (!e?.status) await sec.secLog('remote_error', { msg: String(e?.message || e) });
@@ -259,6 +319,11 @@ export function start() {
     });
   }
   sec.secLog('server_started', { port: PORT, remotePort: REMOTE ? REMOTE_PORT : null });
+  // Charge l'historique TradingView en tâche de fond (peu après le démarrage, puis toutes les 30 min) :
+  // sans bloquer le démarrage du serveur, jamais superposé à un getCandles (verrou partagé dans tvfeed.js).
+  import('./tvfeed.js').then(({ scheduleHistoryLoads }) => scheduleHistoryLoads()).catch(() => {});
+  // Annonces économiques (calendrier TradingView) : désactivé en tests (XAUZ_NO_NEWS) et avec --no-news.
+  if (!args.includes('--no-news') && process.env.XAUZ_NO_NEWS !== '1') news.start().catch(() => {});
 }
 /** Affiche un code d'appairage à usage unique (10 min) dans la fenêtre du serveur. */
 async function printPairingCode() {
