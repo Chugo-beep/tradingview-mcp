@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f1115">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://*.ts.net; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>XAUUSD Zones</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="12" width="6" height="12" rx="1"/><rect x="13" y="5" width="6" height="14" rx="1"/><rect x="23" y="9" width="6" height="16" rx="1"/></svg>
+      <div class="brand-txt">
+        <div class="title">XAUUSD <span>Zones</span></div>
+        <div class="sub" id="sourceLine">—</div>
+      </div>
+    </div>
+    <div class="price-box">
+      <div class="price" id="price">—</div>
+      <div class="sub" id="updated">pas encore analysé</div>
+    </div>
+    <button class="analyse-btn" id="analyseBtn" aria-pressed="false">
+      <span class="live-dot" aria-hidden="true"></span>
+      <svg class="play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg>
+      <span class="lbl">Analyser</span>
+    </button>
+    <button class="icon-btn" id="settingsBtn" title="Réglages" aria-label="Réglages">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+    </button>
+  </header>
+
+  <div class="banner" id="banner" hidden></div>
+
+  <!-- Balance -->
+  <section class="balance" id="balance" aria-label="Balance des positions">
+    <div class="bal-main">
+      <div class="bal-label"><span id="balScopeLabel">Positions réelles</span> · <span id="balLot">lot —</span></div>
+      <div class="bal-value"><span id="balPips">0,0 pips</span> <span class="eq">=</span> <span id="balEur">0,00 €</span></div>
+    </div>
+    <div class="bal-grid">
+      <div><span>Réalisé</span><b id="balRealized">—</b></div>
+      <div><span>Latent</span><b id="balOpen">—</b></div>
+      <div><span>Gagnants / perdants</span><b id="balWL">—</b></div>
+      <div><span>Réussite</span><b id="balRate">—</b></div>
+    </div>
+    <div class="bal-side">
+      <div class="seg small" id="scopeSeg">
+        <button data-v="reel" class="on">Mes trades</button>
+        <button data-v="backtest">Backtest</button>
+      </div>
+      <button class="btn small" id="riskBtn">Lot &amp; stop</button>
+    </div>
+  </section>
+
+  <nav class="cats" id="catTabs" aria-label="Type de trade">
+    <button data-v="all" class="on" aria-pressed="true">Tous</button>
+    <button data-v="scalping" aria-pressed="false"><i aria-hidden="true">◔</i>Scalp <small>1m · 5m</small></button>
+    <button data-v="day" aria-pressed="false"><i aria-hidden="true">◑</i>Daily <small>15m · 1h</small></button>
+    <button data-v="swing" aria-pressed="false"><i aria-hidden="true">●</i>Swing <small>4h · 1D</small></button>
+  </nav>
+
+  <main class="layout">
+    <section class="chart-panel">
+      <div class="toolbar">
+        <div class="seg" id="tfTabs" role="tablist" aria-label="Timeframe du graphique"></div>
+        <label class="toggle"><input type="checkbox" id="showBands" checked> Zones des autres TF</label>
+      </div>
+      <div class="chart" id="chart"></div>
+      <ul class="legend" aria-label="Légende du graphique">
+        <li><i class="sw t-opp" aria-hidden="true"></i>◷ Opportunité</li>
+        <li><i class="sw t-gain" aria-hidden="true"></i>✓ Gagnant</li>
+        <li><i class="sw t-loss" aria-hidden="true"></i>✕ Perdant</li>
+        <li><i class="sw t-nonval" aria-hidden="true"></i>⊘ Non validée</li>
+        <li><i class="sw t-neutral" aria-hidden="true"></i>– Annulée</li>
+        <li><i class="sw line-tp" aria-hidden="true"></i>Objectif</li>
+        <li><i class="sw line-sl" aria-hidden="true"></i>Stop</li>
+        <li><i class="sw candles" aria-hidden="true"></i>Bougie creuse = hausse</li>
+      </ul>
+    </section>
+
+    <section class="side-panel">
+      <div class="tabs" id="panelTabs" role="tablist">
+        <button data-v="positions" class="on">Trades <em id="cntPos"></em></button>
+        <button data-v="agents">Agents <em id="cntAgents"></em></button>
+        <button data-v="learning">Apprentissage <em id="cntRules"></em></button>
+      </div>
+
+      <div class="pane" id="pane-positions">
+        <div class="filters">
+          <div class="seg list-tabs" id="stateFilter" aria-label="Liste des trades">
+            <button data-v="opp" class="on" aria-pressed="true"><span class="ico t-opp" aria-hidden="true">◷</span>Opportunités<span class="n">0</span></button>
+            <button data-v="followed" aria-pressed="false"><span class="ico t-gain" aria-hidden="true">★</span>Suivis<span class="n">0</span></button>
+            <button data-v="history" aria-pressed="false"><span class="ico" aria-hidden="true">↺</span>Historique<span class="n">0</span></button>
+            <button data-v="nonval" aria-pressed="false"><span class="ico t-nonval" aria-hidden="true">⊘</span>Non validées<span class="n">0</span></button>
+          </div>
+          <div class="seg small" id="dirFilter" aria-label="Sens">
+            <button data-v="all" class="on" aria-pressed="true">Achat et vente</button>
+            <button data-v="BUY" aria-pressed="false">▲ Achat</button>
+            <button data-v="SELL" aria-pressed="false">▼ Vente</button>
+          </div>
+        </div>
+        <div id="posList" class="list"></div>
+      </div>
+
+      <div class="pane" id="pane-agents" hidden>
+        <div id="agentList" class="list"></div>
+      </div>
+
+      <div class="pane" id="pane-learning" hidden>
+        <div id="learnBody" class="list"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">Analyse informative uniquement, pas un conseil financier personnalisé. Aucun ordre n'est passé chez un courtier : positions simulées.</footer>
+
+  <!-- Détail -->
+  <dialog id="zoneDialog" class="sheet">
+    <form method="dialog" class="sheet-head"><h2 id="zdTitle">Zone</h2><button class="icon-btn" aria-label="Fermer">✕</button></form>
+    <div id="zdBody" class="sheet-body"></div>
+  </dialog>
+
+  <!-- Risque -->
+  <dialog id="riskDialog" class="sheet">
+    <form method="dialog" class="sheet-head"><h2>Lot et stop loss</h2><button class="icon-btn" aria-label="Fermer">✕</button></form>
+    <form id="riskForm" class="sheet-body settings">
+      <fieldset>
+        <legend>Taille de position</legend>
+        <div class="grid2">
+          <label>Lot <input type="number" name="lot" min="0.01" max="100" step="0.01"></label>
+          <label>Valeur d'un pip ($) <select name="pipSize"><option value="0.1">0,10 $ (standard or)</option><option value="0.01">0,01 $</option><option value="1">1,00 $</option></select></label>
+          <label>Taux EUR/USD <input type="number" name="eurUsdManual" min="0.5" max="2" step="0.0001"></label>
+        </div>
+        <p class="hint" id="riskPreview"></p>
+      </fieldset>
+      <fieldset>
+        <legend>Stratégie Order Blocks « 5 étoiles »</legend>
+        <div class="grid2">
+          <label>Entrée <select name="entryMode"><option value="confirmation">Après une bougie de réaction dans l'OB (recommandé)</option><option value="limit">Ordre limite au bord de l'OB</option></select></label>
+        </div>
+        <p class="hint">Qualité minimale : <b>5★ uniquement</b> (fixe). Moins de 5★ = zone invalidée.</p>
+        <p class="hint">⭐1 imbalance et ⭐2 tendance (Supertrend, hors range) sont éliminatoires. ⭐3 pas de liquidité proche au-delà de l'OB · ⭐4 OB vierge · ⭐5 achat en Discount / vente en Premium (Fibonacci 0,5).</p>
+      </fieldset>
+      <fieldset>
+        <legend>Stop loss et objectifs</legend>
+        <p class="hint mt0">Le <b>stop loss</b> est placé automatiquement juste au-delà de l'order block (marge adaptée à la catégorie). S'il dépasse <b>100 pips</b>, la zone n'est pas viable. <b>Objectifs fixes</b> : Scalp et Daily +100 / +200 / +350 pips ; Swing +100 / +400 / clôture manuelle à +600 pips. 1/3 encaissé à chaque palier ; BE (entrée ± 3 pips) quand TP1 et 1 R sont atteints, puis stop suivi derrière la structure.</p>
+        <div class="grid2">
+          <label>Pause autour des annonces (min) <input type="number" name="newsBlackoutMin" min="0" max="240" step="5"></label>
+        </div>
+        <div id="autoPlan" class="hint"></div>
+      </fieldset>
+      <fieldset>
+        <legend>Suivi des trades</legend>
+        <label class="radio"><input type="checkbox" name="autoFollow"> Suivre automatiquement toutes les opportunités validées</label>
+        <p class="hint">Désactivé (recommandé) : seuls les trades que tu marques <b>Suivre</b> entrent dans ta balance « Mes trades ».</p>
+      </fieldset>
+      <label class="radio accept"><input type="checkbox" name="accept" required> J'accepte ce lot et cette gestion du risque pour le suivi des positions.</label>
+      <div class="row-end"><button type="submit" class="btn primary">Valider le paramétrage</button></div>
+    </form>
+  </dialog>
+
+  <!-- Réglages -->
+  <dialog id="settingsDialog" class="sheet">
+    <form method="dialog" class="sheet-head"><h2>Réglages</h2><button class="icon-btn" aria-label="Fermer">✕</button></form>
+    <form id="settingsForm" class="sheet-body settings">
+      <fieldset id="pcRemote" hidden>
+        <legend>Accès depuis le téléphone</legend>
+        <p class="hint">Source unique : TradingView Desktop de ce PC. Le téléphone s'y connecte de n'importe où, en HTTPS, dans ton réseau privé Tailscale. Rien n'est exposé sur Internet.</p>
+        <div id="remoteStatus" class="status-box">Vérification…</div>
+        <div class="row-btns">
+          <button type="button" class="btn" id="newCodeBtn">Générer un code d'appairage</button>
+          <button type="button" class="btn" id="setupTvBtn">Préparer TradingView (multi-graphiques)</button>
+        </div>
+        <div id="pairCodeBox" class="code-box" hidden></div>
+        <h4>Appareils autorisés</h4>
+        <div id="deviceList" class="mini-list"></div>
+        <h4>Journal de sécurité</h4>
+        <div id="secLog" class="mini-list"></div>
+      </fieldset>
+      <fieldset id="phoneRemote" hidden>
+        <legend>Connexion au PC</legend>
+        <label class="pair-code">Code d'appairage <small>8 chiffres, affichés sur le PC (Réglages → Générer un code, ou code-appairage.bat)</small>
+          <input type="text" name="pairCode" inputmode="numeric" pattern="[0-9]{8}" maxlength="8" autocomplete="one-time-code" placeholder="12345678"></label>
+        <details class="adv">
+          <summary>Adresse du PC (préréglée) et nom du téléphone</summary>
+          <label>Adresse du PC <input type="url" name="remoteUrl" inputmode="url" autocomplete="off" spellcheck="false"></label>
+          <label>Nom de ce téléphone <input type="text" name="deviceName" maxlength="40" autocomplete="off"></label>
+        </details>
+        <div class="row-btns">
+          <button type="button" class="btn primary big" id="pairBtn">Connecter au PC</button>
+          <button type="button" class="btn" id="unpairBtn">Désappairer</button>
+        </div>
+        <p class="hint" id="pairStatus"></p>
+        <p class="hint">Prérequis : l'application Tailscale installée et connectée sur ce téléphone avec le même compte que le PC.</p>
+      </fieldset>
+      <fieldset>
+        <legend>Analyse</legend>
+        <div class="grid2">
+          <label>Temps réel : toutes les <select name="liveSec"><option value="5">5 s</option><option value="10">10 s</option><option value="15">15 s</option><option value="30">30 s</option><option value="60">60 s</option></select></label>
+          <label>Fenêtre de liquidité <input type="number" name="liquidityLookback" min="1" max="100"></label>
+          <label>Gap fragile (× ATR) <input type="number" name="fragileGapAtrRatio" min="0" max="2" step="0.05"></label>
+        </div>
+        <p class="hint mt0">Bougies par TF : toutes les bougies chargées dans TradingView (fais défiler le graphique en arrière pour en charger plus).</p>
+        <div class="tf-checks" id="tfChecks"></div>
+      </fieldset>
+      <fieldset>
+        <legend>Apprentissage</legend>
+        <div class="grid2">
+          <label>Échantillons minimum par règle <input type="number" name="minSamples" min="3" max="100"></label>
+          <label>Seuil d'espérance (R) <input type="number" name="threshold" min="-2" max="0" step="0.05"></label>
+        </div>
+        <p class="hint">Une caractéristique (session, tendance, taille de gap…) qui perd en moyenne plus que le seuil sur au moins N positions devient une règle qui écarte les nouvelles zones similaires.</p>
+      </fieldset>
+      <fieldset>
+        <legend>Alertes et données</legend>
+        <label class="radio"><input type="checkbox" name="notify"> Notifications de trading : opportunité à prendre (entrée, TP1, TP2, TP3, SL), TP1 atteint → passer à BE, TP2, TP3, SL</label>
+        <div id="bgBox" class="bg-note" hidden>
+          <p class="hint">Téléphone : pendant « Analyser » (en direct), l'analyse continue écran éteint ou application en arrière-plan. Autorise l'application à ignorer l'optimisation de batterie, sinon OnePlus peut l'arrêter.</p>
+          <button type="button" class="btn" id="batteryBtn">Autoriser l'analyse en arrière-plan</button>
+        </div>
+        <div class="row-btns">
+          <button type="button" class="btn" id="resetJournal">Effacer le journal</button>
+          <button type="button" class="btn" id="resetLearning">Réinitialiser l'apprentissage</button>
+        </div>
+      </fieldset>
+      <div class="row-end"><button type="submit" class="btn primary">Enregistrer</button></div>
+    </form>
+  </dialog>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

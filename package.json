@@ -12,6 +12,8 @@
     "./core": "./src/core/index.js"
   },
   "scripts": {
+    "app": "node app/server.js",
+    "test:app": "node --test app/tests/engine.test.js app/tests/trades.test.js app/tests/security.test.js",
     "start": "node src/server.js",
     "tv": "node src/cli/index.js",
     "calendar:sync": "node scripts/sync-economic-calendar.mjs",

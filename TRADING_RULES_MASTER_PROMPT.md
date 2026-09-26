@@ -167,6 +167,115 @@ Une zone validée doit être distinguée selon sa position par rapport au prix c
 
 La position du prix ne remplace aucune règle structurelle.
 
+### 6. Précisions de la stratégie Order Blocks « 5 étoiles »
+
+Source : `trading_agent_order_blocks.md`. Les règles 1 à 5 ci-dessus restent obligatoires. Cette section précise la sélection, l'entrée et la gestion, sans jamais assouplir ces règles.
+
+**Définition de l'order block**
+
+- `C1` doit être la **dernière bougie inverse** avant l'impulsion : pour un achat, `C2` ne doit pas être baissière ; pour une vente, `C2` ne doit pas être haussière.
+- La zone reste la bougie complète, mèches incluses. Ne pas l'élargir.
+- La prise de liquidité sur `P` (règle 2) reste obligatoire. Elle constitue le bonus « OB créé après une prise de liquidité » et ne remplace aucune étoile.
+
+**Grille de notation (0 à 5 étoiles)**
+
+Les critères sont évalués à la clôture de `C3`, sans information future, sauf ⭐4 qui dépend de l'historique jusqu'à maintenant.
+
+| Étoile | Critère | Règle déterministe | Statut |
+|---|---|---|---|
+| ⭐1 | Imbalance | Règle 3 : `C1.high < C3.low` (achat) / `C1.low > C3.high` (vente) | Éliminatoire |
+| ⭐2 | Tendance | Supertrend (ATR 10, × 3) de même sens que l'OB à `C3`, **et** marché hors range : moins de 4 changements de couleur du Supertrend sur les 50 dernières bougies | Éliminatoire |
+| ⭐3 | Liquidité | Aucun swing non pris (creux pour un achat, sommet pour une vente), ni aucun égal (écart ≤ 0,1 × ATR), situé au-delà de l'OB à moins de 1 × ATR. Sinon, risque de balayage du stop avant réaction | Qualité |
+| ⭐4 | OB vierge | Règle 4 : aucune bougie n'a touché la zone depuis `C3` | Essentiel |
+| ⭐5 | Fibonacci | Achat : milieu de l'OB **sous** 0,5 du mouvement (Discount). Vente : **au-dessus** de 0,5 (Premium). Mouvement = plus bas → plus haut des 100 bougies jusqu'à `C3` | Filtre final |
+
+Standard d'exécution :
+
+- **0 à 4 étoiles : NO TRADE (`INVALIDÉE`).**
+- **5 étoiles : seule note valide, exécutée.**
+- ⭐1 ou ⭐2 manquante = `INVALIDÉE`, quel que soit le total.
+- Moins de 5★ (total) = `INVALIDÉE`, quel que soit le détail des critères.
+- Ne jamais promouvoir un OB parce qu'il est proche du prix.
+
+Priorité entre plusieurs OB :
+
+1. 5★ (seule note valide) ;
+2. confluence multi-timeframe (zone de même sens qui chevauche une zone d'une autre timeframe) ;
+3. récence.
+
+La confluence est signalée. Elle ne remplace pas les étoiles.
+
+**Liquidité à signaler**
+
+- **Swings :** fractales de 2 bougies de chaque côté.
+- **Égaux :** sommets ou creux égaux.
+- **Liquidité à prendre avant l'OB :** swings non pris situés entre le prix et l'OB. Elle ne l'invalide pas, mais elle est affichée.
+
+**États de décision**
+
+| État | Signification |
+|---|---|
+| `INVALIDÉE` | Critère éliminatoire manquant, moins de 5★, ou SL > 100 pips (zone non viable) |
+| `WATCH` | OB valide, prix pas encore revenu dans la zone |
+| `WAIT_FOR_CONFIRMATION` | Prix dans l'OB, réaction pas encore confirmée |
+| `ENTRY_READY / TRIGGERED` | Entrée prise |
+| `INVALIDATED_TRADE` | SL touché |
+| `TARGET_REACHED` | TP atteint |
+| `ANNULÉE` | OB cassé avant réaction, ou TP1 atteint sans entrée |
+
+**Entrée**
+
+- Par défaut, entrer après la **réaction** : attendre le retour du prix dans l'OB, puis une **bougie clôturée dans le sens du trade** (haussière pour un achat, baissière pour une vente).
+- Utiliser la bougie 1 minute quand elle est disponible, sinon la bougie de la timeframe.
+- L'entrée se fait à la clôture de cette bougie.
+- Si le prix atteint le niveau du SL avant la réaction, l'OB est cassé : **pas de trade**.
+- Si la clôture de réaction est à plus de 0,5 R au-delà du bord proche de l'OB, ne pas poursuivre le prix.
+- Variante réglable : ordre limite au bord proche de l'OB.
+
+**Stop loss**
+
+- Placé uniquement juste au-delà de l'OB (bord opposé), avec une marge **automatique** selon la catégorie : `max(3 pips, min(bufAtr × ATR, 25 % de la hauteur de l'OB))`, avec `bufAtr` = 5 % (scalping), 10 % (day) ou 15 % (swing).
+- Ne jamais l'élargir pour sauver un setup. Ce paramètre n'est plus réglable par l'utilisateur.
+- **Règle dure : le risque (distance entrée → SL, en pips, `pip = risk.pipSize`) ne doit jamais dépasser 100 pips**, quelle que soit la catégorie. Au-delà, la zone est **REFUSÉE** (« non viable »), avec le motif « SL de X pips > 100 pips : zone non viable ». Avec l'entrée sur confirmation, le risque réel (à la clôture de la bougie de réaction) est revérifié : s'il dépasse 100 pips, le trade est **annulé** avec le même motif, même si le plan initial était valide.
+
+**Objectifs**
+
+Les objectifs sont des **distances fixes depuis l'entrée réelle**, par catégorie — il n'y a plus de cible structurelle (liquidité opposée) ni de profil d'objectifs optimisé :
+
+- **Scalp et Daily :** TP1 = entrée ± **100 pips**, TP2 = ± **200 pips**, TP3 = ± **350 pips**.
+- **Swing :** TP1 = ± **100 pips**, TP2 = ± **400 pips**, TP3 = ± **600 pips (MANUEL)** : à +600 pips, une notification invite l'utilisateur à clôturer lui-même le trade (« 🏁 +600 pips atteints · CLÔTURE le trade SWING ») ; en simulation/backtest/journal, le trade est considéré clôturé à ce niveau.
+- 1/3 de la position est encaissé à chaque niveau (TP1, TP2, TP3/+600), comme avant. Gestion du stop : voir « Gestion institutionnelle » ci-dessous.
+- **Amélioration continue : champion / challenger** (déterministe, sans IA), désormais limitée aux **règles de prévention apprises** (§ Apprentissage des pertes) : une règle candidate n'est appliquée que si elle améliore l'espérance sur les deux fenêtres (échantillon complet et moitié la plus récente) tout en conservant ≥ 60 % des échantillons ; une règle active qui ne sert plus est retirée. Une configuration (règles actives) mémorisée (`learnStore.config`, versionnée, historisée) fait l'objet d'un contrôle de performance avancée à chaque analyse suivante ; si elle se révèle pire que la configuration précédente, l'application y **revient automatiquement** (retour arrière). Détails et décisions visibles dans l'onglet Apprentissage, section « Amélioration continue ».
+
+**Gestion institutionnelle**
+
+Règle d'un trader institutionnel visant un compte pérenne : ni BE trop tôt, ni stop qui recule.
+
+- 1/3 encaissé à chaque niveau (TP1, TP2, TP3/+600), pour toutes les catégories.
+- **BE (point mort) :** le stop ne passe au BE que si le prix a atteint **à la fois** TP1 **et** +1R (R = distance entrée → SL initial). BE = entrée **± 3 pips** (frais couverts) — jamais l'entrée exacte. Tant que les deux conditions ne sont pas réunies, le stop initial (invalidation) reste en place, même après TP1 seul.
+- **Trailing structurel (après le BE) :** sur les bougies de l'unité de temps de la zone (celles de base si l'UT de la zone n'est pas disponible), chaque nouveau creux de swing (achat) / sommet de swing (vente) — fractale à 2 bougies de chaque côté, confirmée par 2 bougies clôturées après elle — formé **après l'entrée** déplace le stop juste au-delà de ce swing (± 3 pips), uniquement si cela **resserre** le stop (jamais ne le desserre), et jamais derrière le BE.
+- **Après TP2 :** le stop est au moins sur TP1 (plancher) — le niveau retenu est toujours le plus protecteur entre le trailing/BE et ce plancher.
+- Scalp/Daily : TP3 (+350) clôture le trade. Swing : +600 pips déclenche une notification de clôture manuelle (le trade est considéré clôturé en simulation/backtest/journal).
+- Prudence intra-bougie inchangée : le stop est toujours vérifié en premier (la bougie 1 minute tranche quand elle est disponible).
+
+**Préservation du compte**
+
+Garde-fous appliqués aux propositions/notifications du **journal réel** (le backtest par zone n'est pas concerné) :
+
+- **Maximum 2 positions ouvertes en même temps** (suivies, y compris automatiques). Au-delà, une nouvelle opportunité reste visible mais n'est pas notifiée « à prendre » (bandeau/carte « En attente : 2 positions déjà ouvertes »).
+- **Pas deux positions ouvertes dans le même sens sur des zones qui se chevauchent** (même zone de prix ± la hauteur de la zone).
+- **Coupe-circuit journalier :** après 2 pertes (SL) clôturées le même jour (UTC) dans le journal, plus aucune proposition/notification de nouveau trade jusqu'au lendemain (« Pause : 2 pertes aujourd'hui, protection du capital »).
+- **Taille réduite conseillée :** après 3 pertes consécutives (journal), les prochaines propositions sont signalées « taille réduite conseillée : 50 % du lot » (détail de la notification et carte).
+
+**Probabilités**
+
+Aucune probabilité de gain n'est affirmée, sauf si elle est mesurée par l'historique de l'application (onglet Apprentissage).
+
+**Paramètres**
+
+- Les paramètres chiffrés ci-dessus (Supertrend 10/3, range à 4 changements sur 50 bougies, 1 × ATR, 0,1 × ATR, 100 bougies, 0,5 R) sont des choix par défaut. La source ne les fixe pas, ils sont donc réglables.
+- La taille de position se calcule uniquement à partir des paramètres fournis par l'utilisateur (lot, valeur du pip).
+
 ## Audit multi-agent
 
 ### Rapport du collecteur
@@ -198,7 +307,7 @@ En cas de désaccord entre agents :
 - timeframe analysées;
 - qualité et couverture des données.
 
-### 2. Zones d'achat validées
+### 2. Zones d'achat validées (avec note ⭐ sur 5 et état : WATCH, WAIT_FOR_CONFIRMATION…)
 
 Tableau avec :
 

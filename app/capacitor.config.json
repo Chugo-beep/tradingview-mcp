@@ -1,0 +1,22 @@
+{
+  "appId": "fr.xauusd.zones",
+  "appName": "XAUUSD Zones",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https",
+    "cleartext": false
+  },
+  "android": {
+    "allowMixedContent": false,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  },
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": false
+    },
+    "LocalNotifications": {
+      "iconColor": "#E2B340"
+    }
+  }
+}

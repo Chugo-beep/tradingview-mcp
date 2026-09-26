@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "tradingview": {
+      "command": "node",
+      "args": [
+        "C:\\tradingview-mcp\\src\\server.js"
+      ],
+      "workingDir": "C:\\tradingview-mcp",
+      "env": {
+        "NODE_ENV": "production",
+        "MCP_LOG_LEVEL": "info"
+      }
+    }
+  }
+}

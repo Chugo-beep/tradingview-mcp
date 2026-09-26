@@ -1,0 +1,24 @@
+{
+  "name": "xauusd-zones",
+  "version": "3.0.0",
+  "private": true,
+  "description": "XAUUSD Zones : points d'entrée achat/vente, positions et balance, sans IA. Source unique : TradingView Desktop du PC.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test tests/engine.test.js tests/trades.test.js tests/security.test.js",
+    "audit": "npm audit --omit=dev --audit-level=critical",
+    "calendar:build": "node scripts/build-calendar.mjs"
+  },
+  "dependencies": {
+    "@capacitor/android": "6.2.2",
+    "@capacitor/core": "6.2.2",
+    "@capacitor/local-notifications": "6.1.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "6.2.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

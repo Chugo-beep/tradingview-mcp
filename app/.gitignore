@@ -1,0 +1,5 @@
+node_modules/
+android/
+XAUUSD-Zones.apk
+*.log
+.pairing-code
