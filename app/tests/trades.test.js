@@ -194,7 +194,7 @@ test('calendrier : fenêtre d\'annonce', () => {
   assert.ok(!cal.isBlackout(1000000 + 31 * 60));
 });
 
-const S = (extra = {}) => ({ timeframes: ['5'], liquidityLookback: 5, fragileGapAtrRatio: 0.1, learning: {}, risk: { ...risk, ...extra } });
+const S = (extra = {}) => ({ timeframes: ['5'], liquidityLookback: 5, fragileGapAtrRatio: 0.1, learning: {}, risk: { ...risk, strategyMode: 'ob5', ...extra } });
 const c1 = () => [...setup(), wait(), bar(10, 4278, 4280, 4277, 4279, false)];
 const c2 = () => [...c1().slice(0, 50), fill(), bar(11, 4272, 4273, 4271, 4272), bar(12, 4272, 4319, 4271, 4312), bar(13, 4312, 4319, 4311, 4312, false)];
 const run = (candles, journal, settings, i) => runAgents({ data: { symbol: 'OANDA:XAUUSD', candles: { '5': candles } }, settings, cal: null, learnStore: { samples: {}, disabled: [] }, journal, now: (T0 + i * 300) * 1000 });
@@ -247,7 +247,7 @@ test('suivi automatique (option) : les zones proposées sont inscrites seules', 
 });
 
 test('journal : non validé = aucun ordre suivi', () => {
-  const settings = { timeframes: ['5'], liquidityLookback: 5, fragileGapAtrRatio: 0.1, learning: {}, risk: { ...risk, validated: false } };
+  const settings = { timeframes: ['5'], liquidityLookback: 5, fragileGapAtrRatio: 0.1, learning: {}, risk: { ...risk, strategyMode: 'ob5', validated: false } };
   const journal = { entries: [] };
   runAgents({ data: { symbol: 'XAUUSD', candles: { '5': c1() } }, settings, cal: null, learnStore: { samples: {} }, journal, now: (T0 + 10 * 300) * 1000 });
   assert.equal(journal.entries.length, 0);

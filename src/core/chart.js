@@ -293,7 +293,9 @@ export async function symbolSearch({ query, type }) {
     description: strip(r.description),
     exchange: r.exchange || r.prefix || '',
     type: r.type || '',
-    full_name: r.exchange ? `${r.exchange}:${strip(r.symbol)}` : strip(r.symbol),
+    prefix: r.prefix || '',
+    // nom TradingView valide : préfixe technique (ex. CAPITALCOM) plutôt que le libellé affiché (ex. « Capital.com »)
+    full_name: (r.prefix || r.exchange) ? `${r.prefix || r.exchange}:${strip(r.symbol)}` : strip(r.symbol),
   }));
 
   return { success: true, query, source: 'rest_api', results, count: results.length };

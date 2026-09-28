@@ -1,9 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { MARKETS, MARKET_IDS, DEFAULT_MARKET, marketById, marketOf, maxChartsFor, TV_PLANS } from '../www/js/markets.js';
+import { MARKETS, MARKET_IDS, DEFAULT_MARKET, marketById, marketOf, registerResolvedAlias, LIVE_CHARTS_OPTIONS, DEFAULT_LIVE_CHARTS } from '../www/js/markets.js';
 import { planFor, DEFAULT_RISK, notifText } from '../www/js/trades.js';
 import { detectZones } from '../www/js/engine.js';
-import { rankMarket, rankMarkets, MIN_SAMPLE_TRADES } from '../www/js/ranking.js';
+import { rankMarket, rankMarkets, MIN_SAMPLE_TRADES, choosePolicies, summarizeWithPolicy } from '../www/js/ranking.js';
 
 test('registre des marchés : 11 marchés, XAUUSD par défaut, décimales dérivées du pip', () => {
   assert.equal(MARKETS.length, 11);
@@ -28,14 +28,21 @@ test('marketOf : correspondance par symbole TradingView exact, alias, ou sans pr
   assert.equal(marketOf(''), null);
 });
 
-test('abonnements TradingView : nombre de graphiques maximal par plan', () => {
-  assert.equal(maxChartsFor('gratuit'), 1);
-  assert.equal(maxChartsFor('essential'), 2);
-  assert.equal(maxChartsFor('plus'), 4);
-  assert.equal(maxChartsFor('premium'), 8);
-  assert.equal(maxChartsFor('expert'), 10);
-  assert.equal(maxChartsFor('ultimate'), 16);
-  assert.equal(maxChartsFor('inconnu'), TV_PLANS.gratuit.maxCharts);
+test('marchés en direct : choisis par l\'utilisateur, 1 à 3, or par défaut', async () => {
+  const { sanitizeLiveMarkets, MAX_LIVE_MARKETS, DEFAULT_LIVE_MARKETS } = await import('../www/js/markets.js');
+  assert.equal(MAX_LIVE_MARKETS, 3);
+  assert.deepEqual(DEFAULT_LIVE_MARKETS, ['XAUUSD']);
+  assert.deepEqual(sanitizeLiveMarkets([]), ['XAUUSD']);
+  assert.deepEqual(sanitizeLiveMarkets(['eurusd', 'EURUSD', 'FOO', 'DAX40', 'US30', 'WTI']), ['EURUSD', 'DAX40', 'US30']);
+  assert.deepEqual(LIVE_CHARTS_OPTIONS, [1, 2, 3, 4]); // ancien réglage conservé pour compatibilité
+  assert.equal(DEFAULT_LIVE_CHARTS, 2);
+});
+
+test('registerResolvedAlias : un symbole résolu dynamiquement (recherche TradingView) devient reconnu par marketOf', () => {
+  assert.equal(marketOf('OANDA:DE30EURSPECIAL'), null);
+  registerResolvedAlias('DAX40', 'OANDA:DE30EURSPECIAL');
+  assert.equal(marketOf('OANDA:DE30EURSPECIAL').id, 'DAX40');
+  assert.equal(marketOf('de30eurspecial').id, 'DAX40', 'sans préfixe, insensible à la casse');
 });
 
 // Motif d'achat de référence pour rankMarket : mêmes bougies que le test XAUUSD de trades.test.js
@@ -88,18 +95,93 @@ test('notifText : GOLD par défaut (XAUUSD, 2 décimales) ; libellé et décimal
   assert.match(n.title, /1\.10500$/); // 5 décimales (pip 0,0001)
 });
 
-test('classement : marchés à échantillon suffisant (≥ 8 trades) d\'abord, triés par pips puis taux de réussite', () => {
-  const mk = (id, trades, pips, winRate) => ({ market: id, label: id, pips, trades, winRate, expectancyPips: trades ? pips / trades : null, proposals: 0, insufficient: trades < MIN_SAMPLE_TRADES, topZones: [], barsPerTf: {} });
-  const list = [mk('A', 3, 500, 1), mk('B', 10, 200, 0.6), mk('C', 12, 300, 0.5), mk('D', 9, 300, 0.7)];
+test('classement : échantillon suffisant d\'abord, trié par borne basse de l\'intervalle de confiance (R), puis R, puis pips', () => {
+  const mk = (id, trades, pips, ciLo, expR) => ({ market: id, label: id, pips, trades, winRate: 0.5, expectancyR: expR, ciR: [ciLo, ciLo + 1], proposals: 0, insufficient: trades < MIN_SAMPLE_TRADES, topZones: [], barsPerTf: {} });
+  const list = [mk('A', 3, 500, 2, 3), mk('B', 40, 200, -0.2, 0.3), mk('C', 50, 300, 0.1, 0.2), mk('D', 45, 100, 0.1, 0.4)];
   const ranked = rankMarkets(list).map((r) => r.market);
-  assert.deepEqual(ranked, ['D', 'C', 'B', 'A'], 'D et C partagent 300 pips : D gagne au taux de réussite ; A (échantillon insuffisant) est classé après malgré 500 pips');
+  assert.deepEqual(ranked, ['D', 'C', 'B', 'A'], 'D et C : même borne basse, D gagne à l\'espérance R ; A (échantillon insuffisant) classé après malgré 500 pips');
 });
 
 test('rankMarket : détecte les zones 5★ et backteste sur les bougies fournies (fonctionne pour n\'importe quel marché du registre)', () => {
   const dax = marketById('DAX40');
   const candles = buildSetup(18000, 0.7 * (18000 / 4275));
-  const r = rankMarket(dax, { '5': candles });
+  const r = rankMarket(dax, { '5': candles }, { risk: { strategyMode: 'ob5' } });
   assert.equal(r.market, 'DAX40');
   assert.ok(r.barsPerTf['5'] > 0);
   assert.equal(typeof r.trades, 'number');
+});
+
+test('backtest : une zone 5★ à sa naissance puis retestée reste évaluée (⭐4 « vierge » jugée à la clôture de C3, pas aujourd\'hui)', () => {
+  const gold = marketById('XAUUSD');
+  const base = buildSetup(4275, 0.7);
+  const fresh = rankMarket(gold, { '5': base }, { risk: { strategyMode: 'ob5' } });
+  assert.equal(fresh.funnel.untouched5, 1, 'zone vierge 5★ proposable');
+  const retested = [...base, bar(9, 4285, 4285.5, 4278, 4279), bar(10, 4279, 4279.5, 4272.8, 4274), bar(11, 4274, 4278, 4273.5, 4277.8)];
+  const r = rankMarket(gold, { '5': retested }, { risk: { strategyMode: 'ob5' } });
+  assert.equal(r.funnel.untouched, 0, 'la zone a été retestée : plus vierge aujourd\'hui');
+  assert.equal(r.funnel.fiveAtBirth, 1, 'mais elle était 5★ à sa naissance : elle entre dans le backtest');
+  assert.equal(r.proposals, 0, 'et n\'est plus proposée en direct');
+});
+
+test('règle d\'annulation : « tp1 » annule après l\'impulsion, « keep » garde la zone pour son 1er retour', async () => {
+  const { detectZones } = await import('../www/js/engine.js');
+  const { simulateZone, DEFAULT_RISK: R } = await import('../www/js/trades.js');
+  const base = buildSetup(4275, 0.7);
+  // retour dans l'OB après l'impulsion (qui a dépassé TP1), bougie de réaction haussière, puis hausse
+  const c = [...base, bar(9, 4285, 4285.5, 4278, 4279), bar(10, 4279, 4279.5, 4272.8, 4274), bar(11, 4272.9, 4274.2, 4272.6, 4274.0)];
+  for (let i = 12; i < 40; i++) { const o = 4274 + (i - 12) * 2; c.push(bar(i, o, o + 2.2, o - 0.3, o + 2)); }
+  const z = detectZones(c, { timeframe: '5', currentPrice: c.at(-1).close }).zones[0];
+  const risk = { ...R, pipSize: 0.1, contractSize: 100 };
+  const a = simulateZone(z, c, { ...risk, cancelPolicy: 'tp1' }, { currentPrice: c.at(-1).close });
+  const b = simulateZone(z, c, { ...risk, cancelPolicy: 'keep' }, { currentPrice: c.at(-1).close });
+  assert.equal(a.state, 'CANCELLED');
+  assert.match(a.reason, /TP1 atteint sans entrée/);
+  assert.notEqual(b.state, 'CANCELLED', 'keep : l\'ordre attend le retour dans la zone');
+  assert.ok(b.fillPrice != null, 'keep : entrée sur la bougie de réaction au retour');
+});
+
+test('choosePolicies : le challenger « keep » n\'est adopté que s\'il gagne plus SANS dégrader le risque, et reste meilleur sur la période récente', () => {
+  const mk = (cat, list) => list.map(([pips, r, t]) => ({ cat, pips, r, t }));
+  // intraday : keep gagne nettement plus, PF et drawdown relatif meilleurs → adopté
+  // intraday : 32 trades par règle (seuil 30) ; keep gagne nettement plus, PF et drawdown relatif meilleurs → adopté
+  const alt = (n, win, loss) => Array.from({ length: n }, (_, i) => (i % 2 ? loss : win).concat(i + 1));
+  const good = { byPolicy: {
+    tp1: mk('day', alt(32, [100, 1], [-50, -1])),
+    keep: mk('day', alt(32, [200, 2], [-50, -1])),
+  } };
+  // swing : keep gagne plus au total mais perd sur la période récente → refusé (champion conservé)
+  const stale = { byPolicy: {
+    tp1: mk('swing', Array.from({ length: 10 }, (_, i) => [i % 2 ? -40 : 60, i % 2 ? -1 : 1.5, i + 1])),
+    keep: mk('swing', [...Array.from({ length: 6 }, (_, i) => [300, 3, i + 1]), ...Array.from({ length: 6 }, (_, i) => [-60, -1, i + 7])]),
+  } };
+  const { policy, stats } = choosePolicies([good, stale]);
+  assert.equal(policy.day, 'keep');
+  assert.equal(policy.swing, 'tp1');
+  assert.equal(stats.swing.checks.recent, false);
+  assert.equal(policy.scalp, 'tp1', 'aucun échantillon : champion prudent conservé');
+});
+
+test('choosePolicies : moins de 30 trades → pas d\'adoption (différence non distinguable du bruit)', () => {
+  const mk = (cat, n, w) => Array.from({ length: n }, (_, i) => ({ cat, pips: i % 2 ? -50 : w, r: i % 2 ? -1 : w / 50, t: i + 1 }));
+  const { policy } = choosePolicies([{ byPolicy: { tp1: mk('day', 10, 100), keep: mk('day', 10, 300) } }]);
+  assert.equal(policy.day, 'tp1');
+});
+
+test('summarizeWithPolicy : les trades Scalp sont comptés et l\'historique est fourni (régression clé scalp/scalping)', () => {
+  const raw = { market: 'X', label: 'X', barsPerTf: {}, funnel: {}, viableZones: [],
+    byPolicy: { tp1: [{ cat: 'scalp', pips: 10, r: 1, t: 1 }, { cat: 'day', pips: -5, r: -1, t: 2 }], keep: [] } };
+  const s = summarizeWithPolicy(raw, {});
+  assert.equal(s.trades, 2);
+  assert.equal(s.history.length, 2);
+  assert.equal(s.history[0].t, 2, 'historique du plus récent au plus ancien');
+  assert.equal(s.history[0].market, 'X');
+});
+
+test('summarizeWithPolicy : pips/trades du marché recalculés avec la règle retenue par catégorie', () => {
+  const raw = { market: 'X', label: 'X', barsPerTf: {}, funnel: {}, viableZones: [{ cat: 'day', pending: { tp1: false, keep: true }, zone: { c1Time: 1 } }],
+    byPolicy: { tp1: [{ cat: 'day', pips: 10, r: 1, t: 1 }], keep: [{ cat: 'day', pips: 30, r: 1, t: 1 }, { cat: 'day', pips: -10, r: -1, t: 2 }] } };
+  const a = summarizeWithPolicy(raw, {});
+  const b = summarizeWithPolicy(raw, { day: 'keep' });
+  assert.equal(a.trades, 1); assert.equal(a.pips, 10); assert.equal(a.proposals, 0);
+  assert.equal(b.trades, 2); assert.equal(b.pips, 20); assert.equal(b.proposals, 1);
 });

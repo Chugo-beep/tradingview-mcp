@@ -19,6 +19,7 @@ export const DATA_DIR = process.env.XAUZ_DATA_DIR
 const DEVICES_FILE = () => join(DATA_DIR, 'devices.json');
 const LOG_FILE = () => join(DATA_DIR, 'security.log');
 const PAIRING_FILE = () => join(DATA_DIR, 'pairing.json');
+const ADMIN_TOKEN_FILE = () => join(DATA_DIR, 'admin-token.json');
 
 export const LIMITS = {
   pairingTtlMs: 10 * 60 * 1000,
@@ -225,7 +226,43 @@ async function authFailure(event, details) {
 }
 
 /** Pour les tests. */
-export function _reset() { devices = null; pending = []; badAttempts = 0; failures.length = 0; lockedUntil = 0; recent.length = 0; savePendingToDisk().catch(() => {}); }
+export function _reset() { devices = null; pending = []; badAttempts = 0; failures.length = 0; lockedUntil = 0; recent.length = 0; adminToken = null; savePendingToDisk().catch(() => {}); }
+
+// ── jeton d'administration local (désactivé par défaut, XAUZ_LOCAL_ADMIN_TOKEN=1) ────────────
+// A01 : sur le port LOCAL, les routes de lecture (ex. /api/admin/devices en GET) restent protégées
+// par le seul en-tête X-XZ (anti-CSRF, cf. server.js) comme aujourd'hui. Les routes MUTANTES
+// (mint-pairing-code, révocation d'appareil) peuvent en plus exiger ce jeton, créé une fois par
+// installation (0600, jamais journalisé), si XAUZ_LOCAL_ADMIN_TOKEN=1. Par défaut (0), le
+// comportement historique (X-XZ seul) est inchangé, pour ne pas casser l'appairage existant tant
+// que le flux « obtention du jeton par l'UI locale » n'a pas été validé en conditions réelles.
+export const LOCAL_ADMIN_TOKEN_ENABLED = process.env.XAUZ_LOCAL_ADMIN_TOKEN === '1';
+let adminToken = null;
+async function loadOrCreateAdminToken() {
+  if (adminToken) return adminToken;
+  try {
+    const raw = JSON.parse(await readFile(ADMIN_TOKEN_FILE(), 'utf8'));
+    if (raw && typeof raw.token === 'string' && raw.token.length >= 32) { adminToken = raw.token; return adminToken; }
+  } catch { /* absent ou invalide : on en crée un */ }
+  adminToken = randomBytes(32).toString('base64url');
+  try {
+    await mkdir(DATA_DIR, { recursive: true });
+    const tmp = ADMIN_TOKEN_FILE() + '.tmp';
+    await writeFile(tmp, JSON.stringify({ token: adminToken, createdAt: Date.now() }), { mode: 0o600 });
+    await rename(tmp, ADMIN_TOKEN_FILE());
+    try { await chmod(ADMIN_TOKEN_FILE(), 0o600); } catch { /* Windows : ACL du profil utilisateur */ }
+  } catch { /* la persistance ne doit jamais faire tomber le service : jeton en mémoire seulement */ }
+  return adminToken;
+}
+/** Jeton courant (créé au premier appel), pour que l'UI locale l'affiche/le transmette. */
+export async function getLocalAdminToken() { return loadOrCreateAdminToken(); }
+/** Vérifie l'en-tête `x-xz-admin` d'une requête locale mutante (comparaison en temps constant). */
+export async function checkLocalAdminToken(headerValue) {
+  if (!LOCAL_ADMIN_TOKEN_ENABLED) return true; // fonctionnalité désactivée par défaut
+  const want = await loadOrCreateAdminToken();
+  const got = String(headerValue || '');
+  const a = Buffer.from(want), b = Buffer.from(got);
+  return a.length === b.length && a.length > 0 && timingSafeEqual(a, b);
+}
 
 // ── en-têtes de sécurité (A02) ───────────────────────────────────────────
 export function securityHeaders({ html = false, remote = false } = {}) {

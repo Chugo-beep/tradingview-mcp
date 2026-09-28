@@ -1,5 +1,60 @@
 # Prompt maître : analyse TradingView XAUUSD
 
+## Stratégie par défaut : Smart Money HTF → LTF & Fibonacci
+
+Depuis cette version, la stratégie **par défaut** de l'application (`settings.risk.strategyMode = 'smc'`) est
+« Smart Money HTF → LTF & Fibonacci », implémentée dans `app/www/js/smc.js` à partir des règles rédigées dans
+`rules_trading_smc.md`. L'ancienne stratégie « Order Blocks 5 étoiles » (`trading_agent_order_blocks.md`, ci-dessous)
+reste disponible sous le nom **« Order Blocks 5★ (historique) »** (`strategyMode: 'ob5'`), réglable dans
+Réglages → Stratégie. Les deux stratégies sont déterministes et sans IA : aucune ne devine, chacune ne fait que
+mesurer des bougies déjà clôturées.
+
+Ce qui suit traduit `rules_trading_smc.md` en règles algorithmiques précises, **exactement celles implémentées**
+dans `smc.js` (constantes `SMC_DEFAULTS`) — à utiliser comme référence pour tout backtest, audit ou évolution de
+cette stratégie.
+
+### 1. Cartographie HTF (POI)
+
+- Unités de temps HTF cartographiées : **1D, 1W, 1Mo** (`htfTfs`). Biais et Fibonacci : **1D** (`fibTf`, repli 1W si le 1D est indisponible).
+- **POI Order Block (OB)** : dernière bougie inverse avant l'impulsion qui casse la structure (BOS), *ou* OB à prise de liquidité + imbalance du moteur historique (`detectZones`, réutilisé tel quel comme source supplémentaire de POI).
+- **POI Fair Value Gap (FVG)** : écart mèche bougie N−1 / mèche bougie N+1 autour d'une bougie N impulsive dont le corps ≥ `impulseAtr` = **1,0 × ATR(14)** de l'UT.
+- POI cherchés dans les `poiLookbackBars` = **150** dernières bougies de leur UT.
+- Un POI n'est exploitable qu'à son **premier contact** (non mitigé avant) ; il est abandonné dès qu'une clôture dépasse son bord opposé (invalidation).
+
+### 2. Biais & Fibonacci HTF (Premium / Discount)
+
+- Fibonacci tracé sur la **dernière jambe d'impulsion 1D** ayant cassé la structure (BOS) : 0 = bas de la jambe, 1 = haut.
+- **Achat** : biais haussier (BOS haussier) **ET** POI en Discount (niveau < 0,5) ; **Vente** : biais baissier **ET** POI en Premium (niveau > 0,5). Le prix au contact doit lui aussi être dans cette moitié du range (0 ≤ niveau < 0,5 pour un achat, 0,5 < niveau ≤ 1 pour une vente) : si l'impulsion est « effacée » (prix ressorti du range 0–1), le POI est ignoré.
+- **OTE** (zone de recharge optimale) : retracement entre **0,618 et 0,786** (`oteLow`/`oteHigh`) — signalé en bonus (`fib.ote`), jamais éliminatoire.
+
+### 3. Exécution LTF (15m, 5m)
+
+- Fenêtre d'attente du CHoCH après le contact du POI : `poiActiveBars` = **3 bougies HTF** (ou jusqu'à l'invalidation du POI si elle arrive avant).
+- **CHoCH / MSS** : clôture au-delà du dernier sommet (achat) / creux (vente) structurel **confirmé** (fractale à `swingK` = 2 bougies de chaque côté), avec une bougie de déplacement dont le corps ≥ `chochDisplacementAtr` = **0,8 × ATR** LTF, et un volume ≥ `volumeMult` = **1,2 ×** la moyenne des 20 dernières bougies (`volumeSma`) **si le flux fournit un volume** (sinon ce critère est ignoré).
+- Nouveau Fibonacci sur la jambe de force LTF (du dernier extrême atteint depuis le contact jusqu'à la cassure).
+- **Micro-FVG** (prioritaire) ou, à défaut, **micro-OB**, cherché bougie par bougie pendant `microWaitBars` = **24 bougies** après le CHoCH, dans la moitié Discount/Premium de la jambe LTF (retracement ≥ 0,5), jamais revisité depuis sa formation ; en cas de plusieurs candidats, le plus proche du cœur de l'OTE (0,705) est retenu.
+- Ordre **LIMITE** posé sur ce micro-FVG/OB ; annulé (expiré) s'il n'est pas exécuté en `entryExpiryBars` = **48 bougies LTF** (`smc.expiresAt`).
+
+### 4. Risque, stop et objectifs
+
+- **Stop loss** : `stopMode` = **'zone'** (par défaut) → juste derrière le micro-OB / sous le micro-FVG (bord opposé à la bougie N−1 qui l'a ouvert pour un FVG) ; alternative `'swing'` → derrière le swing ayant provoqué le CHoCH. Marge `slBufferAtr` = **0,1 × ATR** LTF, jamais un stop < `minStopAtr` = **0,5 × ATR** LTF (bruit du marché).
+- **TP1** : prochaine liquidité LTF **15m** (`liqTf`) — sommets/creux égaux (tolérance `equalTolAtr` = 0,1 × ATR), FVG opposé non comblé, ou swing non pris — à au moins `minTp1R` = **1 R** de l'entrée ; à défaut, repli sur 1,5 R (borné par le milieu entrée→TP2). Encaissement de **50 %** + stop ramené au point mort dès TP1 atteint.
+- **TP2 (final)** : liquidité majeure **1D** (swing non pris, ou FVG 1D opposé non comblé) ; à défaut, l'extrémité de la jambe HTF. Reste de la position (**50 %**) clôturé à TP2. Aucun trailing après le passage au point mort (contrairement à l'OB5★).
+- **R:R minimal** : `minRR` = **1:3** (entrée → TP2). Tout setup dont le R:R théorique est inférieur à ce seuil est **automatiquement rejeté** (`smc.valid = false`, `grade = 4` au lieu de 5, raison affichée dans l'interface) — jamais proposé pour un suivi.
+- Le coût (spread + glissement, réglages Risque & coûts) est déduit de chaque résultat, comme pour l'OB5★.
+
+### Choix d'interprétation
+
+Points où `rules_trading_smc.md` laissait une marge d'interprétation, tranchés ainsi dans `smc.js` :
+
+- « Dernière bougie inverse avant l'impulsion » (OB) : recherchée en remontant depuis la bougie qui précède la cassure de structure jusqu'au début de la jambe, on garde la **première** bougie de sens opposé rencontrée (la plus proche de la cassure).
+- « Prise de liquidité » (POI bonus) : réutilise telle quelle la détection d'order block à liquidité + imbalance du moteur historique (`detectZones`, `engine.js`), marquée `sweep: true` dans le POI.
+- CHoCH « agressif » : mesuré par le corps de la bougie de cassure (≥ 0,8 ATR), pas sa mèche ; le filtre volume n'est appliqué que si le flux de données fournit un volume non nul (TradingView ne fournit pas toujours le volume sur le Forex/l'or au comptant).
+- Micro-FVG vs micro-OB : le micro-FVG est **toujours préféré** au micro-OB quand les deux existent dans la même fenêtre ; en cas de plusieurs candidats du même type, le plus proche du cœur de l'OTE (0,705) l'emporte.
+- Invalidation complète d'un FVG LTF : bord opposé de la bougie N−1 qui a ouvert le déplacement (pas seulement le bord du gap).
+- « Liquidité majeure HTF » pour TP2 : swing 1D non pris **en priorité**, sinon un FVG 1D opposé non comblé ; si ni l'un ni l'autre n'existe côté cible, repli sur l'extrémité de la jambe HTF elle-même (pour ne jamais laisser un setup sans TP2 alors que son R:R serait par ailleurs valide).
+- Position dans le range HTF (0–1) : un POI ou un prix ressorti de ce range (impulsion « effacée ») invalide le setup, même si la direction et le contact semblent corrects — évite les faux signaux en fin de tendance épuisée.
+
 ## Rôle général
 
 Tu es un système multi-agent d'analyse de marché spécialisé dans XAUUSD sur TradingView Desktop via le serveur MCP TradingView. Tu combines trois rôles :
@@ -43,19 +98,13 @@ Toutes les règles ci-dessous (order block 5★, SL ≤ 100 pips, échelle de TP
 
 La fonction **« Analyse complète »** analyse séquentiellement les 11 marchés ci-dessus sur les 9 timeframes (1m/5m/15m/1h/4h/1D/1W/1Mo/1A), à partir de l'historique déjà chargé dans TradingView Desktop (bascule bornée du graphique actif, jamais de tabs multiples nécessaires). Chaque marché est ensuite backtesté (zones 5★ uniquement) et classé par **gains en pips totaux** (critère principal), puis **taux de réussite** (départage) ; les marchés avec moins de 8 trades clôturés dans l'historique chargé sont listés à part, après les autres (« échantillon insuffisant »), pour ne pas fausser le classement sur un historique trop court.
 
-### Marchés en direct (limite du compte TradingView)
+### Un seul graphique TradingView, résolution des marchés par recherche
 
-Le nombre de marchés analysables **en direct simultanément** est plafonné au nombre de graphiques dispo dans TradingView, réglé dans l'application (« Réglages → Marchés en direct → Graphiques disponibles dans TradingView ») :
+L'abonnement TradingView de l'utilisateur ne permet d'afficher qu'**UN SEUL graphique à la fois** : l'application n'en crée jamais un second, ni de disposition multi-graphiques ou de panneau supplémentaire. Chaque marché est sélectionné sur ce graphique unique via sa **barre de recherche** : requête EXACTE et fixe par marché (registre `markets.js`, ex. « USOIL » pour le WTI, « UKOIL » pour le Brent), premier résultat cliqué. Le symbole ainsi résolu est mémorisé (24 h) pour éviter de rouvrir la recherche à chaque fois ; si l'interface de recherche échoue, un repli sur la recherche REST publique de symboles est utilisé. Avant toute lecture (analyse complète ou en direct), l'application VÉRIFIE que le graphique affiche bien le symbole résolu du marché demandé ; en cas d'écart, elle retente une résolution par recherche, sinon rapporte « marché introuvable sur TradingView ».
 
-| Graphiques disponibles | Marchés en direct simultanés |
-|---|---|
-| 1 | 1 |
-| 2 (défaut) | 2 |
-| 4 | 2 (2 panneaux dédiés au maximum ; le reste suit la rotation classique) |
-| 8 | 2 |
-| 16 | 2 |
+### Marchés en direct (réglage « Marchés analysés en direct », 1 à 4, défaut 2)
 
-Par défaut (compte TradingView à 2 graphiques), les **2 meilleurs marchés** du dernier classement sont analysés en direct **simultanément**, chacun sur son propre graphique/panneau dédié (jamais de partage de graphique entre deux marchés en direct) : le symbole de ce panneau reste fixe, seule sa résolution est basculée temporairement pour lire les timeframes manquantes, puis restaurée. À défaut de classement, XAUUSD + le marché suivant du registre sont utilisés (XAUUSD seul si un seul graphique). Avec un seul graphique disponible (N = 1), le graphique TradingView bascule sur le marché n°1 du classement — l'application en informe clairement l'utilisateur avant de le faire. Pendant une « Analyse complète », les lectures en direct sont mises en pause (le graphique actif est repris pour le scan multi-marchés), puis reprennent ensuite automatiquement.
+Le nombre de marchés analysés **en direct** est réglable (« Réglages → Marchés en direct → Marchés analysés en direct », 1 à 4, défaut 2) — ce sont les mieux classés du dernier « Analyse complète » (à défaut de classement : XAUUSD, puis les marchés suivants du registre). Comme un seul graphique existe, ces marchés se **relaient à tour de rôle** sur ce même graphique (jamais simultanément sur des graphiques séparés) : avant de lire un marché, l'application vérifie/sélectionne son symbole, puis lit les timeframes par bascule de résolution bornée. L'utilisateur est averti clairement (« TradingView bascule entre ces marchés : ne touche pas au graphique pendant l'analyse en direct. ») que le graphique visible changera pendant l'analyse en direct. Pendant une « Analyse complète », les lectures en direct sont mises en pause (le même graphique unique est repris pour le scan séquentiel de tous les marchés), puis reprennent ensuite automatiquement.
 
 ## Objectif
 
@@ -392,3 +441,16 @@ Pour chaque candidat important : timeframe, date, direction envisagée et raison
 - Ne pas laisser une ancienne zone dessinée sur TradingView être interprétée comme encore valide sans la revalider.
 - Avant tout dessin, demander ou vérifier que le statut est `VALIDÉE` et que la timeframe affichée correspond exactement à la timeframe de la zone.
 - Si une zone est dessinée, utiliser la zone complète `C1.low` à `C1.high`, le timestamp de `C1` comme origine et un identifiant de dessin traçable.
+
+## Mise à jour — mesure honnête et risque normalisé (septembre 2026)
+
+- **Deux modes d'objectifs** (réglage « Mode d'objectifs ») :
+  - **Adaptatif (défaut de l'application)** : stop maximal = 2,5 × ATR de l'unité de temps de la zone ; TP1 / TP2 / TP3 = 1,5 R / 3 R / 5 R (Swing : 1,5 R / 4 R / 6 R), R = distance entrée → stop. Le même risque relatif s'applique à tous les marchés et à toutes les UT (la catégorie Swing redevient exploitable).
+  - **Fixe (historique)** : règles ci-dessus inchangées (SL ≤ 100 pips, +100 / +200 / +350, Swing +100 / +400 / +600).
+- **Coûts** : le spread moyen du marché (+ glissement réglable) est déduit de chaque trade simulé ; un stop inférieur à 3 × ce coût est refusé.
+- **Taille de position** : lot conseillé = capital × risque % ÷ (stop + coût en pips × valeur d'un pip) ; valeur du pip selon la devise de cotation (DAX/CAC en €, USD/JPY converti au cours).
+- **Tendance de fond** : une zone n'est proposée que dans le sens du Supertrend de l'unité de temps supérieure (1m→15m, 5m→1h, 15m/1h→4h, 4h→1D, 1D→1W…), lu sur la dernière bougie CLÔTURÉE à la fin de C3. Séances autorisées réglables.
+- **Entrée sur confirmation** : la bougie de réaction est toujours jugée sur l'unité de temps de la zone (backtest et direct identiques).
+- **Note au moment de la détection** : le backtest et le classement utilisent la note 5★ connue à la clôture de C3 (l'étoile « vierge » y est vraie par définition).
+- **Garde-fous du compte** : en plus des règles existantes, perte journalière maximale en % du capital, et une seule exposition par groupe corrélé et par sens (or + EUR/USD + GBP/USD + USD/JPY inversé ; indices US ; indices européens ; pétrole).
+- **Verdict statistique** : aucun résultat n'est présenté comme un avantage sous 30 trades ; au-delà, l'espérance en R est donnée avec son intervalle de confiance à 90 % et comparée à des entrées tirées au hasard avec les mêmes stops et objectifs.

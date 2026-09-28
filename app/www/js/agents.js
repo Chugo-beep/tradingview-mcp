@@ -8,10 +8,13 @@
  *   5. Auditeur (ultimate-trader) : revérifie chaque zone indépendamment et rend le verdict
  * Chaque agent produit un rapport horodaté avec un statut COMPLET / PARTIEL / ÉCHEC.
  */
-import { detectZones, TIMEFRAMES, TF_LABEL, TF_SECONDS, STATUS, normalizeCandles, CATEGORIES } from './engine.js';
-import { simulateZone, planFor, advance, finalize, POS, DEFAULT_RISK } from './trades.js';
+import { detectZones, annotateHtf, TIMEFRAMES, TF_LABEL, TF_SECONDS, STATUS, normalizeCandles, CATEGORIES } from './engine.js';
+import { simulateZone, planFor, advance, finalize, suggestedLot, POS, DEFAULT_RISK } from './trades.js';
 import { featuresOf, buildModel, scoreZone, reviewRules, passesActive } from './learning.js';
-import { marketById, marketOf, DEFAULT_MARKET } from './markets.js';
+import { marketById, marketOf, marketRisk, MARKETS, DEFAULT_MARKET } from './markets.js';
+import { summarize, randomBenchmark, combineBenchmarks, benchmarkLabel } from './stats.js';
+import { passesStrategy } from './ranking.js';
+import { detectSmcSetups, watchedPois } from './smc.js';
 
 const MAX_CONFIG_HISTORY = 50;
 const MIN_FORWARD_TRADES = 8;
@@ -95,6 +98,7 @@ export function agentCollector({ candles, symbol, wantedTfs, now, market }) {
 
 // ── 2. Scanner ────────────────────────────────────────────────────────────
 export function agentScanner({ candles, wantedTfs, currentPrice, opts, now }) {
+  if (opts.strategyMode === 'smc') return agentScannerSmc({ candles, currentPrice, opts, now });
   let zones = [];
   const lines = [];
   const rej = { liquidite: 0, imbalance: 0, egalite: 0 };
@@ -105,8 +109,25 @@ export function agentScanner({ candles, wantedTfs, currentPrice, opts, now }) {
     for (const k in rej) rej[k] += r.stats.rejected[k];
     lines.push(`${TF_LABEL[tf]} : ${r.stats.candidates} candidats → ${r.zones.length} zones (${r.zones.filter((z) => z.viable).length} viables)`);
   }
+  // tendance de fond (UT supérieure) connue à la clôture de C3
+  annotateHtf(zones, candles, opts);
   lines.push(`Rejets : liquidité non prouvée ${rej.liquidite}, imbalance absente ${rej.imbalance}, égalité ${rej.egalite}`);
   return { report: { agent: 'Scanner', role: 'historical-candle-scanner', at: now, status: zones.length || lines.length ? STATUS_OK : STATUS_PART, lines }, zones };
+}
+
+/** Scanner de la stratégie Smart Money HTF → LTF (smc.js). */
+function agentScannerSmc({ candles, currentPrice, opts, now }) {
+  const r = detectSmcSetups(candles, { marketId: opts.marketId, currentPrice, smc: opts.smc });
+  const f = r.funnel;
+  const lines = [
+    `POI HTF (1D/1W/1Mo) : ${f.pois} détectés · ${f.touched} atteints par le prix`,
+    `Dans le sens du biais HTF : ${f.biasOk} · en Discount/Premium (Fibonacci 0,5) : ${f.fibOk}`,
+    `CHoCH/MSS en 15m/5m : ${f.choch} · micro-FVG/OB en Discount/Premium LTF : ${f.micro}`,
+    `Setups : ${f.setups} (R:R ≥ 1:3 : ${f.rrOk}, rejetés pour R:R < 1:3 : ${f.rejectedRR})`,
+  ];
+  const watch = watchedPois(r.pois, currentPrice ?? 0, 6);
+  if (watch.length) lines.push(`POI non mitigés à surveiller : ${watch.map((p) => `${p.kind} ${TF_LABEL[p.tf]} ${p.dir === 'BUY' ? 'achat' : 'vente'} ${p.low}–${p.high}`).join(' · ')}`);
+  return { report: { agent: 'Scanner', role: 'historical-candle-scanner', at: now, status: STATUS_OK, lines }, zones: r.setups, pois: r.pois, watch, funnel: f };
 }
 
 // ── 3. Calendrier ─────────────────────────────────────────────────────────
@@ -229,11 +250,16 @@ export function agentHistory({ zones, candles, risk, calendar, learnStore, journ
   // backtest : TOUTES les zones détectées par le scanner (pas seulement les 5★ valides),
   // sans filtre d'apprentissage (pas de boucle de rétroaction) — les échantillons d'apprentissage
   // proviennent donc de l'ensemble des zones détectées, pas uniquement des zones validées 5★
+  // Les échantillons d'apprentissage ne proviennent QUE des zones que la stratégie aurait réellement
+  // proposées (5★ à la détection, tendance, UT supérieure, stop valide) : on apprend sur la même
+  // population que celle que l'on trade.
   const backtest = [];
+  const strat = { htfFilter: risk.htfFilter, sessions: risk.sessions };
   for (const z of zones) {
     const pos = simulateZone(z, candles[z.timeframe], risk, { m1, isBlackout: calendar.isBlackout, currentPrice });
-    backtest.push({ zone: z, pos });
-    if ((pos.state === POS.TP || pos.state === POS.SL) && pos.r != null) {
+    const eligible = passesStrategy(z, strat) && planFor(z, risk).slOk;
+    backtest.push({ zone: z, pos, eligible });
+    if (eligible && (pos.state === POS.TP || pos.state === POS.SL) && pos.r != null) {
       learnStore.samples[z.id] = { features: featuresOf(z, calendar, marketId), r: round(pos.r), source: learnStore.samples[z.id]?.source === 'reel' ? 'reel' : 'backtest', t: pos.exitTime };
     }
   }
@@ -259,7 +285,13 @@ export function agentHistory({ zones, candles, risk, calendar, learnStore, journ
     if (learnStore.history.length > 300) learnStore.history.splice(0, learnStore.history.length - 300);
   }
   model.history = learnStore.history;
+  // performance HONNÊTE de la stratégie (zones éligibles, coûts déduits) + test contre le hasard
+  const perf = strategyPerformance(backtest, candles, risk);
+  model.performance = perf;
   const lines = [
+    `Stratégie (backtest, coûts ${fmtNum(risk.costPips)} pips déduits) : ${perf.stats.n} trades · ${perf.stats.meanR == null ? '—' : fmtR(perf.stats.meanR)}/trade${perf.stats.ciR ? ` (IC 90 % ${fmtR(perf.stats.ciR[0])} à ${fmtR(perf.stats.ciR[1])})` : ''} · drawdown max ${fmtR(-perf.stats.maxDrawdownR)}`,
+    perf.stats.verdict.label,
+    perf.randomLabel,
     `${model.n} positions apprises (${model.real.n} réelles, ${model.n - model.real.n} backtest, toutes zones détectées)`,
     model.before.n ? `Avant règles : ${pct(model.before.winRate)} de réussite, ${fmtR(model.before.meanR)} par trade` : 'Pas encore de position clôturée à apprendre.',
     model.after.n && model.rules.some((r) => r.active) ? `Avec les règles actives : ${pct(model.after.winRate)}, ${fmtR(model.after.meanR)} par trade (${model.after.n} trades)` : null,
@@ -300,7 +332,7 @@ export function agentAuditor({ backtest, candles, collector, calReport, calendar
     let verdict = 'VALIDÉE';
     if (!collector.perTf[z.timeframe]?.ok) { verdict = 'NON VÉRIFIABLE'; reasons.push('données de la timeframe partielles'); }
     const tfC = normalizeCandles(candles[z.timeframe]);
-    const errs = z.viable ? reverify(z, tfC, opts.liquidityLookback) : [];
+    const errs = z.viable && !z.smc ? reverify(z, tfC, opts.liquidityLookback) : [];
     if (errs.length) { verdict = 'REJETÉE'; reasons.push(...errs.map((e) => `désaccord scanner/auditeur : ${e}`)); }
     const feats = featuresOf(z, calendar, marketId);
     const sc = scoreZone(model, feats);
@@ -308,20 +340,35 @@ export function agentAuditor({ backtest, candles, collector, calReport, calendar
     if (z.viable && verdict === 'VALIDÉE') {
       const plan = planFor(z, risk);
       const minStars = 5; // seules les zones 5★ sont proposées ; moins de 5★ = REFUSEE (non validée)
-      if (z.stars && !z.stars.trend) {
+      if (z.smc) {
+        // stratégie SMC : POI HTF + Fibonacci + CHoCH + micro-zone sont garantis par la détection ;
+        // restent le R:R ≥ 1:3, le coût, les séances, les règles apprises et les annonces
+        if (!plan.slOk) { proposal = 'REFUSEE'; reasons.push(plan.reason); counts.refusees++; }
+        else if (Array.isArray(risk.sessions) && risk.sessions.length && z.session && !risk.sessions.includes(z.session)) { proposal = 'REFUSEE'; reasons.push(`Séance ${z.session} exclue par tes réglages`); }
+        else if (sc.blockedBy.length) { proposal = 'FILTREE'; reasons.push(...sc.blockedBy.map((b) => `règle apprise : ${b}`)); counts.filtrees++; }
+        else if (calendar.isBlackout(t)) { proposal = 'SUSPENDUE'; reasons.push('annonce macro à fort impact imminente'); }
+        else proposal = 'PROPOSEE';
+      } else if (z.stars && !z.stars.trend) {
         proposal = 'REFUSEE'; counts.etoiles++;
         reasons.push(z.trend.ranging ? `⭐2 : marché en range (${z.trend.flips} changements de Supertrend)` : `⭐2 : OB contre la tendance (Supertrend ${z.trend.supertrend})`);
       } else if (z.grade != null && z.grade < minStars) {
         proposal = 'REFUSEE'; counts.etoiles++;
         const miss = [!z.stars.liquidity && '⭐3 liquidité proche au-delà de l\'OB', !z.stars.fib && `⭐5 OB en ${z.fib.zone === 'PREMIUM' ? 'Premium' : 'Discount'}`].filter(Boolean);
         reasons.push(`${z.grade}★ < ${minStars}★ exigées (${miss.join(', ')})`);
+      } else if (risk.htfFilter !== false && z.htf?.aligned === false) {
+        proposal = 'REFUSEE'; counts.etoiles++;
+        reasons.push(`Contre la tendance de fond (${TF_LABEL[z.htf.tf]} ${z.htf.dir === 1 ? 'haussière' : 'baissière'})`);
+      } else if (Array.isArray(risk.sessions) && risk.sessions.length && z.session && !risk.sessions.includes(z.session)) {
+        proposal = 'REFUSEE'; reasons.push(`Séance ${z.session} exclue par tes réglages`);
       } else if (!plan.slOk) { proposal = 'REFUSEE'; reasons.push(plan.reason); counts.refusees++; }
       else if (sc.blockedBy.length) { proposal = 'FILTREE'; reasons.push(...sc.blockedBy.map((b) => `règle apprise : ${b}`)); counts.filtrees++; }
       else if (calendar.isBlackout(t)) { proposal = 'SUSPENDUE'; reasons.push('annonce macro à fort impact imminente'); }
       else proposal = 'PROPOSEE';
     }
     if (verdict === 'VALIDÉE') counts.validees++; else if (verdict === 'REJETÉE') counts.rejetees++; else counts.nonVerifiables++;
-    audited.push({ ...z, pos, verdict, reasons, proposal, features: feats, score: sc, plan: planFor(z, risk), market: marketId });
+    const fullPlan = planFor(z, risk);
+    audited.push({ ...z, pos, verdict, reasons, proposal, features: feats, score: sc, plan: fullPlan, market: marketId,
+      lotSuggested: suggestedLot(fullPlan.slPips, risk, risk.eurUsdManual) });
   }
   // confluence multi-timeframe : même sens, zones qui se chevauchent sur d'autres UT
   for (const a of audited) {
@@ -352,7 +399,8 @@ export function agentAuditor({ backtest, candles, collector, calReport, calendar
 export function transitions(beforeState, beforeHits, p, beforeBeDone = false, beforeTrailFrom = null) {
   const out = [];
   if (beforeState === POS.PENDING && p.state !== POS.PENDING && p.state !== POS.CANCELLED && p.state !== POS.REFUSED) out.push('fill');
-  for (let k = beforeHits + 1; k <= Math.min(2, p.hits || 0); k++) out.push(`tp${k}`);
+  // SMC : 2 objectifs seulement (TP2 = objectif final, notifié par 'tp3')
+  for (let k = beforeHits + 1; k <= Math.min(p.strategy === 'smc' ? 1 : 2, p.hits || 0); k++) out.push(`tp${k}`);
   if (!beforeBeDone && p.beDone) out.push('be');
   else if (beforeBeDone && p.trailFrom != null && p.trailFrom !== beforeTrailFrom) out.push('trail');
   if (p.state !== beforeState || (p.hits || 0) !== beforeHits) {
@@ -375,7 +423,11 @@ function journalEntry(a, risk, now, liveTime, extra = {}) {
     entry: a.plan.entry, sl: a.plan.sl, tp1: a.plan.tp1, tp2: a.plan.tp2, tp3: a.plan.tp3, tp: a.plan.tp3,
     rr: a.plan.rr, slPips: a.plan.slPips, tp1Pips: a.plan.tp1Pips, hits: 0, hitTimes: [],
     riskPx: a.plan.riskPx, entryMode: a.plan.entryMode, inZone: false, grade: a.grade, stars: a.stars,
+    cancelPolicy: a.plan.cancelPolicy || 'tp1', bornTime: a.c3Time ?? null, maxPendingSec: a.pos?.maxPendingSec ?? null,
     lot: risk.lot, pipSize: risk.pipSize, contractSize: risk.contractSize, market: a.market,
+    quote: risk.quote, quotePrice: risk.quotePrice, costPips: a.plan.costPips ?? risk.costPips ?? 0, maxSlPips: a.plan.maxSlPips,
+    tp1Pips: a.plan.tp1Pips, tp2Pips: a.plan.tp2Pips, tp3Pips: a.plan.tp3Pips, corrGroup: risk.corrGroup,
+    ...(a.plan.legs ? { legs: a.plan.legs, beAtTp1: !!a.plan.beAtTp1, noTrail: !!a.plan.noTrail, expiresAt: a.plan.expiresAt ?? null, strategy: a.plan.strategy, smc: a.smc } : {}),
     features: a.features, state: POS.PENDING, createdAt: Math.floor(now / 1000), lastTime: liveTime,
     followed: true, ...extra,
   };
@@ -444,12 +496,24 @@ export function updateJournal(journal, { audited, candles, risk, calendar, curre
     } else if (j.state === POS.PENDING && Math.floor(now / 1000) - j.createdAt > (MAX_PENDING_SEC[j.category] || 86400 * 5)) {
       Object.assign(j, { state: POS.CANCELLED, reason: 'ordre expiré', exitTime: liveTime });
     } else {
-      const closed = base.filter((c) => c.time > j.lastTime && c.complete !== false);
       const pos = { ...j, dir: j.dir };
-      advance(pos, closed, { isBlackout: calendar.isBlackout, tfSec: 60, pipSize: j.pipSize, swingCandles });
+      // Entrée « confirmation » : la bougie de réaction est jugée sur l'UT de la zone (même règle
+      // que le backtest). Une fois la position ouverte, suivi fin en 1 minute.
+      const tfSec = TF_SECONDS[j.timeframe] || 60;
+      if (pos.state === POS.PENDING && pos.entryMode === 'confirmation' && zoneTf?.length && tfSec > 60) {
+        const tfClosed = normalizeCandles(zoneTf).filter((c) => c.time + tfSec - 60 > (pos.lastTime ?? 0) && c.complete !== false);
+        advance(pos, tfClosed, { isBlackout: calendar.isBlackout, tfSec, pipSize: j.pipSize, swingCandles });
+        // la suite (1 minute) reprend APRÈS la clôture de la bougie de réaction
+        if (pos.state === POS.OPEN) pos.lastTime = pos.fillTime + tfSec - 60;
+        else if (tfClosed.length) pos.lastTime = tfClosed.at(-1).time + tfSec - 60;
+      }
+      const closed = base.filter((c) => c.time > pos.lastTime && c.complete !== false);
+      if (pos.state === POS.OPEN || pos.entryMode !== 'confirmation' || !(zoneTf?.length && tfSec > 60)) {
+        advance(pos, closed, { isBlackout: calendar.isBlackout, tfSec: 60, pipSize: j.pipSize, swingCandles });
+      }
       // bougie en cours : l'événement est réel (le prix l'a atteint) mais la bougie n'est pas figée
       const live = base.at(-1);
-      if (live.complete === false && live.time > (pos.lastTime ?? 0) && (pos.state === POS.PENDING || pos.state === POS.OPEN)) {
+      if (live.complete === false && live.time > (pos.lastTime ?? 0) && (pos.state === POS.OPEN || (pos.state === POS.PENDING && pos.entryMode !== 'confirmation'))) {
         const probe = { ...pos };
         advance(probe, [live], { isBlackout: calendar.isBlackout, tfSec: 60, pipSize: j.pipSize, swingCandles });
         if (probe.state !== pos.state || (probe.hits || 0) !== (pos.hits || 0)) Object.assign(pos, probe);
@@ -461,7 +525,7 @@ export function updateJournal(journal, { audited, candles, risk, calendar, curre
   }
   // 3. résultats
   for (const j of journal.entries) {
-    const rk = { lot: j.lot, pipSize: j.pipSize, contractSize: j.contractSize };
+    const rk = { lot: j.lot, pipSize: j.pipSize, contractSize: j.contractSize, quote: j.quote, quotePrice: j.quotePrice, costPips: j.costPips || 0 };
     const plan = { slPips: j.slPips, riskPx: j.slPips * j.pipSize };
     Object.assign(j, finalize(j, plan, currentPrice, rk));
   }
@@ -482,7 +546,14 @@ export function updateJournal(journal, { audited, candles, risk, calendar, curre
  *   4. Après 3 pertes consécutives (journal), taille réduite conseillée (50 % du lot) sur les
  *      prochaines propositions.
  */
-export function riskGuards(journal, audited, now = Date.now()) {
+function moneyEur(j, eurUsd) {
+  const q = (j.pips || 0) * (j.pipSize || 0) * (j.contractSize || 0) * (j.lot || 0);
+  if (j.quote === 'EUR') return q;
+  const usd = j.quote === 'JPY' ? q / (j.quotePrice || 150) : q;
+  return eurUsd ? usd / eurUsd : usd;
+}
+
+export function riskGuards(journal, audited, now = Date.now(), opts = {}) {
   const entries = journal?.entries || [];
   const open = entries.filter((j) => j.state === POS.OPEN);
   const closed = entries.filter((j) => j.state === POS.TP || j.state === POS.SL).sort((a, b) => (a.exitTime || 0) - (b.exitTime || 0));
@@ -506,12 +577,29 @@ export function riskGuards(journal, audited, now = Date.now()) {
       && zoneLow - h <= j.zoneHigh && zoneHigh + h >= j.zoneLow);
   };
 
+  // exposition corrélée : au plus 1 position ouverte ou en attente suivie par groupe (or/dollar,
+  // indices US, indices européens, pétrole) et par sens
+  const active = entries.filter((j) => j.followed && (j.state === POS.OPEN || j.state === POS.PENDING));
+  const groupOf = (j) => j.corrGroup || marketById(j.market)?.corrGroup || j.market;
+  const correlated = (marketId, dir) => {
+    const g = marketById(marketId)?.corrGroup || marketId;
+    // USD : un achat d'or / EUR / GBP et une vente d'USD/JPY vont dans le même sens (dollar baissier)
+    const usdSign = (id, d) => (id === 'USDJPY' ? (d === 'BUY' ? 1 : -1) : (d === 'BUY' ? -1 : 1));
+    return active.some((j) => groupOf(j) === g && (g === 'USD' ? usdSign(j.market, j.dir) === usdSign(marketId, dir) : j.dir === dir));
+  };
+  // perte journalière maximale en % du capital (journal réel, coûts inclus)
+  const capital = Number(opts.capital) || 0;
+  const lossTodayEur = closed.filter((j) => (j.exitTime || 0) >= dayStartSec && Number.isFinite(j.pips) && j.pips < 0)
+    .reduce((s, j) => s + Math.abs(moneyEur(j, opts.eurUsd)), 0);
+  const dailyLossLimit = capital > 0 && opts.maxDailyLossPct > 0 && lossTodayEur >= (capital * opts.maxDailyLossPct) / 100;
+
   return {
     maxPositions, openCount: open.length,
+    correlated, lossTodayEur, dailyLossLimit,
     dailyBreaker, lossesToday,
     reducedSize, consecutiveLosses,
     overlapsOpen,
-    blockNew: maxPositions || dailyBreaker,
+    blockNew: maxPositions || dailyBreaker || dailyLossLimit,
   };
 }
 
@@ -520,8 +608,12 @@ export function runAgents({ data, settings, cal, learnStore, journal, newsEvents
   // Marché analysé : whitelisté (markets.js), XAUUSD par défaut (comportement historique inchangé).
   const market = marketById(settings.market || data.market) || marketById(DEFAULT_MARKET);
   // pip/contractSize sont des propriétés physiques du marché, jamais réglables par l'utilisateur.
-  const risk = { ...DEFAULT_RISK, ...settings.risk, pipSize: market.pip, contractSize: market.contractSize };
-  const opts = { ...(settings.strategy || {}), liquidityLookback: settings.liquidityLookback, fragileGapAtrRatio: settings.fragileGapAtrRatio, marketId: market.id };
+  const lastPx = TIMEFRAMES.map((tf) => data.candles?.[tf]?.at(-1)?.close).find(Number.isFinite);
+  const risk = {
+    ...DEFAULT_RISK, ...settings.risk,
+    ...marketRisk(market, { quotePrice: lastPx, spreadOverride: settings.risk?.spreadOverrides?.[market.id], slippagePips: settings.risk?.slippagePips }),
+  };
+  const opts = { ...(settings.strategy || {}), liquidityLookback: settings.liquidityLookback, fragileGapAtrRatio: settings.fragileGapAtrRatio, marketId: market.id, strategyMode: risk.strategyMode || 'smc' };
   const wantedTfs = TIMEFRAMES.filter((tf) => settings.timeframes.includes(tf));
   const candles = data.candles;
   // prix courant : dernière clôture de la plus petite TF
@@ -551,11 +643,28 @@ export function runAgents({ data, settings, cal, learnStore, journal, newsEvents
   audit.audited.sort((a, b) => (order[a.proposal] ?? 9) - (order[b.proposal] ?? 9) || (a.status === STATUS.VIABLE ? 0 : 1) - (b.status === STATUS.VIABLE ? 0 : 1)
     || (b.grade ?? 0) - (a.grade ?? 0) || (b.confluence?.length ?? 0) - (a.confluence?.length ?? 0) || b.c1Time - a.c1Time);
   // préservation du compte (§B) : calculée après la mise à jour du journal, sur le journal réel uniquement
-  const guards = riskGuards(journal, audit.audited, now);
+  const guards = riskGuards(journal, audit.audited, now, { capital: risk.capital, maxDailyLossPct: risk.maxDailyLossPct, eurUsd: risk.eurUsdManual });
   for (const a of audit.audited) {
     if (a.proposal === 'PROPOSEE' && guards.overlapsOpen(a.direction, a.zoneLow, a.zoneHigh)) a.guardOverlap = true;
+    if (a.proposal === 'PROPOSEE' && guards.correlated(market.id, a.direction)) a.guardCorrelated = true;
   }
-  return { reports, audited: audit.audited, journal, model: hist.model, currentPrice, priceTime, analyzedAt: now, calendar, risk, guards, market };
+  return { reports, audited: audit.audited, journal, model: hist.model, currentPrice, priceTime, analyzedAt: now, calendar, risk, guards, market, strategyMode: opts.strategyMode, watchPois: scan.watch || [], smcFunnel: scan.funnel || null };
+}
+
+/** Statistiques de la stratégie sur le backtest (zones éligibles uniquement) + référence hasard. */
+export function strategyPerformance(backtest, candles, risk, { runs = 60 } = {}) {
+  const trades = [];
+  const tplByTf = {};
+  for (const { zone: z, pos, eligible } of backtest) {
+    if (!eligible || (pos.state !== POS.TP && pos.state !== POS.SL) || !Number.isFinite(pos.r)) continue;
+    trades.push({ r: pos.r, pips: pos.pips, t: pos.exitTime });
+    const plan = planFor(z, risk);
+    (tplByTf[z.timeframe] ||= []).push({ riskPx: Math.abs(pos.fillPrice - plan.sl), rr: plan.rr, rr2: plan.rr2, rr3: plan.rr3, pipSize: risk.pipSize, costPips: risk.costPips || 0 });
+  }
+  const stats = summarize(trades);
+  const benches = Object.entries(tplByTf).map(([tf, tpl]) => randomBenchmark(normalizeCandles(candles[tf]), tpl, { runs }));
+  const pct = combineBenchmarks(benches).percentileOf(stats.meanR);
+  return { stats, randomPercentile: pct, randomLabel: benchmarkLabel(pct, stats.n) };
 }
 
 function pruneSamples(store, max) {
@@ -566,5 +675,6 @@ function pruneSamples(store, max) {
 }
 const round = (v) => Math.round(v * 1000) / 1000;
 const pct = (v) => (v == null ? '—' : `${Math.round(v * 100)} %`);
+const fmtNum = (v) => (v == null ? '0' : String(Math.round(v * 10) / 10).replace('.', ','));
 const fmtR = (v) => (v == null ? '—' : `${v >= 0 ? '+' : ''}${v.toFixed(2)} R`);
 const fmtDate = (t) => new Date(t * 1000).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });

@@ -12,7 +12,7 @@ import { join } from 'node:path';
 import { DATA_DIR } from './security.js';
 import { MARKETS } from './www/js/markets.js';
 import { TIMEFRAMES } from './www/js/engine.js';
-import { rankMarket, rankMarkets } from './www/js/ranking.js';
+import { rankMarket, rankMarkets, choosePolicies, summarizeWithPolicy } from './www/js/ranking.js';
 
 const SCAN_FILE = () => join(DATA_DIR, 'scan.json');
 
@@ -44,6 +44,28 @@ export function startScan() {
   return { started: true };
 }
 
+/** Réglages de risque/stratégie de l'utilisateur pour le prochain scan (mode d'objectifs, spreads, filtres). */
+let scanRisk = {};
+const RISK_KEYS = ['strategyMode', 'targetMode', 'maxSlAtr', 'slippagePips', 'spreadOverrides', 'htfFilter', 'sessions', 'entryMode'];
+export function setScanRisk(r = {}) {
+  const out = {};
+  for (const k of RISK_KEYS) if (r[k] !== undefined) out[k] = r[k];
+  if (!['atr', 'pips'].includes(out.targetMode)) delete out.targetMode;
+  if (!['smc', 'ob5'].includes(out.strategyMode)) delete out.strategyMode;
+  if (!['confirmation', 'limit'].includes(out.entryMode)) delete out.entryMode;
+  if (out.maxSlAtr != null && !(Number(out.maxSlAtr) > 0 && Number(out.maxSlAtr) <= 10)) delete out.maxSlAtr;
+  if (out.slippagePips != null && !(Number(out.slippagePips) >= 0 && Number(out.slippagePips) <= 100)) delete out.slippagePips;
+  if (out.spreadOverrides && typeof out.spreadOverrides === 'object') {
+    const so = {};
+    for (const m of MARKETS) { const v = Number(out.spreadOverrides[m.id]); if (Number.isFinite(v) && v >= 0 && v <= 1000) so[m.id] = v; }
+    out.spreadOverrides = so;
+  } else delete out.spreadOverrides;
+  if (out.htfFilter != null) out.htfFilter = !!out.htfFilter;
+  if (out.sessions != null) out.sessions = Array.isArray(out.sessions) ? out.sessions.filter((x) => ['Asie', 'Londres', 'New York', 'Clôture US'].includes(x)) : [];
+  scanRisk = out;
+  return out;
+}
+
 async function runScan() {
   const { fullScan } = await import('./tvfeed.js');
   const { results } = await fullScan({
@@ -54,16 +76,27 @@ async function runScan() {
       if (p.status === 'erreur') state.errors[`${p.marketId}:${p.tf}`] = 'lecture impossible';
     },
   });
-  const ranking = [];
+  const raw = [];
+  const failed = [];
   for (const market of MARKETS) {
     const r = results[market.id];
     if (!r || r.errors?._market) {
-      ranking.push({ market: market.id, label: market.label, pips: 0, trades: 0, winRate: null, expectancyPips: null, proposals: 0, insufficient: true, topZones: [], barsPerTf: {}, error: r?.errors?._market || 'aucune donnée disponible' });
+      failed.push({ market: market.id, label: market.label, pips: 0, trades: 0, winRate: null, expectancyPips: null, proposals: 0, insufficient: true, topZones: [], barsPerTf: {}, error: r?.errors?._market || 'aucune donnée disponible' });
       continue;
     }
-    ranking.push(rankMarket(market, r.candles));
+    raw.push(rankMarket(market, r.candles, { risk: scanRisk }));
   }
-  const payload = { finishedAt: Date.now(), ranking: rankMarkets(ranking) };
+  // règle d'annulation retenue par catégorie (champion/challenger sur tous les marchés), puis classement
+  const { policy, stats } = choosePolicies(raw);
+  const ranking = raw.map((x) => {
+    const s = summarizeWithPolicy(x, policy);
+    delete s.byPolicy; delete s.viableZones; delete s.benchMeanR; delete s.history;
+    return s;
+  });
+  // historique des trades simulés par l'analyse complète (règle retenue, coûts déduits), tous marchés,
+  // du plus récent au plus ancien — consultable dans « Marchés → Historique de l'analyse complète »
+  const history = raw.flatMap((x) => summarizeWithPolicy(x, policy).history).sort((a, b) => b.t - a.t);
+  const payload = { finishedAt: Date.now(), ranking: rankMarkets([...ranking, ...failed]), policy, policyStats: stats, history };
   await persist(payload);
   state.finishedAt = Date.now();
 }

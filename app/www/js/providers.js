@@ -32,6 +32,12 @@ export function remoteBase(url) {
   return `${u.origin}/`;
 }
 
+// Lecture des bougies : le PC peut devoir changer de marché puis parcourir 9 timeframes sur le
+// graphique unique (plusieurs dizaines de secondes) → délai large, et message distinct du « PC éteint ».
+const CANDLES_TIMEOUT_MS = 240000;
+const BUSY_MSG = 'Le PC est toujours en train de lire TradingView (changement de marché / timeframes) : l\'analyse sera relancée au prochain cycle.';
+const isTimeout = (e) => e?.name === 'AbortError' || e?.name === 'TimeoutError';
+
 async function call(url, opts = {}, timeoutMs = 45000) {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), timeoutMs);
@@ -54,15 +60,15 @@ export async function fetchAll(settings, { serverAvailable, since } = {}) {
   if (Number.isFinite(since) && since > 0) qs += `&since=${Math.floor(since)}`;
   let res;
   if (serverAvailable) {
-    try { res = await call(`api/tv/candles?${qs}`, { headers: LOCAL_HEADERS }); }
-    catch { throw new Error('Serveur local injoignable : relance XAUUSD-Zones.bat.'); }
+    try { res = await call(`api/tv/candles?${qs}`, { headers: LOCAL_HEADERS }, CANDLES_TIMEOUT_MS); }
+    catch (e) { throw new Error(isTimeout(e) ? BUSY_MSG : 'Serveur local injoignable : relance XAUUSD-Zones.bat.'); }
   } else {
     const base = remoteBase(settings.remoteUrl);
     if (!base) throw new Error('Indique l\'adresse HTTPS du PC (https://…ts.net) dans les réglages puis appaire ce téléphone.');
     const token = await vault.get('deviceToken');
     if (!token) throw new Error('Ce téléphone n\'est pas appairé : Réglages → Connexion au PC.');
-    try { res = await call(`${base}api/tv/candles?${qs}`, { headers: { Authorization: `Bearer ${token}` } }); }
-    catch { throw new Error('PC injoignable : vérifie que le PC est allumé, que XAUUSD-Zones.bat tourne et que Tailscale est connecté sur les deux appareils.'); }
+    try { res = await call(`${base}api/tv/candles?${qs}`, { headers: { Authorization: `Bearer ${token}` } }, CANDLES_TIMEOUT_MS); }
+    catch (e) { if (isTimeout(e)) throw new Error(BUSY_MSG); throw new Error('PC injoignable : vérifie que le PC est allumé, que XAUUSD-Zones.bat tourne et que Tailscale est connecté sur les deux appareils.'); }
     if (res.r.status === 401 || res.r.status === 403) {
       // ne retirer le jeton que si le serveur dit explicitement qu'il est inconnu/révoqué/expiré,
       // jamais sur une erreur réseau, une 5xx, ou un simple défaut d'en-tête (ne devrait pas arriver ici)
@@ -151,15 +157,16 @@ export const adminApi = {
   revoke: (id) => admin(`admin/devices/${encodeURIComponent(id)}`, 'DELETE'),
   security: () => admin('admin/security'),
   remote: () => admin('admin/remote'),
-  setupTv: () => admin('tv/setup', 'POST'),
-  setupLive: (marketIds) => admin('tv/setup-live', 'POST', { markets: marketIds }),
+  setupTv: () => admin('tv/setup', 'POST'), // « Vérifier les marchés TradingView » : résolution par recherche, UN SEUL graphique
   loadHistory: () => admin('tv/history', 'POST'),
 };
 
 /** « Analyse complète » (PC ou téléphone via le PC distant) : mêmes routes locale/distante que fetchAll. */
-async function scanCall(path, settings, { serverAvailable }, method = 'GET') {
+async function scanCall(path, settings, { serverAvailable }, method = 'GET', payload = null) {
+  const bodyOpts = payload ? { body: JSON.stringify(payload) } : {};
+  const jsonHdr = payload ? { 'Content-Type': 'application/json' } : {};
   if (serverAvailable) {
-    const { r, j } = await call(`api/${path}`, { method, headers: LOCAL_HEADERS }, 60000);
+    const { r, j } = await call(`api/${path}`, { method, headers: { ...LOCAL_HEADERS, ...jsonHdr }, ...bodyOpts }, 60000);
     if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
     return j;
   }
@@ -167,12 +174,20 @@ async function scanCall(path, settings, { serverAvailable }, method = 'GET') {
   if (!base) throw new Error('Indique l\'adresse HTTPS du PC dans les réglages.');
   const token = await vault.get('deviceToken');
   if (!token) throw new Error('Ce téléphone n\'est pas appairé : Réglages → Connexion au PC.');
-  const { r, j } = await call(`${base}api/${path}`, { method, headers: { Authorization: `Bearer ${token}` } }, 60000);
+  const { r, j } = await call(`${base}api/${path}`, { method, headers: { Authorization: `Bearer ${token}`, ...jsonHdr }, ...bodyOpts }, 60000);
   if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
   return j;
 }
+/** Réglages de stratégie transmis au scan (jamais de données personnelles : pas de capital ni de journal). */
+const scanRiskOf = (settings) => {
+  const r = settings.risk || {};
+  return { strategyMode: r.strategyMode, targetMode: r.targetMode, maxSlAtr: r.maxSlAtr, slippagePips: r.slippagePips, spreadOverrides: r.spreadOverrides, htfFilter: r.htfFilter, sessions: r.sessions, entryMode: r.entryMode };
+};
 export const scanApi = {
-  start: (settings, opts) => scanCall('scan/start', settings, opts, 'POST'),
+  start: (settings, opts) => scanCall('scan/start', settings, opts, 'POST', { risk: scanRiskOf(settings) }),
   status: (settings, opts) => scanCall('scan/status', settings, opts, 'GET'),
   result: (settings, opts) => scanCall('scan/result', settings, opts, 'GET'),
 };
+
+/** Mapping marché → symbole TradingView résolu par la recherche (PC ou téléphone via le PC distant), pour l'affichage. */
+export const marketsApi = { get: (settings, opts) => scanCall('markets', settings, opts, 'GET') };

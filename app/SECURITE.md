@@ -18,7 +18,7 @@ Navigateur du PC ─────────────────────
 ```
 
 - **Aucun port n'est ouvert sur Internet ni sur le réseau local.** Les deux services écoutent uniquement sur `127.0.0.1`. Le téléphone passe par Tailscale Serve, qui relaie en HTTPS uniquement pour les appareils connectés à ton compte Tailscale.
-- **L'API distante n'expose que sept routes :** `GET /api/health`, `POST /api/pair`, `GET /api/tv/candles`, `GET /api/news`, `GET /api/session`, `POST /api/scan/start` et `GET /api/scan/{status,result}`, toutes sauf les deux premières avec un jeton. Rien ne permet de modifier TradingView ou de lire des fichiers.
+- **L'API distante n'expose que huit routes :** `GET /api/health`, `POST /api/pair`, `GET /api/tv/candles`, `GET /api/news`, `GET /api/backtest`, `GET /api/session`, `POST /api/scan/start` et `GET /api/scan/{status,result}`, toutes sauf les deux premières avec un jeton. Rien ne permet de modifier TradingView ou de lire des fichiers.
 - **« Analyse complète » (`/api/scan/*`)** parcourt tous les marchés d'une liste blanche fixe (`app/www/js/markets.js`, 11 entrées) : `market` (sur `/api/tv/candles`) et les marchés scannés ne sont jamais des chaînes arbitraires, seulement des identifiants de ce registre. Un seul scan à la fois côté serveur (409 sinon) ; le déclenchement distant (téléphone) est en plus limité à 1 par appareil et 10 minutes (429 sinon), ce scan étant coûteux (plusieurs minutes, bascules répétées du graphique TradingView).
 - **Nouvel appel réseau sortant, depuis le PC uniquement :** `app/newsfeed.js` interroge en HTTPS `https://economic-calendar.tradingview.com/events` (calendrier économique TradingView, même service que `scripts/sync-economic-calendar.mjs`) pour les annonces majeures US/EU/CN/JP. Aucun secret n'est envoyé (aucune authentification, aucun cookie) ; chaque champ reçu est assaini avant stockage (liste blanche, longueurs bornées, nombres finis) et persisté sans donnée sensible dans `DATA_DIR/news.json`. Le téléphone ne fait jamais cet appel : il lit `/api/news` sur le PC (ou via l'API distante, avec jeton).
 - **L'administration est réservée au PC :** codes d'appairage, appareils, journal et préparation de TradingView passent par le port local 3777.
@@ -28,6 +28,8 @@ Navigateur du PC ─────────────────────
 - **Refus par défaut :** toute route non listée répond 404, et toute route distante autre que `health` et `pair` exige un jeton d'appareil (testé).
 - **Passage obligé par Tailscale :** une requête distante sans l'en-tête d'identité `Tailscale-User-Login`, que seul Tailscale Serve ajoute, est refusée (testé).
 - **Jeton lié au compte :** chaque jeton est lié au compte Tailscale qui a fait l'appairage. Un autre compte est refusé en 403 (testé).
+- **`XAUZ_REQUIRE_TAILSCALE=0` (à ne jamais utiliser en production) :** désactive la vérification Tailscale. Un avertissement bien visible est affiché au démarrage (console + journal). Même dans ce mode, `POST /api/pair` reste refusé (403, message en français) tant que `XAUZ_INSECURE_ALLOW_PAIRING=1` n'est pas défini explicitement (testé) : désactiver Tailscale seul ne suffit donc pas à ouvrir l'appairage.
+- **Jeton d'administration local (`XAUZ_LOCAL_ADMIN_TOKEN=1`, désactivé par défaut) :** sur le port LOCAL (3777), les routes de LECTURE restent protégées comme aujourd'hui par le seul en-tête anti-CSRF `X-XZ` + l'origine locale. Avec cette variable, les routes MUTANTES (`POST /api/admin/pairing`, `DELETE /api/admin/devices/:id`) exigent en plus un en-tête `x-xz-admin` portant un jeton aléatoire (256 bits) créé au premier démarrage dans `DATA_DIR/admin-token.json` (permissions `0600`, jamais journalisé). L'interface locale l'obtient via `GET /api/admin/token`, lui-même soumis aux mêmes contrôles que le reste de l'API locale (Host `127.0.0.1`/`localhost` + `X-XZ` + origine locale si présente) : aucune requête intersite ne peut donc le lire. **Désactivé par défaut** pour ne pas modifier le flux d'appairage existant sans validation en conditions réelles ; à activer une fois l'intégration de l'UI locale vérifiée.
 - **Séparation des rôles :** l'administration n'existe que sur le port local. Elle est protégée contre le rebinding DNS par une liste blanche du `Host` (testé) et contre le CSRF par un en-tête obligatoire `X-XZ` et le contrôle de l'`Origin` (testé).
 - **CORS restreint :** seules les origines de l'application Capacitor (`https://localhost`, `capacitor://localhost`) sont acceptées (testé).
 - **Fichiers statiques :** la traversée de répertoire est bloquée par résolution puis contrôle du chemin relatif, et seules les extensions connues sont servies (testé).
@@ -41,6 +43,7 @@ Navigateur du PC ─────────────────────
   - `Cache-Control: no-store` ;
   - HSTS sur l'API distante.
 - **Pas de bannière serveur :** aucun `X-Powered-By` (testé).
+- **Origines admises sur l'API distante (CORS) :** `https://localhost` (androidScheme Capacitor) et `capacitor://localhost` (webview iOS/desktop) uniquement. `http://localhost` a été retiré : aucune app Capacitor ne l'utilise (`cleartext: false` dans `capacitor.config.json`), et le laisser aurait admis des pages non chiffrées comme origine de confiance.
 - **Android :**
   - `allowBackup=false` et règles d'extraction de données vides ;
   - trafic en clair interdit, certificats système uniquement ;
@@ -70,6 +73,7 @@ Navigateur du PC ─────────────────────
 - **Paramètres validés par liste blanche :** timeframes, nombre de bougies (entier de 50 à 20 000, ou littéral `all`), `since` (entier unix, 0 < since < 4102444800 ; entier ≥ 0 pour `/api/news`) et `market` (identifiant du registre `markets.js`, 400 sinon) (testé).
 - **Annonces économiques (`/api/news`) assainies à la source :** seuls les champs whitelistés (id, titre, pays, heure, actual/forecast/previous, unité, échelle, période) sont conservés, importance MAJEURE et 4 pays whitelistés uniquement, chaînes nettoyées des caractères de contrôle et bornées en longueur, nombres finis (testé, avec des fixtures — le bac à sable n'a pas d'accès réseau à TradingView).
 - **Pas de code injecté dans TradingView :** tout ce que le serveur exécute via CDP est soit un nombre validé, soit une chaîne sérialisée par `JSON.stringify` et vérifiée par une expression régulière.
+- **Automatisation du DOM de TradingView Desktop limitée et whitelistée :** `selectMarketViaSearch` (`tvfeed.js`) n'interagit qu'avec la barre de recherche de symbole (ouverture, saisie, clic du premier résultat, fermeture), jamais avec le reste de l'interface ; la seule valeur saisie est `market.searchQuery`, une chaîne FIXE du registre `markets.js` (une par marché du tableau whitelisté, jamais construite depuis une entrée réseau ou utilisateur), sérialisée par `JSON.stringify`. Aucune disposition multi-graphiques n'est jamais créée : un seul graphique existe, sa sélection de symbole est vérifiée avant chaque lecture (`ensureChartOn`).
 - **Interface :** les données affichées passent par `textContent` ou par un échappement HTML systématique (`esc`), et la CSP interdit tout script en ligne.
 - **Journal :** les retours à la ligne sont neutralisés (pas d'injection de lignes).
 
@@ -109,6 +113,15 @@ Navigateur du PC ─────────────────────
   - une erreur interne renvoie un message générique, sans trace de pile.
 - **Limites :** corps de requête limité à 2 Ko (testé), type de contenu imposé (testé), JSON invalide rejeté (testé), délais d'expiration côté serveur et client.
 - **Robustesse :** les rejets et exceptions non gérés sont journalisés sans arrêter le service. L'indisponibilité de TradingView renvoie une erreur claire (503).
+- **Réessais CDP :** une erreur transitoire (TradingView Desktop pas encore prêt, connexion CDP coupée) est réessayée avec un délai croissant (jusqu'à 3 tentatives) avant d'échouer, sans dupliquer un mécanisme existant.
+- **Surveillance et relance automatique (`app/watchdog.js`, testé unitairement) :** `GET /api/health` (port local, mêmes contrôles que le reste de l'API locale) renvoie `{ ok, lastDataAt, lastError, failures, tvRelaunches, uptimeSec }` — dernière lecture de bougies réussie, dernière erreur, échecs CDP consécutifs, nombre de relances automatiques. Après 3 échecs consécutifs, **sur Windows uniquement**, le serveur relance TradingView Desktop en exécutant `scripts/launch_tv_debug.bat` (processus détaché, sans interpolation shell), au plus une fois toutes les 10 minutes, et journalise l'événement (`tv_auto_relaunch`). Opt-in avec `XAUZ_AUTOLAUNCH_TV=1` (le lanceur ferme TradingView avant de le relancer) ; ne s'exécute jamais hors Windows.
+
+### Variables d'environnement ajoutées
+| Variable | Effet | Défaut |
+|---|---|---|
+| `XAUZ_AUTOLAUNCH_TV=1` | Active la relance automatique de TradingView Desktop | désactivé |
+| `XAUZ_INSECURE_ALLOW_PAIRING=1` | Autorise `POST /api/pair` quand `XAUZ_REQUIRE_TAILSCALE=0` (sinon 403) | désactivé |
+| `XAUZ_LOCAL_ADMIN_TOKEN=1` | Exige un jeton d'admin local sur les routes mutantes de `/api/admin/*` | désactivé |
 
 ## Risques résiduels (acceptés ou à ta charge)
 - **Port de débogage de TradingView :** le port CDP 9222 est accessible à tout programme exécuté sur le PC. C'est inhérent au projet tradingview-mcp : n'installe pas de logiciel douteux sur ce PC.

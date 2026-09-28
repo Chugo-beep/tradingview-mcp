@@ -39,6 +39,22 @@ import { marketById, DEFAULT_MARKET } from './markets.js';
 export const MAX_SL_PIPS = 100;
 
 /** Échelle d'objectifs fixe (en pips depuis l'entrée), par catégorie. */
+/**
+ * Échelle d'objectifs ADAPTATIVE (mode « atr », défaut de l'application) : multiples du risque R
+ * (R = distance entrée → stop). Le stop maximal est exprimé en ATR de l'unité de temps de la zone
+ * (MAX_SL_ATR), ce qui donne le même poids relatif au risque sur tous les marchés et toutes les UT,
+ * et rend la catégorie Swing exploitable. La taille de position (lot) s'obtient ensuite par le
+ * risque en % du capital (suggestedLot), et non plus par une distance fixe en pips.
+ */
+export const TP_LADDER_R = {
+  scalping: { tp1: 1.5, tp2: 3, tp3: 5 },
+  day: { tp1: 1.5, tp2: 3, tp3: 5 },
+  swing: { tp1: 1.5, tp2: 4, tp3: 6 },
+};
+export const MAX_SL_ATR = 2.5;
+/** Un stop inférieur à MIN_SL_COST_MULT × coût (spread + glissement) est jugé irréaliste. */
+export const MIN_SL_COST_MULT = 3;
+
 export const TP_LADDER = {
   scalping: { tp1: 100, tp2: 200, tp3: 350 },
   day: { tp1: 100, tp2: 200, tp3: 350 },
@@ -58,6 +74,18 @@ export const DEFAULT_RISK = {
   pipSize: 0.10,         // 1 pip = 0,10 $ sur l'or (convention la plus courante)
   entryMode: 'confirmation', // 'confirmation' : entrée sur la bougie de réaction dans l'OB ; 'limit' : ordre limite au bord de l'OB
   minStars: 5,               // seules les zones 5★ sont valides ; moins de 5★ = invalidée (non réglable)
+  targetMode: 'pips',    // 'pips' : échelle fixe historique (+100/+200/+350, SL ≤ 100 pips) ; 'atr' : adaptatif (R et ATR)
+  maxSlAtr: MAX_SL_ATR,  // mode 'atr' : stop maximal en ATR de l'UT de la zone
+  costPips: 0,           // coût aller-retour (spread + glissement) déduit de chaque trade ; fixé par marché (markets.js)
+  strategyMode: 'smc',   // 'smc' : Smart Money HTF → LTF & Fibonacci (rules_trading_smc.md) ; 'ob5' : Order Blocks 5★ (historique)
+  capital: 1000,         // capital du compte (€) pour le calcul du lot conseillé
+  riskPct: 1,            // risque par trade (% du capital)
+  maxDailyLossPct: 3,    // coupe-circuit : plus de nouvelle proposition après -3 % du capital dans la journée
+  slippagePips: 0,       // glissement ajouté au spread du marché (pips)
+  spreadOverrides: {},   // spread personnalisé par marché { XAUUSD: 2.5, … } (sinon défaut de markets.js)
+  htfFilter: true,       // n'accepter que les zones dans le sens de la tendance de l'UT supérieure
+  sessions: [],          // séances autorisées (vide = toutes) : 'Asie' | 'Londres' | 'New York' | 'Clôture US'
+  brokerOffset: {},      // décalage prix courtier − prix TradingView, par marché (affichage des niveaux)
   eurUsd: 'manual',      // taux saisi par l'utilisateur
   eurUsdManual: 1.08,
   newsBlackoutMin: 30,   // pas d'entrée ± N minutes autour d'une annonce USD à fort impact
@@ -97,7 +125,28 @@ function slBuffer(zone, cat, pip) {
 }
 
 /** Plan de trade d'une zone : entrée, stop d'invalidation, TP1/TP2/TP3 (échelle fixe par catégorie). */
+/**
+ * Règle d'annulation d'un ordre en attente (avant l'entrée) :
+ * - 'tp1'  (champion historique) : annulé dès que le TP1 est atteint sans entrée (« le setup s'est joué sans nous ») ;
+ * - 'keep' (challenger) : la zone reste valable pour son PREMIER retour après l'impulsion ; annulée seulement si
+ *   le TP3 est atteint sans entrée, si la zone est cassée, ou après KEEP_EXPIRY_BARS bougies de son UT.
+ * Choisie par catégorie à chaque analyse complète (choosePolicies, ranking.js) : 'keep' n'est adoptée que si
+ * le backtest prouve qu'elle gagne plus SANS dégrader le risque ; sinon 'tp1' reste en vigueur.
+ */
+export const CANCEL_POLICIES = ['tp1', 'keep'];
+export const KEEP_EXPIRY_BARS = { scalp: 120, scalping: 120, day: 120, swing: 60 };
+/** Clé de catégorie utilisée par les règles d'annulation ('scalp' | 'day' | 'swing') à partir de la
+ * catégorie du moteur ('scalping' | 'day' | 'swing'). Corrige l'ancien décalage 'scalp'/'scalping'
+ * qui excluait les trades Scalp du classement et de la règle retenue. */
+export const policyKey = (cat) => (cat === 'scalping' ? 'scalp' : cat);
+export function cancelPolicyFor(cat, risk = {}) {
+  const byCat = risk.cancelPolicyByCat || {};
+  const p = byCat[cat] || byCat[policyKey(cat)] || risk.cancelPolicy;
+  return CANCEL_POLICIES.includes(p) ? p : 'tp1';
+}
+
 export function planFor(zone, risk) {
+  if (zone.smc) return planForSmc(zone, risk);
   const buy = zone.direction === 'BUY';
   const sgn = buy ? 1 : -1;
   const pip = risk.pipSize;
@@ -107,29 +156,104 @@ export function planFor(zone, risk) {
   const sl = buy ? zone.zoneLow - buf : zone.zoneHigh + buf;
   const riskPx = Math.abs(entry - sl);
   const slPips = riskPx / pip;
-  const ladder = TP_LADDER[cat] || TP_LADDER.day;
-  const tp1 = entry + sgn * ladder.tp1 * pip;
-  const tp2 = entry + sgn * ladder.tp2 * pip;
-  const tp3 = entry + sgn * ladder.tp3 * pip;
-  const tp1Pips = ladder.tp1;
+  const adaptive = risk.targetMode === 'atr' && zone.atr != null && riskPx > 0;
+  let d1, d2, d3; // distances des objectifs en prix
+  if (adaptive) {
+    const L = TP_LADDER_R[cat] || TP_LADDER_R.day;
+    d1 = L.tp1 * riskPx; d2 = L.tp2 * riskPx; d3 = L.tp3 * riskPx;
+  } else {
+    const L = TP_LADDER[cat] || TP_LADDER.day;
+    d1 = L.tp1 * pip; d2 = L.tp2 * pip; d3 = L.tp3 * pip;
+  }
+  const tp1 = entry + sgn * d1;
+  const tp2 = entry + sgn * d2;
+  const tp3 = entry + sgn * d3;
+  const tp1Pips = d1 / pip;
 
   let reason = null;
-  if (slPips > MAX_SL_PIPS) reason = `SL de ${Math.round(slPips)} pips > ${MAX_SL_PIPS} pips : zone non viable`;
+  const maxSlPips = maxSlPipsFor(zone, risk);
+  if (slPips > maxSlPips) {
+    reason = adaptive
+      ? `SL de ${Math.round(slPips)} pips > ${fmtN(risk.maxSlAtr ?? MAX_SL_ATR)} ATR (${Math.round(maxSlPips)} pips) : zone non viable`
+      : `SL de ${Math.round(slPips)} pips > ${MAX_SL_PIPS} pips : zone non viable`;
+  } else if ((risk.costPips || 0) > 0 && slPips < MIN_SL_COST_MULT * risk.costPips) {
+    reason = `SL de ${fmtN(slPips)} pips < ${MIN_SL_COST_MULT} × coût (${fmtN(risk.costPips)} pips) : stop trop serré face au spread`;
+  }
   return {
     entry, sl, tp1, tp2, tp3, tp: tp3,
-    rr: riskPx ? (ladder.tp1 * pip) / riskPx : null, rr3: riskPx ? (ladder.tp3 * pip) / riskPx : null,
-    riskPx, slPips, tp1Pips,
+    rr: riskPx ? d1 / riskPx : null, rr2: riskPx ? d2 / riskPx : null, rr3: riskPx ? d3 / riskPx : null,
+    riskPx, slPips, tp1Pips, tp2Pips: d2 / pip, tp3Pips: d3 / pip, maxSlPips,
     slOk: !reason, reason, entryMode: risk.entryMode || 'confirmation',
-    slBufferPips: buf / pip, category: cat,
+    slBufferPips: buf / pip, category: cat, targetMode: adaptive ? 'atr' : 'pips',
+    costPips: risk.costPips || 0,
+    cancelPolicy: cancelPolicyFor(cat, risk),
   };
+}
+
+/**
+ * Plan d'un setup SMC (rules_trading_smc.md §4) : ordre LIMITE sur le micro-FVG/OB, SL derrière la
+ * micro-zone (ou le swing du CHoCH), TP1 = liquidité LTF (50 % encaissés + stop au point mort),
+ * TP2 = liquidité HTF (reste de la position). Rejet si R:R entrée → TP2 < 1:3, ou si le stop est
+ * trop serré face au coût (spread + glissement).
+ */
+function planForSmc(zone, risk) {
+  const m = zone.smc;
+  const pip = risk.pipSize;
+  const riskPx = Math.abs(m.entry - m.sl);
+  const slPips = riskPx / pip;
+  const rr1 = riskPx ? Math.abs(m.tp1 - m.entry) / riskPx : null;
+  const rr2 = riskPx ? Math.abs(m.tp2 - m.entry) / riskPx : null;
+  let reason = null;
+  if (!(riskPx > 0)) reason = 'stop invalide';
+  else if (rr2 < (m.minRR ?? 3)) reason = `R:R 1:${fmtN(rr2)} < 1:${m.minRR ?? 3} : setup rejeté`;
+  else if ((risk.costPips || 0) > 0 && slPips < MIN_SL_COST_MULT * risk.costPips) reason = `SL de ${fmtN(slPips)} pips < ${MIN_SL_COST_MULT} × coût (${fmtN(risk.costPips)} pips) : stop trop serré face au spread`;
+  return {
+    entry: m.entry, sl: m.sl, tp1: m.tp1, tp2: m.tp2, tp3: m.tp2, tp: m.tp2,
+    rr: rr1, rr2, rr3: rr2,
+    riskPx, slPips, tp1Pips: Math.abs(m.tp1 - m.entry) / pip, tp2Pips: Math.abs(m.tp2 - m.entry) / pip, tp3Pips: Math.abs(m.tp2 - m.entry) / pip,
+    maxSlPips: Infinity, slOk: !reason, reason, entryMode: 'limit',
+    slBufferPips: 0, category: zone.category, targetMode: 'smc', costPips: risk.costPips || 0,
+    cancelPolicy: 'keep', strategy: 'smc', // l'ordre limite attend le retour du prix (annulé si TP2 atteint sans entrée, stop cassé ou expiration)
+    legs: [0.5, 0.5, 0], beAtTp1: true, noTrail: true, expiresAt: m.expiresAt ?? null,
+  };
+}
+
+const fmtN = (v) => (Math.round(v * 10) / 10).toString().replace('.', ',');
+
+/** Stop maximal (pips) : 100 pips en mode fixe ; MAX_SL_ATR × ATR de la zone en mode adaptatif. */
+export function maxSlPipsFor(zone, risk) {
+  if (risk.targetMode === 'atr' && zone.atr != null) return ((risk.maxSlAtr ?? MAX_SL_ATR) * zone.atr) / risk.pipSize;
+  return MAX_SL_PIPS;
 }
 
 export const pipsOf = (dir, entry, exit, risk) => ((dir === 'BUY' ? exit - entry : entry - exit) / risk.pipSize);
 
-/** Valeur monétaire d'un nombre de pips. */
+/**
+ * Valeur monétaire d'un nombre de pips, selon la devise de cotation du marché :
+ *   USD (défaut) : or, indices US, EUR/USD, GBP/USD, pétrole ;
+ *   EUR : DAX, CAC (1 point = 1 € par lot) — plus de double conversion ;
+ *   JPY : USD/JPY, converti en USD au cours actuel (risk.quotePrice).
+ */
 export function money(pips, risk, eurUsd, lot = risk.lot) {
-  const usd = pips * risk.pipSize * risk.contractSize * lot;
+  const q = pips * risk.pipSize * risk.contractSize * lot; // montant dans la devise de cotation
+  if (risk.quote === 'EUR') return { usd: eurUsd ? q * eurUsd : null, eur: q };
+  let usd = q;
+  if (risk.quote === 'JPY') usd = risk.quotePrice ? q / risk.quotePrice : q / 150; // 150 : repli indicatif si cours absent
   return { usd, eur: eurUsd ? usd / eurUsd : null };
+}
+
+/**
+ * Lot conseillé pour risquer `riskPct` % du `capital` (€) sur un stop de `slPips` pips :
+ * lot = (capital × risque %) / (stop en pips × valeur d'un pip pour 1 lot, en €).
+ * Arrondi vers le bas au 0,01 lot ; `null` si les données manquent.
+ */
+export function suggestedLot(slPips, risk, eurUsd) {
+  const capital = Number(risk.capital), pct = Number(risk.riskPct);
+  if (!(capital > 0) || !(pct > 0) || !(slPips > 0)) return null;
+  const perLot = money(slPips + (risk.costPips || 0), risk, eurUsd, 1).eur;
+  if (!(perLot > 0)) return null;
+  const lot = Math.floor(((capital * pct) / 100 / perLot) * 100) / 100;
+  return Math.max(0, Math.min(100, lot));
 }
 
 /**
@@ -178,12 +302,13 @@ function updateManagement(pos, L, buy, pip, ctx) {
     const target = buy ? pos.fillPrice + pos.riskPx : pos.fillPrice - pos.riskPx;
     if (buy ? L.high >= target : L.low <= target) pos.reached1R = true;
   }
-  // BE uniquement si TP1 ET +1R sont TOUS LES DEUX atteints (pas de BE trop tôt)
-  if (!pos.beDone && (pos.hits || 0) >= 1 && pos.reached1R) {
+  // BE uniquement si TP1 ET +1R sont TOUS LES DEUX atteints (pas de BE trop tôt) ; stratégie SMC :
+  // passage au point mort dès TP1 (règle §4 : « prise de profit partielle 50 % + SL à BE »)
+  if (!pos.beDone && (pos.hits || 0) >= 1 && (pos.reached1R || pos.beAtTp1)) {
     pos.beDone = true;
     pos.beLevel = buy ? pos.fillPrice + MGMT_BUFFER_PIPS * pip : pos.fillPrice - MGMT_BUFFER_PIPS * pip;
   }
-  if (pos.beDone) {
+  if (pos.beDone && !pos.noTrail) {
     const lvl = structuralSwingLevel(ctx.swingCandles, pos.fillTime, L.time, buy);
     if (lvl != null) {
       const candidate = buy ? lvl - MGMT_BUFFER_PIPS * pip : lvl + MGMT_BUFFER_PIPS * pip;
@@ -214,13 +339,30 @@ export function advance(pos, candles, ctx = {}) {
   const pip = ctx.pipSize || pos.pipSize || 0.1;
   for (const L of candles) {
     if (pos.state !== POS.PENDING && pos.state !== POS.OPEN) break;
-    const sub = ctx.m1 && ctx.tfSec > 60 ? subCandles(ctx.m1, L.time, ctx.tfSec) : null;
+    // Résolution fine en bougies 1 minute : pour une position OUVERTE (stop vs objectif) et pour un
+    // ordre LIMITE en attente. En entrée « confirmation », la bougie de réaction est TOUJOURS jugée
+    // sur l'unité de temps de la zone (règle identique en backtest et en direct, quelle que soit la
+    // disponibilité de l'historique 1m).
+    const fine = pos.state === POS.OPEN || pos.entryMode !== 'confirmation';
+    const sub = fine && ctx.m1 && ctx.tfSec > 60 ? subCandles(ctx.m1, L.time, ctx.tfSec) : null;
     if (sub && sub.length) { advance(pos, sub, { ...ctx, m1: null, tfSec: 60 }); pos.lastTime = L.time; continue; }
 
     if (pos.state === POS.PENDING) {
+      // ordre limite à durée de vie limitée (stratégie SMC) : annulé s'il n'est pas exécuté à temps
+      if (pos.expiresAt && L.time >= pos.expiresAt) { Object.assign(pos, { state: POS.CANCELLED, reason: 'ordre limite expiré', exitTime: L.time }); break; }
       // TP1 atteint avant l'entrée : le setup s'est joué sans nous → ordre annulé
-      const tpFirst = buy ? L.high >= pos.tp1 && L.low > pos.entry : L.low <= pos.tp1 && L.high < pos.entry;
-      if (tpFirst) { Object.assign(pos, { state: POS.CANCELLED, reason: 'TP1 atteint sans entrée', exitTime: L.time }); break; }
+      if (pos.cancelPolicy === 'keep') {
+        // la zone attend son premier retour ; annulée si le mouvement complet (TP3) s'est joué sans nous,
+        // ou si elle a vieilli au-delà de sa durée de vie (KEEP_EXPIRY_BARS bougies de son UT)
+        const tp3First = !pos.inZone && (buy ? L.high >= pos.tp3 && L.low > pos.entry : L.low <= pos.tp3 && L.high < pos.entry);
+        if (tp3First) { Object.assign(pos, { state: POS.CANCELLED, reason: 'TP3 atteint sans entrée', exitTime: L.time }); break; }
+        if (!pos.inZone && pos.bornTime != null && pos.maxPendingSec && L.time - pos.bornTime > pos.maxPendingSec) {
+          Object.assign(pos, { state: POS.CANCELLED, reason: 'zone expirée sans retour', exitTime: L.time }); break;
+        }
+      } else {
+        const tpFirst = buy ? L.high >= pos.tp1 && L.low > pos.entry : L.low <= pos.tp1 && L.high < pos.entry;
+        if (tpFirst) { Object.assign(pos, { state: POS.CANCELLED, reason: 'TP1 atteint sans entrée', exitTime: L.time }); break; }
+      }
       const touched = pos.inZone || (buy ? L.low <= pos.entry : L.high >= pos.entry);
       if (touched && pos.entryMode === 'confirmation') {
         // Étape 11 : le prix est revenu dans l'OB → attendre une bougie de réaction dans le sens du trade
@@ -235,7 +377,8 @@ export function advance(pos, candles, ctx = {}) {
           // toujours être vérifié à ≤ 100 pips, même si le plan initial était valide
           const pipSize = ctx.pipSize || 0.1;
           const riskPips = Math.abs(L.close - pos.sl) / pipSize;
-          if (riskPips > MAX_SL_PIPS) { Object.assign(pos, { state: POS.CANCELLED, reason: `SL de ${Math.round(riskPips)} pips > ${MAX_SL_PIPS} pips : zone non viable`, exitTime: L.time }); break; }
+          const maxPips = pos.maxSlPips ?? MAX_SL_PIPS;
+          if (riskPips > maxPips) { Object.assign(pos, { state: POS.CANCELLED, reason: `SL de ${Math.round(riskPips)} pips > ${Math.round(maxPips)} pips : zone non viable`, exitTime: L.time }); break; }
           // objectifs vérifiés à partir de la bougie suivante ; risque réel (R) = entrée réelle → SL
           Object.assign(pos, { state: POS.OPEN, fillTime: L.time, fillPrice: L.close, riskPips, riskPx: Math.abs(L.close - pos.sl) });
         }
@@ -278,7 +421,7 @@ export function advance(pos, candles, ctx = {}) {
 
 function close(pos, price, time) {
   const hits = pos.hits || 0;
-  const kind = hits >= 3 ? 'TP3' : hits === 2 ? 'TP2 puis stop sur TP1' : hits === 1 ? 'TP1 puis BE' : 'SL';
+  const kind = hits >= 3 ? (pos.strategy === 'smc' ? 'TP2' : 'TP3') : hits === 2 ? 'TP2 puis stop sur TP1' : hits === 1 ? 'TP1 puis BE' : 'SL';
   Object.assign(pos, { state: hits >= 1 ? POS.TP : POS.SL, exitPrice: price, exitTime: time, exitKind: kind });
 }
 
@@ -299,9 +442,12 @@ export function newPosition(zone, plan) {
   return {
     id: zone.id, dir: zone.direction, entry: plan.entry, sl: plan.sl,
     tp1: plan.tp1, tp2: plan.tp2, tp3: plan.tp3, tp: plan.tp3, rr: plan.rr, hits: 0, hitTimes: [],
-    riskPx: plan.riskPx, entryMode: plan.entryMode, inZone: false,
+    riskPx: plan.riskPx, entryMode: plan.entryMode, inZone: false, maxSlPips: plan.maxSlPips, costPips: plan.costPips || 0,
     beDone: false, beLevel: null, reached1R: false, trailFrom: null,
     state: plan.slOk ? POS.PENDING : POS.REFUSED, reason: plan.slOk ? null : plan.reason,
+    cancelPolicy: plan.cancelPolicy || 'tp1', bornTime: zone.c3Time ?? null,
+    maxPendingSec: (KEEP_EXPIRY_BARS[plan.category || zone.category] || 120) * (TF_SECONDS[zone.timeframe] || 300),
+    ...(plan.legs ? { legs: plan.legs, beAtTp1: !!plan.beAtTp1, noTrail: !!plan.noTrail, expiresAt: plan.expiresAt ?? null, strategy: plan.strategy } : {}),
   };
 }
 
@@ -320,9 +466,10 @@ export function simulateZone(zone, tfCandles, risk, ctx = {}) {
 /** Pips d'une position gérée par tiers (TP atteints + reste au prix de sortie ou courant). */
 export function positionPips(pos, exitOrCurrent, risk) {
   const hits = Math.min(3, pos.hits || 0);
-  let pips = 0;
-  for (let k = 1; k <= hits; k++) pips += LEG * pipsOf(pos.dir, pos.fillPrice, pos[`tp${k}`], risk);
-  if (hits < 3 && exitOrCurrent != null) pips += (3 - hits) * LEG * pipsOf(pos.dir, pos.fillPrice, exitOrCurrent, risk);
+  const legs = Array.isArray(pos.legs) && pos.legs.length === 3 ? pos.legs : [LEG, LEG, LEG];
+  let pips = 0, done = 0;
+  for (let k = 1; k <= hits; k++) { pips += legs[k - 1] * pipsOf(pos.dir, pos.fillPrice, pos[`tp${k}`], risk); done += legs[k - 1]; }
+  if (hits < 3 && exitOrCurrent != null) pips += Math.max(0, 1 - done) * pipsOf(pos.dir, pos.fillPrice, exitOrCurrent, risk);
   return pips;
 }
 
@@ -339,6 +486,11 @@ export function finalize(pos, plan, currentPrice, risk) {
     out.pips = null;
   }
   if (out.pips != null) {
+    // coût aller-retour (spread + glissement) déduit de toute position exécutée
+    const cost = pos.costPips ?? risk.costPips ?? 0;
+    out.grossPips = out.pips;
+    out.costPips = cost;
+    out.pips -= cost;
     // R rapporté au risque réellement pris (entrée sur réaction → stop parfois plus court)
     out.r = out.pips / (pos.riskPips || plan.slPips);
     out.pnlSide = out.pips > 0 ? 'gain' : out.pips < 0 ? 'perte' : 'neutre';
@@ -403,11 +555,13 @@ export function notifText(type, t, extra = {}) {
       body: levels,
       detail: `Réaction confirmée dans l'order block · ${tag} · entre maintenant`,
     } : { title: `▶ Entrée déclenchée · ${buy ? 'ACHAT' : 'VENTE'} ${label} ${px(t.fillPrice ?? t.entry)}`, body: `SL ${px(t.sl)} · TP1 ${px(t.tp1)}`, detail: tag };
-    case 'tp1': return { title: `✅ TP1 +100 atteint !`, body: `${label} ${buy ? 'ACHAT' : 'VENTE'} · stop inchangé jusqu'à +1R · prochain TP2 ${px(t.tp2)}`, detail: tag };
+    case 'tp1': if (t.strategy === 'smc') return { title: `✅ TP1 atteint : encaisse 50 % et passe le stop au point mort`, body: `${label} ${buy ? 'ACHAT' : 'VENTE'} · BE ${px(t.beLevel ?? t.fillPrice ?? t.entry)} · TP2 ${px(t.tp2)}`, detail: tag };
+      return { title: `✅ TP1 +${Math.round(t.tp1Pips ?? 100)} atteint !`, body: `${label} ${buy ? 'ACHAT' : 'VENTE'} · stop inchangé jusqu'à +1R · prochain TP2 ${px(t.tp2)}`, detail: tag };
     case 'tp2': return { title: `✅ TP2 atteint ! Stop sur TP1 : ${px(t.tp1)}`, body: `${label} ${buy ? 'ACHAT' : 'VENTE'} · reste TP3 ${px(t.tp3)}`, detail: tag };
-    case 'tp3': return t.category === 'swing'
-      ? { title: `🏁 +600 pips atteints · CLÔTURE le trade SWING`, body: `${label} ${buy ? 'ACHAT' : 'VENTE'} · entrée ${px(t.fillPrice ?? t.entry)} → ${px(t.tp3)}`, detail: tag }
-      : { title: `🏁 TP3 +350 atteint · trade terminé ${pips}`, body: `${label} ${buy ? 'ACHAT' : 'VENTE'} · entrée ${px(t.fillPrice ?? t.entry)} → ${px(t.tp3)}`, detail: tag };
+    case 'tp3': if (t.strategy === 'smc') return { title: `🏁 TP2 atteint · trade terminé ${pips}`, body: `${label} ${buy ? 'ACHAT' : 'VENTE'} · entrée ${px(t.fillPrice ?? t.entry)} → ${px(t.tp2)}`, detail: tag };
+      return t.category === 'swing'
+      ? { title: `🏁 +${Math.round(t.tp3Pips ?? 600)} pips atteints · CLÔTURE le trade SWING`, body: `${label} ${buy ? 'ACHAT' : 'VENTE'} · entrée ${px(t.fillPrice ?? t.entry)} → ${px(t.tp3)}`, detail: tag }
+      : { title: `🏁 TP3 +${Math.round(t.tp3Pips ?? 350)} atteint · trade terminé ${pips}`, body: `${label} ${buy ? 'ACHAT' : 'VENTE'} · entrée ${px(t.fillPrice ?? t.entry)} → ${px(t.tp3)}`, detail: tag };
     // 'be' : le stop VIENT d'être déplacé au point mort (TP1 + 1R tous deux atteints) — la position reste ouverte
     case 'be': return { title: `🛡️ Passer à BE : ${px(t.beLevel ?? currentStop(t))} (TP1 + 1R atteints)`, body: `${label} ${buy ? 'ACHAT' : 'VENTE'} · stop protégé, frais couverts`, detail: tag };
     // 'trail' : le stop vient d'être resserré sur un nouveau swing structurel (après le BE)

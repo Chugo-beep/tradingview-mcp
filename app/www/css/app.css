@@ -47,6 +47,7 @@ h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: v
 .title { font-weight: 700; letter-spacing: .02em; white-space: nowrap; }
 .title span { color: var(--accent); font-weight: 600; }
 .sub { color: var(--text-2); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sub.warn { color: var(--warn, #b45309); white-space: normal; }
 .bg-chip { display: flex; align-items: center; gap: 6px; margin: 8px 16px 0; padding: 6px 12px; border-radius: 10px; min-height: 32px; border: 1px solid var(--gain); color: var(--gain-ink); background: color-mix(in srgb, var(--gain) 14%, transparent); font-size: 12px; font-weight: 700; }
 .bg-chip[hidden] { display: none; }
 @media (max-width: 900px) { .bg-chip { margin: 8px 12px 0; } }
@@ -269,7 +270,32 @@ h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: v
 .rank-row .lbl { flex: 1 1 auto; min-width: 0; font-weight: 600; overflow-wrap: break-word; }
 .rank-row .rr-stats { display: flex; flex-wrap: wrap; gap: 4px 10px; color: var(--text-2); font-size: 12px; }
 .rank-row .rr-stats b { color: var(--text-1); font-variant-numeric: tabular-nums; }
+.rank-row .rr-funnel { margin-top: 4px; color: var(--text-2); font-size: 11.5px; line-height: 1.4; }
+.rr-policy { margin: 0 0 10px; padding: 8px 10px; border-radius: 8px; background: var(--surface-2, rgba(127,127,127,.08)); color: var(--text-2); font-size: 12px; line-height: 1.4; }
 .rank-row.insufficient { opacity: .65; }
+.rank-row .live-toggle-btn { flex: none; min-height: 30px; padding: 0 10px; font-size: 11.5px; }
+.rank-row .live-toggle-btn.on { background: var(--accent, #d4af37); color: var(--on-accent); border-color: var(--accent, #d4af37); }
+
+/* ── marchés analysés en direct (choix utilisateur, jamais le classement) ── */
+.live-markets-picker { padding: 10px; border-bottom: 1px solid var(--border); }
+.live-markets-picker h3 { margin: 0; font-size: 13px; }
+.live-markets-picker h3 small { font-weight: 400; color: var(--text-2); margin-left: 6px; }
+.live-markets-picker .chips { margin-top: 8px; }
+
+/* ── historique de l'analyse complète ── */
+.scan-history { border-top: 1px solid var(--border); padding: 10px; }
+.scan-history h3 { margin: 0 0 8px; font-size: 13px; }
+.hist-filters select { width: auto; min-width: 0; flex: 1 1 120px; margin: 0; padding: 7px 8px; border-radius: 8px; border: 1px solid var(--border); background: var(--panel-2); color: var(--text-1); font: inherit; font-size: 12px; }
+.hist-row { padding: 8px; border: 1px solid var(--border); border-radius: 8px; font-size: 12.5px; display: flex; flex-direction: column; gap: 3px; }
+.hist-row-l1 { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; color: var(--text-2); }
+.hist-row-l1 .hist-date { color: var(--text-1); font-variant-numeric: tabular-nums; }
+.hist-row-l2 { display: flex; gap: 8px; align-items: baseline; }
+.hist-row-l2 .hist-kind { color: var(--text-3); }
+.hist-row-l3 { display: flex; gap: 10px; align-items: baseline; }
+
+/* ── sélecteur de marché du graphique (toolbar) ── */
+.chart-market-lbl { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-2); }
+.chart-market-lbl select { min-height: 32px; padding: 0 6px; border-radius: 7px; border: 1px solid var(--border); background: var(--panel-2); color: var(--text-1); font: inherit; font-size: 12px; }
 
 .settings fieldset { border: 1px solid var(--border); border-radius: 10px; margin: 0 0 12px; padding: 10px 12px 12px; min-width: 0; }
 .settings legend { color: var(--text-2); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; padding: 0 4px; }
@@ -310,7 +336,8 @@ h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: v
   .top { padding: 8px 12px; gap: 8px; }
   .price { font-size: 16px; }
   .price-box .sub { font-size: 10px; }
-  .brand .sub { display: none; }
+  .brand .sub:not(.warn) { display: none; }
+  .brand .sub.warn { font-size: 10px; }
   .logo { width: 24px; height: 24px; }
   .analyse-btn { padding: 0 12px; }
   .scan-btn-header { display: none; } /* sur mobile : bouton équivalent en haut de l'onglet « Marchés » */
@@ -377,3 +404,36 @@ h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: v
 .tabs::-webkit-scrollbar { display: none; }
 .tabs button { flex: 1 0 auto; white-space: nowrap; }
 @media (max-width: 430px) { .tabs button { font-size: 13px; padding: 0 10px; } .tabs em { font-size: 11px; } }
+
+/* ── fraîcheur des données (§5) ── */
+.fresh { font-size: 11px; color: var(--text-3); margin-top: 2px; white-space: nowrap; }
+.fresh[hidden] { display: none; }
+.fresh.orange { color: var(--warn-ink); font-weight: 700; }
+.fresh.red { color: var(--loss-ink); font-weight: 800; }
+
+/* ── carte de trade : compléments (§2, §3) ── */
+.pos .rrline { grid-column: 1 / -1; color: var(--text-2); font-size: 11px; display: flex; gap: 8px; flex-wrap: wrap; }
+.pos .broker { grid-column: 1 / -1; color: var(--opp-ink); }
+.lot-sugg::before { content: "· "; }
+.more-btn { width: 100%; margin-top: 4px; }
+
+/* ── onglet Stats (§6) ── */
+.stats-block { margin-bottom: 14px; }
+.stats-kpis { grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 560px) { .stats-kpis { grid-template-columns: repeat(4, 1fr); } }
+.equity-wrap { height: 160px; border: 1px solid var(--border); border-radius: 9px; background: var(--panel-2); padding: 4px; }
+.equity-wrap canvas { display: block; width: 100%; height: 100%; }
+.rank-row .rr-verdict { font-size: 11px; color: var(--text-2); }
+
+/* ── note personnelle sur un trade suivi (§9) ── */
+.note-in { display: block; margin: 12px 0; font-size: 13px; color: var(--text-2); }
+.note-in textarea { display: block; width: 100%; margin-top: 4px; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--panel-2); color: var(--text-1); font: inherit; resize: vertical; }
+
+/* ── sections repliables des réglages (§1) ── */
+.settings-section { border: 1px solid var(--border); border-radius: 10px; margin: 0 0 10px; background: var(--panel-2); overflow: hidden; }
+.settings-section summary { cursor: pointer; padding: 12px 14px; font-weight: 700; list-style: none; min-height: 44px; display: flex; align-items: center; }
+.settings-section summary::-webkit-details-marker { display: none; }
+.settings-section summary::before { content: "▸"; margin-right: 8px; color: var(--text-3); transition: transform .15s; }
+.settings-section[open] summary::before { transform: rotate(90deg); }
+.settings-section > fieldset { margin: 0 12px 12px; background: var(--panel); }
+.settings-section > fieldset:first-of-type { margin-top: 0; }

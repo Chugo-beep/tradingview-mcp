@@ -18,11 +18,13 @@
       <div class="brand-txt">
         <div class="title">XAUUSD <span>Zones</span></div>
         <div class="sub" id="sourceLine">—</div>
+        <div class="sub warn" id="liveRotateWarn" hidden>TradingView bascule entre ces marchés : ne touche pas au graphique pendant l'analyse en direct.</div>
       </div>
     </div>
     <div class="price-box">
       <div class="price" id="price">—</div>
       <div class="sub" id="updated">pas encore analysé</div>
+      <div class="fresh" id="freshness" role="status" hidden></div>
     </div>
     <button class="analyse-btn" id="analyseBtn" aria-pressed="false">
       <span class="live-dot" aria-hidden="true"></span>
@@ -74,6 +76,7 @@
         <div class="seg" id="tfTabs" role="tablist" aria-label="Timeframe du graphique"></div>
         <span class="hint chart-hint" id="chartHint"></span>
         <button type="button" class="btn small" id="fitAllBtn" title="Voir toutes les bougies chargées">Tout voir</button>
+        <label class="chart-market-lbl">Marché <select id="chartMarketSelect" aria-label="Marché affiché sur le graphique"></select></label>
         <label class="toggle"><input type="checkbox" id="showBands" checked> Zones des autres TF</label>
       </div>
       <div class="chart" id="chart"></div>
@@ -96,6 +99,7 @@
         <button data-v="agents">Agents <em id="cntAgents"></em></button>
         <button data-v="learning">Apprentissage <em id="cntRules"></em></button>
         <button data-v="news">Annonces <em id="cntNews"></em></button>
+        <button data-v="stats">Stats</button>
       </div>
 
       <div class="pane" id="pane-positions">
@@ -111,6 +115,7 @@
             <button data-v="BUY" aria-pressed="false">▲ Achat</button>
             <button data-v="SELL" aria-pressed="false">▼ Vente</button>
           </div>
+          <button type="button" class="btn small" id="exportCsvBtn" title="Exporter le journal suivi en CSV">Exporter CSV</button>
         </div>
         <div id="posList" class="list"></div>
       </div>
@@ -120,9 +125,37 @@
           <button type="button" class="btn small primary" id="scanBtn">Analyse complète</button>
           <span class="hint" id="scanProgress"></span>
         </div>
-        <p class="hint mt0" id="scanHint">Analyse tous les marchés suivis (11) sur les 6 timeframes, puis les classe par gains en pips et taux de réussite. Durée : plusieurs minutes.</p>
-        <div id="marketChips" class="chips" aria-label="Marché en cours d'analyse"></div>
+        <p class="hint mt0" id="scanHint">Analyse tous les marchés suivis (11) sur les 6 timeframes, puis les classe par solidité statistique (espérance en R, coûts déduits). Durée : plusieurs minutes.</p>
+
+        <div class="live-markets-picker" id="liveMarketsPicker">
+          <h3>Marchés analysés en direct <small id="liveMarketsCount"></small></h3>
+          <p class="hint mt0">Choisis jusqu'à 3 marchés (l'or est sélectionné par défaut). Ils se relaient sur l'unique graphique TradingView : plus tu en choisis, plus le rafraîchissement de chacun est lent.</p>
+          <div id="liveMarketChips" class="chips" aria-label="Marchés analysés en direct"></div>
+        </div>
+
+        <div id="marketChips" class="chips" aria-label="Marché affiché sur le graphique"></div>
         <div id="marketsBody" class="list"></div>
+
+        <div class="scan-history">
+          <h3>Historique de l'analyse complète</h3>
+          <div class="filters hist-filters">
+            <select id="histMarket" aria-label="Filtrer par marché"></select>
+            <select id="histCat" aria-label="Filtrer par catégorie">
+              <option value="all">Toutes catégories</option>
+              <option value="scalp">Scalp</option>
+              <option value="day">Daily</option>
+              <option value="swing">Swing</option>
+            </select>
+            <select id="histResult" aria-label="Filtrer par résultat">
+              <option value="all">Tous</option>
+              <option value="win">Gagnants</option>
+              <option value="loss">Perdants</option>
+            </select>
+            <button type="button" class="btn small" id="histExportBtn" title="Exporter l'historique filtré en CSV">Exporter CSV</button>
+          </div>
+          <p class="hint mt0" id="histSummary"></p>
+          <div id="histBody" class="list"></div>
+        </div>
       </div>
 
       <div class="pane" id="pane-agents" hidden>
@@ -135,6 +168,10 @@
 
       <div class="pane" id="pane-news" hidden>
         <div id="newsBody" class="list"></div>
+      </div>
+
+      <div class="pane" id="pane-stats" hidden>
+        <div id="statsBody" class="list"></div>
       </div>
     </section>
   </main>
@@ -155,12 +192,12 @@
         <legend>Taille de position</legend>
         <div class="grid2">
           <label>Lot <input type="number" name="lot" min="0.01" max="100" step="0.01"></label>
-          <label>Valeur d'un pip ($) <select name="pipSize"><option value="0.1">0,10 $ (standard or)</option><option value="0.01">0,01 $</option><option value="1">1,00 $</option></select></label>
           <label>Taux EUR/USD <input type="number" name="eurUsdManual" min="0.5" max="2" step="0.0001"></label>
         </div>
+        <p class="hint mt0">Le pip et la taille de contrat sont des propriétés du marché (réglées dans « Réglages » → « Risque &amp; coûts » pour le spread et le décalage courtier).</p>
         <p class="hint" id="riskPreview"></p>
       </fieldset>
-      <fieldset>
+      <fieldset id="riskObInfo">
         <legend>Stratégie Order Blocks « 5 étoiles »</legend>
         <div class="grid2">
           <label>Entrée <select name="entryMode"><option value="confirmation">Après une bougie de réaction dans l'OB (recommandé)</option><option value="limit">Ordre limite au bord de l'OB</option></select></label>
@@ -168,9 +205,15 @@
         <p class="hint">Qualité minimale : <b>5★ uniquement</b> (fixe). Moins de 5★ = zone invalidée.</p>
         <p class="hint">⭐1 imbalance et ⭐2 tendance (Supertrend, hors range) sont éliminatoires. ⭐3 pas de liquidité proche au-delà de l'OB · ⭐4 OB vierge · ⭐5 achat en Discount / vente en Premium (Fibonacci 0,5).</p>
       </fieldset>
+      <fieldset id="riskSmcInfo" hidden>
+        <legend>Stratégie Smart Money HTF → LTF &amp; Fibonacci</legend>
+        <p class="hint mt0">Entrée <b>toujours en ordre limite</b>, sur le micro-FVG/OB formé en 15m/5m après le CHoCH. Qualité minimale : setup <b>validé</b> uniquement (R:R entrée → TP2 ≥ 1:3, sinon rejeté).</p>
+        <p class="hint">① POI HTF (1D/1W/1Mo) non mitigé · ② Biais &amp; Fibonacci HTF (POI en Discount &lt; 0,5 pour un achat, en Premium &gt; 0,5 pour une vente) · ③ CHoCH/MSS en 15m ou 5m · ④ Micro-FVG/OB en zone Discount/Premium de la jambe LTF (OTE 0,618–0,786 en bonus) · ⑤ R:R entrée → TP2 ≥ 1:3 (sinon rejeté).</p>
+      </fieldset>
       <fieldset>
         <legend>Stop loss et objectifs</legend>
-        <p class="hint mt0">Le <b>stop loss</b> est placé automatiquement juste au-delà de l'order block (marge adaptée à la catégorie). S'il dépasse <b>100 pips</b>, la zone n'est pas viable. <b>Objectifs fixes</b> : Scalp et Daily +100 / +200 / +350 pips ; Swing +100 / +400 / clôture manuelle à +600 pips. 1/3 encaissé à chaque palier ; BE (entrée ± 3 pips) quand TP1 et 1 R sont atteints, puis stop suivi derrière la structure.</p>
+        <p class="hint mt0" id="slHintOb5">Le <b>stop loss</b> est placé automatiquement juste au-delà de l'order block (marge adaptée à la catégorie). <b>Mode adaptatif</b> (recommandé) : stop maximal 2,5 ATR de l'unité de temps de la zone, objectifs à 1,5 R / 3 R / 5 R (Swing 1,5 R / 4 R / 6 R) ; le lot conseillé découle de ton capital et du risque en %. <b>Mode fixe</b> : stop ≤ 100 pips, objectifs Scalp et Daily +100 / +200 / +350 pips, Swing +100 / +400 / +600 pips. Le spread du marché est déduit de chaque résultat. 1/3 encaissé à chaque palier ; BE (entrée ± 3 pips) quand TP1 et 1 R sont atteints, puis stop suivi derrière la structure.</p>
+        <p class="hint mt0" id="slHintSmc" hidden>Le <b>stop loss</b> est placé juste derrière le micro-OB / sous le micro-FVG LTF (ou derrière le swing du CHoCH), avec une marge de 0,1 ATR (jamais moins de 0,5 ATR LTF). <b>TP1</b> = prochaine liquidité 15m (sommets/creux égaux, FVG opposé) : 50 % encaissés + stop au point mort. <b>TP2</b> (final) = liquidité majeure HTF (swing ou FVG 1D opposé) ; tout setup dont le R:R théorique entrée → TP2 est inférieur à 1:3 est automatiquement rejeté. L'ordre limite expire (annulé) s'il n'est pas exécuté à temps. Le spread du marché est déduit de chaque résultat.</p>
         <div class="grid2">
           <label>Pause autour des annonces (min) <input type="number" name="newsBlackoutMin" min="0" max="240" step="5"></label>
         </div>
@@ -190,83 +233,142 @@
   <dialog id="settingsDialog" class="sheet">
     <form method="dialog" class="sheet-head"><h2>Réglages</h2><button class="icon-btn" aria-label="Fermer">✕</button></form>
     <form id="settingsForm" class="sheet-body settings">
-      <fieldset id="pcRemote" hidden>
-        <legend>Accès depuis le téléphone</legend>
-        <p class="hint">Source unique : TradingView Desktop de ce PC. Le téléphone s'y connecte de n'importe où, en HTTPS, dans ton réseau privé Tailscale. Rien n'est exposé sur Internet.</p>
-        <div id="remoteStatus" class="status-box">Vérification…</div>
-        <div class="row-btns">
-          <button type="button" class="btn" id="newCodeBtn">Générer un code d'appairage</button>
-          <button type="button" class="btn" id="setupTvBtn">Préparer TradingView (multi-graphiques)</button>
-          <button type="button" class="btn" id="loadHistoryBtn">Charger tout l'historique TradingView</button>
-        </div>
-        <div id="pairCodeBox" class="code-box" hidden></div>
-        <h4>Appareils autorisés</h4>
-        <div id="deviceList" class="mini-list"></div>
-        <h4>Journal de sécurité</h4>
-        <div id="secLog" class="mini-list"></div>
-      </fieldset>
-      <fieldset id="phoneRemote" hidden>
-        <legend>Connexion au PC</legend>
-        <label class="pair-code">Code d'appairage <small>8 chiffres, affichés sur le PC (Réglages → Générer un code, ou code-appairage.bat)</small>
-          <input type="text" name="pairCode" inputmode="numeric" pattern="[0-9]{8}" maxlength="8" autocomplete="one-time-code" placeholder="12345678"></label>
-        <details class="adv">
-          <summary>Adresse du PC (préréglée) et nom du téléphone</summary>
-          <label>Adresse du PC <input type="url" name="remoteUrl" inputmode="url" autocomplete="off" spellcheck="false"></label>
-          <label>Nom de ce téléphone <input type="text" name="deviceName" maxlength="40" autocomplete="off"></label>
-        </details>
-        <div class="row-btns">
-          <button type="button" class="btn primary big" id="pairBtn">Connecter au PC</button>
-          <button type="button" class="btn" id="unpairBtn">Désappairer</button>
-        </div>
-        <p class="hint" id="pairStatus"></p>
-        <p class="hint">Prérequis : l'application Tailscale installée et connectée sur ce téléphone avec le même compte que le PC.</p>
-      </fieldset>
-      <fieldset>
-        <legend>Analyse</legend>
-        <div class="grid2">
-          <label>Temps réel : toutes les <select name="liveSec"><option value="5">5 s</option><option value="10">10 s</option><option value="15">15 s</option><option value="30">30 s</option><option value="60">60 s</option></select></label>
-          <label>Fenêtre de liquidité <input type="number" name="liquidityLookback" min="1" max="100"></label>
-          <label>Gap fragile (× ATR) <input type="number" name="fragileGapAtrRatio" min="0" max="2" step="0.05"></label>
-        </div>
-        <p class="hint mt0">Bougies par TF : toutes les bougies chargées dans TradingView (fais défiler le graphique en arrière pour en charger plus).</p>
-        <div class="tf-checks" id="tfChecks"></div>
-      </fieldset>
-      <fieldset>
-        <legend>Marchés en direct</legend>
-        <div class="grid2">
-          <label>Graphiques disponibles dans TradingView <select name="liveCharts">
-            <option value="1">1 graphique</option>
-            <option value="2">2 graphiques</option>
-            <option value="4">4 graphiques</option>
-            <option value="8">8 graphiques</option>
-            <option value="16">16 graphiques</option>
+      <details class="settings-section" open>
+        <summary>Connexion</summary>
+        <fieldset id="pcRemote" hidden>
+          <legend>Accès depuis le téléphone</legend>
+          <p class="hint">Source unique : TradingView Desktop de ce PC. Le téléphone s'y connecte de n'importe où, en HTTPS, dans ton réseau privé Tailscale. Rien n'est exposé sur Internet.</p>
+          <div id="remoteStatus" class="status-box">Vérification…</div>
+          <div class="row-btns">
+            <button type="button" class="btn" id="newCodeBtn">Générer un code d'appairage</button>
+            <button type="button" class="btn" id="setupTvBtn">Vérifier les marchés TradingView</button>
+            <button type="button" class="btn" id="loadHistoryBtn">Charger tout l'historique TradingView</button>
+          </div>
+          <div id="pairCodeBox" class="code-box" hidden></div>
+          <h4>Appareils autorisés</h4>
+          <div id="deviceList" class="mini-list"></div>
+          <h4>Journal de sécurité</h4>
+          <div id="secLog" class="mini-list"></div>
+        </fieldset>
+        <fieldset id="phoneRemote" hidden>
+          <legend>Connexion au PC</legend>
+          <label class="pair-code">Code d'appairage <small>8 chiffres, affichés sur le PC (Réglages → Générer un code, ou code-appairage.bat)</small>
+            <input type="text" name="pairCode" inputmode="numeric" pattern="[0-9]{8}" maxlength="8" autocomplete="one-time-code" placeholder="12345678"></label>
+          <details class="adv">
+            <summary>Adresse du PC (préréglée) et nom du téléphone</summary>
+            <label>Adresse du PC <input type="url" name="remoteUrl" inputmode="url" autocomplete="off" spellcheck="false"></label>
+            <label>Nom de ce téléphone <input type="text" name="deviceName" maxlength="40" autocomplete="off"></label>
+          </details>
+          <div class="row-btns">
+            <button type="button" class="btn primary big" id="pairBtn">Connecter au PC</button>
+            <button type="button" class="btn" id="unpairBtn">Désappairer</button>
+          </div>
+          <p class="hint" id="pairStatus"></p>
+          <p class="hint">Prérequis : l'application Tailscale installée et connectée sur ce téléphone avec le même compte que le PC.</p>
+        </fieldset>
+      </details>
+
+      <details class="settings-section" open>
+        <summary>Analyse</summary>
+        <fieldset>
+          <legend>Analyse en temps réel</legend>
+          <div class="grid2">
+            <label>Temps réel : toutes les <select name="liveSec"><option value="5">5 s</option><option value="10">10 s</option><option value="15">15 s</option><option value="30">30 s</option><option value="60">60 s</option></select></label>
+            <label>Fenêtre de liquidité <input type="number" name="liquidityLookback" min="1" max="100"></label>
+            <label>Gap fragile (× ATR) <input type="number" name="fragileGapAtrRatio" min="0" max="2" step="0.05"></label>
+          </div>
+          <p class="hint mt0">Bougies par TF : toutes les bougies chargées dans TradingView (fais défiler le graphique en arrière pour en charger plus). Un seul graphique TradingView : les marchés en direct s'y relaient (barre de recherche), jamais de graphique supplémentaire créé.</p>
+          <p class="hint mt0">Le choix des marchés analysés en direct (jusqu'à 3) se fait dans l'onglet « Marchés ».<button type="button" class="btn small" id="gotoLiveMarketsBtn">Ouvrir « Marchés »</button></p>
+          <div class="tf-checks" id="tfChecks"></div>
+        </fieldset>
+      </details>
+
+      <details class="settings-section" open>
+        <summary>Risque &amp; coûts</summary>
+        <fieldset>
+          <legend>Capital et risque par trade</legend>
+          <div class="grid2">
+            <label>Capital (€) <input type="number" name="capital" min="1" step="1"></label>
+            <label>Risque par trade (%) <input type="number" name="riskPct" min="0.1" max="20" step="0.1"></label>
+            <label>Perte max par jour (% du capital) <input type="number" name="maxDailyLossPct" min="0.5" max="100" step="0.5"></label>
+            <label>Glissement (pips) <input type="number" name="slippagePips" min="0" max="50" step="0.1"></label>
+          </div>
+          <p class="hint mt0">Le lot conseillé (affiché sur chaque trade) risque ce pourcentage du capital sur le stop réel. Après la perte max par jour, plus aucune nouvelle proposition n'est notifiée jusqu'au lendemain.</p>
+        </fieldset>
+        <fieldset>
+          <legend>Coûts et décalage courtier — marché affiché (<span id="riskMarketLabel">—</span>)</legend>
+          <div class="grid2">
+            <label>Spread de ce marché (pips) <input type="number" name="spreadOverride" min="0" max="200" step="0.1" placeholder="défaut"></label>
+            <label>Décalage courtier (prix courtier − TradingView) <input type="number" name="brokerOffset" step="any" placeholder="0"></label>
+          </div>
+          <p class="hint mt0">Laisse le spread vide pour garder le défaut du marché. Le décalage courtier ne change aucun calcul : il affiche seulement les niveaux « chez ton courtier » sur les trades de ce marché.</p>
+        </fieldset>
+      </details>
+
+      <details class="settings-section" open>
+        <summary>Stratégie</summary>
+        <fieldset>
+          <legend>Stratégie de trading</legend>
+          <label>Stratégie <select name="strategyMode">
+            <option value="smc">Smart Money HTF → LTF &amp; Fibonacci (recommandée)</option>
+            <option value="ob5">Order Blocks 5★ (historique)</option>
           </select></label>
-        </div>
-        <p class="hint mt0">Détermine combien de marchés (parmi le classement de l'analyse complète, onglet « Marchés ») sont analysés en direct simultanément, chacun sur son propre graphique dédié. Avec 1 seul graphique, TradingView bascule sur le marché n°1 du classement.</p>
-      </fieldset>
-      <fieldset>
-        <legend>Apprentissage</legend>
-        <div class="grid2">
-          <label>Échantillons minimum par règle <input type="number" name="minSamples" min="3" max="100"></label>
-          <label>Seuil d'espérance (R) <input type="number" name="threshold" min="-2" max="0" step="0.05"></label>
-        </div>
-        <p class="hint">Une caractéristique (session, tendance, taille de gap…) qui perd en moyenne plus que le seuil sur au moins N positions devient une règle qui écarte les nouvelles zones similaires.</p>
-      </fieldset>
-      <fieldset>
-        <legend>Alertes et données</legend>
-        <label class="radio"><input type="checkbox" name="notify"> Notifications de trading : opportunité à prendre (entrée, TP1, TP2, TP3, SL), TP1 atteint → passer à BE, TP2, TP3, SL</label>
-        <label class="radio"><input type="checkbox" name="notifyNews"> Notifications des annonces économiques (US, zone euro, Chine, Japon · impact majeur)</label>
-        <label>Alerte avant annonce <select name="newsAlertMin"><option value="5">5 min</option><option value="15">15 min</option><option value="30">30 min</option><option value="60">60 min</option></select></label>
-        <div id="bgBox" class="bg-note" hidden>
-          <p class="hint">Téléphone : pendant « Analyser » (en direct), l'analyse continue écran éteint ou application en arrière-plan. Autorise l'application à ignorer l'optimisation de batterie, sinon OnePlus peut l'arrêter.</p>
-          <button type="button" class="btn" id="batteryBtn">Autoriser l'analyse en arrière-plan</button>
-          <p class="hint" id="bgStatus"></p>
-        </div>
-        <div class="row-btns">
-          <button type="button" class="btn" id="resetJournal">Effacer le journal</button>
-          <button type="button" class="btn" id="resetLearning">Réinitialiser l'apprentissage</button>
-        </div>
-      </fieldset>
+          <p class="hint mt0" id="strategyHintSmc">POI HTF (1D/1W/1Mo) filtré par le Fibonacci, entrée sur micro-FVG/OB après un CHoCH en 15m/5m, R:R entrée → TP2 ≥ 1:3 obligatoire. Détail complet dans « Lot &amp; stop ».</p>
+          <p class="hint mt0" id="strategyHintOb5" hidden>Ancienne stratégie « Order Blocks 5 étoiles » (imbalance, tendance, liquidité, OB vierge, Fibonacci). Conservée pour comparaison ; les réglages ci-dessous ne s'appliquent qu'à elle.</p>
+        </fieldset>
+        <fieldset id="ob5OnlySettings">
+          <legend>Objectifs et filtre de tendance <small>(Order Blocks 5★ uniquement)</small></legend>
+          <label>Mode d'objectifs <select name="targetMode">
+            <option value="atr">Adaptatif (R et ATR) — recommandé</option>
+            <option value="pips">Échelle fixe en pips (+100/+200/+350, SL ≤ 100 pips)</option>
+          </select></label>
+          <label class="radio"><input type="checkbox" name="htfFilter"> N'accepter que les zones dans le sens de la tendance de l'unité de temps supérieure</label>
+        </fieldset>
+        <fieldset>
+          <legend>Séances</legend>
+          <p class="hint mt0">Séances autorisées (aucune case cochée = toutes) :</p>
+          <div class="tf-checks" id="sessionChecks"></div>
+        </fieldset>
+      </details>
+
+      <details class="settings-section">
+        <summary>Apprentissage</summary>
+        <fieldset>
+          <legend>Règles apprises</legend>
+          <div class="grid2">
+            <label>Échantillons minimum par règle <input type="number" name="minSamples" min="3" max="100"></label>
+            <label>Seuil d'espérance (R) <input type="number" name="threshold" min="-2" max="0" step="0.05"></label>
+          </div>
+          <p class="hint">Une caractéristique (session, tendance, taille de gap…) qui perd en moyenne plus que le seuil sur au moins N positions devient une règle qui écarte les nouvelles zones similaires.</p>
+        </fieldset>
+      </details>
+
+      <details class="settings-section" open>
+        <summary>Notifications</summary>
+        <fieldset>
+          <legend>Alertes et données</legend>
+          <label class="radio"><input type="checkbox" name="notify"> Notifications de trading : opportunité à prendre (entrée, TP1, TP2, TP3, SL), TP1 atteint → passer à BE, TP2, TP3, SL</label>
+          <label class="radio"><input type="checkbox" name="notifyNews"> Notifications des annonces économiques (US, zone euro, Chine, Japon · impact majeur)</label>
+          <label>Alerte avant annonce <select name="newsAlertMin"><option value="5">5 min</option><option value="15">15 min</option><option value="30">30 min</option><option value="60">60 min</option></select></label>
+          <div id="bgBox" class="bg-note" hidden>
+            <p class="hint">Téléphone : pendant « Analyser » (en direct), l'analyse continue écran éteint ou application en arrière-plan. Autorise l'application à ignorer l'optimisation de batterie, sinon OnePlus peut l'arrêter.</p>
+            <button type="button" class="btn" id="batteryBtn">Autoriser l'analyse en arrière-plan</button>
+            <p class="hint" id="bgStatus"></p>
+          </div>
+        </fieldset>
+      </details>
+
+      <details class="settings-section">
+        <summary>Avancé</summary>
+        <fieldset>
+          <legend>Réinitialisation</legend>
+          <div class="row-btns">
+            <button type="button" class="btn" id="resetJournal">Effacer le journal</button>
+            <button type="button" class="btn" id="resetLearning">Réinitialiser l'apprentissage</button>
+          </div>
+        </fieldset>
+      </details>
+
       <div class="row-end"><button type="submit" class="btn primary">Enregistrer</button></div>
     </form>
   </dialog>

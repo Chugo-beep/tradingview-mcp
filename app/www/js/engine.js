@@ -330,7 +330,13 @@ export function detectZones(rawCandles, opts = {}) {
       zones.push({
         id: `${o.marketId || 'tf'}:${o.timeframe || 'tf'}-${C1.time}-${dir}`,
         liqTargets,
-        stars: grade.stars, grade: grade.score, trend: grade.trend, liq: grade.liquidity, fib: grade.fib,
+        stars: grade.stars, grade: grade.score,
+        // note connue à la clôture de C3 (⭐4 « vierge » y est toujours vraie) : seule note utilisable
+        // pour un backtest — `grade` exige « jamais touchée jusqu'à maintenant », ce qui exclut par
+        // construction toute zone déjà exécutée.
+        gradeAtDetection: grade.score + (grade.stars.virgin ? 0 : 1),
+        session: sessionOfTime(C3.time),
+        trend: grade.trend, liq: grade.liquidity, fib: grade.fib,
         direction: dir,
         timeframe: o.timeframe || null,
         status,
@@ -360,6 +366,49 @@ export function detectZones(rawCandles, opts = {}) {
   return { zones, stats, candles };
 }
 
+/** Séance (UTC) d'un instant : Asie < 7 h, Londres < 12 h, New York < 17 h, sinon clôture US. */
+export function sessionOfTime(t) {
+  const h = new Date(t * 1000).getUTCHours();
+  if (h < 7) return 'Asie';
+  if (h < 12) return 'Londres';
+  if (h < 17) return 'New York';
+  return 'Clôture US';
+}
+
+/** UT supérieure utilisée pour la tendance de fond. */
+export const HTF_OF = { '1': '15', '5': '60', '15': '240', '60': '240', '240': 'D', 'D': 'W', 'W': 'M', 'M': '12M', '12M': null };
+
+/**
+ * Tendance de fond (UT supérieure) de chaque zone, SANS information future : direction du
+ * Supertrend de la dernière bougie de l'UT supérieure CLÔTURÉE au moment de la clôture de C3.
+ * Si l'UT supérieure directe n'est pas chargée, la suivante disponible est utilisée.
+ * Ajoute `zone.htf = { tf, dir: 1|-1|null, aligned: bool|null }`.
+ */
+export function annotateHtf(zones, candlesByTf, opts = {}) {
+  const o = { ...DEFAULT_OPTIONS, ...opts };
+  const cache = {};
+  const series = (tf) => {
+    if (cache[tf] !== undefined) return cache[tf];
+    const c = candlesByTf?.[tf]?.length ? normalizeCandles(candlesByTf[tf]) : null;
+    cache[tf] = c ? { c, st: supertrendSeries(c, o.supertrendPeriod, o.supertrendMult) } : null;
+    return cache[tf];
+  };
+  for (const z of zones) {
+    let tf = HTF_OF[z.timeframe];
+    while (tf && !series(tf)) tf = HTF_OF[tf];
+    if (!tf) { z.htf = { tf: null, dir: null, aligned: null }; continue; }
+    const { c, st } = series(tf);
+    const t = z.c3Time + (TF_SECONDS[z.timeframe] || 0); // clôture de C3
+    const step = TF_SECONDS[tf];
+    // dernière bougie HTF entièrement clôturée à l'instant t
+    let lo = 0, hi = c.length - 1, idx = -1;
+    while (lo <= hi) { const m = (lo + hi) >> 1; if (c[m].time + step <= t) { idx = m; lo = m + 1; } else hi = m - 1; }
+    const dir = idx >= 0 ? st[idx] : null;
+    z.htf = { tf, dir, aligned: dir == null ? null : dir === (z.direction === 'BUY' ? 1 : -1) };
+  }
+  return zones;
+}
+
 /**
  * Analyse plusieurs timeframes.
  * @param {Record<string, Array>} candlesByTf
@@ -385,6 +434,7 @@ export function analyze(candlesByTf, opts = {}) {
     byTf[tf] = r.stats;
     zones = zones.concat(r.zones);
   }
+  annotateHtf(zones, candlesByTf, opts);
   const order = { VIABLE: 0, TOUCHEE: 1, INVALIDEE: 2, DEPASSEE: 3 };
   zones.sort((a, b) => order[a.status] - order[b.status] || Math.abs(a.distance) - Math.abs(b.distance));
   return { currentPrice, priceTime, zones, stats: byTf, analyzedAt: Date.now() };

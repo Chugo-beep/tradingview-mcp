@@ -4,20 +4,21 @@ Ce guide s'adresse à un trader qui utilise l'application, sans connaissance en 
 
 ## Table des matières
 
-1. [Présentation](#1-présentation)
-2. [Prérequis](#2-prérequis)
-3. [Installation pas à pas (première fois)](#3-installation-pas-à-pas-première-fois)
-4. [Démarrage rapide](#4-démarrage-rapide)
-5. [L'écran expliqué](#5-lécran-expliqué)
-6. [Prendre un trade chez ton courtier à partir d'une notification](#6-prendre-un-trade-chez-ton-courtier-à-partir-dune-notification)
-7. [Analyse complète, classement et marchés en direct](#7-analyse-complète-classement-et-marchés-en-direct)
-8. [Annonces économiques](#8-annonces-économiques)
-9. [Toutes les notifications](#9-toutes-les-notifications)
-10. [Réglages](#10-réglages)
-11. [Comprendre l'analyse](#11-comprendre-lanalyse)
-12. [Sécurité en bref](#12-sécurité-en-bref)
-13. [Dépannage / FAQ](#13-dépannage--faq)
-14. [Glossaire](#14-glossaire)
+Présentation](#1-présentation)
+Prérequis](#2-prérequis)
+Installation pas à pas (première fois)](#3-installation-pas-à-pas-première-fois)
+Démarrage rapide](#4-démarrage-rapide)
+L'écran expliqué](#5-lécran-expliqué)
+Prendre un trade chez ton courtier à partir d'une notification](#6-prendre-un-trade-chez-ton-courtier-à-partir-dune-notification)
+Analyse complète, classement et marchés en direct](#7-analyse-complète-classement-et-marchés-en-direct)
+Annonces économiques](#8-annonces-économiques)
+Toutes les notifications](#9-toutes-les-notifications)
+Réglages](#10-réglages)
+Stratégie : Smart Money HTF → LTF & Fibonacci](#11-stratégie--smart-money-htf--ltf--fibonacci)
+Comprendre l'analyse](#12-comprendre-lanalyse)
+Sécurité en bref](#13-sécurité-en-bref)
+Dépannage / FAQ](#14-dépannage--faq)
+Glossaire](#15-glossaire)
 
 ---
 
@@ -47,7 +48,7 @@ Les deux lisent les **mêmes bougies**, venues uniquement de **TradingView Deskt
 
 | Élément | Détail |
 |---|---|
-| **TradingView Desktop** | Installé et connecté. Un abonnement **gratuit** suffit pour l'or (XAUUSD) sur les timeframes 1m à 1D, mais il n'affiche qu'**1 seul graphique à la fois** — l'application s'y adapte (voir « Graphiques disponibles dans TradingView », §7 et §10). Avec 2 graphiques ou plus (essential et au-delà), 2 marchés (ou plus) peuvent être suivis en direct simultanément. |
+| **TradingView Desktop** | Installé et connecté. Un abonnement **gratuit** suffit pour l'or (XAUUSD) sur les timeframes 1m à 1D. L'application n'utilise et ne crée jamais qu'**1 seul graphique**, quel que soit l'abonnement : quand plusieurs marchés sont analysés en direct (jusqu'à 3, choisis par toi, §7 et §10), ils s'y relaient à tour de rôle via la barre de recherche. |
 | **Un graphique ouvert sur un marché suivi** | Au moins un graphique d'un des 11 marchés du registre (XAUUSD par défaut) doit être ouvert dans TradingView Desktop. Sans cela, l'analyse est bloquée (garde-fou). |
 | **Node.js 18 ou plus récent** | Requis pour lancer le serveur (`app/package.json`, `engines.node >= 18`). Téléchargement : nodejs.org. |
 | **Dossier du projet** | `C:\Users\Joshu\tradingview-mcp` (le dossier `app` s'y trouve, ex. `C:\Users\Joshu\tradingview-mcp\app`). |
@@ -88,13 +89,13 @@ Double-clique sur `app\XAUUSD-Zones.bat`. Une fenêtre noire (invite de commande
 
 **Garde cette fenêtre ouverte** : la fermer arrête le serveur (et donc l'accès depuis le téléphone).
 
-### 3.3 Préparer TradingView (multi-graphiques)
+### 3.3 Vérifier les marchés TradingView
 
 Pour que l'application dispose de toutes les timeframes (1m, 5m, 15m, 1h, 4h, 1D) sans changer ta propre disposition à chaque fois :
 
 1. Dans l'application PC, ouvre **Réglages** (icône engrenage).
-2. Clique sur **« Préparer TradingView (multi-graphiques) »**.
-3. Avec 2 graphiques disponibles ou plus (réglage « Graphiques disponibles dans TradingView », §10), TradingView Desktop bascule vers une disposition à plusieurs graphiques, chacun dédié à l'un des marchés en direct (classement de l'analyse complète, XAUUSD par défaut). Avec 1 seul graphique, il bascule vers une disposition à plusieurs graphiques XAUUSD (une timeframe par graphique). Un toast confirme ce qui a été préparé.
+2. Clique sur **« Vérifier les marchés TradingView »**.
+3. L'application résout chacun des 11 marchés suivis sur l'UNIQUE graphique de TradingView Desktop, via sa barre de recherche (requête exacte par marché, ex. « USOIL » pour le WTI, 1er résultat cliqué), sans jamais créer de graphique ou de panneau supplémentaire — ton abonnement TradingView n'en affiche qu'un à la fois. Le graphique revient ensuite à ta position de départ. Un toast confirme combien de marchés ont été reconnus (et lesquels, sinon, restent introuvables).
 
 Le serveur lit ensuite chaque graphique **sans jamais changer ta timeframe** : si une timeframe manque à la disposition, le graphique actif bascule brièvement puis revient à ta timeframe d'origine (un cache limite ces bascules).
 
@@ -169,7 +170,7 @@ C'est tout ce qu'il faut pour une utilisation quotidienne ; les sections suivant
 
 | Zone | Contenu |
 |---|---|
-| **Balance** | Pips et euros cumulés, réalisé/latent, gagnants/perdants, taux de réussite. Bascule **« Mes trades »** / **« Backtest »** (§11). Bouton **« Lot & stop »** (§10). |
+| **Balance** | Pips et euros cumulés, réalisé/latent, gagnants/perdants, taux de réussite. Bascule **« Mes trades »** / **« Backtest »** (§12). Bouton **« Lot & stop »** (§10). |
 | **Onglets de catégorie** | **Tous** · **Scalp** (1m·5m) · **Daily** (15m·1h) · **Swing** (4h·1D). |
 | **Onglets de timeframe** | 1m 5m 15m 1h 4h 1D, au-dessus du graphique. Un point vert = une opportunité 5★ est disponible sur cette timeframe. |
 | **Chips de marché** | Boutons ronds pour choisir le marché affiché en direct (§7). |
@@ -195,7 +196,7 @@ Le sens est toujours indiqué en plus par ▲ Achat / ▼ Vente, jamais par la c
 Clique sur une carte (dans la liste ou sur le graphique) pour ouvrir sa fiche complète :
 
 - **Statut** en grand, avec le résultat en pips/€ s'il y en a un.
-- **Grille des 5 étoiles** : chaque critère (imbalance, tendance, liquidité, OB vierge, Fibonacci) avec ✓/✗ et son détail chiffré — le **checklist** complet de la note (§11).
+- **Grille des 5 étoiles** : chaque critère (imbalance, tendance, liquidité, OB vierge, Fibonacci) avec ✓/✗ et son détail chiffré — le **checklist** complet de la note (§12).
 - **Zone d'entrée (OB)** : les deux bords, avec l'explication « Entrée à la clôture de la première bougie haussière/baissière dans l'OB » (mode par défaut), ou le prix exact si le mode « ordre limite » est choisi.
 - **Stop loss (invalidation)** : prix, pips et perte en euros.
 - **TP1, TP2, TP3** : prix, pips et ratio R pour chacun, avec une coche ✓ si déjà atteint.
@@ -235,7 +236,7 @@ L'application ne passe aucun ordre : c'est toi qui agis chez ton courtier, en su
    - Si le stop est touché après un TP (`⚖️ Clôturé en gain …`) ou avant tout TP (`🛑 SL touché …`), le trade se termine à ce niveau.
 8. **Annulation** (`⛔ Annule l'ordre …`) : ne prends pas (ou annule) l'ordre — le motif est donné (ex. « SL de 122 pips > 100 pips : zone non viable »).
 
-Les distances de TP (+100/+200/+350 en Scalp/Daily, +100/+400/+600 en Swing) et les règles de gestion du stop sont détaillées en §11.
+Les distances de TP (+100/+200/+350 en Scalp/Daily, +100/+400/+600 en Swing) et les règles de gestion du stop sont détaillées en §12.
 
 ---
 
@@ -245,7 +246,8 @@ L'onglet **« Marchés »** (panneau latéral) analyse, en plus de l'or, tous le
 
 1. Appuie sur **« Analyse complète »** : l'application passe en revue chacun de ces marchés sur les **9 timeframes** (1m, 5m, 15m, 1h, 4h, 1D, 1W, 1Mo, 1A), à partir de l'historique déjà chargé dans TradingView Desktop. **Compte plusieurs minutes** (le graphique bascule brièvement de marché et de timeframe pendant l'opération, puis revient à ta position de départ ; les lectures en direct sont mises en pause pendant ce temps).
 2. Une fois terminée, un **classement** apparaît : chaque marché avec ses gains en pips (backtest), son nombre de trades, son taux de réussite et ses opportunités 5★ actuelles. Les marchés avec moins de 8 trades clôturés dans l'historique chargé sont listés à part (« échantillon insuffisant »), en dessous des autres.
-3. Des **chips** (boutons ronds) permettent de choisir le marché analysé **en direct** : appuie sur un marché pour que « Analyser » y bascule le graphique TradingView. Le nombre de marchés marqués « ● en direct » dans le classement dépend de ton abonnement TradingView (réglage « Graphiques disponibles dans TradingView », §10) : avec un compte gratuit, un seul marché à la fois — celui-ci passe automatiquement au n°1 du classement tant que tu n'en choisis pas un autre toi-même. Avec 2 graphiques ou plus, les meilleurs marchés du classement sont suivis **en direct simultanément**, chacun sur son propre graphique TradingView dédié.
+3. Des **chips** (boutons ronds) permettent de choisir le marché **affiché** (graphique/liste) : appuie sur un marché pour le consulter, ou choisis-le directement dans le sélecteur de marché de la barre d'outils du graphique. Ce classement est **uniquement informatif** : il ne choisit jamais les marchés analysés **en direct**. C'est TOI qui les choisis, dans le sélecteur « Marchés analysés en direct » de l'onglet « Marchés » (jusqu'à 3, l'or sélectionné par défaut ; chaque marché du classement porte aussi un bouton « + Direct » / « ✓ En direct » pour l'ajouter ou le retirer directement). Ils se relaient à tour de rôle sur l'UNIQUE graphique TradingView (ton abonnement n'en affiche qu'un) — l'application y sélectionne automatiquement chaque marché via la barre de recherche avant de le lire ; plus tu en choisis, plus le rafraîchissement de chacun est lent.
+4. **Historique de l'analyse complète** (bas de l'onglet « Marchés ») : tous les trades simulés par la dernière analyse complète, filtrables par marché, catégorie et résultat (gagnants/perdants), avec un résumé (nombre de trades, taux de réussite, somme des R) et un export CSV du filtre affiché.
 
 Les règles (5★, SL ≤ 100 pips, échelle de TP, gestion du stop) sont strictement identiques pour tous les marchés ; seule la taille du pip change (ex. 0,0001 pour l'EUR/USD, 1 point pour le DAX 40) — les notifications et le journal l'indiquent toujours en toutes lettres (« EUR/USD », « DAX 40 »…) au lieu de « GOLD » quand ce n'est pas l'or.
 
@@ -253,7 +255,7 @@ Les règles (5★, SL ≤ 100 pips, échelle de TP, gestion du stop) sont strict
 
 ## 8. Annonces économiques
 
-L'onglet **Annonces** (panneau latéral) liste les annonces majeures à venir (7 prochains jours) et les résultats récents (24 dernières heures) pour les États-Unis 🇺🇸, la zone euro 🇪🇺, la Chine 🇨🇳 et le Japon 🇯🇵 — impact **majeur** uniquement. Pour chaque annonce : heure locale, consensus, précédent, puis valeur réelle et tendance dès sa publication (« Supérieur/Inférieur/Conforme aux attentes », et pour les États-Unis la tendance habituelle pour l'or — jamais une prédiction). Le sous-titre de l'application affiche un compte à rebours vers la prochaine annonce majeure (« Prochaine annonce : 🇺🇸 CPI dans 2 h 10 »). Ces annonces alimentent aussi la fenêtre de pause du calendrier (§11, agent Calendrier économique).
+L'onglet **Annonces** (panneau latéral) liste les annonces majeures à venir (7 prochains jours) et les résultats récents (24 dernières heures) pour les États-Unis 🇺🇸, la zone euro 🇪🇺, la Chine 🇨🇳 et le Japon 🇯🇵 — impact **majeur** uniquement. Pour chaque annonce : heure locale, consensus, précédent, puis valeur réelle et tendance dès sa publication (« Supérieur/Inférieur/Conforme aux attentes », et pour les États-Unis la tendance habituelle pour l'or — jamais une prédiction). Le sous-titre de l'application affiche un compte à rebours vers la prochaine annonce majeure (« Prochaine annonce : 🇺🇸 CPI dans 2 h 10 »). Ces annonces alimentent aussi la fenêtre de pause du calendrier (§12, agent Calendrier économique).
 
 ---
 
@@ -291,7 +293,7 @@ Ouvre les réglages avec l'icône engrenage en haut à droite.
 |---|---|
 | Encadré d'état | Indique si Tailscale est installé, connecté, et si l'API téléphone est publiée, avec l'adresse à saisir sur le téléphone. |
 | **« Générer un code d'appairage »** | Crée un nouveau code à 8 chiffres, affiché à l'écran, valable jusqu'à l'heure indiquée, à usage unique. |
-| **« Préparer TradingView (multi-graphiques) »** | Bascule TradingView Desktop vers une disposition multi-graphiques (§3.3). |
+| **« Vérifier les marchés TradingView »** | Résout les 11 marchés suivis sur l'unique graphique de TradingView Desktop, via sa barre de recherche (§3.3). |
 | **« Charger tout l'historique TradingView »** | Force un chargement immédiat de l'historique (§3.3), plafonné à 20 000 bougies par timeframe. |
 | **Appareils autorisés** | Liste des téléphones appairés (nom, compte Tailscale, date d'appairage, dernière connexion) avec un bouton **« Révoquer »** par appareil (double confirmation). Maximum 5 appareils ; ré-appairer un même nom remplace l'appareil existant. |
 | **Journal de sécurité** | Derniers événements de sécurité (appairages, échecs, verrouillages…), et le nombre d'événements suspects sur 24 h. |
@@ -319,7 +321,7 @@ Ouvre les réglages avec l'icône engrenage en haut à droite.
 
 | Champ | Rôle |
 |---|---|
-| **Graphiques disponibles dans TradingView** | Combien de graphiques ton compte TradingView permet d'afficher en même temps (1, 2, 4, 8 ou 16). Détermine combien de marchés du classement (onglet « Marchés ») sont analysés **en direct simultanément**, chacun sur son propre graphique dédié. **Par défaut : 2** (la plupart des comptes TradingView affichent au moins 2 graphiques). Avec 1 seul graphique, TradingView bascule sur le marché n°1 du classement. |
+| **Marchés analysés en direct** | Se choisit dans l'onglet « Marchés » (un bouton « Ouvrir Marchés » y renvoie depuis Réglages) : jusqu'à **3 marchés**, au moins 1, l'or sélectionné par défaut — CHOISIS par toi, jamais imposés par le classement. Ton compte TradingView n'affiche qu'un seul graphique à la fois : ces marchés s'y relaient à tour de rôle, l'application sélectionnant automatiquement le bon marché (barre de recherche) avant chaque lecture ; plus tu en choisis, plus le rafraîchissement de chacun est lent. |
 
 ### Apprentissage
 
@@ -354,11 +356,77 @@ Ouvert par le bouton **« Lot & stop »** de la barre de balance.
 | Case **« J'accepte ce lot et cette gestion du risque… »** | Obligatoire pour valider le formulaire. |
 | **« Valider le paramétrage »** | Enregistre et débloque le suivi des trades. |
 
-Le stop loss et les objectifs (TP1/TP2/TP3) ne sont **pas** réglables : ils sont entièrement automatiques (§11). Seuls le lot, la valeur du pip, le taux de change, le mode d'entrée et la pause autour des annonces sont paramétrables ici.
+Le stop loss et les objectifs (TP1/TP2/TP3) ne sont **pas** réglables : ils sont entièrement automatiques (§12). Seuls le lot, la valeur du pip, le taux de change, le mode d'entrée et la pause autour des annonces sont paramétrables ici.
 
 ---
 
-## 11. Comprendre l'analyse
+## 11. Stratégie : Smart Money HTF → LTF & Fibonacci
+
+Depuis cette version, l'application propose **deux stratégies**, réglables dans **Réglages → Stratégie** :
+
+- **Smart Money HTF → LTF & Fibonacci** (recommandée, activée par défaut) : cherche une zone d'intérêt institutionnelle
+  sur les grandes unités de temps (1D/1W/1Mo), la filtre par le Fibonacci, puis attend une confirmation précise sur
+  15m/5m avant d'entrer.
+- **Order Blocks 5★ (historique)** : l'ancienne stratégie de l'application (§12), conservée pour comparaison.
+
+Les deux stratégies sont **déterministes et sans IA** : aucune ne devine, chacune ne fait que mesurer des bougies
+déjà clôturées, en temps réel comme en backtest.
+
+### Comment lire un setup SMC dans l'application
+
+Ouvre le détail d'une zone (clic sur une opportunité, ou sur le graphique). À la place des « 5 étoiles », un setup
+SMC affiche une checklist en 5 points, tous validés pour qu'un setup soit proposé :
+
+1. **① POI HTF** — l'Order Block ou le Fair Value Gap (1D, 1W ou 1Mo) sur lequel le prix vient de toucher pour la
+   première fois (« non mitigé au contact »).
+2. **② Biais & Fibonacci HTF** — le sens de la structure (achat/vente) et la position du POI dans le Fibonacci tracé
+   sur la dernière impulsion 1D : « Discount » (< 0,5) pour un achat, « Premium » (> 0,5) pour une vente ; un badge
+   **OTE** apparaît quand le POI est dans la zone de recharge optimale (0,618–0,786).
+3. **③ CHoCH / MSS LTF** — l'heure et le niveau de la cassure de structure en 15m ou 5m qui confirme le changement de
+   comportement du prix après le contact du POI.
+4. **④ Micro-zone LTF** — le micro-FVG ou micro-OB formé juste après le CHoCH, sur lequel l'ordre limite est posé
+   (badge **OTE** si son retracement tombe dans la zone 0,618–0,786).
+5. **⑤ R:R entrée → TP2** — le ratio risque/rendement théorique jusqu'à l'objectif final. **Un R:R inférieur à
+   1:3 rejette automatiquement le setup** : il n'apparaît alors qu'en « Non validées », avec le motif du rejet.
+
+Le détail affiche ensuite deux objectifs seulement (pas de TP3) :
+
+- **TP1** : la prochaine liquidité 15m (sommets/creux égaux, ou FVG opposé) — **50 % de la position encaissés**, puis
+  stop ramené au **point mort**.
+- **TP2 (objectif final)** : la liquidité majeure 1D (swing non pris, ou FVG 1D opposé) — le **reste (50 %)** de la
+  position est clôturé ici, sans trailing supplémentaire.
+
+L'entrée est **toujours un ordre limite** posé sur la micro-zone LTF : la position n'existe que lorsque le prix y
+revient. L'ordre est annulé (« expiré ») s'il n'est pas exécuté à temps.
+
+Sur le graphique, la zone sélectionnée affiche en plus, quand ils entrent dans la plage visible : une bande
+translucide « POI 1D/1W/1Mo » (le POI HTF d'origine) et une ligne pointillée « Fibo 0,5 » (l'équilibre du Fibonacci
+HTF) — utiles pour visualiser d'un coup d'œil pourquoi le setup a été retenu.
+
+Dans l'onglet **Marchés**, le classement de chaque marché affiche l'entonnoir de détection propre à la stratégie SMC
+(« POI HTF … · atteints … · biais ok … · Fibo ok … · CHoCH … · micro-zones … · R:R ≥ 1:3 … »), et l'onglet
+**Agents** affiche une liste « POI HTF à surveiller » : les POI 1D/1W/1Mo pas encore atteints, les plus proches du
+prix d'abord — utile pour anticiper les prochains setups avant même qu'ils ne se déclenchent.
+
+### Changer de stratégie
+
+Réglages → **Stratégie** → sélecteur **« Stratégie »** → choisis « Smart Money HTF → LTF & Fibonacci » ou
+« Order Blocks 5★ (historique) », puis « Enregistrer ». Les réglages qui ne s'appliquent qu'à l'ancienne stratégie
+(mode d'objectifs adaptatif/fixe, filtre de tendance) sont automatiquement masqués quand la stratégie SMC est
+sélectionnée : elle n'en a pas besoin, son stop et ses objectifs sont recalculés setup par setup. Les réglages
+communs (capital, risque %, coûts, séances autorisées) restent valables pour les deux stratégies.
+
+### Valider sur plusieurs années d'historique
+
+Sur le PC, `backtest.bat` permet de rejouer une stratégie sur tout l'historique TradingView chargé. Pour valider la
+stratégie SMC sur plusieurs années de données avant de l'utiliser en direct, lance-le avec la stratégie `smc` (le
+script demande la stratégie à backtester, ou accepte un paramètre — voir l'aide affichée par `backtest.bat` sans
+argument) ; compare ensuite son espérance, son taux de réussite et son drawdown à ceux de la stratégie « Order
+Blocks 5★ » dans l'onglet **Stats** avant de basculer ton compte réel dessus.
+
+---
+
+## 12. Comprendre l'analyse
 
 ### Les 5 étoiles
 
@@ -387,6 +455,12 @@ Chaque order block est noté sur 5, à la clôture de C3 (sans information futur
 ### Règle SL ≤ 100 pips
 
 Le risque (distance entrée → stop) ne doit **jamais dépasser 100 pips**, quelle que soit la catégorie ou le marché. Au-delà, la zone est **refusée** (« non viable »). Comme l'entrée se fait par défaut après une bougie de réaction, le risque réel est **revérifié à l'entrée** : s'il dépasse 100 pips à ce moment-là, le trade est **annulé**, même si le plan initial était valide.
+
+**Ordre en attente : quand est-il annulé ?** Deux règles existent, et l'application choisit elle-même, par catégorie (scalp, intraday, swing), celle que le backtest prouve la meilleure à chaque **analyse complète** :
+- *Prudente (par défaut)* : l'ordre est annulé si le prix atteint le TP1 avant d'être revenu dans la zone (« le setup s'est joué sans nous »).
+- *Premier retour* : la zone reste valable pour son premier retour après l'impulsion ; elle n'est annulée que si le TP3 est atteint sans entrée, si la zone est cassée, ou si elle vieillit trop (120 bougies de son unité de temps en scalp/intraday, 60 en swing).
+
+La règle « premier retour » n'est adoptée que si, sur tous les marchés, elle rapporte **plus de pips**, avec une **espérance positive**, un **profit factor ≥ 1,2** et au moins égal à la règle prudente, un **drawdown relatif** au moins aussi bon, et qu'elle reste **meilleure sur la moitié la plus récente** de l'historique. Sinon la règle prudente est conservée. La règle retenue est affichée en haut de l'onglet **Marchés**.
 
 ### Échelles d'objectifs (TP)
 
@@ -436,7 +510,7 @@ L'agent **Historique** reste en **PARTIEL** tant que **moins de 20 trades clôtu
 
 ---
 
-## 12. Sécurité en bref
+## 13. Sécurité en bref
 
 - **Appairage** : code à 8 chiffres, à usage unique, grillé après 5 essais ; 10 minutes en saisie manuelle, 30 minutes pour le code préconfiguré dans l'APK (appairage automatique, §3.5 et SECURITE.md). Plusieurs codes peuvent être valables en même temps.
 - **Jeton du téléphone** : 256 bits, chiffré en AES-256-GCM dans le Keystore Android (jamais en clair), lié au compte Tailscale qui a fait l'appairage, expirant après 180 jours.
@@ -450,7 +524,7 @@ Détail complet, catégorie par catégorie de l'OWASP Top 10:2025, dans **[SECUR
 
 ---
 
-## 13. Dépannage / FAQ
+## 14. Dépannage / FAQ
 
 **« Serveur injoignable » (code-appairage.bat ou l'application PC)**
 → Lance `XAUUSD-Zones.bat` et garde sa fenêtre ouverte ; le message précis apparaît en rouge dans la fenêtre du script.
@@ -462,7 +536,7 @@ Détail complet, catégorie par catégorie de l'OWASP Top 10:2025, dans **[SECUR
 → Un lien s'affiche dans la fenêtre de `acces-distant.bat` : ouvre-le, active l'option sur admin.tailscale.com, puis relance le script.
 
 **Code d'appairage refusé ou expiré (plusieurs codes, verrouillage 15 min, limite d'appareils)**
-→ Le code préconfiguré à la compilation de l'APK est valable 30 minutes, une seule fois. Le code manuel (« Générer un code d'appairage », `code-appairage.bat`, ou Entrée dans la fenêtre du serveur) est valable 10 minutes ; plusieurs codes générés séparément peuvent être valables en même temps, mais chacun n'est utilisable qu'une fois. Passé le délai ou après usage, génère-en un nouveau puis saisis-le dans **Réglages → Connexion au PC**. Après 5 essais erronés, les codes en attente sont grillés (relance-en un). Après 10 échecs d'authentification en 10 minutes, l'accès distant est bloqué 15 minutes (§12). Si « Nombre maximal d'appareils atteint (5) » apparaît, révoque un appareil existant côté PC (Réglages → Appareils autorisés) avant de ré-appairer.
+→ Le code préconfiguré à la compilation de l'APK est valable 30 minutes, une seule fois. Le code manuel (« Générer un code d'appairage », `code-appairage.bat`, ou Entrée dans la fenêtre du serveur) est valable 10 minutes ; plusieurs codes générés séparément peuvent être valables en même temps, mais chacun n'est utilisable qu'une fois. Passé le délai ou après usage, génère-en un nouveau puis saisis-le dans **Réglages → Connexion au PC**. Après 5 essais erronés, les codes en attente sont grillés (relance-en un). Après 10 échecs d'authentification en 10 minutes, l'accès distant est bloqué 15 minutes (§13). Si « Nombre maximal d'appareils atteint (5) » apparaît, révoque un appareil existant côté PC (Réglages → Appareils autorisés) avant de ré-appairer.
 
 **Bouton « Analyser » qui affiche « Non connecté »**
 → Le téléphone n'est pas (encore) appairé au PC : appaire-le d'abord (§3.5). Si un code était préconfiguré dans l'APK mais que le PC était injoignable au premier lancement, une nouvelle tentative automatique a lieu à chaque appui sur « Analyser » — vérifie que le PC est allumé, `XAUUSD-Zones.bat` lancé, et Tailscale connecté des deux côtés.
@@ -486,7 +560,7 @@ Détail complet, catégorie par catégorie de l'OWASP Top 10:2025, dans **[SECUR
 → Vérifie, dans l'ordre : la case « Notifications de trading » est cochée dans Réglages ; la permission de notification est accordée à l'application (réglages Android) ; l'exemption de batterie a été accordée (« Autoriser l'analyse en arrière-plan ») ; l'application n'est pas **complètement fermée** — l'analyse en direct doit continuer à tourner (service LiveKeeper de premier plan, visible en notification discrète).
 
 **Le graphique TradingView change de marché/timeframe pendant une analyse**
-→ Comportement normal pendant une « Analyse complète » ou une bascule multi-graphiques (§3.3, §7) : le graphique revient à ta position de départ une fois l'opération terminée, un cache limite ces bascules le reste du temps.
+→ Comportement normal pendant une « Analyse complète », une vérification des marchés (§3.3) ou l'analyse en direct de plusieurs marchés (§7, ils se relaient sur l'unique graphique) : le graphique revient à ta position de départ une fois l'opération terminée, un cache limite ces bascules le reste du temps.
 
 **« INSTALL_FAILED_UPDATE_INCOMPATIBLE » / signatures différentes lors de l'installation de l'APK**
 → Une version précédente signée différemment (ex. version de débogage) est déjà installée. `installer-android.bat`/`installer-telephone.bat` désinstallent puis réinstallent automatiquement dans ce cas ; si le message persiste, désinstalle manuellement l'application sur le téléphone avant de relancer.
@@ -496,7 +570,7 @@ Détail complet, catégorie par catégorie de l'OWASP Top 10:2025, dans **[SECUR
 
 ---
 
-## 14. Glossaire
+## 15. Glossaire
 
 | Terme | Définition |
 |---|---|
@@ -508,7 +582,7 @@ Détail complet, catégorie par catégorie de l'OWASP Top 10:2025, dans **[SECUR
 | **Retest** | Le fait qu'une bougie postérieure à C3 revienne toucher la zone de l'order block. |
 | **BE (point mort / break-even)** | Stop replacé au niveau d'entrée (± 3 pips ici), pour ne plus risquer de perte sur le trade. |
 | **R** | Unité de risque : 1 R = la distance initiale entrée → stop loss. Un résultat de « +2 R » signifie deux fois le risque initial gagné. |
-| **Pip** | Plus petite variation de prix suivie par l'application, propre à chaque marché (§11). Sur l'or (XAUUSD), 1 pip = 0,10 $ (convention standard). |
+| **Pip** | Plus petite variation de prix suivie par l'application, propre à chaque marché (§12). Sur l'or (XAUUSD), 1 pip = 0,10 $ (convention standard). |
 | **Premium / Discount** | Position du prix par rapport au milieu (0,5) d'un mouvement récent : Discount = moitié basse (zone d'achat recherchée), Premium = moitié haute (zone de vente recherchée). |
 | **Supertrend** | Indicateur de tendance basé sur l'ATR, utilisé ici pour valider le sens (⭐2) et détecter un marché en range. |
 | **ATR** | Average True Range : mesure de la volatilité moyenne récente, utilisée pour la marge de stop, le seuil « gap fragile » et le Supertrend. |
@@ -519,3 +593,16 @@ Détail complet, catégorie par catégorie de l'OWASP Top 10:2025, dans **[SECUR
 | **Analyse complète** | Backtest et classement de tous les marchés suivis sur toutes les timeframes (§7). |
 | **Marché en direct** | Marché dont le graphique TradingView est actuellement lu en continu par l'analyse (§7). |
 | **LiveKeeper** | Service Android de premier plan qui maintient l'analyse et les notifications actives écran éteint (§9, §10). |
+
+## Nouveautés (septembre 2026)
+
+**Ce qu'il faut retenir :** l'application ne prouve pas qu'une stratégie gagne tant qu'elle n'a pas assez de trades. L'onglet **Stats** te dit honnêtement où tu en es.
+
+- **Onglet Stats** : nombre de trades, taux de réussite, espérance en R avec sa marge d'incertitude, profit factor, pire drawdown, plus longue série de pertes, courbe de capital, et un **test contre le hasard**. Tant qu'il y a moins de 30 trades, les chiffres ne prouvent rien.
+- **Mode d'objectifs** (Réglages → Stratégie) : *Adaptatif* (recommandé, stop et objectifs proportionnels à la volatilité) ou *Échelle fixe en pips* (ancien fonctionnement).
+- **Risque & coûts** (Réglages) : ton capital, le risque par trade en %, la perte maximale par jour, le spread et le glissement. Chaque carte affiche le **lot conseillé**, le risque en €, et le ratio gain/risque.
+- **Décalage courtier** : si le prix de ton courtier diffère de TradingView, saisis l'écart ; les niveaux « chez ton courtier » sont affichés en plus.
+- **Alertes** : notification quand le prix s'approche d'une zone ; alerte « PC ou TradingView injoignable » si les données ne se mettent plus à jour (le badge « Données : il y a … » en haut indique leur fraîcheur).
+- **Journal** : une note par trade suivi et un bouton **Exporter CSV**.
+- **Classement des marchés** : trié par solidité statistique (espérance en R et son intervalle), plus par pips (les pips ne se comparent pas d'un marché à l'autre).
+- **Backtest long terme** (sur le PC) : double-clique `backtest.bat`, choisis un marché : l'application télécharge gratuitement plusieurs années d'historique 1 minute (Dukascopy) et affiche les résultats avec un contrôle sur une période non utilisée (70 % / 30 %).

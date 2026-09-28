@@ -3,6 +3,7 @@
  * Glisser = déplacer · molette / pincement = zoom · clic sur une zone = sélection.
  */
 const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+const TF_SMC_LABEL = { D: '1D', W: '1W', M: '1Mo' };
 
 export class CandleChart {
   constructor(container, { onZoneClick } = {}) {
@@ -15,8 +16,10 @@ export class CandleChart {
     this.zones = [];
     this.bands = [];
     this.plan = null;
+    this.smc = null; // détail SMC (poi/fib) de la zone sélectionnée (rules_trading_smc.md), cf. app.js renderChart
     this.price = null;
     this.decimals = 2; // décimales d'affichage du prix (dérivées du pip du marché, cf. markets.js)
+    this.emptyText = 'Aucune donnée'; // affiché quand `candles` est vide (ex. « Chargement de <marché>… » pendant une analyse ponctuelle, cf. app.js selectMarket)
     this.selectedId = null;
     this.spacing = 8;
     this.viewEnd = 0; // index (flottant) de la bougie la plus à droite
@@ -103,7 +106,7 @@ export class CandleChart {
     const c = this.candles;
     if (!c.length) {
       ctx.fillStyle = C.text; ctx.font = '13px system-ui'; ctx.textAlign = 'center';
-      ctx.fillText('Aucune donnée', this.w / 2, this.h / 2);
+      ctx.fillText(this.emptyText, this.w / 2, this.h / 2);
       return;
     }
     const pw = this.#plotW(), ph = this.#plotH();
@@ -151,6 +154,32 @@ export class CandleChart {
       ctx.fillStyle = C.ink.opp;
       ctx.textAlign = 'right'; ctx.textBaseline = 'bottom'; ctx.font = '600 10px system-ui';
       ctx.fillText(`${b.direction === 'BUY' ? '▲' : '▼'} ${b.tfLabel}`, pw - 4, y1 - 1);
+    }
+
+    // SMC (rules_trading_smc.md) : POI HTF (bande translucide) et Fibonacci 0,5 HTF (ligne pointillée)
+    // de la zone sélectionnée, uniquement s'ils entrent dans la plage de prix visible.
+    if (this.smc) {
+      const poi = this.smc.poi, fib = this.smc.fib;
+      if (poi && poi.high > this.lo && poi.low < this.hi) {
+        const y1 = this.#y(Math.min(poi.high, this.hi)), y2 = this.#y(Math.max(poi.low, this.lo));
+        ctx.fillStyle = withAlpha(C.opp, 0.1);
+        ctx.fillRect(0, y1, pw, Math.max(1, y2 - y1));
+        ctx.strokeStyle = withAlpha(C.opp, 0.55); ctx.setLineDash([2, 4]);
+        ctx.strokeRect(0.5, y1 + 0.5, pw - 1, Math.max(1, y2 - y1));
+        ctx.setLineDash([]);
+        ctx.fillStyle = C.ink.opp; ctx.font = '600 10px system-ui'; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+        ctx.fillText(`POI ${TF_SMC_LABEL[poi.tf] || poi.tf}`, 4, y1 + 2);
+      }
+      if (fib && fib.high > fib.low) {
+        const fibo5 = fib.low + 0.5 * (fib.high - fib.low);
+        if (fibo5 > this.lo && fibo5 < this.hi) {
+          const y = Math.round(this.#y(fibo5)) + 0.5;
+          ctx.strokeStyle = withAlpha(C.fg, 0.6); ctx.lineWidth = 1; ctx.setLineDash([4, 3]);
+          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(pw, y); ctx.stroke(); ctx.setLineDash([]);
+          ctx.fillStyle = C.text; ctx.font = '600 10px system-ui'; ctx.textAlign = 'left'; ctx.textBaseline = 'bottom';
+          ctx.fillText('Fibo 0,5', 4, y - 2);
+        }
+      }
     }
 
     // zones de la timeframe affichée
@@ -214,7 +243,8 @@ export class CandleChart {
     if (this.plan) {
       const x0 = Math.max(0, this.#x(this.#indexOf(this.plan.from)) - this.spacing / 2);
       const xEnd = this.plan.exit ? this.#x(this.#indexOf(this.plan.exit)) + this.spacing / 2 : pw;
-      const lines = [['tp1', C.ink.gain, [6, 3], 'TP1'], ['tp2', C.ink.gain, [3, 3], 'TP2'], ['tp3', C.ink.gain, [1, 3], 'TP3'], ['sl', C.ink.loss, [6, 3], 'SL'], ['entry', C.fg, [], 'Entrée']].filter(([k]) => this.plan[k] != null);
+      const lines = [['tp1', C.ink.gain, [6, 3], 'TP1'], ['tp2', C.ink.gain, [3, 3], 'TP2'], ['tp3', C.ink.gain, [1, 3], 'TP3'], ['sl', C.ink.loss, [6, 3], 'SL'], ['entry', C.fg, [], 'Entrée']]
+        .filter(([k]) => this.plan[k] != null && !(this.plan.strategy === 'smc' && k === 'tp3')); // SMC : pas de TP3 (== TP2)
       for (const [key, col, dash, txt] of lines) {
         const y = Math.round(this.#y(this.plan[key])) + 0.5;
         ctx.strokeStyle = col; ctx.lineWidth = key === 'entry' ? 1.5 : 1.25; ctx.setLineDash(dash);

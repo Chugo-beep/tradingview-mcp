@@ -29,12 +29,16 @@ const REMOTE_PORT = argNum('--remote-port', Number(process.env.XAUZ_REMOTE_PORT)
 const REMOTE = !args.includes('--no-remote');
 const OPEN = !args.includes('--no-open');
 const REQUIRE_TS = process.env.XAUZ_REQUIRE_TAILSCALE !== '0';
+const INSECURE_ALLOW_PAIRING = process.env.XAUZ_INSECURE_ALLOW_PAIRING === '1';
 const HOST = '127.0.0.1';
 const TFS = new Set(['1', '5', '15', '60', '240', 'D', 'W', 'M', '12M']);
 const MAX_COUNT = 20000; // plafond de sécurité (A05), aligné sur tvfeed.MAX_BARS
 const MAX_SINCE = 4102444800; // 2100-01-01, borne haute de validation (A05)
-const APP_ORIGINS = new Set(['https://localhost', 'capacitor://localhost', 'http://localhost']);
+// 'http://localhost' retiré (A02) : seule l'app Capacitor en a besoin, qui s'exécute toujours en
+// 'https://localhost' (androidScheme, capacitor.config.json) ou 'capacitor://localhost' (webview iOS/desktop).
+const APP_ORIGINS = new Set(['https://localhost', 'capacitor://localhost']);
 const MAX_BODY = 2048;
+const SERVER_STARTED_AT = Date.now();
 
 const MIME = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8',
@@ -53,6 +57,13 @@ async function readJson(req) {
   for await (const ch of req) { size += ch.length; if (size > MAX_BODY) throw Object.assign(new Error('Requête trop volumineuse'), { status: 413 }); chunks.push(ch); }
   try { const v = JSON.parse(Buffer.concat(chunks).toString('utf8') || '{}'); if (typeof v !== 'object' || v === null || Array.isArray(v)) throw 0; return v; }
   catch { throw Object.assign(new Error('JSON invalide'), { status: 400 }); }
+}
+
+/** Réglages de risque envoyés avec « Analyse complète » (facultatifs, validés par liste blanche dans scan.js). */
+async function applyScanRisk(req) {
+  if (!/^application\/json\b/i.test(req.headers['content-type'] || '')) return;
+  const body = await readJson(req);
+  if (body.risk && typeof body.risk === 'object') scan.setScanRisk(body.risk);
 }
 
 function parseCandlesQuery(url) {
@@ -95,8 +106,26 @@ function newsResponse(url) {
   return { status: 200, body: { success: true, seq: st.seq, updatedAt: st.updatedAt, events: news.eventsSince(since) } };
 }
 
+/** GET /api/backtest?market=XAUUSD : rapport JSON du dernier backtest long terme (scripts/backtest-dukascopy.mjs), s'il existe. */
+async function backtestResponse(url) {
+  const marketRaw = url.searchParams.get('market');
+  const market = marketRaw == null ? DEFAULT_MARKET : String(marketRaw).toUpperCase();
+  if (!MARKET_IDS.includes(market)) throw Object.assign(new Error('Paramètre market invalide'), { status: 400 });
+  try {
+    const raw = await readFile(join(WWW, 'data', `backtest-${market}.json`), 'utf8');
+    return { status: 200, body: { success: true, market, report: JSON.parse(raw) } };
+  } catch {
+    return { status: 404, body: { success: false, error: `Aucun backtest disponible pour ${market} : lance npm run backtest.` } };
+  }
+}
+
 async function tvCandles(url) {
   const { tfs, count, since, market } = parseCandlesQuery(url);
+  // le graphique UNIQUE est occupé par l'analyse complète : réponse immédiate (pas d'attente de plusieurs minutes)
+  if (scan.isScanRunning()) {
+    const st = scan.scanStatus();
+    return { status: 409, body: { success: false, busy: true, error: `Analyse complète en cours (${st.done}/${st.total}) : l'analyse en direct reprendra dès qu'elle sera terminée.` } };
+  }
   const { getCandles } = await import('./tvfeed.js');
   const { status, body } = await getCandles({ tfs, count, market });
   // `since` : ne renvoie que les bougies nouvelles/modifiées (le téléphone télécharge par incréments).
@@ -167,9 +196,28 @@ const localServer = http.createServer(async (req, res) => {
   }
 });
 
+/** Jeton d'admin local (XAUZ_LOCAL_ADMIN_TOKEN=1) : exigé sur les routes mutantes uniquement (voir security.js). */
+async function requireLocalAdmin(req) {
+  if (!sec.LOCAL_ADMIN_TOKEN_ENABLED) return true;
+  return sec.checkLocalAdminToken(req.headers['x-xz-admin']);
+}
+
 async function localApi(req, res, url) {
   const p = url.pathname, m = req.method;
-  if (p === '/api/health' && m === 'GET') return send(res, 200, { ok: true, app: 'xauusd-zones', role: 'pc' });
+  if (p === '/api/health' && m === 'GET') {
+    const { getHealth } = await import('./tvfeed.js');
+    const h = getHealth();
+    return send(res, 200, {
+      ok: true, app: 'xauusd-zones', role: 'pc',
+      lastDataAt: h.lastDataAt, lastError: h.lastError, failures: h.failures, tvRelaunches: h.tvRelaunches,
+      uptimeSec: Math.round(process.uptime()),
+    });
+  }
+  // Jeton d'admin local (désactivé par défaut) : lecture seule via l'endpoint local, mêmes
+  // contrôles que le reste de l'API locale (Host + X-XZ + origine, voir localServer ci-dessus).
+  if (p === '/api/admin/token' && m === 'GET' && sec.LOCAL_ADMIN_TOKEN_ENABLED) {
+    return send(res, 200, { token: await sec.getLocalAdminToken() });
+  }
   if (p === '/api/tv/candles' && m === 'GET') {
     try { const { status, body } = await tvCandles(url); return send(res, status, body); }
     catch (e) { if (e?.status) throw e; return send(res, 503, { success: false, error: tvErrorMessage(e) }); }
@@ -178,33 +226,40 @@ async function localApi(req, res, url) {
     const { status, body } = newsResponse(url);
     return send(res, status, body);
   }
-  if (p === '/api/tv/setup' && m === 'POST') {
-    try { const { setupLayout } = await import('./tvfeed.js'); return send(res, 200, await setupLayout()); }
-    catch { return send(res, 503, { success: false, error: 'Impossible de préparer TradingView Desktop (est-il lancé ?).' }); }
+  if (p === '/api/backtest' && m === 'GET') {
+    const { status, body } = await backtestResponse(url);
+    return send(res, status, body);
   }
-  if (p === '/api/tv/setup-live' && m === 'POST') {
-    try {
-      const body = req.headers['content-type'] ? await readJson(req) : {};
-      const ids = Array.isArray(body.markets) ? body.markets.filter((id) => MARKET_IDS.includes(id)).slice(0, 2) : [];
-      const { setupLiveLayout } = await import('./tvfeed.js');
-      return send(res, 200, await setupLiveLayout(ids));
-    } catch { return send(res, 503, { success: false, error: 'Impossible de préparer les marchés en direct (TradingView Desktop est-il lancé ?).' }); }
+  if (p === '/api/tv/setup' && m === 'POST') {
+    // « Vérifier les marchés TradingView » : résout les 11 marchés sur le graphique UNIQUE via la
+    // barre de recherche (jamais de disposition multi-graphiques : l'abonnement ne le permet pas).
+    try { const { verifyMarkets } = await import('./tvfeed.js'); return send(res, 200, await verifyMarkets()); }
+    catch { return send(res, 503, { success: false, error: 'Impossible de vérifier les marchés dans TradingView Desktop (est-il lancé ?).' }); }
   }
   if (p === '/api/tv/history' && m === 'POST') {
     try { const { loadHistory } = await import('./tvfeed.js'); return send(res, 200, { success: true, results: await loadHistory() }); }
     catch { return send(res, 503, { success: false, error: 'Impossible de charger l\'historique TradingView (est-il lancé ?).' }); }
   }
+  if (p === '/api/markets' && m === 'GET') {
+    const { getSymbolMap } = await import('./tvfeed.js');
+    return send(res, 200, { success: true, markets: MARKET_IDS, symbols: await getSymbolMap() });
+  }
   if (p === '/api/admin/pairing' && m === 'POST') {
+    if (!(await requireLocalAdmin(req))) { await sec.secLog('local_admin_token_rejected', { path: p }); return send(res, 403, { error: 'Jeton d\'administration local requis' }); }
     // corps facultatif : { ttlMin: 1..30, purpose: 'apk' } (préconfiguration de l'APK à la compilation)
     const body = req.headers['content-type'] ? await readJson(req) : {};
     return send(res, 200, await sec.newPairingCode({ ttlMin: body.ttlMin, purpose: body.purpose }));
   }
   if (p === '/api/admin/devices' && m === 'GET') return send(res, 200, { devices: await sec.listDevices() });
   const dm = /^\/api\/admin\/devices\/([0-9a-f]{12})$/.exec(p);
-  if (dm && m === 'DELETE') return send(res, (await sec.revokeDevice(dm[1])) ? 200 : 404, { ok: true });
+  if (dm && m === 'DELETE') {
+    if (!(await requireLocalAdmin(req))) { await sec.secLog('local_admin_token_rejected', { path: p }); return send(res, 403, { error: 'Jeton d\'administration local requis' }); }
+    return send(res, (await sec.revokeDevice(dm[1])) ? 200 : 404, { ok: true });
+  }
   if (p === '/api/admin/security' && m === 'GET') return send(res, 200, { events: sec.recentEvents(), alerts: sec.alerts(), locked: sec.isLocked() });
   if (p === '/api/admin/remote' && m === 'GET') return send(res, 200, REMOTE ? await remoteStatus() : { disabled: true });
   if (p === '/api/scan/start' && m === 'POST') {
+    await applyScanRisk(req);
     const r = scan.startScan();
     return send(res, r.started ? 200 : 409, r.started ? { success: true } : { success: false, error: 'Une analyse complète est déjà en cours.' });
   }
@@ -261,6 +316,12 @@ const remoteServer = http.createServer(async (req, res) => {
 
     if (p === '/api/health' && m === 'GET') return out(200, { ok: true, app: 'xauusd-zones' });
     if (p === '/api/pair' && m === 'POST') {
+      // A07 : quand la vérification Tailscale est désactivée (XAUZ_REQUIRE_TAILSCALE=0), l'appairage
+      // distant exige en plus une confirmation explicite (XAUZ_INSECURE_ALLOW_PAIRING=1), sinon refusé.
+      if (!REQUIRE_TS && !INSECURE_ALLOW_PAIRING) {
+        await sec.secLog('pair_rejected_insecure_mode', {});
+        return out(403, { error: 'Appairage refusé : vérification Tailscale désactivée sans confirmation explicite (XAUZ_INSECURE_ALLOW_PAIRING=1).' });
+      }
       const body = await readJson(req);
       const r = await sec.redeemPairing({ code: body.code, name: body.name, login });
       return out(r.ok ? 200 : r.status, r.ok ? { token: r.token, deviceId: r.deviceId, expiresAt: r.expiresAt } : { error: r.error });
@@ -276,10 +337,19 @@ const remoteServer = http.createServer(async (req, res) => {
       const { status, body } = newsResponse(url);
       return out(status, body);
     }
+    if (p === '/api/backtest' && m === 'GET') {
+      const { status, body } = await backtestResponse(url);
+      return out(status, body);
+    }
     if (p === '/api/session' && m === 'GET') return out(200, { ok: true, device: auth.device });
+    if (p === '/api/markets' && m === 'GET') {
+      const { getSymbolMap } = await import('./tvfeed.js');
+      return out(200, { success: true, markets: MARKET_IDS, symbols: await getSymbolMap() });
+    }
     if (p === '/api/scan/start' && m === 'POST') {
       // limite dédiée : 1 déclenchement distant toutes les 10 minutes par appareil (scan coûteux)
       if (rateLimited(`scan:${login || auth.device?.id || 'anon'}`, 1, 10 * 60000)) { await sec.secLog('remote_scan_rate_limited', { login }); return out(429, { error: 'Analyse complète déjà lancée récemment : réessaie dans 10 minutes.' }); }
+      await applyScanRisk(req);
       const r = scan.startScan();
       return out(r.started ? 200 : 409, r.started ? { success: true } : { success: false, error: 'Une analyse complète est déjà en cours.' });
     }
@@ -303,6 +373,14 @@ process.on('unhandledRejection', (e) => { sec.secLog('unhandled_rejection', { ms
 process.on('uncaughtException', (e) => { sec.secLog('uncaught_exception', { msg: String(e?.message || e) }); });
 
 export function start() {
+  if (!REQUIRE_TS) {
+    // A01 : désactiver la vérification Tailscale ouvre l'API distante à quiconque atteint le
+    // port REMOTE_PORT (ex. « tailscale serve » mal configuré, ou pas de Tailscale du tout).
+    const warn = '/!\\ XAUZ_REQUIRE_TAILSCALE=0 : vérification Tailscale DÉSACTIVÉE sur l\'API distante — ' +
+      'l\'appairage exige en plus XAUZ_INSECURE_ALLOW_PAIRING=1. À ne jamais utiliser en production.';
+    console.warn('\n' + '!'.repeat(70)); console.warn(warn); console.warn('!'.repeat(70) + '\n');
+    sec.secLog('startup_insecure_no_tailscale', {});
+  }
   localServer.listen(PORT, HOST, () => {
     const local = `http://localhost:${PORT}`;
     console.log(`XAUUSD Zones (PC) → ${local}`);

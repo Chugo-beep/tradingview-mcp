@@ -25,21 +25,23 @@ const bars = (n, t0, step) => Array.from({ length: n }, (_, i) => [t0 + i * step
 let switched = [];
 // Faux CDP : distingue les appels par un marqueur en tête de l'expression évaluée (commentaire
 // /*XZ...*/ ajouté par tvfeed.js), pour rester fidèle au comportement réel sans dépendre de
-// l'ordre exact des appels.
+// l'ordre exact des appels. UN SEUL graphique (OANDA:XAUUSD, résolution '15' par défaut) : pas de
+// disposition multi-graphiques (l'application n'en crée jamais).
 const evaluate = async (expr) => {
   const e = String(expr);
-  if (e.includes('/*XZPANESINFO*/')) return [{ index: 0, symbol: 'OANDA:XAUUSD', interval: '1' }, { index: 1, symbol: 'OANDA:XAUUSD', interval: '5' }];
-  if (e.includes('/*XZPANECHECK*/')) return { count: 120, firstTime: 1790000000, more: false };
-  if (e.includes('/*XZPANEPUMP*/')) return null;
-  if (e.includes('/*XZACTIVECHECK*/')) return { count: 100, more: false };
+  if (e.includes('/*XZACTIVECHECK*/')) return { count: 100, firstTime: 1790000000, more: false };
   if (e.includes('/*XZACTIVEPUMP*/')) return null;
   if (e.includes('/*XZSERIESBARS*/')) return bars(100, 1790000000, 900);
-  // lecture passive des graphiques (readPanes)
-  return [{ index: 0, symbol: 'OANDA:XAUUSD', interval: '1', bars: bars(120, 1790000000, 60) }, { index: 1, symbol: 'OANDA:XAUUSD', interval: '5', bars: bars(120, 1790000000, 300) }];
+  if (e.includes('/*XZSEARCH')) return false; // barre de recherche absente dans ce faux DOM : jamais utilisée pour XAUUSD (déjà affiché)
+  return [];
 };
 tv._setCore({
   connection: { evaluate, evaluateAsync: async () => {} },
-  chart: { getState: async () => ({ symbol: 'OANDA:XAUUSD', resolution: '15' }), setTimeframe: async ({ timeframe }) => { switched.push(timeframe); } },
+  chart: {
+    getState: async () => ({ symbol: 'OANDA:XAUUSD', resolution: '15' }),
+    setTimeframe: async ({ timeframe }) => { switched.push(timeframe); },
+    setSymbol: async () => {},
+  },
 });
 const srv = await import('../server.js');
 const sec = await import('../security.js');
@@ -85,15 +87,15 @@ test('A01 : CSRF sur l\'API locale refusé (sans en-tête ou origine étrangère
   assert.equal((await local('/api/admin/pairing', { method: 'POST', headers: { Origin: 'https://evil.example' } })).status, 403);
 });
 
-test('Données : lecture passive des graphiques + bascule pour les TF manquantes', async () => {
+test('Données : lecture passive du graphique unique + bascule de résolution pour les TF manquantes', async () => {
   switched = [];
   const r = await local('/api/tv/candles?tfs=1,5,15&count=100');
   const j = await r.json();
   assert.equal(r.status, 200);
-  assert.equal(j.sources['1'], 'graphique');
-  assert.equal(j.sources['5'], 'graphique');
-  assert.equal(j.sources['15'], 'bascule');
-  assert.deepEqual(switched, ['15', '15'], 'bascule puis retour à la TF d\'origine');
+  assert.equal(j.sources['15'], 'graphique', 'la résolution déjà affichée (15) est lue sans bascule');
+  assert.equal(j.sources['1'], 'bascule');
+  assert.equal(j.sources['5'], 'bascule');
+  assert.deepEqual(switched, ['1', '5', '15'], 'bascule sur chaque TF manquante, puis retour à la TF d\'origine');
   assert.equal(j.candles['1'].at(-1).complete, false);
 });
 
@@ -101,12 +103,12 @@ test('Données : meta (compte total, première/dernière bougie) renvoyé avant 
   const r = await local('/api/tv/candles?tfs=1&count=all');
   const j = await r.json();
   assert.equal(r.status, 200);
-  assert.equal(j.meta['1'].count, 120);
+  assert.equal(j.meta['1'].count, 100);
   assert.equal(j.meta['1'].first, 1790000000);
   const since = 1790000000 + 60 * 60;
   const r2 = await local(`/api/tv/candles?tfs=1&count=all&since=${since}`);
   const j2 = await r2.json();
-  assert.equal(j2.meta['1'].count, 120, 'meta reflète le total chargé, pas la liste filtrée par "since"');
+  assert.equal(j2.meta['1'].count, 100, 'meta reflète le total chargé, pas la liste filtrée par "since"');
   assert.ok(j2.candles['1'].length < j2.meta['1'].count);
 });
 
@@ -117,8 +119,8 @@ test('A05 : /api/tv/history requiert X-XZ, verrouillé (lock) avec getCandles, a
   const j = await r.json();
   assert.equal(j.success, true);
   assert.ok(Array.isArray(j.results));
-  assert.equal(j.results.length, 2);
-  assert.equal(j.results[0].bars, 120);
+  assert.equal(j.results.length, 1, 'un seul graphique existe : un seul résultat');
+  assert.equal(j.results[0].bars, 100);
   // Absent de l'API distante : ni authentifié (401, avant même le routage) ni, une fois authentifié, une route connue (404).
   assert.ok([401, 404].includes((await remote('/api/tv/history', { method: 'POST' })).status));
 });
@@ -143,12 +145,12 @@ test('A05 : paramètre "since" validé par liste blanche, filtre les bougies ren
   assert.equal((await local('/api/tv/candles?tfs=1&count=all&since=0')).status, 400);
   assert.equal((await local('/api/tv/candles?tfs=1&count=all&since=12.5')).status, 400);
   assert.equal((await local('/api/tv/candles?tfs=1&count=all&since=4102444800')).status, 400);
-  const since = 1790000000 + 60 * 60; // bougies de la TF '1' : pas de 60 s, 120 bougies à partir de 1790000000
+  const since = 1790000000 + 60 * 60; // bougies de la TF '1' : pas de 900 s, 100 bougies à partir de 1790000000
   const r = await local(`/api/tv/candles?tfs=1&count=all&since=${since}`);
   const j = await r.json();
   assert.equal(r.status, 200);
   assert.ok(j.candles['1'].every((c) => c.time >= since));
-  assert.equal(j.candles['1'].length, 60, 'les bougies antérieures à "since" sont exclues de la réponse');
+  assert.equal(j.candles['1'].length, 96, 'les bougies antérieures à "since" sont exclues de la réponse');
 });
 
 test('A01 : API distante uniquement via Tailscale Serve', async () => {

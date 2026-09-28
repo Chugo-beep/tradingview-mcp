@@ -16,6 +16,10 @@ Elle fonctionne sans IA, sans Claude et sans MCP. Le même code tourne sur PC (n
 Le badge **gap fragile** signale une imbalance inférieure à 0,1 × ATR(14). Ce seuil se règle.
 L'**entrée** affichée est le bord de la zone le plus proche du prix. L'**invalidation** est le bord opposé.
 
+## Stratégie par défaut : Smart Money HTF → LTF & Fibonacci
+
+Depuis cette version, la stratégie **par défaut** (`settings.risk.strategyMode: 'smc'`, réglage « Stratégie » dans Réglages) est « Smart Money HTF → LTF & Fibonacci » (`www/js/smc.js`, règles détaillées dans `../TRADING_RULES_MASTER_PROMPT.md`) : POI institutionnel non mitigé sur 1D/1W/1Mo, filtré par le Fibonacci de la dernière impulsion 1D (achat en Discount, vente en Premium), puis entrée en ordre limite sur un micro-FVG/OB formé après un CHoCH en 15m/5m, avec un R:R entrée → TP2 ≥ 1:3 obligatoire (sinon le setup est rejeté). L'ancienne stratégie « Order Blocks 5★ » (imbalance/tendance/liquidité/OB vierge/Fibonacci ci-dessus) reste disponible sous le mode `'ob5'`, pour comparaison.
+
 ## Source de données : TradingView Desktop uniquement
 
 Toutes les bougies viennent du **TradingView Desktop de ton PC**. Il n'y a ni OANDA ni autre fournisseur, et aucune clé API n'est nécessaire.
@@ -26,7 +30,7 @@ Toutes les bougies viennent du **TradingView Desktop de ton PC**. Il n'y a ni OA
 
 ## Analyse complète et marchés en direct
 
-Au-delà de XAUUSD, l'application suit 10 autres marchés (US30, S&P 500, Nasdaq 100, EUR/USD, GBP/USD, USD/JPY, DAX 40, CAC 40, WTI, Brent — registre `www/js/markets.js`). L'onglet **« Marchés »** lance une **analyse complète** (tous ces marchés × 9 timeframes, 1m à 1 an, en tâche de fond côté serveur, `POST /api/scan/start`), publie un **classement** par gains en pips puis taux de réussite (`GET /api/scan/result`). Par défaut, les **2 meilleurs marchés** du classement sont analysés **en direct simultanément**, chacun sur son propre graphique TradingView dédié (`POST /api/tv/setup-live`) : le nombre de marchés en direct est réglable (« Graphiques disponibles dans TradingView » : 1/2/4/8/16, plafonné à 2 panneaux dédiés), et se réduit à 1 (rotation classique du graphique actif) si un seul graphique est disponible. Les règles de trading (5★, SL ≤ 100 pips, TP, gestion du stop) sont identiques pour tous les marchés, avec le pip propre à chacun.
+Au-delà de XAUUSD, l'application suit 10 autres marchés (US30, S&P 500, Nasdaq 100, EUR/USD, GBP/USD, USD/JPY, DAX 40, CAC 40, WTI, Brent — registre `www/js/markets.js`). Un SEUL graphique TradingView existe et est utilisé (jamais de graphique/panneau supplémentaire créé) : chaque marché y est sélectionné via la barre de recherche de TradingView Desktop (requête exacte par marché, 1er résultat cliqué — `tvfeed.js` `selectMarketViaSearch`, repli sur la recherche REST publique si l'UI échoue), le symbole résolu étant mémorisé (`DATA_DIR/symbols.json`, exposé en lecture via `GET /api/markets`) pour éviter de rouvrir la recherche à chaque fois. L'onglet **« Marchés »** lance une **analyse complète** (tous ces marchés × 9 timeframes, 1m à 1 an, en tâche de fond côté serveur, `POST /api/scan/start`), publie un **classement** purement informatif par gains en pips puis taux de réussite (`GET /api/scan/result`), avec l'historique des trades simulés (`history`), consultable et filtrable dans l'onglet « Marchés ». Ce classement ne choisit jamais les marchés analysés **en direct** : l'utilisateur les choisit lui-même (1 à `MAX_LIVE_MARKETS` = 3, XAUUSD par défaut, réglage `liveMarkets` — `www/js/markets.js` `sanitizeLiveMarkets`), en se relayant sur cet unique graphique. Les règles de trading (5★, SL ≤ 100 pips, TP, gestion du stop) sont identiques pour tous les marchés, avec le pip propre à chacun.
 
 ## PC (Windows)
 
@@ -90,18 +94,37 @@ Historique des bougies (pas un réglage exposé, comportement fixe) : toutes les
 app/
   server.js              serveur PC : interface + administration (127.0.0.1:3777) et API téléphone (127.0.0.1:3778)
   security.js            appairage, jetons hachés, verrouillage, journal de sécurité, en-têtes
-  tvfeed.js              lecture de TradingView Desktop (multi-graphiques, bascule, validation)
+  tvfeed.js              lecture de TradingView Desktop (graphique unique, recherche de symbole, bascule de résolution, validation, réessais, santé)
+  watchdog.js            relance automatique de TradingView Desktop (Windows) après plusieurs échecs CDP consécutifs
   newsfeed.js            annonces économiques majeures en direct (US/EU/CN/JP, TradingView) : polling, assainissement, /api/news
+  scripts/backtest-dukascopy.mjs  backtest long terme sur données historiques gratuites (voir « Backtest long terme » ci-dessous)
+  backtest.bat           lanceur Windows du backtest (demande le marché, la période)
   XAUUSD-Zones.bat       lanceur Windows
   acces-distant.bat      publication HTTPS dans ton réseau Tailscale
   installer-android.bat  compilation release signée + installation sur le téléphone
   native/android/        coffre Keystore (TokenVault), MainActivity, sécurité réseau Android
   SECURITE.md            conformité OWASP Top 10:2025
   www/                   interface (identique sur PC et Android)
-  tests/                 règles, positions, sécurité (npm test)
+  www/data/              données publiées par le serveur (calendrier, rapports de backtest)
+  tests/                 règles, positions, sécurité, backtest (npm test)
 ```
 
-Tests : `npm test` dans `app` (règles, positions et 13 tests de sécurité).
+Tests : `npm test` dans `app`.
+
+## Fiabilité : santé des données et relance automatique
+
+Le serveur PC suit la fraîcheur de la donnée TradingView : `GET /api/health` (interface locale) renvoie l'horodatage de la dernière lecture de bougies réussie, la dernière erreur, le nombre d'échecs CDP consécutifs et le nombre de relances automatiques. Après 3 échecs consécutifs, **sur Windows uniquement**, le serveur relance TradingView Desktop en mode débogage (`scripts/launch_tv_debug.bat`), au plus une fois toutes les 10 minutes. **Désactivé par défaut** car le lanceur ferme TradingView avant de le relancer : active-le avec `XAUZ_AUTOLAUNCH_TV=1` (par exemple dans `XAUUSD-Zones.bat`) si le PC tourne sans surveillance. Les erreurs transitoires de connexion (TradingView pas encore prêt) sont aussi réessayées automatiquement avant d'être remontées.
+
+## Backtest long terme (données historiques gratuites)
+
+`scripts/backtest-dukascopy.mjs` télécharge des bougies 1 minute (bid/ask) gratuites via le paquet `dukascopy-node` (dépendance optionnelle, `npm install` pour l'activer), les agrège aux timeframes de l'application, puis lance le même classement que « Analyse complète » (`rankMarket`, `www/js/ranking.js`) sur toute la période **et** séparément sur les 70 % les plus anciens (in-sample) et les 30 % les plus récents (out-of-sample), pour vérifier que le résultat ne tient pas seulement au réglage sur le passé.
+
+```
+node scripts/backtest-dukascopy.mjs --market XAUUSD --from 2023-01-01 --to 2026-09-01 --mode atr
+node scripts/backtest-dukascopy.mjs --market XAUUSD --synthetic          # sans réseau : marche aléatoire, teste le pipeline
+```
+
+Ou, sur le PC : double-clic sur `backtest.bat` (demande le marché et la période). Résultat : résumé en français dans la fenêtre, et rapport JSON complet dans `www/data/backtest-<MARCHÉ>.json`, consultable dans l'application via `GET /api/backtest?market=XAUUSD` (données mises en cache localement dans `.cache-histo/`, jamais commitées).
 
 ## Version 2 : positions, balance, catégories, apprentissage
 

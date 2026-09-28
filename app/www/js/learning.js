@@ -16,6 +16,7 @@ export const FEATURE_LABEL = {
   sweepAtr: 'Profondeur du balayage / ATR', session: 'Session', trend: 'Tendance (EMA 50)', news: 'Annonce proche',
   stars: 'Étoiles à la détection', fibZone: 'Fibonacci', liqRisk: 'Liquidité au-delà de l\'OB', supertrend: 'Supertrend',
   market: 'Marché',
+  poiTf: 'UT du POI', poiKind: 'Type de POI', htfOte: 'POI en OTE HTF', microKind: 'Micro-zone LTF', microOte: 'Micro-zone en OTE LTF',
 };
 
 const VALUE_LABEL = {
@@ -26,6 +27,8 @@ const VALUE_LABEL = {
   liqRisk: { yes: 'Poche proche (risque de balayage)', no: 'Pas de poche proche' },
   supertrend: { with: 'Aligné', against: 'Contre', range: 'Range' },
   stars: { 3: '3★', 4: '4★', 5: '5★', 2: '2★', 1: '1★' },
+  htfOte: { yes: 'OTE 0,618–0,786', no: 'hors OTE' }, microOte: { yes: 'OTE 0,618–0,786', no: 'hors OTE' },
+  poiKind: { OB: 'Order Block', FVG: 'Fair Value Gap' }, microKind: { OB: 'micro-OB', FVG: 'micro-FVG' },
 };
 
 const bucket = (v, edges, labels) => {
@@ -46,6 +49,17 @@ export function sessionOf(t) {
  * complète multi-marchés) — ajoute la dimension `market` aux règles apprises ; omis (undefined/null)
  * en analyse mono-marché (compatibilité). */
 export function featuresOf(zone, { hasNewsNear } = {}, marketId = null) {
+  if (zone.smc) {
+    const m = zone.smc;
+    return {
+      category: zone.category, tf: zone.timeframe, direction: zone.direction,
+      session: sessionOf(zone.c3Time),
+      news: hasNewsNear ? (hasNewsNear(zone.c3Time, 60) ? 'yes' : 'no') : 'no',
+      poiTf: m.poi.tf, poiKind: m.poi.kind, htfOte: m.fib.ote ? 'yes' : 'no',
+      microKind: m.micro.kind, microOte: m.micro.ote ? 'yes' : 'no',
+      ...(marketId ? { market: marketId } : {}),
+    };
+  }
   const a = zone.atr || null;
   const { P } = zone.candles;
   const sweep = zone.direction === 'BUY' ? zone.liquidity.level - P.low : P.high - zone.liquidity.level;
@@ -75,7 +89,7 @@ export function featuresOf(zone, { hasNewsNear } = {}, marketId = null) {
 
 export function valueLabel(feature, value) {
   if (feature.includes(SEP)) { const fs = feature.split(SEP), vs = String(value).split('|'); return fs.map((f, i) => valueLabel(f, vs[i])).join(' + '); }
-  if (feature === 'tf') return TF_LABEL[value] || value;
+  if (feature === 'tf' || feature === 'poiTf') return TF_LABEL[value] || value;
   if (feature === 'category') return CATEGORIES[value]?.label || value;
   if (feature === 'market') return marketById(value)?.label || value;
   return VALUE_LABEL[feature]?.[value] ?? value;
@@ -91,6 +105,7 @@ export const PAIRS = [
   ['session', 'trend'], ['session', 'direction'], ['tf', 'trend'], ['direction', 'trend'],
   ['category', 'session'], ['gapAtr', 'trend'], ['zoneAtr', 'category'], ['sweepAtr', 'trend'],
   ['stars', 'session'], ['fibZone', 'supertrend'], ['liqRisk', 'category'],
+  ['poiTf', 'htfOte'], ['microKind', 'microOte'], ['session', 'poiKind'],
 ];
 const SEP = ' + ';
 /** Caractéristiques seules + combinaisons. */
