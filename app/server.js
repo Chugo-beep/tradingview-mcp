@@ -141,7 +141,8 @@ async function tvCandles(url) {
 function tvErrorMessage(e) {
   const m = String(e?.message || '');
   if (/Cannot find package/i.test(m)) return 'Dépendances manquantes sur le PC : lance « npm ci » à la racine du projet.';
-  if (/ECONNREFUSED|CDP|No TradingView|target|fetch failed|connect/i.test(m)) return 'TradingView Desktop n\'est pas joignable : lance-le avec le port de débogage (XAUUSD-Zones.bat).';
+  if (/TradingViewApi|_activeChartWidgetWV|No TradingView chart/i.test(m)) return 'TradingView Desktop est ouvert mais aucun graphique n\'est chargé : attends la fin de son démarrage (ou ouvre un graphique), puis réessaie.';
+  if (/ECONNREFUSED|CDP|target|fetch failed|connect/i.test(m)) return 'TradingView Desktop n\'est pas joignable : lance Demarrer.bat (il ouvre TradingView avec le port de débogage).';
   return 'Erreur interne du serveur.';
 }
 
@@ -220,7 +221,7 @@ async function localApi(req, res, url) {
   }
   if (p === '/api/tv/candles' && m === 'GET') {
     try { const { status, body } = await tvCandles(url); return send(res, status, body); }
-    catch (e) { if (e?.status) throw e; return send(res, 503, { success: false, error: tvErrorMessage(e) }); }
+    catch (e) { if (e?.status) throw e; await sec.secLog('tv_error', { msg: String(e?.message || e).slice(0, 300) }); return send(res, 503, { success: false, error: tvErrorMessage(e) }); }
   }
   if (p === '/api/news' && m === 'GET') {
     const { status, body } = newsResponse(url);
@@ -331,7 +332,7 @@ const remoteServer = http.createServer(async (req, res) => {
     if (!auth.ok) return out(auth.status, { error: auth.error });
     if (p === '/api/tv/candles' && m === 'GET') {
       try { const { status, body } = await tvCandles(url); return out(status, body); }
-      catch (e) { if (e?.status) throw e; return out(503, { success: false, error: tvErrorMessage(e) }); }
+      catch (e) { if (e?.status) throw e; await sec.secLog('tv_error', { msg: String(e?.message || e).slice(0, 300) }); return out(503, { success: false, error: tvErrorMessage(e) }); }
     }
     if (p === '/api/news' && m === 'GET') {
       const { status, body } = newsResponse(url);
@@ -424,31 +425,7 @@ async function printPairingCode() {
 
 export { localServer, remoteServer };
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  start();
-  if (!args.includes('--no-tv') && process.env.XAUZ_NO_TV !== '1') ensureTradingView();
-}
-
-/**
- * Lance TradingView Desktop avec le port de débogage local s'il n'y répond pas déjà, pour que
- * l'application démarre en UN SEUL clic (plus besoin de lancer un script séparé).
- * Windows : scripts/launch_tv_debug.bat ; macOS / Linux : scripts/launch_tv_debug_{mac,linux}.sh.
- */
-async function ensureTradingView() {
-  const up = async () => { try { return (await fetch('http://127.0.0.1:9222/json/version', { signal: AbortSignal.timeout(2000) })).ok; } catch { return false; } };
-  if (await up()) return;
-  const dir = resolve(fileURLToPath(import.meta.url), '..', '..', 'scripts');
-  const win = process.platform === 'win32';
-  const script = win ? 'launch_tv_debug.bat' : process.platform === 'darwin' ? 'launch_tv_debug_mac.sh' : 'launch_tv_debug_linux.sh';
-  console.log('TradingView Desktop ne répond pas sur le port 9222 : lancement automatique…');
-  try {
-    const p = win
-      ? spawn('cmd', ['/c', join(dir, script)], { detached: true, stdio: 'ignore', windowsHide: true })
-      : spawn('bash', [join(dir, script)], { detached: true, stdio: 'ignore' });
-    p.on('error', () => console.log('Lancement automatique impossible : ouvre TradingView Desktop manuellement.'));
-    p.unref();
-  } catch { /* l'analyse affichera « TradingView injoignable » */ }
-}
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) start();
 
 function openBrowser(url) {
   try {

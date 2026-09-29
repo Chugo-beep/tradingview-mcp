@@ -53,13 +53,14 @@ export function requireFinite(value, name) {
 export async function getClient() {
   if (client) {
     try {
-      // Quick liveness check
-      await client.Runtime.evaluate({ expression: '1', returnByValue: true });
-      return client;
-    } catch {
-      client = null;
-      targetInfo = null;
-    }
+      // Liveness check + still attached to a chart page: a client picked while TradingView was
+      // starting can be glued to a shell/tooltip page that never exposes TradingViewApi.
+      const r = await client.Runtime.evaluate({ expression: 'typeof window.TradingViewApi', returnByValue: true });
+      if (r?.result?.value !== 'undefined') return client;
+      try { await client.close(); } catch { /* already gone */ }
+    } catch { /* dead client: reconnect below */ }
+    client = null;
+    targetInfo = null;
   }
   return connect();
 }
@@ -111,8 +112,10 @@ async function findChartTarget() {
   const resp = await fetch(`http://${CDP_HOST}:${CDP_PORT}/json/list`);
   const targets = await resp.json();
   // Prefer targets with tradingview.com/chart in the URL
+  // Fallback excludes file:// pages: TradingView Desktop's own shell/tooltip windows live under
+  // file:///…/TradingView.Desktop…/app.asar and never expose the chart API.
   return targets.find(t => t.type === 'page' && /tradingview\.com\/chart/i.test(t.url))
-    || targets.find(t => t.type === 'page' && /tradingview/i.test(t.url))
+    || targets.find(t => t.type === 'page' && /^https?:\/\/[^/]*tradingview/i.test(t.url))
     || null;
 }
 
