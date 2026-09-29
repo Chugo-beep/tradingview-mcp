@@ -37,7 +37,7 @@ cette stratégie.
 
 ### 4. Risque, stop et objectifs
 
-- **Stop loss** : `stopMode` = **'zone'** (par défaut) → juste derrière le micro-OB / sous le micro-FVG (bord opposé à la bougie N−1 qui l'a ouvert pour un FVG) ; alternative `'swing'` → derrière le swing ayant provoqué le CHoCH. Marge `slBufferAtr` = **0,1 × ATR** LTF, jamais un stop < `minStopAtr` = **0,5 × ATR** LTF (bruit du marché).
+- **Stop loss** : `stopMode` = **'swing'** (par défaut depuis le balayage `sweep-filters.mjs`) → derrière le swing ayant provoqué le CHoCH ; alternative `'zone'` → juste derrière le micro-OB / sous le micro-FVG (bord opposé à la bougie N−1 qui l'a ouvert pour un FVG) . Marge `slBufferAtr` = **0,1 × ATR** LTF, jamais un stop < `minStopAtr` = **0,5 × ATR** LTF (bruit du marché).
 - **TP1** : prochaine liquidité LTF **15m** (`liqTf`) — sommets/creux égaux (tolérance `equalTolAtr` = 0,1 × ATR), FVG opposé non comblé, ou swing non pris — à au moins `minTp1R` = **1 R** de l'entrée ; à défaut, repli sur 1,5 R (borné par le milieu entrée→TP2). Encaissement de **50 %** + stop ramené au point mort dès TP1 atteint.
 - **TP2 (final)** : liquidité majeure **1D** (swing non pris, ou FVG 1D opposé non comblé) ; à défaut, l'extrémité de la jambe HTF. Reste de la position (**50 %**) clôturé à TP2. Aucun trailing après le passage au point mort (contrairement à l'OB5★).
 - **R:R minimal** : `minRR` = **1:3** (entrée → TP2). Tout setup dont le R:R théorique est inférieur à ce seuil est **automatiquement rejeté** (`smc.valid = false`, `grade = 4` au lieu de 5, raison affichée dans l'interface) — jamais proposé pour un suivi.

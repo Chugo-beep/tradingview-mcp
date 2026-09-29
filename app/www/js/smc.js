@@ -40,7 +40,7 @@ export const SMC_DEFAULTS = {
   entryExpiryBars: 48,       // ordre limite annulé s'il n'est pas exécuté en 48 bougies LTF
   slBufferAtr: 0.1,          // marge du stop : 0,1 ATR LTF
   minStopAtr: 0.5,           // stop « serré » mais jamais sous 0,5 ATR LTF (en dessous : bruit du marché)
-  stopMode: 'zone',          // 'zone' (derrière le micro-OB / le micro-FVG) | 'swing' (derrière le swing du CHoCH)
+  stopMode: 'swing',         // 'zone' (derrière le micro-OB / le micro-FVG) | 'swing' (derrière le swing du CHoCH) — 'swing' par défaut : seule config positive en in-sample ET out-of-sample (scripts/sweep-filters.mjs)
   minRR: 2,                  // R:R minimal entrée → TP2 (3 → 2) ; sans effet mesurable sur le nombre de trades du balayage
   minTp1R: 1,                // TP1 : première liquidité 15m située à au moins 1 R (sinon BE déclenché dans le bruit)
   equalTolAtr: 0.1,          // sommets/creux « égaux »
