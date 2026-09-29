@@ -4,4 +4,3 @@ XAUUSD-Zones.apk
 *.log
 .pairing-code
 .cache-histo/
-www/data/backtest-*.json
