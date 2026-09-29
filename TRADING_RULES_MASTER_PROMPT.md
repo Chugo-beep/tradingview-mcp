@@ -18,7 +18,7 @@ cette stratégie.
 - Unités de temps HTF cartographiées : **1D, 1W, 1Mo** (`htfTfs`). Biais et Fibonacci : **1D** (`fibTf`, repli 1W si le 1D est indisponible).
 - **POI Order Block (OB)** : dernière bougie inverse avant l'impulsion qui casse la structure (BOS), *ou* OB à prise de liquidité + imbalance du moteur historique (`detectZones`, réutilisé tel quel comme source supplémentaire de POI).
 - **POI Fair Value Gap (FVG)** : écart mèche bougie N−1 / mèche bougie N+1 autour d'une bougie N impulsive dont le corps ≥ `impulseAtr` = **1,0 × ATR(14)** de l'UT.
-- POI cherchés dans les `poiLookbackBars` = **150** dernières bougies de leur UT.
+- POI cherchés dans les `poiLookbackBars` = **300** dernières bougies de leur UT.
 - Un POI n'est exploitable qu'à son **premier contact** (non mitigé avant) ; il est abandonné dès qu'une clôture dépasse son bord opposé (invalidation).
 
 ### 2. Biais & Fibonacci HTF (Premium / Discount)
@@ -30,7 +30,7 @@ cette stratégie.
 ### 3. Exécution LTF (15m, 5m)
 
 - Fenêtre d'attente du CHoCH après le contact du POI : `poiActiveBars` = **3 bougies HTF** (ou jusqu'à l'invalidation du POI si elle arrive avant).
-- **CHoCH / MSS** : clôture au-delà du dernier sommet (achat) / creux (vente) structurel **confirmé** (fractale à `swingK` = 2 bougies de chaque côté), avec une bougie de déplacement dont le corps ≥ `chochDisplacementAtr` = **0,8 × ATR** LTF, et un volume ≥ `volumeMult` = **1,2 ×** la moyenne des 20 dernières bougies (`volumeSma`) **si le flux fournit un volume** (sinon ce critère est ignoré).
+- **CHoCH / MSS** : clôture au-delà du dernier sommet (achat) / creux (vente) structurel **confirmé** (fractale à `swingK` = 2 bougies de chaque côté), avec une bougie de déplacement dont le corps ≥ `chochDisplacementAtr` = **0,5 × ATR** LTF, et un volume ≥ `volumeMult` = **0 (désactivé)** la moyenne des 20 dernières bougies (`volumeSma`) **si le flux fournit un volume** (sinon ce critère est ignoré).
 - Nouveau Fibonacci sur la jambe de force LTF (du dernier extrême atteint depuis le contact jusqu'à la cassure).
 - **Micro-FVG** (prioritaire) ou, à défaut, **micro-OB**, cherché bougie par bougie pendant `microWaitBars` = **24 bougies** après le CHoCH, dans la moitié Discount/Premium de la jambe LTF (retracement ≥ 0,5), jamais revisité depuis sa formation ; en cas de plusieurs candidats, le plus proche du cœur de l'OTE (0,705) est retenu.
 - Ordre **LIMITE** posé sur ce micro-FVG/OB ; annulé (expiré) s'il n'est pas exécuté en `entryExpiryBars` = **48 bougies LTF** (`smc.expiresAt`).

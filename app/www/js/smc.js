@@ -31,17 +31,17 @@ export const SMC_DEFAULTS = {
   swingK: 2,                 // fractales : 2 bougies de chaque côté
   atrPeriod: 14,
   impulseAtr: 1.0,           // bougie N d'un FVG HTF : corps ≥ 1 ATR
-  poiLookbackBars: 150,      // POI HTF formés dans les 150 dernières bougies de leur UT
+  poiLookbackBars: 300,      // POI formés dans les 300 dernières bougies de leur UT (150 → 300)
   poiActiveBars: 3,          // après le contact : fenêtre de 3 bougies HTF pour le CHoCH LTF
-  chochDisplacementAtr: 0.8, // CHoCH « agressif » : corps de la bougie de cassure ≥ 0,8 ATR LTF
-  volumeMult: 1.2,           // volume de la cassure ≥ 1,2 × moyenne 20 (ignoré si pas de volume)
+  chochDisplacementAtr: 0.5, // assoupli (0,8 → 0,5) après balayage in-sample (scripts/sweep-smc.mjs) : nettement plus de signaux
+  volumeMult: 0,             // désactivé (1,2 → 0) : le volume forex/CFD est un volume de ticks peu fiable ; 0 = jamais bloquant
   volumeSma: 20,
   microWaitBars: 24,         // bougies LTF max. après le CHoCH pour qu'un micro-FVG/OB passe en Discount
   entryExpiryBars: 48,       // ordre limite annulé s'il n'est pas exécuté en 48 bougies LTF
   slBufferAtr: 0.1,          // marge du stop : 0,1 ATR LTF
   minStopAtr: 0.5,           // stop « serré » mais jamais sous 0,5 ATR LTF (en dessous : bruit du marché)
   stopMode: 'zone',          // 'zone' (derrière le micro-OB / le micro-FVG) | 'swing' (derrière le swing du CHoCH)
-  minRR: 3,                  // R:R minimal entrée → TP2
+  minRR: 2,                  // R:R minimal entrée → TP2 (3 → 2) ; sans effet mesurable sur le nombre de trades du balayage
   minTp1R: 1,                // TP1 : première liquidité 15m située à au moins 1 R (sinon BE déclenché dans le bruit)
   equalTolAtr: 0.1,          // sommets/creux « égaux »
   oteLow: 0.618, oteHigh: 0.786,

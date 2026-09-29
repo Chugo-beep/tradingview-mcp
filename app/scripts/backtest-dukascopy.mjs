@@ -34,6 +34,7 @@ const TO = argVal('--to', new Date().toISOString().slice(0, 10));
 const MODE = argVal('--mode', 'atr') === 'pips' ? 'pips' : 'atr';
 const STRATEGY = argVal('--strategy', 'smc') === 'ob5' ? 'ob5' : 'smc'; // smc : Smart Money HTF→LTF (défaut) ; ob5 : Order Blocks 5★
 const BENCHMARK_RUNS = Number(argVal('--benchmark-runs', '200')) || 200;
+const SMC_OVERRIDE = (() => { try { return JSON.parse(argVal('--smc', '{}')); } catch { return {}; } })(); // ex. --smc '{"minRR":2}'
 const CACHE_DIR = join(APP_DIR, '.cache-histo');
 const DATA_OUT = join(APP_DIR, 'www', 'data');
 
@@ -86,7 +87,7 @@ async function loadOneMinuteSeries() {
 
 function runOn(m1) {
   const candlesByTf = aggregateAll(m1, BACKTEST_TFS);
-  return rankMarket(market, candlesByTf, { risk: { targetMode: MODE, strategyMode: STRATEGY }, benchmarkRuns: BENCHMARK_RUNS });
+  return rankMarket(market, candlesByTf, { risk: { targetMode: MODE, strategyMode: STRATEGY }, strategy: { smc: SMC_OVERRIDE }, benchmarkRuns: BENCHMARK_RUNS });
 }
 
 function pct(n) { return n == null ? 'n/d' : `${(n * 100).toFixed(0)} %`; }
