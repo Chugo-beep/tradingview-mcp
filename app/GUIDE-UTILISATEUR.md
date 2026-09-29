@@ -137,6 +137,18 @@ L'adresse du PC reste modifiable ensuite dans **Réglages → Connexion au PC �
 
 ---
 
+## 3 bis. Démarrage en un clic
+
+Double-clique sur **`Demarrer.bat`** à la racine du projet (macOS / Linux : `./start.sh`). Il installe Node.js et les dépendances si besoin, lance TradingView Desktop en mode débogage, démarre le serveur et ouvre l'application. Rien d'autre à lancer.
+
+### Indicateur de confiance
+
+Chaque zone porte un badge **Confiance bonne / moyenne / faible / nulle / non démontrée** : c'est le niveau de preuve du backtest long terme (2019 → aujourd'hui) pour le marché concerné, pas une probabilité de gain. Il apparaît sur les cartes, dans le détail et dans les notifications. Il est « bonne » seulement si la période d'apprentissage ET la période de validation sont positives, si l'intervalle de confiance est entièrement > 0 et si le résultat bat 95 % des tirages aléatoires. Aujourd'hui, aucun marché n'atteint ce niveau.
+
+### Dates d'entrée et de clôture
+
+Chaque trade simulé affiche sa **date d'entrée** et sa **date de clôture** (détail d'une zone, historique de l'onglet Marchés et export CSV). Le backtest écrit aussi `app/www/data/backtest-<MARCHÉ>-trades.csv`. Relancer le backtest : `npm run backtest --prefix app -- --market XAUUSD --from 2019-01-01`.
+
 ## 4. Démarrage rapide
 
 Une fois l'installation faite (§3), la routine de tous les jours :

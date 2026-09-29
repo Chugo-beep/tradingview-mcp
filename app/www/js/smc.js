@@ -31,7 +31,7 @@ export const SMC_DEFAULTS = {
   swingK: 2,                 // fractales : 2 bougies de chaque côté
   atrPeriod: 14,
   impulseAtr: 1.0,           // bougie N d'un FVG HTF : corps ≥ 1 ATR
-  poiLookbackBars: 300,      // POI formés dans les 300 dernières bougies de leur UT (150 → 300)
+  poiLookbackBars: 300,      // POI formés dans les 300 dernières bougies de leur UT (le BACKTEST le désactive : il scanne tout l'historique)
   poiActiveBars: 3,          // après le contact : fenêtre de 3 bougies HTF pour le CHoCH LTF
   chochDisplacementAtr: 0.5, // assoupli (0,8 → 0,5) après balayage in-sample (scripts/sweep-smc.mjs) : nettement plus de signaux
   volumeMult: 0,             // désactivé (1,2 → 0) : le volume forex/CFD est un volume de ticks peu fiable ; 0 = jamais bloquant
@@ -40,7 +40,7 @@ export const SMC_DEFAULTS = {
   entryExpiryBars: 48,       // ordre limite annulé s'il n'est pas exécuté en 48 bougies LTF
   slBufferAtr: 0.1,          // marge du stop : 0,1 ATR LTF
   minStopAtr: 0.5,           // stop « serré » mais jamais sous 0,5 ATR LTF (en dessous : bruit du marché)
-  stopMode: 'swing',         // 'zone' (derrière le micro-OB / le micro-FVG) | 'swing' (derrière le swing du CHoCH) — 'swing' par défaut : seule config positive en in-sample ET out-of-sample (scripts/sweep-filters.mjs)
+  stopMode: 'zone',          // 'zone' (derrière le micro-OB / le micro-FVG) | 'swing' (derrière le swing du CHoCH) — 'zone' : ni l'une ni l'autre n'est démontrée meilleure sur l'historique complet (scripts/sweep-filters.mjs)
   minRR: 2,                  // R:R minimal entrée → TP2 (3 → 2) ; sans effet mesurable sur le nombre de trades du balayage
   minTp1R: 1,                // TP1 : première liquidité 15m située à au moins 1 R (sinon BE déclenché dans le bruit)
   equalTolAtr: 0.1,          // sommets/creux « égaux »

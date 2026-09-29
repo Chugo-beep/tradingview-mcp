@@ -539,7 +539,7 @@ export function notifText(type, t, extra = {}) {
   const levels = `TP1 ${px(t.tp1)} · TP2 ${px(t.tp2)} · TP3 ${px(t.tp3)} · SL ${px(t.sl)}`;
   const confirm = (t.entryMode || 'confirmation') === 'confirmation';
   // préservation du compte (§B4) : après 3 pertes consécutives, taille réduite conseillée
-  const reduced = extra.reducedSize ? ' · taille réduite conseillée : 50 % du lot' : '';
+  const reduced = (extra.reducedSize ? ' · taille réduite conseillée : 50 % du lot' : '') + (extra.confidence ? ` · ${extra.confidence}` : '');
   switch (type) {
     case 'new': return confirm ? {
       title: `👀 ${stars}${buy ? 'ACHAT' : 'VENTE'} ${label} · zone ${px(t.zoneLow ?? Math.min(t.entry, t.sl))}–${px(t.zoneHigh ?? Math.max(t.entry, t.sl))}`,

@@ -47,7 +47,7 @@ for (const id of MARKETS) {
 function run(part, smc) {
   const rs = [];
   for (const id of MARKETS) {
-    const r = rankMarket(data[id].m, data[id][part], { risk: { targetMode: 'atr', strategyMode: 'smc' }, strategy: { smc }, benchmark: false });
+    const r = rankMarket(data[id].m, data[id][part], { risk: { targetMode: 'atr', strategyMode: 'smc' }, strategy: { smc: { poiLookbackBars: 1e6, ...smc } }, benchmark: false });
     rs.push({ id, n: r.trades, exp: r.expectancyR, pf: r.profitFactor, win: r.winRate, dd: r.maxDrawdownR, sumR: (r.expectancyR ?? 0) * r.trades });
   }
   const n = rs.reduce((a, r) => a + r.n, 0);

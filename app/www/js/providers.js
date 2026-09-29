@@ -189,5 +189,8 @@ export const scanApi = {
   result: (settings, opts) => scanCall('scan/result', settings, opts, 'GET'),
 };
 
+/** Rapport de backtest d'un marché (alimente l'indicateur de confiance), PC ou téléphone via le PC. */
+export const backtestApi = { get: (settings, market, opts) => scanCall(`backtest?market=${encodeURIComponent(market)}`, settings, opts, 'GET') };
+
 /** Mapping marché → symbole TradingView résolu par la recherche (PC ou téléphone via le PC distant), pour l'affichage. */
 export const marketsApi = { get: (settings, opts) => scanCall('markets', settings, opts, 'GET') };

@@ -23,6 +23,9 @@ const CONFIGS = {
   'smc actuel': { risk: { strategyMode: 'smc' } },
   'smc Londres+NY': { risk: { strategyMode: 'smc', sessions: LDN_NY } },
   'smc stop swing': { risk: { strategyMode: 'smc' }, smc: { stopMode: 'swing' } },
+  'smc stop zone': { risk: { strategyMode: 'smc' }, smc: { stopMode: 'zone' } },
+  'smc anciens réglages': { risk: { strategyMode: 'smc' }, smc: { stopMode: 'zone', chochDisplacementAtr: 0.8, volumeMult: 1.2, minRR: 3 } },
+  'smc R:R min 3': { risk: { strategyMode: 'smc' }, smc: { minRR: 3 } },
   'smc HTF D+W seulement': { risk: { strategyMode: 'smc' }, smc: { htfTfs: ['D', 'W'] } },
   'smc LTF 15 seulement': { risk: { strategyMode: 'smc' }, smc: { ltfTfs: ['15'] } },
   'ob5 (défaut)': { risk: { strategyMode: 'ob5' } },
@@ -40,7 +43,7 @@ for (const id of MARKETS) {
 function run(part, cfg) {
   let n = 0, sum = 0, wins = 0; const per = [];
   for (const id of MARKETS) {
-    const r = rankMarket(data[id].m, data[id][part], { risk: { targetMode: 'atr', ...cfg.risk }, strategy: { smc: cfg.smc }, benchmark: false });
+    const r = rankMarket(data[id].m, data[id][part], { risk: { targetMode: 'atr', ...cfg.risk }, strategy: { smc: { poiLookbackBars: 1e6, ...cfg.smc } }, benchmark: false });
     n += r.trades; sum += (r.expectancyR ?? 0) * r.trades; wins += (r.winRate ?? 0) * r.trades;
     per.push(`${id}:${r.trades}/${r.expectancyR == null ? 'n/d' : r.expectancyR.toFixed(2)}`);
   }

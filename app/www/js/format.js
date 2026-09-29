@@ -16,6 +16,9 @@ export function fmtR(v) { return v == null || !Number.isFinite(v) ? '—' : `${v
 
 export function fmtT(t) { return new Date(t * 1000).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }); }
 
+/** Date + heure complètes avec l'année (échantillons de trades : entrée / clôture). */
+export function fmtDT(t) { return t ? new Date(t * 1000).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'; }
+
 export function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
 
 export function dirFr(d, cap) { const s = d === 'BUY' ? 'achat' : 'vente'; return cap ? s[0].toUpperCase() + s.slice(1) : s; }

@@ -34,7 +34,8 @@ const TO = argVal('--to', new Date().toISOString().slice(0, 10));
 const MODE = argVal('--mode', 'atr') === 'pips' ? 'pips' : 'atr';
 const STRATEGY = argVal('--strategy', 'smc') === 'ob5' ? 'ob5' : 'smc'; // smc : Smart Money HTF→LTF (défaut) ; ob5 : Order Blocks 5★
 const BENCHMARK_RUNS = Number(argVal('--benchmark-runs', '200')) || 200;
-const SMC_OVERRIDE = (() => { try { return JSON.parse(argVal('--smc', '{}')); } catch { return {}; } })(); // ex. --smc '{"minRR":2}'
+// backtest : TOUT l'historique (le réglage live ne scanne que les dernières bougies HTF), sinon l'échantillon est artificiellement réduit
+const SMC_OVERRIDE = (() => { try { return { poiLookbackBars: 1e6, ...JSON.parse(argVal('--smc', '{}')) }; } catch { return { poiLookbackBars: 1e6 }; } })(); // ex. --smc '{"minRR":2}'
 const CACHE_DIR = join(APP_DIR, '.cache-histo');
 const DATA_OUT = join(APP_DIR, 'www', 'data');
 
@@ -127,6 +128,15 @@ async function main() {
   const outFile = join(DATA_OUT, `backtest-${market.id}.json`);
   await writeFile(outFile, JSON.stringify(report, null, 2), 'utf8');
 
+  // échantillons de trades avec date d'entrée et date de clôture (CSV lisible dans Excel)
+  const iso = (t) => (t ? new Date(t * 1000).toISOString().replace('T', ' ').slice(0, 16) : '');
+  const csvRows = [['marché', 'UT', 'sens', "date d'entrée (UTC)", 'date de clôture (UTC)', 'prix entrée', 'prix sortie', 'sortie', 'R']];
+  for (const x of [...(full.history || [])].sort((p, q) => (p.fillTime || 0) - (q.fillTime || 0))) {
+    csvRows.push([market.id, x.tf, x.dir, iso(x.fillTime), iso(x.t), x.fillPrice, x.exitPrice, x.exitKind || '', x.r]);
+  }
+  const csvFile = join(DATA_OUT, `backtest-${market.id}-trades.csv`);
+  await writeFile(csvFile, '﻿' + csvRows.map((r) => r.join(';')).join('\r\n'), 'utf8');
+
   const lines = [];
   lines.push(`# Backtest ${market.label} (${MARKET_ID}) — ${FROM} → ${TO}`);
   lines.push('');
@@ -145,6 +155,7 @@ async function main() {
     ? '- L\'avantage statistique se maintient en in-sample **et** en out-of-sample : signal cohérent, pas un simple ajustement sur le passé.'
     : '- Attention : le résultat in-sample et out-of-sample diverge (ou l\'échantillon est insuffisant) — ne pas conclure à un avantage réel sans plus de données.');
   lines.push(`- Rapport JSON complet : ${outFile}`);
+  lines.push(`- Échantillons de trades (entrée / clôture) : ${csvFile}`);
   lines.push(`- Durée du backtest : ${((Date.now() - t0) / 1000).toFixed(1)} s`);
   console.log('\n' + lines.join('\n') + '\n');
 }

@@ -16,6 +16,15 @@ Personal AI assistant for your TradingView Desktop charts. Connects Claude Code 
 > [!CAUTION]
 > This tool accesses undocumented internal TradingView APIs via the Electron debug interface. These can change or break without notice in any TradingView update. Pin your TradingView Desktop version if stability matters to you.
 
+## Démarrage en un clic (application XAUUSD Zones)
+
+1. Installe **TradingView Desktop** (abonnement requis pour les données temps réel) et connecte-toi.
+2. Télécharge le projet, puis **double-clique sur `Demarrer.bat`** (macOS / Linux : `./start.sh`).
+
+C'est tout : le script installe Node.js et les dépendances si besoin, lance TradingView en mode débogage, démarre le serveur et ouvre l'application. Aucun autre exécutable à lancer.
+Les zones d'achat et de vente t'arrivent en notification, avec un **indicateur de confiance** issu du backtest et, dans l'historique, la **date d'entrée et la date de clôture** de chaque trade simulé.
+Le backtest se relance avec `npm run backtest --prefix app` (voir `app/GUIDE-UTILISATEUR.md`).
+
 ## How It Works (and why it's safe to run)
 
 This tool does not connect to TradingView's servers, modify any TradingView files, or intercept any network traffic. It communicates exclusively with your locally running TradingView Desktop instance via Chrome DevTools Protocol (CDP) — a standard debugging interface built into all Chromium/Electron applications by Google, including VS Code, Slack, and Discord.

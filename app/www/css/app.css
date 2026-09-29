@@ -437,3 +437,11 @@ h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: v
 .settings-section[open] summary::before { transform: rotate(90deg); }
 .settings-section > fieldset { margin: 0 12px 12px; background: var(--panel); }
 .settings-section > fieldset:first-of-type { margin-top: 0; }
+
+/* Indicateur de confiance issu du backtest (confidence.js) */
+.conf-bt { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); color: var(--text-2); margin-left: 4px; cursor: help; }
+.conf-bt.conf-bonne { border-color: #2e9d5b; color: #2e9d5b; }
+.conf-bt.conf-moyenne { border-color: #d9a400; color: #a37c00; }
+.conf-bt.conf-faible { border-color: #e08a00; color: #b86e00; }
+.conf-bt.conf-negative { border-color: #d64545; color: #d64545; }
+.hist-date { font-variant-numeric: tabular-nums; }

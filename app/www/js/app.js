@@ -1,5 +1,5 @@
 import { TIMEFRAMES, TF_LABEL, TF_SECONDS, STATUS_LABEL, CATEGORIES, normalizeCandles } from './engine.js';
-import { fetchAll, fetchNews, hasLocalServer, isNativeApp, pair, unpair, isPaired, remoteBase, adminApi, scanApi, marketsApi, needsFullRefetch } from './providers.js';
+import { fetchAll, fetchNews, hasLocalServer, isNativeApp, pair, unpair, isPaired, remoteBase, adminApi, scanApi, backtestApi, marketsApi, needsFullRefetch } from './providers.js';
 import { nativePlugin } from './native.js';
 import { CandleChart } from './chart.js';
 import { runAgents, followZone, unfollowZone, setEntryLot, transitions } from './agents.js';
@@ -10,7 +10,8 @@ import { MARKETS, MARKET_IDS, DEFAULT_MARKET, marketById, MAX_LIVE_MARKETS, sani
 import { summarize } from './stats.js';
 import { drawEquityCurve } from './equity.js';
 import { SETTINGS_KEY, loadSettings as loadSettingsRaw } from './settings.js';
-import { nf, fmtNum, fmtPips, fmtEur, fmtR, fmtT, clamp, dirFr, esc } from './format.js';
+import { assessConfidence, confidenceLine } from './confidence.js';
+import { nf, fmtNum, fmtPips, fmtEur, fmtR, fmtT, fmtDT, clamp, dirFr, esc } from './format.js';
 
 const $ = (s) => document.querySelector(s);
 const K = {
@@ -54,6 +55,7 @@ const state = {
   newIds: new Set(),
   lastFull: null, // horodatage (ms) du dernier téléchargement complet (sans "since") d'une timeframe
   forceFull: false, // vrai : le prochain runOnce ignore "since" (historique TradingView agrandi, ou 30 min écoulées)
+  confidence: {}, // marché -> évaluation de confiance issue du backtest (confidence.js)
   scan: { running: false, status: null, ranking: null, history: [], timer: null }, // « analyse complète » (§ Marchés)
   histFilter: { market: 'all', cat: 'all', result: 'all' }, // filtres de l'historique de l'analyse complète
   histLimit: 50, // longueur affichée de l'historique de l'analyse complète (« Voir plus » l'étend par 50)
@@ -364,7 +366,19 @@ async function runOnce() {
  *   TP2 → stop sur TP1, TP3, clôture, SL, annulation.
  * Suivies : journal réel (précis à la minute). Opportunités notifiées non suivies : simulation de l'analyse.
  */
+/** Charge (une fois par marché) le rapport de backtest et en tire l'indicateur de confiance. */
+function ensureConfidence(marketId) {
+  if (!marketId || marketId in state.confidence) return;
+  state.confidence[marketId] = assessConfidence(null); // évite les requêtes en double
+  backtestApi.get(state.settings, marketId, { serverAvailable: state.server })
+    .then((res) => { state.confidence[marketId] = assessConfidence(res.report); renderPositions(); })
+    .catch(() => { /* rapport absent : la confiance reste « inconnue » */ });
+}
+const confidenceOf = (marketId) => state.confidence[marketId] || assessConfidence(null);
+const confBadge = (c) => `<span class="conf-bt conf-${c.level}" title="${esc(c.reasons.join(' '))}">${esc(c.label)}</span>`;
+
 function handleEvents(out) {
+  ensureConfidence(out.market?.id);
   const notes = [];
   const firstRun = state.seen.size === 0;
   const followed = new Set(state.journal.entries.filter((j) => j.followed).map((j) => j.id));
@@ -377,7 +391,7 @@ function handleEvents(out) {
       // préservation du compte (§B) : pas notifié « à prendre » si un garde-fou bloque, mais la zone reste visible
       const blocked = guards?.maxPositions || guards?.dailyBreaker || a.guardOverlap;
       if (!firstRun && !blocked) {
-        const note = notifText('new', tpl(a), { tfLabel, reducedSize: guards?.reducedSize, market: out.market });
+        const note = notifText('new', tpl(a), { tfLabel, reducedSize: guards?.reducedSize, market: out.market, confidence: confidenceLine(confidenceOf(out.market?.id)) });
         // stratégie SMC (§5) : TP3 == TP2 (pas de 3e palier) → ne pas l'afficher dans la notification
         if (a.plan.strategy === 'smc' && note.body) note.body = note.body.replace(/\s*·\s*TP3[^·]*/, '');
         notes.push(note);
@@ -832,7 +846,7 @@ function histRow(x) {
   const m = marketById(x.market);
   const dec = m?.decimals ?? 2;
   return `<div class="hist-row">
-    <div class="hist-row-l1"><span class="hist-date">${fmtT(x.t)}</span><span>${esc(m?.label || x.market)}</span><span class="cat cat-${x.cat === 'scalp' ? 'scalping' : x.cat}">${esc(CAT_LABEL_BY_KEY[x.cat] || x.cat)} · ${TF_LABEL[x.tf] || x.tf}</span>${dirTag(x.dir)}</div>
+    <div class="hist-row-l1"><span class="hist-date" title="Entrée → clôture">${fmtDT(x.fillTime)} → ${fmtDT(x.t)}</span><span>${esc(m?.label || x.market)}</span><span class="cat cat-${x.cat === 'scalp' ? 'scalping' : x.cat}">${esc(CAT_LABEL_BY_KEY[x.cat] || x.cat)} · ${TF_LABEL[x.tf] || x.tf}</span>${dirTag(x.dir)}</div>
     <div class="hist-row-l2 num"><span>${fmtP(x.fillPrice, dec)} → ${fmtP(x.exitPrice, dec)}</span><small class="hist-kind">${esc(x.exitKind || '')}</small></div>
     <div class="hist-row-l3 num"><b class="${x.pips >= 0 ? 'g' : 'r'}">${fmtPips(x.pips)}</b><span>${fmtR(x.r)}</span></div>
   </div>`;
@@ -859,7 +873,7 @@ function renderHistory() {
 function exportHistoryCsv() {
   const rows = filteredHistory();
   if (!rows.length) { toast('Aucun trade à exporter.'); return; }
-  const headers = ['marché', 'catégorie', 'UT', 'sens', 'entrée', 'sortie', 'résultat', 'pips nets', 'R', 'sortie (ISO)'];
+  const headers = ['marché', 'catégorie', 'UT', 'sens', 'entrée', 'sortie', 'résultat', 'pips nets', 'R', "date d'entrée (ISO)", 'date de clôture (ISO)'];
   const csvEsc = (v) => { const s = String(v ?? ''); return /[",;\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
   const lines = [headers.map(csvEsc).join(';')];
   for (const x of rows) {
@@ -867,6 +881,7 @@ function exportHistoryCsv() {
     lines.push([
       m?.label || x.market, CAT_LABEL_BY_KEY[x.cat] || x.cat, TF_LABEL[x.tf] || x.tf, x.dir,
       x.fillPrice ?? '', x.exitPrice ?? '', x.exitKind || '', x.pips ?? '', x.r ?? '',
+      x.fillTime ? new Date(x.fillTime * 1000).toISOString() : '',
       x.t ? new Date(x.t * 1000).toISOString() : '',
     ].map(csvEsc).join(';'));
   }
@@ -1293,7 +1308,7 @@ function card(it) {
     <div class="l1">${dirTag(it.direction)}${catChip(it)}${smc ? smcChip(it.zone) : starsTag(it.grade)}${it.confluence?.length ? `<span class="badge conf-tf" title="Zone présente aussi en ${it.confluence.map((t) => TF_LABEL[t]).join(', ')}">multi-UT</span>` : ''}${state.newIds.has(it.id) ? '<span class="badge new">nouveau</span>' : ''}${it.guardCorrelated ? '<span class="badge warn" title="Exposition déjà ouverte sur un marché corrélé, même sens">corrélé</span>' : ''}${reducedSize ? '<span class="badge warn" title="3 pertes consécutives : préservation du capital">taille réduite conseillée : 50 % du lot</span>' : ''}</div>
     <div class="pnl num">${pnl}</div>
     <div class="l2"><span class="st t-${st.tone}"><i aria-hidden="true">${st.icon}</i>${esc(st.text)}</span></div>
-    <div class="l2 r">${conf}</div>
+    <div class="l2 r">${conf}${confBadge(confidenceOf(it.market))}</div>
     <div class="l3 num lv"><span>Entrée <b>${fmtP(it.plan.entry, dec)}</b></span><span>SL <b>${fmtP(it.plan.sl, dec)}</b></span><span class="risk">risque ${fmtNum(it.plan.slPips, 0)} pips${riskEur != null ? ` = ${fmtEur(-Math.abs(riskEur))}` : ''}</span></div>
     ${offset ? `<div class="l3 num broker">chez ton courtier : entrée ${fmtP(it.plan.entry + offset, dec)}</div>` : ''}
     <div class="l3 num tps">${tpKeys.map((k) => `<span class="${(p.hits || 0) >= k ? 'hit' : ''}">${smc ? (k === 2 ? 'TP2 (final)' : 'TP1 (50 %)') : (k === 3 && it.category === 'swing' ? 'TP3 +600 (manuel)' : `TP${k}`)} ${fmtP(it.plan[`tp${k}`], dec)}${(p.hits || 0) >= k ? ' ✓' : ''}</span>`).join('')}</div>
@@ -1460,10 +1475,11 @@ function openDetail(id) {
         : '1/3 encaissé à chaque niveau · BE (± 3 pips) dès TP1 ET +1R atteints · trailing structurel (swings) après le BE · TP2 (+200) → stop ≥ TP1 · TP3 (+350) → trade terminé'}${it.plan.slBufferPips != null && !it.smc ? ` · marge SL ${fmtNum(it.plan.slBufferPips, 0)} pips` : ''}</dd>
       ${p.state === POS.OPEN && p.stop != null ? `<dt>Stop actuel</dt><dd class="num"><b>${fmtP(p.stop)}</b></dd>` : ''}
       <dt>Lot</dt><dd class="num">${fmtNum(it.lot, 2)}${it.lotSuggested != null ? ` <small class="dd-note">lot conseillé ${fmtNum(it.lotSuggested, 2)} (risque ${fmtNum(state.settings.risk.riskPct, 1)} % du capital)</small>` : ''}</dd>
-      ${p.fillTime ? `<dt>Prix arrivé sur l'ordre</dt><dd>${fmtT(p.fillTime)} à <span class="num">${fmtP(p.fillPrice)}</span></dd>` : ''}
-      ${p.exitTime && (p.state === POS.TP || p.state === POS.SL) ? `<dt>Sortie</dt><dd>${fmtT(p.exitTime)} à <span class="num">${fmtP(p.exitPrice)}</span></dd>` : ''}
+      ${p.fillTime ? `<dt>Date d'entrée</dt><dd>${fmtDT(p.fillTime)} à <span class="num">${fmtP(p.fillPrice)}</span></dd>` : ''}
+      ${p.exitTime && (p.state === POS.TP || p.state === POS.SL) ? `<dt>Date de clôture</dt><dd>${fmtDT(p.exitTime)} à <span class="num">${fmtP(p.exitPrice)}</span></dd>` : ''}
       <dt>${z?.smc ? 'Micro-zone LTF' : 'Zone C1'}</dt><dd class="num">${fmtP(it.zoneLow)} – ${fmtP(it.zoneHigh)}</dd>
       ${z && !z.smc ? `<dt>Imbalance</dt><dd class="num">${fmtP(z.gap)}${z.atr ? ` (ATR ${fmtP(z.atr)})` : ''}${z.fragile ? ' · fragile' : ''}</dd>` : ''}
+      <dt>Confiance stratégie</dt><dd>${confBadge(confidenceOf(it.market))}<small class="dd-note">${esc(confidenceOf(it.market).reasons.join(' '))} Indicateur de preuve statistique, pas une probabilité de gain.</small></dd>
       ${it.score?.confidence != null ? `<dt>Fiabilité apprise</dt><dd>${it.score.confidence} / 100 (espérance ${fmtR(it.score.expR)})</dd>` : ''}
       ${it.verdict ? `<dt>Verdict de l'auditeur</dt><dd>${esc(it.verdict)}${it.reasons.length ? ' : ' + esc(it.reasons.join(' ; ')) : ''}</dd>` : ''}
       <dt>Suivi</dt><dd>${it.followed ? (p.fromBacktest ? 'Suivi par toi, exécution reprise de la simulation.' : 'Suivi par toi depuis l\'ordre en attente.') : 'Non suivi : résultat simulé sur l\'historique chargé.'}</dd>
