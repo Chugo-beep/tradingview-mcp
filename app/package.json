@@ -6,10 +6,12 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "test": "node --test tests/engine.test.js tests/trades.test.js tests/providers.test.js tests/security.test.js tests/news.test.js tests/markets.test.js tests/timeframes.test.js tests/backtest.test.js tests/watchdog.test.js tests/pairing-insecure.test.js tests/core-improvements.test.js tests/smc.test.js tests/confidence.test.js",
+    "test": "node --test tests/engine.test.js tests/trades.test.js tests/providers.test.js tests/security.test.js tests/news.test.js tests/markets.test.js tests/timeframes.test.js tests/backtest.test.js tests/watchdog.test.js tests/pairing-insecure.test.js tests/core-improvements.test.js tests/smc.test.js tests/confidence.test.js tests/topdown-macro.test.js",
     "audit": "npm audit --omit=dev --audit-level=critical",
     "calendar:build": "node scripts/build-calendar.mjs",
-    "backtest": "node scripts/backtest-dukascopy.mjs"
+    "backtest": "node scripts/backtest-dukascopy.mjs",
+    "calibrate": "node --max-old-space-size=12000 scripts/calibrate.mjs --strategy ob5 --all-ob --write",
+    "macro": "node scripts/fetch-calendar-history.mjs && node --max-old-space-size=8192 scripts/build-macro-model.mjs"
   },
   "dependencies": {
     "@capacitor/android": "6.2.2",

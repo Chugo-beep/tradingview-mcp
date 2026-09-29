@@ -55,6 +55,11 @@ Points où `rules_trading_smc.md` laissait une marge d'interprétation, tranché
 - « Liquidité majeure HTF » pour TP2 : swing 1D non pris **en priorité**, sinon un FVG 1D opposé non comblé ; si ni l'un ni l'autre n'existe côté cible, repli sur l'extrémité de la jambe HTF elle-même (pour ne jamais laisser un setup sans TP2 alors que son R:R serait par ailleurs valide).
 - Position dans le range HTF (0–1) : un POI ou un prix ressorti de ce range (impulsion « effacée ») invalide le setup, même si la direction et le contact semblent corrects — évite les faux signaux en fin de tendance épuisée.
 
+## Fiabilité top-down des OB 5★ et contexte macro
+
+- **Fiabilité top-down** (`app/www/js/topdown.js`) : pour chaque OB 5★, lecture des UT supérieures (1 à 3 selon l'UT de l'OB) puis de l'UT de l'OB, à l'instant où le prix revient dans la zone (aucune information future). Score = 40 pts si une cassure de structure (BOS / CHoCH) a eu lieu dans le sens de l'OB depuis sa formation + 35 pts × part pondérée des UT supérieures dont la dernière cassure va dans le sens de l'OB (sans CHoCH contraire) + 25 pts si l'écart C1/C3 ≥ 0,3 ATR ou le corps de C2 ≥ 1 ATR. Niveaux : A ≥ 70, B ≥ 50, C ≥ 30, D < 30. Pondération mesurée sur 2 509 OB (`scripts/calibrate.mjs`) ; Premium/Discount HTF, POI HTF et absence de cassure contraire sont affichés mais valent 0 point (aucun effet mesuré).
+- **Contexte macro** (`app/www/js/macro.js`, modèle `app/www/data/macro-model.json`) : surprise z = (publié − prévu) / σ de l'indicateur ; réaction 1 h et dérive 1 h → 1 j → 3 j mesurées par régression, retenues si |t| ≥ 3 (≥ 4 hors pays du marché) et stables hors échantillon. Chronologie : seules les annonces publiées avant l'instant d'analyse, la dernière publication d'un indicateur remplace la précédente, révision comptée (poids 0,5), paquets d'annonces simultanées, extinction à 3 jours. Information seulement : n'entre pas dans la note (aucune amélioration mesurée des OB).
+
 ## Rôle général
 
 Tu es un système multi-agent d'analyse de marché spécialisé dans XAUUSD sur TradingView Desktop via le serveur MCP TradingView. Tu combines trois rôles :

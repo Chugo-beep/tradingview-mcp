@@ -17,6 +17,21 @@ import { simulateZone, planFor, POS, DEFAULT_RISK, CANCEL_POLICIES, policyKey } 
 import { marketRisk } from './markets.js';
 import { summarize, randomBenchmark, combineBenchmarks, benchmarkLabel } from './stats.js';
 import { detectSmcSetups } from './smc.js';
+import { annotateTopdown } from './topdown.js';
+import { macroState, macroAlignment, titleKey } from './macro.js';
+
+/**
+ * Contexte macro d'un backtest : annonces historiques (triées une fois, restreintes aux indicateurs
+ * influents du marché et aux liens) et état macro à un instant donné, sans information future.
+ */
+export function macroContext({ events, model }, marketId) {
+  const useful = new Set([...Object.keys(model?.sensitivity?.[marketId] || {}), ...(model?.links || []).flatMap((l) => [l.from, l.to])]);
+  const evs = (events || []).filter((e) => useful.has(titleKey(e.country, e.title))).sort((a, b) => a.t - b.t);
+  const firstAfter = (t) => { let lo = 0, hi = evs.length; while (lo < hi) { const m = (lo + hi) >> 1; if (evs[m].t < t) lo = m + 1; else hi = m; } return lo; };
+  return {
+    at(t) { return macroState(evs.slice(firstAfter(t - 90 * 86400), firstAfter(t + 7 * 86400)), marketId, model, t); },
+  };
+}
 
 /** Échantillon minimal de trades clôturés pour être classé avant les marchés « insuffisants ». */
 export const MIN_SAMPLE_TRADES = 30;
@@ -31,6 +46,8 @@ export function passesStrategy(z, strategy = {}) {
     if (Array.isArray(strategy.sessions) && strategy.sessions.length && z.session && !strategy.sessions.includes(z.session)) return false;
     return true;
   }
+  // recherche (scripts/calibrate.mjs --all-ob) : tous les OB détectés, pour mesurer ce que prédisent les facteurs
+  if (strategy.research) return true;
   const g = z.gradeAtDetection ?? ((z.grade || 0) + (z.stars && !z.stars.virgin ? 1 : 0));
   if (!g || g < 5 || !z.stars?.trend) return false;
   if (strategy.htfFilter !== false && z.htf?.aligned === false) return false;
@@ -72,6 +89,10 @@ export function rankMarket(market, candlesByTf, opts = {}) {
     all.push(...r.setups);
     smcFunnel = r.funnel;
   } else annotateHtf(all, candlesByTf, strategy);
+  const nowT = TIMEFRAMES.map((tf) => candlesByTf?.[tf]?.at(-1)?.time).filter(Number.isFinite).reduce((a, b) => Math.max(a, b), 0);
+  // fiabilité top-down (BOS / CHoCH / FVG / Premium-Discount / POI HTF) des OB 5★, à l'instant de décision
+  if (!smcMode) annotateTopdown(all.filter((z) => passesStrategy(z, strategy)), candlesByTf, nowT);
+  const macro = opts.macro?.model && opts.macro?.events?.length ? macroContext(opts.macro, market.id) : null;
   const templatesByTf = {};
   for (const z of all) {
     const tf = z.timeframe;
@@ -95,11 +116,14 @@ export function rankMarket(market, candlesByTf, opts = {}) {
     for (const policy of CANCEL_POLICIES) {
       const pos = simulateZone(z, c, { ...risk, cancelPolicy: policy, cancelPolicyByCat: null }, { currentPrice, m1 });
       if ((pos.state === POS.TP || pos.state === POS.SL) && Number.isFinite(pos.r)) {
+        const mc = macro ? macro.at(pos.fillTime ?? z.c3Time) : null;
         byPolicy[policy].push({
           id: z.id, cat, tf, dir: z.direction, pips: r2(pos.pips), r: r3(pos.r), t: pos.exitTime ?? z.c3Time,
           fillTime: pos.fillTime, fillPrice: pos.fillPrice, exitPrice: pos.exitPrice, exitKind: pos.exitKind,
           sl: plan.sl, tp1: plan.tp1, tp2: plan.tp2, tp3: plan.tp3, zoneLow: z.zoneLow, zoneHigh: z.zoneHigh, c1Time: z.c1Time,
           costPips: pos.costPips ?? risk.costPips,
+          rel: z.topdown?.level ?? null, relScore: z.topdown?.score ?? null, relParts: z.topdown?.parts ?? null,
+          macro: mc ? macroAlignment(mc, z.direction) : null, macroBias: mc ? mc.bias : null,
         });
         tpl ||= { riskPx: Math.abs(pos.fillPrice - plan.sl), rr: plan.rr, rr2: plan.rr2, rr3: plan.rr3, pipSize: risk.pipSize, costPips: risk.costPips };
       }
@@ -156,7 +180,21 @@ export function summarizeWithPolicy(raw, policy = {}) {
     curve: st.curve.map((p) => ({ t: p.t, r: r2(p.r) })).slice(-300),
     proposals: live.length, insufficient: st.n < MIN_SAMPLE_TRADES, topZones: live.slice(0, 5),
     history,
+    // calibration : le niveau de fiabilité et le contexte macro prédisent-ils vraiment le résultat ?
+    calibration: { byLevel: groupStats(trades, 'rel'), byMacro: groupStats(trades, 'macro') },
   };
+}
+
+/** Statistiques par valeur d'un champ (niveau de fiabilité, alignement macro). */
+function groupStats(trades, field) {
+  const g = {};
+  for (const x of trades) { if (x[field] == null) continue; (g[x[field]] ||= []).push(x); }
+  const out = {};
+  for (const [k, xs] of Object.entries(g)) {
+    const s = summarize(xs);
+    out[k] = { n: s.n, winRate: r3(s.winRate), expectancyR: r2(s.meanR), ciR: s.ciR ? s.ciR.map(r2) : null };
+  }
+  return out;
 }
 
 /** Échantillon minimal par catégorie pour qu'une règle challenger puisse remplacer le champion. */

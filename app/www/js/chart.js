@@ -16,6 +16,8 @@ export class CandleChart {
     this.zones = [];
     this.bands = [];
     this.plan = null;
+    this.ob5 = [];       // couche OB 5★ (trading_agent_order_blocks.md) + fiabilité top-down, cf. app.js renderChart
+    this.structure = []; // cassures de structure (BOS / CHoCH) de l'UT affichée (topdown.js structureMarks)
     this.smc = null; // détail SMC (poi/fib) de la zone sélectionnée (rules_trading_smc.md), cf. app.js renderChart
     this.price = null;
     this.decimals = 2; // décimales d'affichage du prix (dérivées du pip du marché, cf. markets.js)
@@ -156,6 +158,7 @@ export class CandleChart {
       ctx.fillText(`${b.direction === 'BUY' ? '▲' : '▼'} ${b.tfLabel}`, pw - 4, y1 - 1);
     }
 
+    this.zoneHits = [];
     // SMC (rules_trading_smc.md) : POI HTF (bande translucide) et Fibonacci 0,5 HTF (ligne pointillée)
     // de la zone sélectionnée, uniquement s'ils entrent dans la plage de prix visible.
     if (this.smc) {
@@ -182,8 +185,42 @@ export class CandleChart {
       }
     }
 
-    // zones de la timeframe affichée
-    this.zoneHits = [];
+    // cassures de structure : trait du swing cassé jusqu'à la bougie de cassure + étiquette BOS / CHoCH
+    for (const m of this.structure) {
+      if (m.level < this.lo || m.level > this.hi) continue;
+      const xa = this.#x(this.#indexOf(m.fromTime)), xb = this.#x(this.#indexOf(m.time));
+      if (xb < 0 || xa > pw) continue;
+      const y = Math.round(this.#y(m.level)) + 0.5;
+      const col = m.dir === 'BUY' ? C.ink.gain : C.ink.loss;
+      ctx.strokeStyle = withAlpha(col, 0.8); ctx.lineWidth = 1; ctx.setLineDash(m.kind === 'CHoCH' ? [5, 3] : []);
+      ctx.beginPath(); ctx.moveTo(xa, y); ctx.lineTo(xb, y); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = col; ctx.font = '600 9px system-ui'; ctx.textAlign = 'center'; ctx.textBaseline = m.dir === 'BUY' ? 'bottom' : 'top';
+      ctx.fillText(m.kind, (xa + xb) / 2, m.dir === 'BUY' ? y - 2 : y + 2);
+    }
+
+    // couche OB 5★ : bordure dorée, lettre de fiabilité top-down (A → D)
+    const gold = css('--ob5') || '#c9a227';
+    for (const z of this.ob5) {
+      const x1 = this.#x(this.#indexOf(z.c1Time)) - this.spacing / 2;
+      const x2 = z.endTime != null ? this.#x(this.#indexOf(z.endTime)) + this.spacing / 2 : pw;
+      const y1 = this.#y(z.zoneHigh), y2 = this.#y(z.zoneLow);
+      if (x2 < 0 || x1 > pw || y2 < 0 || y1 > ph) continue;
+      const h = Math.max(1.5, y2 - y1);
+      const sel = z.id === this.selectedId;
+      ctx.fillStyle = withAlpha(gold, z.viable ? 0.14 : 0.05);
+      ctx.fillRect(x1, y1, x2 - x1, h);
+      ctx.strokeStyle = withAlpha(gold, sel ? 1 : z.viable ? 0.9 : 0.45); ctx.lineWidth = sel ? 2 : 1.25;
+      if (!z.viable) ctx.setLineDash([3, 3]);
+      ctx.strokeRect(x1 + 0.5, y1 + 0.5, x2 - x1 - 1, h);
+      ctx.setLineDash([]); ctx.lineWidth = 1;
+      if (x2 - x1 > 40) {
+        ctx.fillStyle = gold; ctx.font = '700 10px system-ui'; ctx.textAlign = 'left'; ctx.textBaseline = 'bottom';
+        ctx.fillText(`${z.direction === 'BUY' ? '▲' : '▼'} OB 5★${z.level ? ` · ${z.level}` : ''}`, Math.max(2, x1 + 3), y1 - 2);
+      }
+      this.zoneHits.push({ id: z.id, x1, x2, y1: Math.min(y1, y2) - 4, y2: Math.max(y1, y2) + 4 });
+    }
+
+    // zones de la timeframe affichée (les zones de la stratégie passent au-dessus de la couche OB 5★)
     const sorted = [...this.zones].sort((a, b) => (a.viable - b.viable) || (a.id === this.selectedId) - (b.id === this.selectedId));
     for (const z of sorted) {
       const i1 = this.#indexOf(z.c1Time);
@@ -208,7 +245,7 @@ export class CandleChart {
       if (x2 - x1 > 46) {
         const icon = { opp: '◷', gain: '✓', loss: '✕', warn: '⏸', nonval: '⊘', neutral: '–' }[tone];
         ctx.fillStyle = C.ink[tone] || C.text; ctx.font = '700 10px system-ui'; ctx.textAlign = 'left'; ctx.textBaseline = 'bottom';
-        ctx.fillText(`${z.direction === 'BUY' ? '▲ ACHAT' : '▼ VENTE'} ${icon}${z.followed ? ' · SUIVI' : ''}`, Math.max(2, x1 + 3), y1 - 2);
+        ctx.fillText(`${z.direction === 'BUY' ? '▲ ACHAT' : '▼ VENTE'} ${icon}${z.rel ? ` · ${z.rel}` : ''}${z.followed ? ' · SUIVI' : ''}`, Math.max(2, x1 + 3), y1 - 2);
       }
       this.zoneHits.push({ id: z.id, x1, x2, y1: Math.min(y1, y2) - 4, y2: Math.max(y1, y2) + 4 });
     }

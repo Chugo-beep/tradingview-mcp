@@ -86,9 +86,19 @@ async function loadOneMinuteSeries() {
   return series;
 }
 
+// contexte macro (facultatif) : historique du calendrier (fetch-calendar-history.mjs) + modèle (build-macro-model.mjs)
+async function loadMacro() {
+  try {
+    const model = JSON.parse(await readFile(join(APP_DIR, 'www', 'data', 'macro-model.json'), 'utf8'));
+    const cal = JSON.parse(await readFile(join(CACHE_DIR, `calendar-${FROM}-${TO}.json`), 'utf8'));
+    return { model, events: cal.events };
+  } catch { return null; }
+}
+const MACRO = SYNTHETIC ? null : await loadMacro();
+
 function runOn(m1) {
   const candlesByTf = aggregateAll(m1, BACKTEST_TFS);
-  return rankMarket(market, candlesByTf, { risk: { targetMode: MODE, strategyMode: STRATEGY }, strategy: { smc: SMC_OVERRIDE }, benchmarkRuns: BENCHMARK_RUNS });
+  return rankMarket(market, candlesByTf, { risk: { targetMode: MODE, strategyMode: STRATEGY }, strategy: { smc: SMC_OVERRIDE }, benchmarkRuns: BENCHMARK_RUNS, macro: MACRO });
 }
 
 function pct(n) { return n == null ? 'n/d' : `${(n * 100).toFixed(0)} %`; }
@@ -105,6 +115,8 @@ function summaryLines(label, r) {
   lines.push(`- Drawdown max : ${r.maxDrawdownR != null ? fmtR(r.maxDrawdownR) : 'n/d'}`);
   lines.push(`- Plus longue série de pertes : ${r.maxLosingStreak ?? 'n/d'}`);
   lines.push(`- Verdict : **${r.verdict?.label ?? 'n/d'}**`);
+  const cal = (g) => Object.entries(g || {}).map(([k, v]) => `${k} : ${v.n} trades, ${fmtR(v.expectancyR)}`).join(' · ') || 'n/d';
+  if (r.calibration) lines.push(`- Par fiabilité top-down : ${cal(r.calibration.byLevel)}`, `- Par contexte macro : ${cal(r.calibration.byMacro)}`);
   lines.push(`- Test contre le hasard : percentile ${r.randomPercentile != null ? Math.round(r.randomPercentile * 100) : 'n/d'} (${r.randomLabel ?? 'n/d'})`);
   return lines;
 }

@@ -8,6 +8,7 @@ import { featureLabel, valueLabel } from './learning.js';
 import { NEWS_COUNTRIES, COUNTRY_FLAG, interpretEvent, formatNewsValue } from './news.js';
 import { MARKETS, MARKET_IDS, DEFAULT_MARKET, marketById, MAX_LIVE_MARKETS, sanitizeLiveMarkets, registerResolvedAlias, marketRisk } from './markets.js';
 import { summarize } from './stats.js';
+import { macroAlignment } from './macro.js';
 import { drawEquityCurve } from './equity.js';
 import { SETTINGS_KEY, loadSettings as loadSettingsRaw } from './settings.js';
 import { assessConfidence, confidenceLine } from './confidence.js';
@@ -70,7 +71,7 @@ state.learn.disabled ||= [];
 // v4 : seules les zones que l'utilisateur a marquées « suivies » restent dans le journal réel
 state.journal.entries = (state.journal.entries || []).filter((j) => j.followed);
 
-const chart = new CandleChart($('#chart'), { onZoneClick: (id) => openDetail(id) });
+const chart = new CandleChart($('#chart'), { onZoneClick: (id) => (id.startsWith('ob5:') ? openOb5Detail(id.slice(4)) : openDetail(id)) });
 /** Préconfiguration lue une fois dans provision.json (adresse du PC + code d'appairage éventuel). */
 let provisionCache = null;
 
@@ -79,6 +80,9 @@ async function init() {
   state.server = await hasLocalServer();
   save(K.settings, state.settings);
   try { state.cal = await (await fetch('data/calendar.json')).json(); } catch { state.cal = null; }
+  // influence mesurée des annonces (scripts/build-macro-model.mjs) et historique des niveaux de fiabilité (scripts/calibrate.mjs)
+  try { state.macroModel = await (await fetch('data/macro-model.json')).json(); } catch { state.macroModel = null; }
+  try { state.calibOb5 = await (await fetch('data/calibration-ob5.json')).json(); } catch { state.calibOb5 = null; }
   loadResolvedMarkets(); // mapping marché → symbole résolu par la recherche TradingView (affichage correct)
   bindUi();
   setupNotifications();
@@ -176,6 +180,7 @@ function bindUi() {
   $('#settingsBtn').onclick = openSettings;
   $('#riskBtn').onclick = openRisk;
   $('#showBands').onchange = () => renderChart(true);
+  for (const cb of ['#showOb5', '#showStructure']) if ($(cb)) $(cb).onchange = () => renderChart(true);
   $('#fitAllBtn').onclick = () => chart.fitAll();
   segment('#catTabs', (v) => { state.cat = v; ensureTfInCat(); renderAll(false); });
   segment('#panelTabs', (v) => { state.panel = v; for (const p of ['positions', 'markets', 'agents', 'learning', 'news', 'stats']) $(`#pane-${p}`).hidden = p !== v; if (v === 'news') renderNews(); if (v === 'markets') renderMarkets(); if (v === 'stats') renderStats(); });
@@ -316,7 +321,7 @@ async function runOnceFor(marketId) {
   slot.data = { ...data, candles };
   // journal (réel) et apprentissage sont partagés entre tous les marchés en direct (un seul compte) ;
   // seules les bougies/analyses sont propres à chaque marché.
-  const out = runAgents({ data: slot.data, settings: s, cal: state.cal, learnStore: state.learn, journal: state.journal, newsEvents: state.news });
+  const out = runAgents({ data: slot.data, settings: s, cal: state.cal, learnStore: state.learn, journal: state.journal, newsEvents: state.news, macroModel: state.macroModel });
   slot.out = out;
   handleEvents(out);
   return { data: slot.data, out, errors: data.errors };
@@ -391,7 +396,7 @@ function handleEvents(out) {
       // préservation du compte (§B) : pas notifié « à prendre » si un garde-fou bloque, mais la zone reste visible
       const blocked = guards?.maxPositions || guards?.dailyBreaker || a.guardOverlap;
       if (!firstRun && !blocked) {
-        const note = notifText('new', tpl(a), { tfLabel, reducedSize: guards?.reducedSize, market: out.market, confidence: confidenceLine(confidenceOf(out.market?.id)) });
+        const note = notifText('new', tpl(a), { tfLabel, reducedSize: guards?.reducedSize, market: out.market, confidence: [a.topdown ? `Fiabilité top-down ${a.topdown.level}` : null, confidenceLine(confidenceOf(out.market?.id)), eventRiskLine(out.macro)].filter(Boolean).join(' · ') });
         // stratégie SMC (§5) : TP3 == TP2 (pas de 3e palier) → ne pas l'afficher dans la notification
         if (a.plan.strategy === 'smc' && note.body) note.body = note.body.replace(/\s*·\s*TP3[^·]*/, '');
         notes.push(note);
@@ -475,8 +480,11 @@ async function fetchNewsOnce() {
 }
 
 /** Prochaine annonce majeure suivie (US/EU/CN/JP), ou `null`. */
+/** Annonce majeure (affichée / notifiée) ; les annonces d'impact moyen ne servent qu'au contexte macro. */
+const isMajor = (e) => e.major !== false;
+
 function nextNewsEvent(now = Date.now() / 1000) {
-  return state.news.filter((e) => e.t >= now).sort((a, b) => a.t - b.t)[0] || null;
+  return state.news.filter((e) => isMajor(e) && e.t >= now).sort((a, b) => a.t - b.t)[0] || null;
 }
 
 const fmtCountdown = (sec) => {
@@ -500,7 +508,7 @@ function processNewsNotifications() {
   const notes = [];
   const firstRun = state.newsFirstRun;
   state.newsFirstRun = false;
-  for (const ev of [...state.news].sort((a, b) => a.t - b.t)) {
+  for (const ev of [...state.news].filter(isMajor).sort((a, b) => a.t - b.t)) {
     const seen = state.newsSeen[ev.id] || {};
     const flag = COUNTRY_FLAG[ev.country] || '';
     // évite l'inondation de notifications au premier lancement pour des annonces déjà anciennes
@@ -530,8 +538,8 @@ function renderNews() {
   const el = $('#newsBody');
   if (!el) return;
   const now = Date.now() / 1000;
-  const upcoming = state.news.filter((e) => e.t >= now).sort((a, b) => a.t - b.t);
-  const recent = state.news.filter((e) => e.t < now && e.t >= now - 86400).sort((a, b) => b.t - a.t);
+  const upcoming = state.news.filter((e) => isMajor(e) && e.t >= now).sort((a, b) => a.t - b.t);
+  const recent = state.news.filter((e) => isMajor(e) && e.t < now && e.t >= now - 86400).sort((a, b) => b.t - a.t);
   $('#cntNews').textContent = upcoming.length ? String(upcoming.length) : '';
   const row = (e) => {
     const it = interpretEvent(e);
@@ -541,8 +549,9 @@ function renderNews() {
     const tendency = [it.comparisonText, it.tendency, it.indirectNote].filter(Boolean).join(' · ');
     return `<article class="agent"><div class="agent-head"><span class="num-i">${flag}</span><div><b>${esc(e.title)}</b><small>${esc(when)}</small></div></div><ul><li>${esc(vals)}</li>${tendency ? `<li>${esc(tendency)}</li>` : ''}</ul></article>`;
   };
-  if (!upcoming.length && !recent.length) { el.innerHTML = '<div class="empty">Aucune annonce majeure (US/EU/CN/JP) dans la fenêtre suivie.</div>'; return; }
-  el.innerHTML = `${upcoming.length ? `<h3>À venir</h3>${upcoming.slice(0, 30).map(row).join('')}` : ''}${recent.length ? `<h3>Résultats récents</h3>${recent.slice(0, 20).map(row).join('')}` : ''}`;
+  const macro = state.out?.macro ? `<article class="agent macro-panel">${macroHtml(state.out.macro, null)}</article>` : '';
+  if (!upcoming.length && !recent.length) { el.innerHTML = `${macro}<div class="empty">Aucune annonce majeure (US/EU/CN/JP) dans la fenêtre suivie.</div>`; return; }
+  el.innerHTML = `${macro}${upcoming.length ? `<h3>À venir</h3>${upcoming.slice(0, 30).map(row).join('')}` : ''}${recent.length ? `<h3>Résultats récents</h3>${recent.slice(0, 20).map(row).join('')}` : ''}`;
 }
 
 /** Android : garde l'analyse en direct active en arrière-plan / écran éteint ; affiche le témoin visuel. */
@@ -1092,8 +1101,13 @@ function renderChart(keepView = true) {
   const audited = state.out?.audited || [];
   const zones = audited.filter((z) => z.timeframe === state.chartTf).map((z) => {
     const it = byId.get(z.id);
-    return { ...z, tone: it ? statusOf(it).tone : 'neutral', followed: !!it?.followed };
+    return { ...z, tone: it ? statusOf(it).tone : 'neutral', followed: !!it?.followed, rel: z.topdown?.level || null };
   });
+  const drawn = new Set(zones.map((z) => z.id));
+  chart.ob5 = $('#showOb5')?.checked === false ? [] : (state.out?.ob5 || [])
+    .filter((z) => z.timeframe === state.chartTf && !drawn.has(z.id))
+    .map((z) => ({ id: `ob5:${z.id}`, direction: z.direction, zoneLow: z.zoneLow, zoneHigh: z.zoneHigh, c1Time: z.c1Time, endTime: z.viable ? null : (z.firstTouch?.time ?? null), viable: z.viable, level: z.topdown?.level || null }));
+  chart.structure = $('#showStructure')?.checked === false ? [] : (state.out?.structure?.[state.chartTf] || []);
   const bands = $('#showBands').checked
     ? audited.filter((z) => z.proposal === 'PROPOSEE' && z.pos.state === POS.PENDING && z.timeframe !== state.chartTf && inCat(z.timeframe)).map((z) => ({ ...z, tfLabel: TF_LABEL[z.timeframe] }))
     : [];
@@ -1213,7 +1227,7 @@ function exportJournalCsv() {
 /** Recalcule P&L et balance sans nouvelle collecte (après suivi / changement de lot). */
 function recompute() {
   if (state.data && state.out) {
-    state.out = runAgents({ data: state.data, settings: state.settings, cal: state.cal, learnStore: state.learn, journal: state.journal, newsEvents: state.news });
+    state.out = runAgents({ data: state.data, settings: state.settings, cal: state.cal, learnStore: state.learn, journal: state.journal, newsEvents: state.news, macroModel: state.macroModel });
     state.journal.events = [];
     save(K.journal, state.journal);
   }
@@ -1305,7 +1319,7 @@ function card(it) {
   const tpKeys = smc ? [1, 2] : [1, 2, 3];
   return `
   <article class="pos t-${st.tone} ${it.id === state.selected ? 'sel' : ''}" data-id="${it.id}" tabindex="0" aria-label="${esc(`${dirFr(it.direction, true)} ${CATEGORIES[it.category]?.label || ''} ${TF_LABEL[it.timeframe]}, ${st.text}`)}">
-    <div class="l1">${dirTag(it.direction)}${catChip(it)}${smc ? smcChip(it.zone) : starsTag(it.grade)}${it.confluence?.length ? `<span class="badge conf-tf" title="Zone présente aussi en ${it.confluence.map((t) => TF_LABEL[t]).join(', ')}">multi-UT</span>` : ''}${state.newIds.has(it.id) ? '<span class="badge new">nouveau</span>' : ''}${it.guardCorrelated ? '<span class="badge warn" title="Exposition déjà ouverte sur un marché corrélé, même sens">corrélé</span>' : ''}${reducedSize ? '<span class="badge warn" title="3 pertes consécutives : préservation du capital">taille réduite conseillée : 50 % du lot</span>' : ''}</div>
+    <div class="l1">${dirTag(it.direction)}${catChip(it)}${smc ? smcChip(it.zone) : starsTag(it.grade)}${relChip(it.zone?.topdown)}${it.confluence?.length ? `<span class="badge conf-tf" title="Zone présente aussi en ${it.confluence.map((t) => TF_LABEL[t]).join(', ')}">multi-UT</span>` : ''}${state.newIds.has(it.id) ? '<span class="badge new">nouveau</span>' : ''}${it.guardCorrelated ? '<span class="badge warn" title="Exposition déjà ouverte sur un marché corrélé, même sens">corrélé</span>' : ''}${reducedSize ? '<span class="badge warn" title="3 pertes consécutives : préservation du capital">taille réduite conseillée : 50 % du lot</span>' : ''}</div>
     <div class="pnl num">${pnl}</div>
     <div class="l2"><span class="st t-${st.tone}"><i aria-hidden="true">${st.icon}</i>${esc(st.text)}</span></div>
     <div class="l2 r">${conf}${confBadge(confidenceOf(it.market))}</div>
@@ -1435,6 +1449,105 @@ function progressHtml(m) {
   </div>`;
 }
 
+// ── fiabilité top-down & contexte macro ─────────────────────────────────
+const PD_LABEL = { DISCOUNT: 'Discount', PREMIUM: 'Premium', EQUILIBRE: 'Équilibre' };
+const relChip = (td) => (td ? `<span class="rel rel-${td.level}" title="Fiabilité top-down ${td.score}/100">${td.level}</span>` : '');
+
+/** Section « Fiabilité top-down » d'un OB (topdown.js) + historique mesuré de son niveau (calibration-ob5.json). */
+function topdownHtml(td) {
+  if (!td) return '';
+  const P = td.parts;
+  const row = (ok, label, detail, pts) => `<li class="${ok ? 'ok' : 'ko'}"><span aria-hidden="true">${ok ? '✓' : '✕'}</span><div><b>${label}</b> · ${pts} pt<small>${detail}</small></div></li>`;
+  const aligned = td.chain.filter((r) => r.aligned && !r.chochAgainst).length;
+  const chain = td.chain.map((r) => {
+    const ok = r.aligned && !r.chochAgainst;
+    const trend = r.trend === 'BUY' ? 'haussière' : r.trend === 'SELL' ? 'baissière' : 'indéterminée';
+    const brk = r.lastBreak ? ` · dernier ${r.lastBreak.kind} ${r.lastBreak.dir === 'BUY' ? '↑' : '↓'} ${fmtP(r.lastBreak.level)} (${fmtT(r.lastBreak.time)})` : '';
+    const pd = r.pd ? `${PD_LABEL[r.pd]} (${fmtNum(r.level * 100, 0)} % du range)` : 'range indisponible';
+    const poi = r.poi ? ` · POI ${r.poi.kind} ${fmtP(r.poi.low)}–${fmtP(r.poi.high)}` : '';
+    return `<li class="${ok ? 'ok' : 'ko'}"><span aria-hidden="true">${ok ? '✓' : '✕'}</span><div><b>${TF_LABEL[r.tf]}</b> · structure ${trend}${r.chochAgainst ? ' · CHoCH contraire' : ''}<small>${pd}${poi}${brk}</small></div></li>`;
+  }).join('');
+  const c = state.calibOb5;
+  const cal = c?.byLevel?.[td.level];
+  const calTxt = cal
+    ? `Historique du niveau ${td.level} (${c.sample}, ${c.markets.length} marchés, ${c.from.slice(0, 4)} → ${c.to.slice(0, 4)}, coûts déduits) : ${fmtR(cal.outOfSample.expectancyR)} par trade sur la période de validation (${cal.outOfSample.n} trades), ${fmtR(cal.inSample.expectancyR)} sur la période d'apprentissage (${cal.inSample.n}). `
+    : '';
+  return `<h3 class="sec-h">Fiabilité top-down ${relChip(td)} <small>${td.score}/100</small></h3>
+  <ul class="star-list" aria-label="Facteurs de fiabilité mesurés">
+    ${row(P.localBos > 0, 'Cassure de structure dans le sens de l\'OB', td.localBos ? `${td.localBos.kind} à ${fmtP(td.localBos.level)} le ${fmtT(td.localBos.time)}` : 'aucun BOS / CHoCH depuis la formation de l\'OB', P.localBos)}
+    ${row(P.htfTrend > 0, 'Tendance des UT supérieures', `${aligned}/${td.chain.length} UT alignées sur l'OB (la plus haute compte le plus)`, P.htfTrend)}
+    ${row(P.displacement > 0, 'Déplacement / imbalance franche', `écart C1/C3 = ${td.gapAtr != null ? fmtNum(td.gapAtr, 2) : '—'} ATR`, P.displacement)}
+  </ul>
+  ${chain ? `<p class="hint mt0">Lecture top-down par UT (Premium/Discount et POI HTF : information, sans effet mesuré sur le résultat) :</p><ul class="star-list compact">${chain}</ul>` : ''}
+  ${td.counter ? `<p class="hint">⚠ Cassure contraire depuis l'OB : ${td.counter.kind} ${fmtP(td.counter.level)} le ${fmtT(td.counter.time)}.</p>` : ''}
+  <p class="hint">${calTxt}Le niveau classe les OB du moins fiable (D) au plus fiable (A) ; aucun niveau n'est démontré rentable.</p>`;
+}
+
+/** Variation en % correspondant à x « mouvements typiques d'1 h » du marché analysé. */
+function movePct(x) {
+  const s = state.macroModel?.moves?.[state.out?.market?.id]?.sigma60;
+  return s && x != null ? `${x >= 0 ? '+' : '−'}${fmtNum(Math.abs(x * s * 100), 2)} %` : null;
+}
+const fmtWhen = (t, weekday = false) => new Date(t * 1000).toLocaleString('fr-FR', { ...(weekday ? { weekday: 'short' } : { month: '2-digit' }), day: '2-digit', hour: '2-digit', minute: '2-digit' });
+
+/** Section « Contexte macro » : influence MESURÉE des annonces publiées et à venir (macro.js). */
+function macroHtml(m, dir) {
+  if (!m) return '';
+  const label = state.out?.market?.label || '';
+  if (!m.sensitiveKeys) return `<h3 class="sec-h">Contexte macro</h3><p class="hint">Aucune annonce n'a d'influence mesurée sur ${esc(label)} (modèle construit sur XAUUSD, NAS100, US30 et EUR/USD).</p>`;
+  const align = dir ? macroAlignment(m, dir) : null;
+  const persist = m.contributions.some((c) => c.contrib !== 0);
+  const head = m.level === 'neutre'
+    ? `Neutre : ${persist ? 'les effets persistants des dernières annonces sont faibles ou s\'annulent' : 'aucune annonce récente n\'a d\'effet persistant mesuré sur ce marché (l\'effet est intégré dans l\'heure)'}.`
+    : `${m.level === 'haussier' ? 'Haussier' : 'Baissier'} : dérive attendue ${movePct(m.bias) || fmtNum(m.bias, 2)}, cohérence entre annonces ${m.coherence != null ? Math.round(m.coherence * 100) + ' %' : '—'}${align ? ` · ${align} à ce trade` : ''}.`;
+  const recent = m.contributions.filter((c) => c.influential && c.z != null).slice(0, 6).map((c) => {
+    const rev = c.revision ? ` · révision du chiffre précédent ${c.revision > 0 ? '+' : ''}${fmtNum(c.revision, 1)} σ` : '';
+    return `<li><b>${esc(c.title)}</b> (${fmtWhen(c.t)}) : ${fmtNum(c.actual, 2)} publié vs ${fmtNum(c.forecast, 2)} prévu → surprise ${c.z > 0 ? '+' : ''}${fmtNum(c.z, 1)} σ${rev}<small>Réaction mesurée dans l'heure : ${movePct(c.reaction) || '—'} · effet persistant : ${c.contrib ? movePct(c.contrib) : 'non'}</small></li>`;
+  }).join('');
+  const packets = m.packets.slice(0, 2).map((p) => `<li>Annonces simultanées du ${fmtWhen(p.t)} (${p.titles.map(esc).join(', ')}) : réaction combinée ${movePct(p.net) || '—'}, accord ${p.agreement != null ? Math.round(p.agreement * 100) + ' %' : '—'}</li>`).join('');
+  const upcoming = m.upcoming.slice(0, 5).map((u) => {
+    const leads = u.leads.map((l) => `${esc(l.title)} ${l.z > 0 ? '+' : ''}${fmtNum(l.z, 1)} σ (corrélation ${fmtNum(l.rho, 2)}, ${l.n} cas)`).join(', ');
+    const mv = u.typicalMove ? `Mouvement typique pour 1 σ de surprise : ±${(movePct(u.typicalMove) || '').slice(1)} dans l'heure` : 'Pas de réaction directe mesurée';
+    return `<li><b>${esc(u.title)}</b> · ${fmtWhen(u.t, true)}<small>${mv}${leads ? ` · surprise anticipée ${u.expectedZ > 0 ? '+' : ''}${fmtNum(u.expectedZ, 1)} σ d'après ${leads}` : ''}${u.expectedDir ? ` → biais ${u.expectedDir}` : ''}</small></li>`;
+  }).join('');
+  return `<h3 class="sec-h">Contexte macro · ${esc(label)}</h3>
+  <p class="mt0">${head}</p>
+  ${recent ? `<ul class="macro-list">${recent}</ul>` : ''}
+  ${packets ? `<ul class="macro-list">${packets}</ul>` : ''}
+  ${upcoming ? `<p class="hint mt0">Annonces influentes à venir :</p><ul class="macro-list">${upcoming}</ul>` : ''}
+  <p class="hint">Influence mesurée de 2019 à ${(state.macroModel?.to || '').slice(0, 4)} : surprise = (publié − prévu) en écarts-types ; seuls les effets significatifs et stables hors échantillon sont retenus. Le contexte macro n'entre pas dans la note de fiabilité : il n'a pas amélioré les résultats des OB lors des tests.</p>`;
+}
+
+/** Ligne de notification : prochaine annonce influente dans les 24 h. */
+function eventRiskLine(m) {
+  const now = Date.now() / 1000;
+  const u = m?.upcoming?.find((x) => x.typicalMove && x.t - now <= 86400);
+  return u ? `⚠ ${u.title} à ${new Date(u.t * 1000).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })} (mouvement typique ±${(movePct(u.typicalMove) || '—').replace(/^[+−]/, '')})` : null;
+}
+
+/** Détail d'un OB 5★ de la couche graphique (hors stratégie active). */
+function openOb5Detail(id) {
+  const z = (state.out?.ob5 || []).find((x) => x.id === id);
+  if (!z) return;
+  chart.select(`ob5:${id}`);
+  const buy = z.direction === 'BUY';
+  $('#zdTitle').textContent = `OB 5★ · ${dirFr(z.direction, true)} ${TF_LABEL[z.timeframe]}`;
+  $('#zdBody').innerHTML = `
+    <div class="st-big t-${z.viable ? 'opp' : 'nonval'}"><i aria-hidden="true">${z.viable ? '◷' : '⊘'}</i><div>${z.viable ? 'Vierge : en attente du retour du prix' : esc(STATUS_LABEL[z.status] || 'Non viable')}</div></div>
+    <div class="chips top-chips">${dirTag(z.direction)}${starsTag(z.grade)}${relChip(z.topdown)}</div>
+    <dl class="kv">
+      <dt>Zone (C1, mèches incluses)</dt><dd class="num"><b>${fmtP(z.zoneLow)} – ${fmtP(z.zoneHigh)}</b></dd>
+      <dt>Entrée (bord proche)</dt><dd class="num">${fmtP(z.entry)}</dd>
+      <dt>Invalidation</dt><dd class="num">${fmtP(z.invalidation)} (clôture ${buy ? 'sous' : 'au-dessus de'} ce niveau)</dd>
+      <dt>Formé le</dt><dd>${fmtDT(z.c1Time)}${z.firstTouch ? ` · touché le ${fmtDT(z.firstTouch.time)}` : ''}</dd>
+    </dl>
+    ${z.stars ? starsHtml(z) : ''}
+    ${topdownHtml(z.topdown)}
+    ${macroHtml(state.out?.macro, z.direction)}
+    <p class="hint">Couche d'information : cet OB 5★ n'est pas une position proposée par la stratégie active (${state.settings.risk.strategyMode === 'ob5' ? 'filtres de stop ou règles apprises' : 'stratégie Smart Money'}). Analyse informative, pas un conseil financier personnalisé.</p>`;
+  if (!$('#zoneDialog').open) $('#zoneDialog').showModal();
+}
+
 // ── détail ───────────────────────────────────────────────────────────────
 function openDetail(id) {
   const it = items().find((x) => x.id === id) || (() => { const s = state.scope; state.scope = s === 'reel' ? 'backtest' : 'reel'; const r = items().find((x) => x.id === id); state.scope = s; return r; })();
@@ -1457,6 +1570,8 @@ function openDetail(id) {
     </div>
     <div class="chips top-chips">${catChip(it)}${dirTag(it.direction)}${z?.smc ? smcChip(z) : starsTag(it.grade)}</div>
     ${z?.smc ? smcChecklistHtml(z) : (z?.stars ? starsHtml(z) : '')}
+    ${topdownHtml(z?.topdown)}
+    ${macroHtml(state.out?.macro, it.direction)}
     <dl class="kv">
       ${(it.plan.entryMode || state.settings.risk.entryMode) === 'limit' ? `<dt>Entrée (ordre limite)</dt><dd class="num"><b>${fmtP(it.plan.entry)}</b></dd>` : `<dt>Zone d'entrée (OB)</dt><dd class="num"><b>${fmtP(it.zoneLow)} – ${fmtP(it.zoneHigh)}</b><small class="dd-note">Entrée à la clôture de la première bougie ${it.direction === 'BUY' ? 'haussière' : 'baissière'} dans l'OB</small></dd>`}
       ${brokerOffsetOf(it) ? `<dt>Chez ton courtier</dt><dd class="num">entrée ${fmtP(it.plan.entry + brokerOffsetOf(it))} · SL ${fmtP(it.plan.sl + brokerOffsetOf(it))} · TP1 ${fmtP(it.plan.tp1 + brokerOffsetOf(it))}<small class="dd-note">Décalage réglé : ${fmtNum(brokerOffsetOf(it), Math.max(1, activeDecimals()))}</small></dd>` : ''}

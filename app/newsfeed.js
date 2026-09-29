@@ -1,10 +1,14 @@
 /**
- * Annonces économiques (calendrier TradingView) — impact MAJEUR uniquement, 4 pays suivis :
+ * Annonces économiques (calendrier TradingView) — 4 pays suivis :
  * US (États-Unis), EU (zone euro), CN (Chine), JP (Japon).
  *
+ * impact MAJEUR (affiché et notifié, `major: true`) et impact MOYEN chiffré (valeur prévue connue,
+ * `major: false`) : ces derniers ne sont jamais affichés ni notifiés, ils alimentent seulement le
+ * contexte macro (www/js/macro.js), dont plusieurs indicateurs influents sont notés « moyen ».
+ *
  * Interroge https://economic-calendar.tradingview.com/events (mêmes en-têtes que
- * scripts/sync-economic-calendar.mjs), sur une fenêtre glissante [maintenant − 1 jour,
- * maintenant + 7 jours]. Fréquence : toutes les 15 min normalement, toutes les 30 s dès qu'une
+ * scripts/sync-economic-calendar.mjs), sur une fenêtre glissante [maintenant − 40 jours,
+ * maintenant + 7 jours] (40 jours : dernière publication de chaque indicateur mensuel). Fréquence : toutes les 15 min normalement, toutes les 30 s dès qu'une
  * annonce suivie est due dans les 5 prochaines minutes, ou était due dans les 30 dernières minutes
  * sans valeur `actual` encore publiée (résultat imminent ou en retard de publication).
  *
@@ -21,7 +25,7 @@ import { NEWS_COUNTRIES } from './www/js/news.js';
 
 const NEWS_FILE = () => join(sec.DATA_DIR, 'news.json');
 const URL_BASE = 'https://economic-calendar.tradingview.com/events';
-const WINDOW_BEFORE_MS = 24 * 3600 * 1000; // maintenant − 1 jour
+const WINDOW_BEFORE_MS = 40 * 24 * 3600 * 1000; // maintenant − 40 jours (contexte macro)
 const WINDOW_AFTER_MS = 7 * 24 * 3600 * 1000; // maintenant + 7 jours
 const POLL_NORMAL_MS = 15 * 60 * 1000;
 const POLL_FAST_MS = 30 * 1000;
@@ -58,12 +62,15 @@ function sanitizeNum(v) {
 }
 
 /**
- * Assainit un événement brut du calendrier TradingView : importance MAJEURE (1) uniquement, pays
- * dans la liste blanche, champs whitelistés. Renvoie `null` si l'événement doit être écarté.
+ * Assainit un événement brut du calendrier TradingView : importance MAJEURE (1), ou MOYENNE (0) avec
+ * une valeur prévue (surprise mesurable), pays dans la liste blanche, champs whitelistés.
+ * Renvoie `null` si l'événement doit être écarté.
  */
 export function sanitizeEvent(raw) {
   if (!raw || typeof raw !== 'object') return null;
-  if (Number(raw.importance) !== 1) return null;
+  const importance = Number(raw.importance);
+  const major = importance === 1;
+  if (!major && !(importance === 0 && sanitizeNum(raw.forecast) != null)) return null;
   const country = sanitizeStr(raw.country, MAX_STR.country);
   if (!country || !NEWS_COUNTRIES.includes(country)) return null;
   const id = sanitizeStr(raw.id, MAX_STR.id) || null;
@@ -77,6 +84,7 @@ export function sanitizeEvent(raw) {
     actual: sanitizeNum(raw.actual), forecast: sanitizeNum(raw.forecast), previous: sanitizeNum(raw.previous),
     unit: sanitizeStr(raw.unit, MAX_STR.unit), scale: sanitizeStr(raw.scale, MAX_STR.unit),
     period: sanitizeStr(raw.period, MAX_STR.period),
+    major,
   };
 }
 
@@ -96,7 +104,7 @@ export function _ingest(rawList, nowMs = Date.now()) {
     if (!prev) { state.events.set(ev.id, ev); state.eventSeq.set(ev.id, ++state.seq); changed = true; continue; }
     const actualPublished = prev.actual == null && ev.actual != null;
     const timeChanged = prev.t !== ev.t;
-    const otherChanged = prev.title !== ev.title || prev.forecast !== ev.forecast || prev.previous !== ev.previous || prev.unit !== ev.unit || prev.period !== ev.period;
+    const otherChanged = prev.major !== ev.major || prev.title !== ev.title || prev.forecast !== ev.forecast || prev.previous !== ev.previous || prev.unit !== ev.unit || prev.period !== ev.period;
     if (actualPublished || timeChanged || otherChanged) { state.events.set(ev.id, ev); state.eventSeq.set(ev.id, ++state.seq); changed = true; }
   }
   // purge des événements sortis de la fenêtre (ex. plus vieux que J-1)
@@ -121,7 +129,7 @@ async function loadFromDisk() {
     if (Number.isInteger(j?.seq)) state.seq = j.seq;
     if (typeof j?.updatedAt === 'string') state.updatedAt = j.updatedAt;
     if (Array.isArray(j?.events)) for (const ev of j.events) {
-      const s = sanitizeEvent({ ...ev, date: new Date(ev.t * 1000).toISOString(), importance: 1 });
+      const s = sanitizeEvent({ ...ev, date: new Date(ev.t * 1000).toISOString(), importance: ev.major === false ? 0 : 1 });
       if (s) { state.events.set(s.id, s); state.eventSeq.set(s.id, Number.isInteger(ev._seq) ? ev._seq : state.seq); }
     }
   } catch { /* absent ou invalide : état vide */ }

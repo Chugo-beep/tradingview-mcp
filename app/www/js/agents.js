@@ -15,6 +15,38 @@ import { marketById, marketOf, marketRisk, MARKETS, DEFAULT_MARKET } from './mar
 import { summarize, randomBenchmark, combineBenchmarks, benchmarkLabel } from './stats.js';
 import { passesStrategy } from './ranking.js';
 import { detectSmcSetups, watchedPois } from './smc.js';
+import { annotateTopdown, structureMarks } from './topdown.js';
+import { macroState, macroAlignment } from './macro.js';
+
+/** Nombre maximal d'OB 5★ déjà touchés affichés par UT sur le graphique (les vierges le sont tous). */
+const OB5_LAYER_PAST = 12;
+
+/**
+ * Couche « OB 5★ » (trading_agent_order_blocks.md) affichée sur le graphique quelle que soit la
+ * stratégie : OB notés 5★ à leur détection, tendance validée, UT supérieure alignée, annotés de
+ * leur fiabilité top-down (topdown.js). Les zones vierges sont toutes gardées ; pour les autres,
+ * seules les plus récentes (historique visuel).
+ */
+export function ob5Layer({ candles, wantedTfs, currentPrice, opts, risk, nowT, zones = null }) {
+  let zs = zones;
+  if (!zs) {
+    zs = [];
+    for (const tf of wantedTfs) {
+      if (!candles[tf]?.length) continue;
+      zs = zs.concat(detectZones(candles[tf], { ...opts, timeframe: tf, currentPrice, marketId: opts.marketId }).zones);
+    }
+    annotateHtf(zs, candles, opts);
+  }
+  const strat = { htfFilter: risk?.htfFilter, sessions: risk?.sessions };
+  const five = zs.filter((z) => passesStrategy(z, strat));
+  annotateTopdown(five, candles, nowT);
+  const out = [];
+  for (const tf of wantedTfs) {
+    const ofTf = five.filter((z) => z.timeframe === tf).sort((a, b) => b.c1Time - a.c1Time);
+    out.push(...ofTf.filter((z) => z.viable), ...ofTf.filter((z) => !z.viable).slice(0, OB5_LAYER_PAST));
+  }
+  return out;
+}
 
 const MAX_CONFIG_HISTORY = 50;
 const MIN_FORWARD_TRADES = 8;
@@ -29,7 +61,8 @@ const MAX_PENDING_SEC = { scalping: 86400, day: 5 * 86400, swing: 30 * 86400 };
  */
 export function mergeCalendarNews(cal, newsEvents) {
   const embedded = (cal?.events || []).map((e) => ({ t: e.t, title: e.title, country: 'US', source: 'embarqué' }));
-  const live = (newsEvents || []).filter((e) => e && Number.isFinite(e.t) && e.country).map((e) => ({ t: e.t, title: e.title, country: e.country, source: 'direct' }));
+  // impact moyen (major === false) : contexte macro seulement, jamais de blackout
+  const live = (newsEvents || []).filter((e) => e && Number.isFinite(e.t) && e.country && e.major !== false).map((e) => ({ t: e.t, title: e.title, country: e.country, source: 'direct' }));
   const key = (e) => `${Math.floor(e.t / 60)}|${e.country}|${e.title}`;
   const byKey = new Map();
   for (const e of embedded) byKey.set(key(e), e);
@@ -604,7 +637,7 @@ export function riskGuards(journal, audited, now = Date.now(), opts = {}) {
 }
 
 // ── Orchestrateur ────────────────────────────────────────────────────────
-export function runAgents({ data, settings, cal, learnStore, journal, newsEvents = [], now = Date.now() }) {
+export function runAgents({ data, settings, cal, learnStore, journal, newsEvents = [], macroModel = null, now = Date.now() }) {
   // Marché analysé : whitelisté (markets.js), XAUUSD par défaut (comportement historique inchangé).
   const market = marketById(settings.market || data.market) || marketById(DEFAULT_MARKET);
   // pip/contractSize sont des propriétés physiques du marché, jamais réglables par l'utilisateur.
@@ -628,6 +661,14 @@ export function runAgents({ data, settings, cal, learnStore, journal, newsEvents
     return { reports, audited: [], journal, model: null, currentPrice, priceTime, analyzedAt: now, calendar, market };
   }
   const scan = agentScanner({ candles, wantedTfs, currentPrice, opts, now });
+  const nowT = Math.floor(now / 1000);
+  // OB 5★ + fiabilité top-down (en mode OB 5★, ce sont les zones du scanner, annotées en place)
+  const ob5 = ob5Layer({ candles, wantedTfs, currentPrice, opts, risk, nowT, zones: opts.strategyMode === 'smc' ? null : scan.zones });
+  // structure (BOS / CHoCH) de chaque UT, pour le graphique
+  const structure = {};
+  for (const tf of wantedTfs) if (candles[tf]?.length) structure[tf] = structureMarks(candles[tf], tf);
+  // contexte macro : influence mesurée des annonces publiées (macro-model.json), cohérence chronologique
+  const macro = macroModel ? macroState(newsEvents, market.id, macroModel, nowT) : null;
   const calReport = agentCalendar({ cal, calendar, now });
   const hist = agentHistory({ zones: scan.zones, candles, risk, calendar, learnStore, journal, learnParams: settings.learning, currentPrice, now, marketId: market.id });
   // amélioration continue : n'adopte un changement de règle que s'il est prouvé meilleur ;
@@ -648,7 +689,8 @@ export function runAgents({ data, settings, cal, learnStore, journal, newsEvents
     if (a.proposal === 'PROPOSEE' && guards.overlapsOpen(a.direction, a.zoneLow, a.zoneHigh)) a.guardOverlap = true;
     if (a.proposal === 'PROPOSEE' && guards.correlated(market.id, a.direction)) a.guardCorrelated = true;
   }
-  return { reports, audited: audit.audited, journal, model: hist.model, currentPrice, priceTime, analyzedAt: now, calendar, risk, guards, market, strategyMode: opts.strategyMode, watchPois: scan.watch || [], smcFunnel: scan.funnel || null };
+  for (const a of audit.audited) a.macroAlign = macro ? macroAlignment(macro, a.direction) : null;
+  return { reports, audited: audit.audited, journal, model: hist.model, currentPrice, priceTime, analyzedAt: now, calendar, risk, guards, market, strategyMode: opts.strategyMode, watchPois: scan.watch || [], smcFunnel: scan.funnel || null, ob5, structure, macro };
 }
 
 /** Statistiques de la stratégie sur le backtest (zones éligibles uniquement) + référence hasard. */

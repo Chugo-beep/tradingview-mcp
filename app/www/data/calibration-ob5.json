@@ -1,0 +1,115 @@
+{
+  "builtAt": "2026-09-29T20:38:33.612Z",
+  "strategy": "ob5",
+  "sample": "tous les OB détectés",
+  "markets": [
+    "XAUUSD",
+    "NAS100",
+    "US30",
+    "EURUSD"
+  ],
+  "from": "2019-01-01",
+  "to": "2026-09-29",
+  "total": {
+    "inSample": {
+      "n": 1565,
+      "winRate": 0.408,
+      "expectancyR": -0.17,
+      "ciR": [
+        -0.23,
+        -0.11
+      ]
+    },
+    "outOfSample": {
+      "n": 944,
+      "winRate": 0.407,
+      "expectancyR": -0.14,
+      "ciR": [
+        -0.22,
+        -0.06
+      ]
+    }
+  },
+  "byLevel": {
+    "A": {
+      "inSample": {
+        "n": 194,
+        "winRate": 0.448,
+        "expectancyR": -0.03,
+        "ciR": [
+          -0.2,
+          0.13
+        ]
+      },
+      "outOfSample": {
+        "n": 143,
+        "winRate": 0.42,
+        "expectancyR": 0.04,
+        "ciR": [
+          -0.19,
+          0.28
+        ]
+      }
+    },
+    "B": {
+      "inSample": {
+        "n": 272,
+        "winRate": 0.438,
+        "expectancyR": -0.11,
+        "ciR": [
+          -0.24,
+          0.03
+        ]
+      },
+      "outOfSample": {
+        "n": 145,
+        "winRate": 0.407,
+        "expectancyR": -0.15,
+        "ciR": [
+          -0.34,
+          0.04
+        ]
+      }
+    },
+    "C": {
+      "inSample": {
+        "n": 386,
+        "winRate": 0.399,
+        "expectancyR": -0.14,
+        "ciR": [
+          -0.26,
+          -0.01
+        ]
+      },
+      "outOfSample": {
+        "n": 234,
+        "winRate": 0.432,
+        "expectancyR": -0.24,
+        "ciR": [
+          -0.39,
+          -0.09
+        ]
+      }
+    },
+    "D": {
+      "inSample": {
+        "n": 713,
+        "winRate": 0.391,
+        "expectancyR": -0.25,
+        "ciR": [
+          -0.34,
+          -0.18
+        ]
+      },
+      "outOfSample": {
+        "n": 422,
+        "winRate": 0.389,
+        "expectancyR": -0.14,
+        "ciR": [
+          -0.27,
+          -0.02
+        ]
+      }
+    }
+  }
+}

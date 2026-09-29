@@ -145,6 +145,48 @@ Double-clique sur **`Demarrer.bat`** à la racine du projet (macOS / Linux : `./
 
 Chaque zone porte un badge **Confiance bonne / moyenne / faible / nulle / non démontrée** : c'est le niveau de preuve du backtest long terme (2019 → aujourd'hui) pour le marché concerné, pas une probabilité de gain. Il apparaît sur les cartes, dans le détail et dans les notifications. Il est « bonne » seulement si la période d'apprentissage ET la période de validation sont positives, si l'intervalle de confiance est entièrement > 0 et si le résultat bat 95 % des tirages aléatoires. Aujourd'hui, aucun marché n'atteint ce niveau.
 
+### Couche OB 5★ et fiabilité top-down
+
+Le graphique affiche en permanence les **order blocks 5★** définis dans `trading_agent_order_blocks.md`, quelle que soit la stratégie active. Ce sont les OB notés 5★ à leur détection, avec la tendance validée et l'UT supérieure alignée. Ils apparaissent en cadre doré, plein s'ils sont vierges, pointillé s'ils ont déjà été touchés. Ils sont suivis d'une **lettre de fiabilité A → D**. La case « OB 5★ » les masque ; la case « BOS / CHoCH » masque les cassures de structure dessinées sur l'UT affichée.
+
+Un clic sur un OB 5★ ouvre sa fiche :
+- les 5 étoiles de la méthode ;
+- la **fiabilité top-down** (0–100), calculée au moment où le prix revient dans la zone, sans aucune information future ;
+- la lecture de chaque UT supérieure : structure (BOS / CHoCH), Premium/Discount, POI HTF ;
+- l'historique réel du niveau.
+
+La note ne compte que les trois facteurs qui ont réellement amélioré les résultats sur 2 509 OB (XAUUSD, NAS100, US30, EUR/USD, 2019 → 2026), vérifiés sur une période de validation :
+
+| Facteur | Points | Effet mesuré (apprentissage) |
+|---|---|---|
+| Cassure de structure (BOS / CHoCH) dans le sens de l'OB depuis sa formation | 40 | +0,20 R |
+| Tendance des UT supérieures alignée (la plus haute compte le plus) | 35 | +0,11 R |
+| Déplacement / imbalance franche (écart C1/C3 ≥ 0,3 ATR ou corps de C2 ≥ 1 ATR) | 25 | +0,10 R |
+
+Premium/Discount HTF, POI HTF et absence de cassure contraire sont affichés, mais ne comptent pas : ils n'ont pas eu d'effet mesurable.
+
+Résultat par niveau en période de validation, coûts déduits : **A +0,04 R** (143 trades), B −0,15 R, C −0,24 R, D −0,14 R. Le niveau **classe** donc bien les OB, mais **aucun niveau n'est démontré rentable**.
+
+Recalculer : `npm run calibrate --prefix app`.
+
+### Contexte macro (annonces économiques)
+
+L'onglet **Annonces** et la fiche de chaque zone affichent l'**influence mesurée** des annonces sur le marché analysé. Cette influence est tirée de 23 378 publications 2019 → 2026 croisées avec les bougies 1 minute :
+- **Surprise** = (publié − prévu) / écart-type historique des surprises de cet indicateur.
+- **Réaction dans l'heure** : l'or baisse après un CPI, un NFP ou un ISM supérieur aux attentes ; les indices baissent après un CPI supérieur aux attentes ; EUR/USD baisse après une inflation américaine supérieure aux attentes.
+- **Effet persistant** (1 h → 3 jours) : rare. Il n'existe pas pour l'or. Pour les indices, il existe après le PPI.
+- **Cohérence chronologique :**
+  - seules les annonces publiées avant l'instant d'analyse comptent ;
+  - une nouvelle publication remplace la précédente ;
+  - une révision du chiffre précédent est comptée comme une information nouvelle ;
+  - les annonces simultanées (ex. NFP + chômage) forment un paquet dont l'accord est mesuré ;
+  - l'effet décroît puis s'éteint au bout de 3 jours.
+- **Liens entre annonces** : l'inflation allemande annonce celle de la zone euro, le PCE trimestriel annonce le PCE annuel, etc. Ils servent à anticiper la surprise d'une annonce à venir.
+
+Seuls les effets statistiquement significatifs (|t| ≥ 3, ou ≥ 4 pour un pays étranger au marché) et stables hors échantillon sont retenus. Le contexte macro **n'entre pas dans la note** : dans les tests, il n'a pas amélioré les résultats des OB. Les notifications signalent en revanche la prochaine annonce influente dans les 24 h.
+
+Recalculer : `npm run macro --prefix app` (télécharge l'historique du calendrier puis reconstruit `www/data/macro-model.json`).
+
 ### Dates d'entrée et de clôture
 
 Chaque trade simulé affiche sa **date d'entrée** et sa **date de clôture** (détail d'une zone, historique de l'onglet Marchés et export CSV). Le backtest écrit aussi `app/www/data/backtest-<MARCHÉ>-trades.csv`. Relancer le backtest : `npm run backtest --prefix app -- --market XAUUSD --from 2019-01-01`.

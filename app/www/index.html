@@ -78,6 +78,8 @@
         <button type="button" class="btn small" id="fitAllBtn" title="Voir toutes les bougies chargées">Tout voir</button>
         <label class="chart-market-lbl">Marché <select id="chartMarketSelect" aria-label="Marché affiché sur le graphique"></select></label>
         <label class="toggle"><input type="checkbox" id="showBands" checked> Zones des autres TF</label>
+        <label class="toggle"><input type="checkbox" id="showOb5" checked> OB 5★</label>
+        <label class="toggle"><input type="checkbox" id="showStructure" checked> BOS / CHoCH</label>
       </div>
       <div class="chart" id="chart"></div>
       <ul class="legend" aria-label="Légende du graphique">
@@ -86,6 +88,8 @@
         <li><i class="sw t-loss" aria-hidden="true"></i>✕ Perdant</li>
         <li><i class="sw t-nonval" aria-hidden="true"></i>⊘ Non validée</li>
         <li><i class="sw t-neutral" aria-hidden="true"></i>– Annulée</li>
+        <li><i class="sw ob5" aria-hidden="true"></i>OB 5★ · fiabilité A → D</li>
+        <li><i class="sw line-bos" aria-hidden="true"></i>BOS / CHoCH (pointillé)</li>
         <li><i class="sw line-tp" aria-hidden="true"></i>Objectif</li>
         <li><i class="sw line-sl" aria-hidden="true"></i>Stop</li>
         <li><i class="sw candles" aria-hidden="true"></i>Bougie creuse = hausse</li>

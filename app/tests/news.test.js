@@ -26,13 +26,17 @@ const RAW_DE_HIGH = { id: 'de1', title: 'German ZEW', country: 'DE', date: '2026
 const RAW_LOW_IMPACT = { id: 'low1', title: 'Something minor', country: 'US', date: '2026-10-06T09:00:00.000Z', importance: 0 };
 const RAW_JUNK = { id: 'junk1', title: '\u0000\u0001<script>evil()</script>'.padEnd(300, 'x'), country: 'US', date: '2026-10-06T09:00:00.000Z', importance: 1, actual: 'NaN' };
 
-test('sanitizeEvent : ne garde que importance MAJEURE (1) et les 4 pays suivis, whitelist de champs', () => {
-  assert.equal(sanitizeEvent(RAW_LOW_IMPACT), null, 'impact non majeur écarté');
+test("sanitizeEvent : garde l'impact MAJEUR et l'impact moyen chiffré, 4 pays suivis, whitelist de champs", () => {
+  assert.equal(sanitizeEvent(RAW_LOW_IMPACT), null, 'impact moyen sans prévision écarté');
+  assert.equal(sanitizeEvent({ ...RAW_LOW_IMPACT, importance: -1, forecast: 1 }), null, 'impact faible écarté');
+  const medium = sanitizeEvent({ ...RAW_LOW_IMPACT, forecast: 1.5, actual: 1.7 });
+  assert.equal(medium.major, false, 'impact moyen chiffré gardé pour le contexte macro, jamais affiché');
+  assert.equal(sanitizeEvent(RAW_NFP).major, true);
   assert.equal(sanitizeEvent(RAW_DE_HIGH), null, 'pays non suivi écarté');
   assert.equal(sanitizeEvent(null), null);
   assert.equal(sanitizeEvent({ importance: 1, country: 'US' }), null, 'titre manquant écarté');
   const ok = sanitizeEvent(RAW_NFP);
-  assert.deepEqual(Object.keys(ok).sort(), ['actual', 'country', 'forecast', 'id', 'period', 'previous', 'scale', 't', 'title', 'unit'].sort());
+  assert.deepEqual(Object.keys(ok).sort(), ['actual', 'country', 'forecast', 'id', 'major', 'period', 'previous', 'scale', 't', 'title', 'unit'].sort());
   assert.equal(ok.t, Math.floor(Date.parse(RAW_NFP.date) / 1000));
 });
 
@@ -65,7 +69,7 @@ test('_ingest : filtre les 4 pays, ignore le hors-fenêtre, incrémente seq à l
   assert.equal(_state().seq, 2);
 });
 
-test('_ingest : hors fenêtre [J-1, J+7] écarté, événement sorti de fenêtre purgé', () => {
+test('_ingest : hors fenêtre [J-40, J+7] écarté, événement sorti de fenêtre purgé', () => {
   _reset();
   const now = Date.parse('2026-10-01T00:00:00.000Z');
   const tooFar = { ...RAW_NFP, id: 'far1', date: '2026-11-01T00:00:00.000Z' };

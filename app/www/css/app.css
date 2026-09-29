@@ -445,3 +445,19 @@ h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: v
 .conf-bt.conf-faible { border-color: #e08a00; color: #b86e00; }
 .conf-bt.conf-negative { border-color: #d64545; color: #d64545; }
 .hist-date { font-variant-numeric: tabular-nums; }
+
+/* Couche OB 5★ et fiabilité top-down (topdown.js) */
+:root { --ob5: #c9a227; }
+.sw.ob5 { background: color-mix(in srgb, var(--ob5) 20%, transparent); border: 1.5px solid var(--ob5); }
+.sw.line-bos { border-top: 1.5px dashed var(--text-2); height: 0; align-self: center; }
+.rel { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px; margin-left: 4px; border-radius: 6px; font: 700 11px system-ui; border: 1.5px solid var(--border); color: var(--text-2); cursor: help; }
+.rel-A { border-color: var(--ob5); color: var(--ob5); background: color-mix(in srgb, var(--ob5) 14%, transparent); }
+.rel-B { border-color: color-mix(in srgb, var(--ob5) 60%, var(--border)); color: var(--text-1); }
+.rel-D { opacity: .7; }
+.sec-h { font-size: 14px; margin: 14px 0 6px; display: flex; align-items: center; gap: 6px; }
+.sec-h small { color: var(--text-2); font-weight: 500; }
+.star-list.compact { font-size: 12px; gap: 4px; }
+.macro-list { list-style: none; padding: 0; margin: 0 0 8px; display: grid; gap: 6px; font-size: 13px; }
+.macro-list small { display: block; color: var(--text-2); }
+.macro-panel { padding: 10px 12px; }
+.macro-panel .sec-h { margin-top: 0; }
