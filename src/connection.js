@@ -8,6 +8,7 @@ let targetInfo = null;
 export const CDP_HOST = process.env.TV_CDP_HOST || process.env.CDP_HOST || '127.0.0.1';
 export const CDP_PORT = Number(process.env.TV_CDP_PORT || process.env.CDP_PORT) || 9222;
 const MAX_RETRIES = 5;
+const CHART_URL = /tradingview\.com\/chart/i;
 const BASE_DELAY = 500;
 
 // Known direct API paths discovered via live probing (see PROBE_RESULTS.md)
@@ -59,8 +60,15 @@ export async function getClient() {
       if (r?.result?.value !== 'undefined') return client;
       try { await client.close(); } catch { /* already gone */ }
     } catch { /* dead client: reconnect below */ }
+    // Stay on the same chart tab (e.g. one picked by tab_switch) if it still exists, instead of
+    // silently jumping back to the first chart tab; never re-attach to a non-chart page.
+    const prev = targetInfo;
     client = null;
     targetInfo = null;
+    if (prev && CHART_URL.test(prev.url || '')) {
+      const still = await findTargetById(prev.id).catch(() => null);
+      if (still) return connect(prev.id);
+    }
   }
   return connect();
 }
@@ -114,7 +122,7 @@ async function findChartTarget() {
   // Prefer targets with tradingview.com/chart in the URL
   // Fallback excludes file:// pages: TradingView Desktop's own shell/tooltip windows live under
   // file:///…/TradingView.Desktop…/app.asar and never expose the chart API.
-  return targets.find(t => t.type === 'page' && /tradingview\.com\/chart/i.test(t.url))
+  return targets.find(t => t.type === 'page' && CHART_URL.test(t.url))
     || targets.find(t => t.type === 'page' && /^https?:\/\/[^/]*tradingview/i.test(t.url))
     || null;
 }

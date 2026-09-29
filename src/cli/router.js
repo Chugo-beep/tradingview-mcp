@@ -3,6 +3,7 @@
  * Zero dependencies — uses only Node.js built-ins.
  */
 import { parseArgs } from 'node:util';
+import { disconnect } from '../connection.js';
 
 /** @type {Map<string, { description: string, options?: object, handler: Function, subcommands?: Map<string, object> }>} */
 const commands = new Map();
@@ -132,19 +133,27 @@ async function execute(handler, values, positionals) {
   try {
     const result = await handler(values, positionals);
     console.log(JSON.stringify(result, null, 2));
-    process.exit(0);
+    await finish(0);
   } catch (err) {
-    handleError(err);
+    await handleError(err);
   }
 }
 
-function handleError(err) {
+async function handleError(err) {
   const message = err.message || String(err);
-  // Connection failures get exit code 2
-  if (/CDP|connection|ECONNREFUSED|not running/i.test(message)) {
-    console.error(JSON.stringify({ success: false, error: message }, null, 2));
-    process.exit(2);
-  }
   console.error(JSON.stringify({ success: false, error: message }, null, 2));
-  process.exit(1);
+  // Connection failures get exit code 2
+  await finish(/CDP|connection|ECONNREFUSED|not running/i.test(message) ? 2 : 1);
+}
+
+/**
+ * Exit after a command. On Windows, calling process.exit() while a network handle (fetch keep-alive
+ * socket, CDP WebSocket) is still closing crashes Node with a libuv assertion (exit code 0xC0000409).
+ * So: set the exit code, close the CDP client, let the event loop drain, and only force the exit if
+ * something still holds the process after 200 ms.
+ */
+async function finish(code) {
+  process.exitCode = code;
+  try { await disconnect(); } catch { /* already closed */ }
+  setTimeout(() => process.exit(code), 200).unref();
 }

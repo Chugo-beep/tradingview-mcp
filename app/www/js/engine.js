@@ -375,6 +375,24 @@ export function sessionOfTime(t) {
   return 'Clôture US';
 }
 
+/**
+ * Instant (s) de clôture de la bougie `i` de l'UT `tf`. Mois et année ont une durée variable
+ * (28 à 31 jours, 365 ou 366) : leur clôture est l'ouverture de la bougie suivante, et non
+ * « ouverture + durée moyenne » (qui la déclarait close jusqu'à 13 h trop tôt pour un mois de 31 jours,
+ * soit une information future dans un backtest). Pour la dernière bougie, durée nominale.
+ */
+export function closeTimeOf(c, i, tf) {
+  if ((tf === 'M' || tf === '12M') && i + 1 < c.length) return c[i + 1].time;
+  return c[i].time + (TF_SECONDS[tf] || 0);
+}
+
+/** Index de la dernière bougie de `c` (UT `tf`) entièrement clôturée à l'instant `t` (−1 si aucune). */
+export function lastClosedIndex(c, tf, t) {
+  let lo = 0, hi = c.length - 1, idx = -1;
+  while (lo <= hi) { const m = (lo + hi) >> 1; if (closeTimeOf(c, m, tf) <= t) { idx = m; lo = m + 1; } else hi = m - 1; }
+  return idx;
+}
+
 /** UT supérieure utilisée pour la tendance de fond. */
 export const HTF_OF = { '1': '15', '5': '60', '15': '240', '60': '240', '240': 'D', 'D': 'W', 'W': 'M', 'M': '12M', '12M': null };
 
@@ -399,10 +417,8 @@ export function annotateHtf(zones, candlesByTf, opts = {}) {
     if (!tf) { z.htf = { tf: null, dir: null, aligned: null }; continue; }
     const { c, st } = series(tf);
     const t = z.c3Time + (TF_SECONDS[z.timeframe] || 0); // clôture de C3
-    const step = TF_SECONDS[tf];
     // dernière bougie HTF entièrement clôturée à l'instant t
-    let lo = 0, hi = c.length - 1, idx = -1;
-    while (lo <= hi) { const m = (lo + hi) >> 1; if (c[m].time + step <= t) { idx = m; lo = m + 1; } else hi = m - 1; }
+    const idx = lastClosedIndex(c, tf, t);
     const dir = idx >= 0 ? st[idx] : null;
     z.htf = { tf, dir, aligned: dir == null ? null : dir === (z.direction === 'BUY' ? 1 : -1) };
   }

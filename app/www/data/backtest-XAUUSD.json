@@ -5,7 +5,7 @@
   "strategy": "smc",
   "from": "2019-01-01",
   "to": "2026-09-29",
-  "generatedAt": "2026-09-29T19:52:10.480Z",
+  "generatedAt": "2026-09-29T21:11:47.917Z",
   "bars1m": 2743620,
   "synthetic": false,
   "full": {
@@ -54,7 +54,12 @@
           "zoneLow": 1385.348,
           "zoneHigh": 1385.808,
           "c1Time": 1561967100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1585047600-SELL",
@@ -75,7 +80,12 @@
           "zoneLow": 1594.238,
           "zoneHigh": 1597.805,
           "c1Time": 1585047600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1597858500-BUY",
@@ -96,7 +106,12 @@
           "zoneLow": 1959.445,
           "zoneHigh": 1961.725,
           "c1Time": 1597858500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1601992200-SELL",
@@ -117,7 +132,12 @@
           "zoneLow": 1916.758,
           "zoneHigh": 1917.388,
           "c1Time": 1601992200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1604286900-SELL",
@@ -138,7 +158,12 @@
           "zoneLow": 1883.308,
           "zoneHigh": 1883.648,
           "c1Time": 1604286900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1628729100-SELL",
@@ -159,7 +184,12 @@
           "zoneLow": 1752.158,
           "zoneHigh": 1752.278,
           "c1Time": 1628729100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1628708100-SELL",
@@ -180,7 +210,12 @@
           "zoneLow": 1752.448,
           "zoneHigh": 1752.628,
           "c1Time": 1628708100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1695302700-BUY",
@@ -201,7 +236,12 @@
           "zoneLow": 1915.605,
           "zoneHigh": 1916.085,
           "c1Time": 1695302700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1711108800-BUY",
@@ -222,7 +262,12 @@
           "zoneLow": 2165.325,
           "zoneHigh": 2167.675,
           "c1Time": 1711108800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1711097700-BUY",
@@ -243,7 +288,12 @@
           "zoneLow": 2165.385,
           "zoneHigh": 2166.755,
           "c1Time": 1711097700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1716436500-BUY",
@@ -264,7 +314,12 @@
           "zoneLow": 2370.195,
           "zoneHigh": 2370.998,
           "c1Time": 1716436500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1732015800-SELL",
@@ -285,7 +340,12 @@
           "zoneLow": 2634.595,
           "zoneHigh": 2635.695,
           "c1Time": 1732015800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1732720500-SELL",
@@ -306,7 +366,12 @@
           "zoneLow": 2644.424,
           "zoneHigh": 2650.058,
           "c1Time": 1732720500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1732698600-SELL",
@@ -327,7 +392,12 @@
           "zoneLow": 2650.954,
           "zoneHigh": 2651.738,
           "c1Time": 1732698600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1745419200-BUY",
@@ -348,7 +418,12 @@
           "zoneLow": 3271.675,
           "zoneHigh": 3280.905,
           "c1Time": 1745419200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1773166500-SELL",
@@ -369,7 +444,12 @@
           "zoneLow": 5218.225,
           "zoneHigh": 5226.095,
           "c1Time": 1773166500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1572347700-BUY",
@@ -390,7 +470,12 @@
           "zoneLow": 1487.005,
           "zoneHigh": 1487.098,
           "c1Time": 1572347700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1572274500-BUY",
@@ -411,7 +496,12 @@
           "zoneLow": 1491.815,
           "zoneHigh": 1491.995,
           "c1Time": 1572274500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1590548400-BUY",
@@ -432,7 +522,12 @@
           "zoneLow": 1710.788,
           "zoneHigh": 1710.858,
           "c1Time": 1590548400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1590506700-BUY",
@@ -453,7 +548,12 @@
           "zoneLow": 1710.518,
           "zoneHigh": 1711.018,
           "c1Time": 1590506700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1590683400-SELL",
@@ -474,7 +574,12 @@
           "zoneLow": 1722.318,
           "zoneHigh": 1723.878,
           "c1Time": 1590683400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1590664800-SELL",
@@ -495,7 +600,12 @@
           "zoneLow": 1724.298,
           "zoneHigh": 1724.4,
           "c1Time": 1590664800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1591184700-BUY",
@@ -516,7 +626,12 @@
           "zoneLow": 1718.485,
           "zoneHigh": 1720.165,
           "c1Time": 1591184700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1604372400-SELL",
@@ -537,7 +652,12 @@
           "zoneLow": 1895.228,
           "zoneHigh": 1896.588,
           "c1Time": 1604372400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1606863600-SELL",
@@ -558,7 +678,12 @@
           "zoneLow": 1814.688,
           "zoneHigh": 1815.448,
           "c1Time": 1606863600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1606839300-SELL",
@@ -579,7 +704,12 @@
           "zoneLow": 1810.068,
           "zoneHigh": 1810.285,
           "c1Time": 1606839300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1610953200-SELL",
@@ -600,7 +730,12 @@
           "zoneLow": 1838.085,
           "zoneHigh": 1840.675,
           "c1Time": 1610953200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1612281900-BUY",
@@ -621,7 +756,12 @@
           "zoneLow": 1832.857,
           "zoneHigh": 1835.065,
           "c1Time": 1612281900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1617292800-SELL",
@@ -642,7 +782,12 @@
           "zoneLow": 1728.398,
           "zoneHigh": 1729.998,
           "c1Time": 1617292800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1622822400-SELL",
@@ -663,7 +808,12 @@
           "zoneLow": 1892.098,
           "zoneHigh": 1893.198,
           "c1Time": 1622822400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1629764100-SELL",
@@ -684,7 +834,12 @@
           "zoneLow": 1804.398,
           "zoneHigh": 1804.608,
           "c1Time": 1629764100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1629727500-SELL",
@@ -705,7 +860,12 @@
           "zoneLow": 1802.58,
           "zoneHigh": 1802.918,
           "c1Time": 1629727500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1634555100-BUY",
@@ -726,7 +886,12 @@
           "zoneLow": 1761.994,
           "zoneHigh": 1762.458,
           "c1Time": 1634555100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1635793200-SELL",
@@ -747,7 +912,12 @@
           "zoneLow": 1792.688,
           "zoneHigh": 1793.418,
           "c1Time": 1635793200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1644432300-SELL",
@@ -768,7 +938,12 @@
           "zoneLow": 1834.604,
           "zoneHigh": 1834.764,
           "c1Time": 1644432300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1647306300-BUY",
@@ -789,7 +964,12 @@
           "zoneLow": 1948.188,
           "zoneHigh": 1948.298,
           "c1Time": 1647306300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1677691800-SELL",
@@ -810,7 +990,12 @@
           "zoneLow": 1838.495,
           "zoneHigh": 1839.475,
           "c1Time": 1677691800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1677662100-SELL",
@@ -831,7 +1016,12 @@
           "zoneLow": 1833.355,
           "zoneHigh": 1834.885,
           "c1Time": 1677662100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1698818400-BUY",
@@ -852,7 +1042,12 @@
           "zoneLow": 1976.255,
           "zoneHigh": 1977.545,
           "c1Time": 1698818400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1700199000-SELL",
@@ -873,7 +1068,12 @@
           "zoneLow": 1985.125,
           "zoneHigh": 1985.165,
           "c1Time": 1700199000,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1700153100-SELL",
@@ -894,7 +1094,12 @@
           "zoneLow": 1984.195,
           "zoneHigh": 1985.345,
           "c1Time": 1700153100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1702515900-SELL",
@@ -915,7 +1120,12 @@
           "zoneLow": 2036.565,
           "zoneHigh": 2037.225,
           "c1Time": 1702515900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1706885100-BUY",
@@ -936,7 +1146,12 @@
           "zoneLow": 2030.495,
           "zoneHigh": 2031.255,
           "c1Time": 1706885100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1716453300-BUY",
@@ -957,7 +1172,12 @@
           "zoneLow": 2356.625,
           "zoneHigh": 2359.105,
           "c1Time": 1716453300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1721375700-BUY",
@@ -978,7 +1198,12 @@
           "zoneLow": 2416.348,
           "zoneHigh": 2417.245,
           "c1Time": 1721375700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1736154000-BUY",
@@ -999,7 +1224,12 @@
           "zoneLow": 2627.048,
           "zoneHigh": 2630.505,
           "c1Time": 1736154000,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1744263900-SELL",
@@ -1020,7 +1250,12 @@
           "zoneLow": 3123.265,
           "zoneHigh": 3124.49,
           "c1Time": 1744263900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1745367300-BUY",
@@ -1041,7 +1276,12 @@
           "zoneLow": 3331.785,
           "zoneHigh": 3340.795,
           "c1Time": 1745367300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1745363100-BUY",
@@ -1062,7 +1302,12 @@
           "zoneLow": 3328.655,
           "zoneHigh": 3333.305,
           "c1Time": 1745363100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1749224100-BUY",
@@ -1083,7 +1328,12 @@
           "zoneLow": 3323.155,
           "zoneHigh": 3328.495,
           "c1Time": 1749224100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1758147000-BUY",
@@ -1104,7 +1354,12 @@
           "zoneLow": 3652.405,
           "zoneHigh": 3659.398,
           "c1Time": 1758147000,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1761093900-BUY",
@@ -1125,7 +1380,12 @@
           "zoneLow": 4058.098,
           "zoneHigh": 4062.905,
           "c1Time": 1761093900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1762770600-SELL",
@@ -1146,7 +1406,12 @@
           "zoneLow": 4079.715,
           "zoneHigh": 4080.225,
           "c1Time": 1762770600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1770005700-BUY",
@@ -1167,7 +1432,12 @@
           "zoneLow": 4658.768,
           "zoneHigh": 4659.198,
           "c1Time": 1770005700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1772538600-BUY",
@@ -1188,7 +1458,12 @@
           "zoneLow": 5134.765,
           "zoneHigh": 5136.635,
           "c1Time": 1772538600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1778114700-SELL",
@@ -1209,7 +1484,12 @@
           "zoneLow": 4691.395,
           "zoneHigh": 4691.848,
           "c1Time": 1778114700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1778056500-SELL",
@@ -1230,7 +1510,12 @@
           "zoneLow": 4675.875,
           "zoneHigh": 4676.645,
           "c1Time": 1778056500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1788153300-BUY",
@@ -1251,7 +1536,12 @@
           "zoneLow": 4418.885,
           "zoneHigh": 4427.015,
           "c1Time": 1788153300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1578986100-BUY",
@@ -1272,7 +1562,12 @@
           "zoneLow": 1539.805,
           "zoneHigh": 1540.875,
           "c1Time": 1578986100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1578967500-BUY",
@@ -1293,7 +1588,12 @@
           "zoneLow": 1537.635,
           "zoneHigh": 1537.665,
           "c1Time": 1578967500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1597161900-BUY",
@@ -1314,7 +1614,12 @@
           "zoneLow": 1943.168,
           "zoneHigh": 1943.258,
           "c1Time": 1597161900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1601946900-SELL",
@@ -1335,7 +1640,12 @@
           "zoneLow": 1912.958,
           "zoneHigh": 1914.068,
           "c1Time": 1601946900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1774923300-SELL",
@@ -1356,7 +1666,12 @@
           "zoneLow": 4592.355,
           "zoneHigh": 4595.515,
           "c1Time": 1774923300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1551297600-BUY",
@@ -1377,7 +1692,12 @@
           "zoneLow": 1318.888,
           "zoneHigh": 1318.918,
           "c1Time": 1551297600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1582919100-BUY",
@@ -1398,7 +1718,12 @@
           "zoneLow": 1571.048,
           "zoneHigh": 1581.968,
           "c1Time": 1582919100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1629200700-SELL",
@@ -1419,7 +1744,12 @@
           "zoneLow": 1793.322,
           "zoneHigh": 1793.347,
           "c1Time": 1629200700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1585027800-SELL",
@@ -1440,7 +1770,12 @@
           "zoneLow": 1572.718,
           "zoneHigh": 1578.488,
           "c1Time": 1585027800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1585019100-SELL",
@@ -1461,7 +1796,12 @@
           "zoneLow": 1575.825,
           "zoneHigh": 1577.945,
           "c1Time": 1585019100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ],
       "keep": [
@@ -1484,7 +1824,12 @@
           "zoneLow": 1385.348,
           "zoneHigh": 1385.808,
           "c1Time": 1561967100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1585047600-SELL",
@@ -1505,7 +1850,12 @@
           "zoneLow": 1594.238,
           "zoneHigh": 1597.805,
           "c1Time": 1585047600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1597858500-BUY",
@@ -1526,7 +1876,12 @@
           "zoneLow": 1959.445,
           "zoneHigh": 1961.725,
           "c1Time": 1597858500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1601992200-SELL",
@@ -1547,7 +1902,12 @@
           "zoneLow": 1916.758,
           "zoneHigh": 1917.388,
           "c1Time": 1601992200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1604286900-SELL",
@@ -1568,7 +1928,12 @@
           "zoneLow": 1883.308,
           "zoneHigh": 1883.648,
           "c1Time": 1604286900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1628729100-SELL",
@@ -1589,7 +1954,12 @@
           "zoneLow": 1752.158,
           "zoneHigh": 1752.278,
           "c1Time": 1628729100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1628708100-SELL",
@@ -1610,7 +1980,12 @@
           "zoneLow": 1752.448,
           "zoneHigh": 1752.628,
           "c1Time": 1628708100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1695302700-BUY",
@@ -1631,7 +2006,12 @@
           "zoneLow": 1915.605,
           "zoneHigh": 1916.085,
           "c1Time": 1695302700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1711108800-BUY",
@@ -1652,7 +2032,12 @@
           "zoneLow": 2165.325,
           "zoneHigh": 2167.675,
           "c1Time": 1711108800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1711097700-BUY",
@@ -1673,7 +2058,12 @@
           "zoneLow": 2165.385,
           "zoneHigh": 2166.755,
           "c1Time": 1711097700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1716436500-BUY",
@@ -1694,7 +2084,12 @@
           "zoneLow": 2370.195,
           "zoneHigh": 2370.998,
           "c1Time": 1716436500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1732015800-SELL",
@@ -1715,7 +2110,12 @@
           "zoneLow": 2634.595,
           "zoneHigh": 2635.695,
           "c1Time": 1732015800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1732720500-SELL",
@@ -1736,7 +2136,12 @@
           "zoneLow": 2644.424,
           "zoneHigh": 2650.058,
           "c1Time": 1732720500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1732698600-SELL",
@@ -1757,7 +2162,12 @@
           "zoneLow": 2650.954,
           "zoneHigh": 2651.738,
           "c1Time": 1732698600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1745419200-BUY",
@@ -1778,7 +2188,12 @@
           "zoneLow": 3271.675,
           "zoneHigh": 3280.905,
           "c1Time": 1745419200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1773166500-SELL",
@@ -1799,7 +2214,12 @@
           "zoneLow": 5218.225,
           "zoneHigh": 5226.095,
           "c1Time": 1773166500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1572347700-BUY",
@@ -1820,7 +2240,12 @@
           "zoneLow": 1487.005,
           "zoneHigh": 1487.098,
           "c1Time": 1572347700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1572274500-BUY",
@@ -1841,7 +2266,12 @@
           "zoneLow": 1491.815,
           "zoneHigh": 1491.995,
           "c1Time": 1572274500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1590548400-BUY",
@@ -1862,7 +2292,12 @@
           "zoneLow": 1710.788,
           "zoneHigh": 1710.858,
           "c1Time": 1590548400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1590506700-BUY",
@@ -1883,7 +2318,12 @@
           "zoneLow": 1710.518,
           "zoneHigh": 1711.018,
           "c1Time": 1590506700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1590683400-SELL",
@@ -1904,7 +2344,12 @@
           "zoneLow": 1722.318,
           "zoneHigh": 1723.878,
           "c1Time": 1590683400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1590664800-SELL",
@@ -1925,7 +2370,12 @@
           "zoneLow": 1724.298,
           "zoneHigh": 1724.4,
           "c1Time": 1590664800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1591184700-BUY",
@@ -1946,7 +2396,12 @@
           "zoneLow": 1718.485,
           "zoneHigh": 1720.165,
           "c1Time": 1591184700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1604372400-SELL",
@@ -1967,7 +2422,12 @@
           "zoneLow": 1895.228,
           "zoneHigh": 1896.588,
           "c1Time": 1604372400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1606863600-SELL",
@@ -1988,7 +2448,12 @@
           "zoneLow": 1814.688,
           "zoneHigh": 1815.448,
           "c1Time": 1606863600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1606839300-SELL",
@@ -2009,7 +2474,12 @@
           "zoneLow": 1810.068,
           "zoneHigh": 1810.285,
           "c1Time": 1606839300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1610953200-SELL",
@@ -2030,7 +2500,12 @@
           "zoneLow": 1838.085,
           "zoneHigh": 1840.675,
           "c1Time": 1610953200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1612281900-BUY",
@@ -2051,7 +2526,12 @@
           "zoneLow": 1832.857,
           "zoneHigh": 1835.065,
           "c1Time": 1612281900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1617292800-SELL",
@@ -2072,7 +2552,12 @@
           "zoneLow": 1728.398,
           "zoneHigh": 1729.998,
           "c1Time": 1617292800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1622822400-SELL",
@@ -2093,7 +2578,12 @@
           "zoneLow": 1892.098,
           "zoneHigh": 1893.198,
           "c1Time": 1622822400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1629764100-SELL",
@@ -2114,7 +2604,12 @@
           "zoneLow": 1804.398,
           "zoneHigh": 1804.608,
           "c1Time": 1629764100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1629727500-SELL",
@@ -2135,7 +2630,12 @@
           "zoneLow": 1802.58,
           "zoneHigh": 1802.918,
           "c1Time": 1629727500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1634555100-BUY",
@@ -2156,7 +2656,12 @@
           "zoneLow": 1761.994,
           "zoneHigh": 1762.458,
           "c1Time": 1634555100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1635793200-SELL",
@@ -2177,7 +2682,12 @@
           "zoneLow": 1792.688,
           "zoneHigh": 1793.418,
           "c1Time": 1635793200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1644432300-SELL",
@@ -2198,7 +2708,12 @@
           "zoneLow": 1834.604,
           "zoneHigh": 1834.764,
           "c1Time": 1644432300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1647306300-BUY",
@@ -2219,7 +2734,12 @@
           "zoneLow": 1948.188,
           "zoneHigh": 1948.298,
           "c1Time": 1647306300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1677691800-SELL",
@@ -2240,7 +2760,12 @@
           "zoneLow": 1838.495,
           "zoneHigh": 1839.475,
           "c1Time": 1677691800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1677662100-SELL",
@@ -2261,7 +2786,12 @@
           "zoneLow": 1833.355,
           "zoneHigh": 1834.885,
           "c1Time": 1677662100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1698818400-BUY",
@@ -2282,7 +2812,12 @@
           "zoneLow": 1976.255,
           "zoneHigh": 1977.545,
           "c1Time": 1698818400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1700199000-SELL",
@@ -2303,7 +2838,12 @@
           "zoneLow": 1985.125,
           "zoneHigh": 1985.165,
           "c1Time": 1700199000,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1700153100-SELL",
@@ -2324,7 +2864,12 @@
           "zoneLow": 1984.195,
           "zoneHigh": 1985.345,
           "c1Time": 1700153100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1702515900-SELL",
@@ -2345,7 +2890,12 @@
           "zoneLow": 2036.565,
           "zoneHigh": 2037.225,
           "c1Time": 1702515900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1706885100-BUY",
@@ -2366,7 +2916,12 @@
           "zoneLow": 2030.495,
           "zoneHigh": 2031.255,
           "c1Time": 1706885100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1716453300-BUY",
@@ -2387,7 +2942,12 @@
           "zoneLow": 2356.625,
           "zoneHigh": 2359.105,
           "c1Time": 1716453300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1721375700-BUY",
@@ -2408,7 +2968,12 @@
           "zoneLow": 2416.348,
           "zoneHigh": 2417.245,
           "c1Time": 1721375700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1736154000-BUY",
@@ -2429,7 +2994,12 @@
           "zoneLow": 2627.048,
           "zoneHigh": 2630.505,
           "c1Time": 1736154000,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1744263900-SELL",
@@ -2450,7 +3020,12 @@
           "zoneLow": 3123.265,
           "zoneHigh": 3124.49,
           "c1Time": 1744263900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1745367300-BUY",
@@ -2471,7 +3046,12 @@
           "zoneLow": 3331.785,
           "zoneHigh": 3340.795,
           "c1Time": 1745367300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1745363100-BUY",
@@ -2492,7 +3072,12 @@
           "zoneLow": 3328.655,
           "zoneHigh": 3333.305,
           "c1Time": 1745363100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1749224100-BUY",
@@ -2513,7 +3098,12 @@
           "zoneLow": 3323.155,
           "zoneHigh": 3328.495,
           "c1Time": 1749224100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1758147000-BUY",
@@ -2534,7 +3124,12 @@
           "zoneLow": 3652.405,
           "zoneHigh": 3659.398,
           "c1Time": 1758147000,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1761093900-BUY",
@@ -2555,7 +3150,12 @@
           "zoneLow": 4058.098,
           "zoneHigh": 4062.905,
           "c1Time": 1761093900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1762770600-SELL",
@@ -2576,7 +3176,12 @@
           "zoneLow": 4079.715,
           "zoneHigh": 4080.225,
           "c1Time": 1762770600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1770005700-BUY",
@@ -2597,7 +3202,12 @@
           "zoneLow": 4658.768,
           "zoneHigh": 4659.198,
           "c1Time": 1770005700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1772538600-BUY",
@@ -2618,7 +3228,12 @@
           "zoneLow": 5134.765,
           "zoneHigh": 5136.635,
           "c1Time": 1772538600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1778114700-SELL",
@@ -2639,7 +3254,12 @@
           "zoneLow": 4691.395,
           "zoneHigh": 4691.848,
           "c1Time": 1778114700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1778056500-SELL",
@@ -2660,7 +3280,12 @@
           "zoneLow": 4675.875,
           "zoneHigh": 4676.645,
           "c1Time": 1778056500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1788153300-BUY",
@@ -2681,7 +3306,12 @@
           "zoneLow": 4418.885,
           "zoneHigh": 4427.015,
           "c1Time": 1788153300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1578986100-BUY",
@@ -2702,7 +3332,12 @@
           "zoneLow": 1539.805,
           "zoneHigh": 1540.875,
           "c1Time": 1578986100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1578967500-BUY",
@@ -2723,7 +3358,12 @@
           "zoneLow": 1537.635,
           "zoneHigh": 1537.665,
           "c1Time": 1578967500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1597161900-BUY",
@@ -2744,7 +3384,12 @@
           "zoneLow": 1943.168,
           "zoneHigh": 1943.258,
           "c1Time": 1597161900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1601946900-SELL",
@@ -2765,7 +3410,12 @@
           "zoneLow": 1912.958,
           "zoneHigh": 1914.068,
           "c1Time": 1601946900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1774923300-SELL",
@@ -2786,7 +3436,12 @@
           "zoneLow": 4592.355,
           "zoneHigh": 4595.515,
           "c1Time": 1774923300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1551297600-BUY",
@@ -2807,7 +3462,12 @@
           "zoneLow": 1318.888,
           "zoneHigh": 1318.918,
           "c1Time": 1551297600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1582919100-BUY",
@@ -2828,7 +3488,12 @@
           "zoneLow": 1571.048,
           "zoneHigh": 1581.968,
           "c1Time": 1582919100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1629200700-SELL",
@@ -2849,7 +3514,12 @@
           "zoneLow": 1793.322,
           "zoneHigh": 1793.347,
           "c1Time": 1629200700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1585027800-SELL",
@@ -2870,7 +3540,12 @@
           "zoneLow": 1572.718,
           "zoneHigh": 1578.488,
           "c1Time": 1585027800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1585019100-SELL",
@@ -2891,7 +3566,12 @@
           "zoneLow": 1575.825,
           "zoneHigh": 1577.945,
           "c1Time": 1585019100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ]
     },
@@ -3316,6 +3996,11 @@
         "zoneHigh": 4427.015,
         "c1Time": 1788153300,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3339,6 +4024,11 @@
         "zoneHigh": 4691.848,
         "c1Time": 1778114700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3362,6 +4052,11 @@
         "zoneHigh": 4676.645,
         "c1Time": 1778056500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3385,6 +4080,11 @@
         "zoneHigh": 4595.515,
         "c1Time": 1774923300,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3408,6 +4108,11 @@
         "zoneHigh": 5226.095,
         "c1Time": 1773166500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3431,6 +4136,11 @@
         "zoneHigh": 5136.635,
         "c1Time": 1772538600,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3454,6 +4164,11 @@
         "zoneHigh": 4659.198,
         "c1Time": 1770005700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3477,6 +4192,11 @@
         "zoneHigh": 4080.225,
         "c1Time": 1762770600,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3500,6 +4220,11 @@
         "zoneHigh": 4062.905,
         "c1Time": 1761093900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3523,6 +4248,11 @@
         "zoneHigh": 3659.398,
         "c1Time": 1758147000,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3546,6 +4276,11 @@
         "zoneHigh": 3328.495,
         "c1Time": 1749224100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3569,6 +4304,11 @@
         "zoneHigh": 3280.905,
         "c1Time": 1745419200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3592,6 +4332,11 @@
         "zoneHigh": 3333.305,
         "c1Time": 1745363100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3615,6 +4360,11 @@
         "zoneHigh": 3340.795,
         "c1Time": 1745367300,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3638,6 +4388,11 @@
         "zoneHigh": 3124.49,
         "c1Time": 1744263900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3661,6 +4416,11 @@
         "zoneHigh": 2630.505,
         "c1Time": 1736154000,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3684,6 +4444,11 @@
         "zoneHigh": 2650.058,
         "c1Time": 1732720500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3707,6 +4472,11 @@
         "zoneHigh": 2651.738,
         "c1Time": 1732698600,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3730,6 +4500,11 @@
         "zoneHigh": 2635.695,
         "c1Time": 1732015800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3753,6 +4528,11 @@
         "zoneHigh": 2417.245,
         "c1Time": 1721375700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3776,6 +4556,11 @@
         "zoneHigh": 2359.105,
         "c1Time": 1716453300,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3799,6 +4584,11 @@
         "zoneHigh": 2370.998,
         "c1Time": 1716436500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3822,6 +4612,11 @@
         "zoneHigh": 2167.675,
         "c1Time": 1711108800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3845,6 +4640,11 @@
         "zoneHigh": 2166.755,
         "c1Time": 1711097700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3868,6 +4668,11 @@
         "zoneHigh": 2031.255,
         "c1Time": 1706885100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3891,6 +4696,11 @@
         "zoneHigh": 2037.225,
         "c1Time": 1702515900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3914,6 +4724,11 @@
         "zoneHigh": 1985.165,
         "c1Time": 1700199000,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3937,6 +4752,11 @@
         "zoneHigh": 1985.345,
         "c1Time": 1700153100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3960,6 +4780,11 @@
         "zoneHigh": 1977.545,
         "c1Time": 1698818400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -3983,6 +4808,11 @@
         "zoneHigh": 1916.085,
         "c1Time": 1695302700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4006,6 +4836,11 @@
         "zoneHigh": 1839.475,
         "c1Time": 1677691800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4029,6 +4864,11 @@
         "zoneHigh": 1834.885,
         "c1Time": 1677662100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4052,6 +4892,11 @@
         "zoneHigh": 1948.298,
         "c1Time": 1647306300,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4075,6 +4920,11 @@
         "zoneHigh": 1834.764,
         "c1Time": 1644432300,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4098,6 +4948,11 @@
         "zoneHigh": 1793.418,
         "c1Time": 1635793200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4121,6 +4976,11 @@
         "zoneHigh": 1762.458,
         "c1Time": 1634555100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4144,6 +5004,11 @@
         "zoneHigh": 1804.608,
         "c1Time": 1629764100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4167,6 +5032,11 @@
         "zoneHigh": 1802.918,
         "c1Time": 1629727500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4190,6 +5060,11 @@
         "zoneHigh": 1793.347,
         "c1Time": 1629200700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4213,6 +5088,11 @@
         "zoneHigh": 1752.278,
         "c1Time": 1628729100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4236,6 +5116,11 @@
         "zoneHigh": 1752.628,
         "c1Time": 1628708100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4259,6 +5144,11 @@
         "zoneHigh": 1893.198,
         "c1Time": 1622822400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4282,6 +5172,11 @@
         "zoneHigh": 1729.998,
         "c1Time": 1617292800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4305,6 +5200,11 @@
         "zoneHigh": 1835.065,
         "c1Time": 1612281900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4328,6 +5228,11 @@
         "zoneHigh": 1840.675,
         "c1Time": 1610953200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4351,6 +5256,11 @@
         "zoneHigh": 1815.448,
         "c1Time": 1606863600,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4374,6 +5284,11 @@
         "zoneHigh": 1810.285,
         "c1Time": 1606839300,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4397,6 +5312,11 @@
         "zoneHigh": 1896.588,
         "c1Time": 1604372400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4420,6 +5340,11 @@
         "zoneHigh": 1883.648,
         "c1Time": 1604286900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4443,6 +5368,11 @@
         "zoneHigh": 1917.388,
         "c1Time": 1601992200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4466,6 +5396,11 @@
         "zoneHigh": 1914.068,
         "c1Time": 1601946900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4489,6 +5424,11 @@
         "zoneHigh": 1961.725,
         "c1Time": 1597858500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4512,6 +5452,11 @@
         "zoneHigh": 1943.258,
         "c1Time": 1597161900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4535,6 +5480,11 @@
         "zoneHigh": 1720.165,
         "c1Time": 1591184700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4558,6 +5508,11 @@
         "zoneHigh": 1723.878,
         "c1Time": 1590683400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4581,6 +5536,11 @@
         "zoneHigh": 1724.4,
         "c1Time": 1590664800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4604,6 +5564,11 @@
         "zoneHigh": 1710.858,
         "c1Time": 1590548400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4627,6 +5592,11 @@
         "zoneHigh": 1711.018,
         "c1Time": 1590506700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4650,6 +5620,11 @@
         "zoneHigh": 1597.805,
         "c1Time": 1585047600,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4673,6 +5648,11 @@
         "zoneHigh": 1578.488,
         "c1Time": 1585027800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4696,6 +5676,11 @@
         "zoneHigh": 1577.945,
         "c1Time": 1585019100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4719,6 +5704,11 @@
         "zoneHigh": 1581.968,
         "c1Time": 1582919100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4742,6 +5732,11 @@
         "zoneHigh": 1540.875,
         "c1Time": 1578986100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4765,6 +5760,11 @@
         "zoneHigh": 1537.665,
         "c1Time": 1578967500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4788,6 +5788,11 @@
         "zoneHigh": 1487.098,
         "c1Time": 1572347700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4811,6 +5816,11 @@
         "zoneHigh": 1491.995,
         "c1Time": 1572274500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4834,6 +5844,11 @@
         "zoneHigh": 1385.808,
         "c1Time": 1561967100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -4857,10 +5872,29 @@
         "zoneHigh": 1318.918,
         "c1Time": 1551297600,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       }
-    ]
+    ],
+    "calibration": {
+      "byLevel": {},
+      "byMacro": {
+        "neutre": {
+          "n": 68,
+          "winRate": 0.382,
+          "expectancyR": 0.07,
+          "ciR": [
+            -0.45,
+            0.79
+          ]
+        }
+      }
+    }
   },
   "inSample": {
     "market": "XAUUSD",
@@ -4908,7 +5942,12 @@
           "zoneLow": 1385.348,
           "zoneHigh": 1385.808,
           "c1Time": 1561967100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1585047600-SELL",
@@ -4929,7 +5968,12 @@
           "zoneLow": 1594.238,
           "zoneHigh": 1597.805,
           "c1Time": 1585047600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1597858500-BUY",
@@ -4950,7 +5994,12 @@
           "zoneLow": 1959.445,
           "zoneHigh": 1961.725,
           "c1Time": 1597858500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1601992200-SELL",
@@ -4971,7 +6020,12 @@
           "zoneLow": 1916.758,
           "zoneHigh": 1917.388,
           "c1Time": 1601992200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1604286900-SELL",
@@ -4992,7 +6046,12 @@
           "zoneLow": 1883.308,
           "zoneHigh": 1883.648,
           "c1Time": 1604286900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1628729100-SELL",
@@ -5013,7 +6072,12 @@
           "zoneLow": 1752.158,
           "zoneHigh": 1752.278,
           "c1Time": 1628729100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1628708100-SELL",
@@ -5034,7 +6098,12 @@
           "zoneLow": 1752.448,
           "zoneHigh": 1752.628,
           "c1Time": 1628708100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1695302700-BUY",
@@ -5055,7 +6124,12 @@
           "zoneLow": 1915.605,
           "zoneHigh": 1916.085,
           "c1Time": 1695302700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1711108800-BUY",
@@ -5076,7 +6150,12 @@
           "zoneLow": 2165.325,
           "zoneHigh": 2167.675,
           "c1Time": 1711108800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1711097700-BUY",
@@ -5097,7 +6176,12 @@
           "zoneLow": 2165.385,
           "zoneHigh": 2166.755,
           "c1Time": 1711097700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1716436500-BUY",
@@ -5118,7 +6202,12 @@
           "zoneLow": 2370.195,
           "zoneHigh": 2370.998,
           "c1Time": 1716436500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1572347700-BUY",
@@ -5139,7 +6228,12 @@
           "zoneLow": 1487.005,
           "zoneHigh": 1487.098,
           "c1Time": 1572347700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1572274500-BUY",
@@ -5160,7 +6254,12 @@
           "zoneLow": 1491.815,
           "zoneHigh": 1491.995,
           "c1Time": 1572274500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1590548400-BUY",
@@ -5181,7 +6280,12 @@
           "zoneLow": 1710.788,
           "zoneHigh": 1710.858,
           "c1Time": 1590548400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1590506700-BUY",
@@ -5202,7 +6306,12 @@
           "zoneLow": 1710.518,
           "zoneHigh": 1711.018,
           "c1Time": 1590506700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1590683400-SELL",
@@ -5223,7 +6332,12 @@
           "zoneLow": 1722.318,
           "zoneHigh": 1723.878,
           "c1Time": 1590683400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1590664800-SELL",
@@ -5244,7 +6358,12 @@
           "zoneLow": 1724.298,
           "zoneHigh": 1724.4,
           "c1Time": 1590664800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1591184700-BUY",
@@ -5265,7 +6384,12 @@
           "zoneLow": 1718.485,
           "zoneHigh": 1720.165,
           "c1Time": 1591184700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1604372400-SELL",
@@ -5286,7 +6410,12 @@
           "zoneLow": 1895.228,
           "zoneHigh": 1896.588,
           "c1Time": 1604372400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1606863600-SELL",
@@ -5307,7 +6436,12 @@
           "zoneLow": 1814.688,
           "zoneHigh": 1815.448,
           "c1Time": 1606863600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1606839300-SELL",
@@ -5328,7 +6462,12 @@
           "zoneLow": 1810.068,
           "zoneHigh": 1810.285,
           "c1Time": 1606839300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1610953200-SELL",
@@ -5349,7 +6488,12 @@
           "zoneLow": 1838.085,
           "zoneHigh": 1840.675,
           "c1Time": 1610953200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1612281900-BUY",
@@ -5370,7 +6514,12 @@
           "zoneLow": 1832.857,
           "zoneHigh": 1835.065,
           "c1Time": 1612281900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1617292800-SELL",
@@ -5391,7 +6540,12 @@
           "zoneLow": 1728.398,
           "zoneHigh": 1729.998,
           "c1Time": 1617292800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1622822400-SELL",
@@ -5412,7 +6566,12 @@
           "zoneLow": 1892.098,
           "zoneHigh": 1893.198,
           "c1Time": 1622822400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1629764100-SELL",
@@ -5433,7 +6592,12 @@
           "zoneLow": 1804.398,
           "zoneHigh": 1804.608,
           "c1Time": 1629764100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1629727500-SELL",
@@ -5454,7 +6618,12 @@
           "zoneLow": 1802.58,
           "zoneHigh": 1802.918,
           "c1Time": 1629727500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1634555100-BUY",
@@ -5475,7 +6644,12 @@
           "zoneLow": 1761.994,
           "zoneHigh": 1762.458,
           "c1Time": 1634555100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1635793200-SELL",
@@ -5496,7 +6670,12 @@
           "zoneLow": 1792.688,
           "zoneHigh": 1793.418,
           "c1Time": 1635793200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1644432300-SELL",
@@ -5517,7 +6696,12 @@
           "zoneLow": 1834.604,
           "zoneHigh": 1834.764,
           "c1Time": 1644432300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1647306300-BUY",
@@ -5538,7 +6722,12 @@
           "zoneLow": 1948.188,
           "zoneHigh": 1948.298,
           "c1Time": 1647306300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1677691800-SELL",
@@ -5559,7 +6748,12 @@
           "zoneLow": 1838.495,
           "zoneHigh": 1839.475,
           "c1Time": 1677691800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1677662100-SELL",
@@ -5580,7 +6774,12 @@
           "zoneLow": 1833.355,
           "zoneHigh": 1834.885,
           "c1Time": 1677662100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1698818400-BUY",
@@ -5601,7 +6800,12 @@
           "zoneLow": 1976.255,
           "zoneHigh": 1977.545,
           "c1Time": 1698818400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1700199000-SELL",
@@ -5622,7 +6826,12 @@
           "zoneLow": 1985.125,
           "zoneHigh": 1985.165,
           "c1Time": 1700199000,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1700153100-SELL",
@@ -5643,7 +6852,12 @@
           "zoneLow": 1984.195,
           "zoneHigh": 1985.345,
           "c1Time": 1700153100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1702515900-SELL",
@@ -5664,7 +6878,12 @@
           "zoneLow": 2036.565,
           "zoneHigh": 2037.225,
           "c1Time": 1702515900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1706885100-BUY",
@@ -5685,7 +6904,12 @@
           "zoneLow": 2030.495,
           "zoneHigh": 2031.255,
           "c1Time": 1706885100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1716453300-BUY",
@@ -5706,7 +6930,12 @@
           "zoneLow": 2356.625,
           "zoneHigh": 2359.105,
           "c1Time": 1716453300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1578986100-BUY",
@@ -5727,7 +6956,12 @@
           "zoneLow": 1539.805,
           "zoneHigh": 1540.875,
           "c1Time": 1578986100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1578967500-BUY",
@@ -5748,7 +6982,12 @@
           "zoneLow": 1537.635,
           "zoneHigh": 1537.665,
           "c1Time": 1578967500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1597161900-BUY",
@@ -5769,7 +7008,12 @@
           "zoneLow": 1943.168,
           "zoneHigh": 1943.258,
           "c1Time": 1597161900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1601946900-SELL",
@@ -5790,7 +7034,12 @@
           "zoneLow": 1912.958,
           "zoneHigh": 1914.068,
           "c1Time": 1601946900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1551297600-BUY",
@@ -5811,7 +7060,12 @@
           "zoneLow": 1318.888,
           "zoneHigh": 1318.918,
           "c1Time": 1551297600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1582919100-BUY",
@@ -5832,7 +7086,12 @@
           "zoneLow": 1571.048,
           "zoneHigh": 1581.968,
           "c1Time": 1582919100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1629200700-SELL",
@@ -5853,7 +7112,12 @@
           "zoneLow": 1793.322,
           "zoneHigh": 1793.347,
           "c1Time": 1629200700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1585027800-SELL",
@@ -5874,7 +7138,12 @@
           "zoneLow": 1572.718,
           "zoneHigh": 1578.488,
           "c1Time": 1585027800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1585019100-SELL",
@@ -5895,7 +7164,12 @@
           "zoneLow": 1575.825,
           "zoneHigh": 1577.945,
           "c1Time": 1585019100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ],
       "keep": [
@@ -5918,7 +7192,12 @@
           "zoneLow": 1385.348,
           "zoneHigh": 1385.808,
           "c1Time": 1561967100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1585047600-SELL",
@@ -5939,7 +7218,12 @@
           "zoneLow": 1594.238,
           "zoneHigh": 1597.805,
           "c1Time": 1585047600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1597858500-BUY",
@@ -5960,7 +7244,12 @@
           "zoneLow": 1959.445,
           "zoneHigh": 1961.725,
           "c1Time": 1597858500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1601992200-SELL",
@@ -5981,7 +7270,12 @@
           "zoneLow": 1916.758,
           "zoneHigh": 1917.388,
           "c1Time": 1601992200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1604286900-SELL",
@@ -6002,7 +7296,12 @@
           "zoneLow": 1883.308,
           "zoneHigh": 1883.648,
           "c1Time": 1604286900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1628729100-SELL",
@@ -6023,7 +7322,12 @@
           "zoneLow": 1752.158,
           "zoneHigh": 1752.278,
           "c1Time": 1628729100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1628708100-SELL",
@@ -6044,7 +7348,12 @@
           "zoneLow": 1752.448,
           "zoneHigh": 1752.628,
           "c1Time": 1628708100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1695302700-BUY",
@@ -6065,7 +7374,12 @@
           "zoneLow": 1915.605,
           "zoneHigh": 1916.085,
           "c1Time": 1695302700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1711108800-BUY",
@@ -6086,7 +7400,12 @@
           "zoneLow": 2165.325,
           "zoneHigh": 2167.675,
           "c1Time": 1711108800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1711097700-BUY",
@@ -6107,7 +7426,12 @@
           "zoneLow": 2165.385,
           "zoneHigh": 2166.755,
           "c1Time": 1711097700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1716436500-BUY",
@@ -6128,7 +7452,12 @@
           "zoneLow": 2370.195,
           "zoneHigh": 2370.998,
           "c1Time": 1716436500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1572347700-BUY",
@@ -6149,7 +7478,12 @@
           "zoneLow": 1487.005,
           "zoneHigh": 1487.098,
           "c1Time": 1572347700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1572274500-BUY",
@@ -6170,7 +7504,12 @@
           "zoneLow": 1491.815,
           "zoneHigh": 1491.995,
           "c1Time": 1572274500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1590548400-BUY",
@@ -6191,7 +7530,12 @@
           "zoneLow": 1710.788,
           "zoneHigh": 1710.858,
           "c1Time": 1590548400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1590506700-BUY",
@@ -6212,7 +7556,12 @@
           "zoneLow": 1710.518,
           "zoneHigh": 1711.018,
           "c1Time": 1590506700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1590683400-SELL",
@@ -6233,7 +7582,12 @@
           "zoneLow": 1722.318,
           "zoneHigh": 1723.878,
           "c1Time": 1590683400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1590664800-SELL",
@@ -6254,7 +7608,12 @@
           "zoneLow": 1724.298,
           "zoneHigh": 1724.4,
           "c1Time": 1590664800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1591184700-BUY",
@@ -6275,7 +7634,12 @@
           "zoneLow": 1718.485,
           "zoneHigh": 1720.165,
           "c1Time": 1591184700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1604372400-SELL",
@@ -6296,7 +7660,12 @@
           "zoneLow": 1895.228,
           "zoneHigh": 1896.588,
           "c1Time": 1604372400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1606863600-SELL",
@@ -6317,7 +7686,12 @@
           "zoneLow": 1814.688,
           "zoneHigh": 1815.448,
           "c1Time": 1606863600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1606839300-SELL",
@@ -6338,7 +7712,12 @@
           "zoneLow": 1810.068,
           "zoneHigh": 1810.285,
           "c1Time": 1606839300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1610953200-SELL",
@@ -6359,7 +7738,12 @@
           "zoneLow": 1838.085,
           "zoneHigh": 1840.675,
           "c1Time": 1610953200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1612281900-BUY",
@@ -6380,7 +7764,12 @@
           "zoneLow": 1832.857,
           "zoneHigh": 1835.065,
           "c1Time": 1612281900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1617292800-SELL",
@@ -6401,7 +7790,12 @@
           "zoneLow": 1728.398,
           "zoneHigh": 1729.998,
           "c1Time": 1617292800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1622822400-SELL",
@@ -6422,7 +7816,12 @@
           "zoneLow": 1892.098,
           "zoneHigh": 1893.198,
           "c1Time": 1622822400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1629764100-SELL",
@@ -6443,7 +7842,12 @@
           "zoneLow": 1804.398,
           "zoneHigh": 1804.608,
           "c1Time": 1629764100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1629727500-SELL",
@@ -6464,7 +7868,12 @@
           "zoneLow": 1802.58,
           "zoneHigh": 1802.918,
           "c1Time": 1629727500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1634555100-BUY",
@@ -6485,7 +7894,12 @@
           "zoneLow": 1761.994,
           "zoneHigh": 1762.458,
           "c1Time": 1634555100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1635793200-SELL",
@@ -6506,7 +7920,12 @@
           "zoneLow": 1792.688,
           "zoneHigh": 1793.418,
           "c1Time": 1635793200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1644432300-SELL",
@@ -6527,7 +7946,12 @@
           "zoneLow": 1834.604,
           "zoneHigh": 1834.764,
           "c1Time": 1644432300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1647306300-BUY",
@@ -6548,7 +7972,12 @@
           "zoneLow": 1948.188,
           "zoneHigh": 1948.298,
           "c1Time": 1647306300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1677691800-SELL",
@@ -6569,7 +7998,12 @@
           "zoneLow": 1838.495,
           "zoneHigh": 1839.475,
           "c1Time": 1677691800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1677662100-SELL",
@@ -6590,7 +8024,12 @@
           "zoneLow": 1833.355,
           "zoneHigh": 1834.885,
           "c1Time": 1677662100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1698818400-BUY",
@@ -6611,7 +8050,12 @@
           "zoneLow": 1976.255,
           "zoneHigh": 1977.545,
           "c1Time": 1698818400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1700199000-SELL",
@@ -6632,7 +8076,12 @@
           "zoneLow": 1985.125,
           "zoneHigh": 1985.165,
           "c1Time": 1700199000,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1700153100-SELL",
@@ -6653,7 +8102,12 @@
           "zoneLow": 1984.195,
           "zoneHigh": 1985.345,
           "c1Time": 1700153100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1702515900-SELL",
@@ -6674,7 +8128,12 @@
           "zoneLow": 2036.565,
           "zoneHigh": 2037.225,
           "c1Time": 1702515900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1706885100-BUY",
@@ -6695,7 +8154,12 @@
           "zoneLow": 2030.495,
           "zoneHigh": 2031.255,
           "c1Time": 1706885100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1716453300-BUY",
@@ -6716,7 +8180,12 @@
           "zoneLow": 2356.625,
           "zoneHigh": 2359.105,
           "c1Time": 1716453300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1578986100-BUY",
@@ -6737,7 +8206,12 @@
           "zoneLow": 1539.805,
           "zoneHigh": 1540.875,
           "c1Time": 1578986100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1578967500-BUY",
@@ -6758,7 +8232,12 @@
           "zoneLow": 1537.635,
           "zoneHigh": 1537.665,
           "c1Time": 1578967500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1597161900-BUY",
@@ -6779,7 +8258,12 @@
           "zoneLow": 1943.168,
           "zoneHigh": 1943.258,
           "c1Time": 1597161900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1601946900-SELL",
@@ -6800,7 +8284,12 @@
           "zoneLow": 1912.958,
           "zoneHigh": 1914.068,
           "c1Time": 1601946900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1551297600-BUY",
@@ -6821,7 +8310,12 @@
           "zoneLow": 1318.888,
           "zoneHigh": 1318.918,
           "c1Time": 1551297600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1582919100-BUY",
@@ -6842,7 +8336,12 @@
           "zoneLow": 1571.048,
           "zoneHigh": 1581.968,
           "c1Time": 1582919100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1629200700-SELL",
@@ -6863,7 +8362,12 @@
           "zoneLow": 1793.322,
           "zoneHigh": 1793.347,
           "c1Time": 1629200700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1585027800-SELL",
@@ -6884,7 +8388,12 @@
           "zoneLow": 1572.718,
           "zoneHigh": 1578.488,
           "c1Time": 1585027800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1585019100-SELL",
@@ -6905,7 +8414,12 @@
           "zoneLow": 1575.825,
           "zoneHigh": 1577.945,
           "c1Time": 1585019100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ]
     },
@@ -7250,6 +8764,11 @@
         "zoneHigh": 2359.105,
         "c1Time": 1716453300,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7273,6 +8792,11 @@
         "zoneHigh": 2370.998,
         "c1Time": 1716436500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7296,6 +8820,11 @@
         "zoneHigh": 2167.675,
         "c1Time": 1711108800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7319,6 +8848,11 @@
         "zoneHigh": 2166.755,
         "c1Time": 1711097700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7342,6 +8876,11 @@
         "zoneHigh": 2031.255,
         "c1Time": 1706885100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7365,6 +8904,11 @@
         "zoneHigh": 2037.225,
         "c1Time": 1702515900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7388,6 +8932,11 @@
         "zoneHigh": 1985.165,
         "c1Time": 1700199000,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7411,6 +8960,11 @@
         "zoneHigh": 1985.345,
         "c1Time": 1700153100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7434,6 +8988,11 @@
         "zoneHigh": 1977.545,
         "c1Time": 1698818400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7457,6 +9016,11 @@
         "zoneHigh": 1916.085,
         "c1Time": 1695302700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7480,6 +9044,11 @@
         "zoneHigh": 1839.475,
         "c1Time": 1677691800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7503,6 +9072,11 @@
         "zoneHigh": 1834.885,
         "c1Time": 1677662100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7526,6 +9100,11 @@
         "zoneHigh": 1948.298,
         "c1Time": 1647306300,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7549,6 +9128,11 @@
         "zoneHigh": 1834.764,
         "c1Time": 1644432300,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7572,6 +9156,11 @@
         "zoneHigh": 1793.418,
         "c1Time": 1635793200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7595,6 +9184,11 @@
         "zoneHigh": 1762.458,
         "c1Time": 1634555100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7618,6 +9212,11 @@
         "zoneHigh": 1804.608,
         "c1Time": 1629764100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7641,6 +9240,11 @@
         "zoneHigh": 1802.918,
         "c1Time": 1629727500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7664,6 +9268,11 @@
         "zoneHigh": 1793.347,
         "c1Time": 1629200700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7687,6 +9296,11 @@
         "zoneHigh": 1752.278,
         "c1Time": 1628729100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7710,6 +9324,11 @@
         "zoneHigh": 1752.628,
         "c1Time": 1628708100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7733,6 +9352,11 @@
         "zoneHigh": 1893.198,
         "c1Time": 1622822400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7756,6 +9380,11 @@
         "zoneHigh": 1729.998,
         "c1Time": 1617292800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7779,6 +9408,11 @@
         "zoneHigh": 1835.065,
         "c1Time": 1612281900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7802,6 +9436,11 @@
         "zoneHigh": 1840.675,
         "c1Time": 1610953200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7825,6 +9464,11 @@
         "zoneHigh": 1815.448,
         "c1Time": 1606863600,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7848,6 +9492,11 @@
         "zoneHigh": 1810.285,
         "c1Time": 1606839300,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7871,6 +9520,11 @@
         "zoneHigh": 1896.588,
         "c1Time": 1604372400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7894,6 +9548,11 @@
         "zoneHigh": 1883.648,
         "c1Time": 1604286900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7917,6 +9576,11 @@
         "zoneHigh": 1917.388,
         "c1Time": 1601992200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7940,6 +9604,11 @@
         "zoneHigh": 1914.068,
         "c1Time": 1601946900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7963,6 +9632,11 @@
         "zoneHigh": 1961.725,
         "c1Time": 1597858500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -7986,6 +9660,11 @@
         "zoneHigh": 1943.258,
         "c1Time": 1597161900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -8009,6 +9688,11 @@
         "zoneHigh": 1720.165,
         "c1Time": 1591184700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -8032,6 +9716,11 @@
         "zoneHigh": 1723.878,
         "c1Time": 1590683400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -8055,6 +9744,11 @@
         "zoneHigh": 1724.4,
         "c1Time": 1590664800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -8078,6 +9772,11 @@
         "zoneHigh": 1710.858,
         "c1Time": 1590548400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -8101,6 +9800,11 @@
         "zoneHigh": 1711.018,
         "c1Time": 1590506700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -8124,6 +9828,11 @@
         "zoneHigh": 1597.805,
         "c1Time": 1585047600,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -8147,6 +9856,11 @@
         "zoneHigh": 1578.488,
         "c1Time": 1585027800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -8170,6 +9884,11 @@
         "zoneHigh": 1577.945,
         "c1Time": 1585019100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -8193,6 +9912,11 @@
         "zoneHigh": 1581.968,
         "c1Time": 1582919100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -8216,6 +9940,11 @@
         "zoneHigh": 1540.875,
         "c1Time": 1578986100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -8239,6 +9968,11 @@
         "zoneHigh": 1537.665,
         "c1Time": 1578967500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -8262,6 +9996,11 @@
         "zoneHigh": 1487.098,
         "c1Time": 1572347700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -8285,6 +10024,11 @@
         "zoneHigh": 1491.995,
         "c1Time": 1572274500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -8308,6 +10052,11 @@
         "zoneHigh": 1385.808,
         "c1Time": 1561967100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -8331,10 +10080,29 @@
         "zoneHigh": 1318.918,
         "c1Time": 1551297600,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       }
-    ]
+    ],
+    "calibration": {
+      "byLevel": {},
+      "byMacro": {
+        "neutre": {
+          "n": 48,
+          "winRate": 0.438,
+          "expectancyR": 0.17,
+          "ciR": [
+            -0.44,
+            1.05
+          ]
+        }
+      }
+    }
   },
   "outOfSample": {
     "market": "XAUUSD",
@@ -8382,7 +10150,12 @@
           "zoneLow": 2634.595,
           "zoneHigh": 2635.695,
           "c1Time": 1732015800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1732720500-SELL",
@@ -8403,7 +10176,12 @@
           "zoneLow": 2644.424,
           "zoneHigh": 2650.058,
           "c1Time": 1732720500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1732698600-SELL",
@@ -8424,7 +10202,12 @@
           "zoneLow": 2650.954,
           "zoneHigh": 2651.738,
           "c1Time": 1732698600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1745419200-BUY",
@@ -8445,7 +10228,12 @@
           "zoneLow": 3271.675,
           "zoneHigh": 3280.905,
           "c1Time": 1745419200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1773166500-SELL",
@@ -8466,7 +10254,12 @@
           "zoneLow": 5218.225,
           "zoneHigh": 5226.095,
           "c1Time": 1773166500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1721375700-BUY",
@@ -8487,7 +10280,12 @@
           "zoneLow": 2416.348,
           "zoneHigh": 2417.245,
           "c1Time": 1721375700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1736154000-BUY",
@@ -8508,7 +10306,12 @@
           "zoneLow": 2627.048,
           "zoneHigh": 2630.505,
           "c1Time": 1736154000,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1744263900-SELL",
@@ -8529,7 +10332,12 @@
           "zoneLow": 3123.265,
           "zoneHigh": 3124.49,
           "c1Time": 1744263900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1745367300-BUY",
@@ -8550,7 +10358,12 @@
           "zoneLow": 3331.785,
           "zoneHigh": 3340.795,
           "c1Time": 1745367300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1745363100-BUY",
@@ -8571,7 +10384,12 @@
           "zoneLow": 3328.655,
           "zoneHigh": 3333.305,
           "c1Time": 1745363100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1749224100-BUY",
@@ -8592,7 +10410,12 @@
           "zoneLow": 3323.155,
           "zoneHigh": 3328.495,
           "c1Time": 1749224100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1758147000-BUY",
@@ -8613,7 +10436,12 @@
           "zoneLow": 3652.405,
           "zoneHigh": 3659.398,
           "c1Time": 1758147000,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1761093900-BUY",
@@ -8634,7 +10462,12 @@
           "zoneLow": 4058.098,
           "zoneHigh": 4062.905,
           "c1Time": 1761093900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1762770600-SELL",
@@ -8655,7 +10488,12 @@
           "zoneLow": 4079.715,
           "zoneHigh": 4080.225,
           "c1Time": 1762770600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1770005700-BUY",
@@ -8676,7 +10514,12 @@
           "zoneLow": 4658.768,
           "zoneHigh": 4659.198,
           "c1Time": 1770005700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1772538600-BUY",
@@ -8697,7 +10540,12 @@
           "zoneLow": 5134.765,
           "zoneHigh": 5136.635,
           "c1Time": 1772538600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1778114700-SELL",
@@ -8718,7 +10566,12 @@
           "zoneLow": 4691.395,
           "zoneHigh": 4691.848,
           "c1Time": 1778114700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1778056500-SELL",
@@ -8739,7 +10592,12 @@
           "zoneLow": 4675.875,
           "zoneHigh": 4676.645,
           "c1Time": 1778056500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1788153300-BUY",
@@ -8760,7 +10618,12 @@
           "zoneLow": 4418.885,
           "zoneHigh": 4427.015,
           "c1Time": 1788153300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1774923300-SELL",
@@ -8781,7 +10644,12 @@
           "zoneLow": 4592.355,
           "zoneHigh": 4595.515,
           "c1Time": 1774923300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ],
       "keep": [
@@ -8804,7 +10672,12 @@
           "zoneLow": 2634.595,
           "zoneHigh": 2635.695,
           "c1Time": 1732015800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1732720500-SELL",
@@ -8825,7 +10698,12 @@
           "zoneLow": 2644.424,
           "zoneHigh": 2650.058,
           "c1Time": 1732720500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1732698600-SELL",
@@ -8846,7 +10724,12 @@
           "zoneLow": 2650.954,
           "zoneHigh": 2651.738,
           "c1Time": 1732698600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1745419200-BUY",
@@ -8867,7 +10750,12 @@
           "zoneLow": 3271.675,
           "zoneHigh": 3280.905,
           "c1Time": 1745419200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1773166500-SELL",
@@ -8888,7 +10776,12 @@
           "zoneLow": 5218.225,
           "zoneHigh": 5226.095,
           "c1Time": 1773166500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1721375700-BUY",
@@ -8909,7 +10802,12 @@
           "zoneLow": 2416.348,
           "zoneHigh": 2417.245,
           "c1Time": 1721375700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1736154000-BUY",
@@ -8930,7 +10828,12 @@
           "zoneLow": 2627.048,
           "zoneHigh": 2630.505,
           "c1Time": 1736154000,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1744263900-SELL",
@@ -8951,7 +10854,12 @@
           "zoneLow": 3123.265,
           "zoneHigh": 3124.49,
           "c1Time": 1744263900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1745367300-BUY",
@@ -8972,7 +10880,12 @@
           "zoneLow": 3331.785,
           "zoneHigh": 3340.795,
           "c1Time": 1745367300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1745363100-BUY",
@@ -8993,7 +10906,12 @@
           "zoneLow": 3328.655,
           "zoneHigh": 3333.305,
           "c1Time": 1745363100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1749224100-BUY",
@@ -9014,7 +10932,12 @@
           "zoneLow": 3323.155,
           "zoneHigh": 3328.495,
           "c1Time": 1749224100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1758147000-BUY",
@@ -9035,7 +10958,12 @@
           "zoneLow": 3652.405,
           "zoneHigh": 3659.398,
           "c1Time": 1758147000,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1761093900-BUY",
@@ -9056,7 +10984,12 @@
           "zoneLow": 4058.098,
           "zoneHigh": 4062.905,
           "c1Time": 1761093900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1762770600-SELL",
@@ -9077,7 +11010,12 @@
           "zoneLow": 4079.715,
           "zoneHigh": 4080.225,
           "c1Time": 1762770600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1770005700-BUY",
@@ -9098,7 +11036,12 @@
           "zoneLow": 4658.768,
           "zoneHigh": 4659.198,
           "c1Time": 1770005700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1772538600-BUY",
@@ -9119,7 +11062,12 @@
           "zoneLow": 5134.765,
           "zoneHigh": 5136.635,
           "c1Time": 1772538600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1778114700-SELL",
@@ -9140,7 +11088,12 @@
           "zoneLow": 4691.395,
           "zoneHigh": 4691.848,
           "c1Time": 1778114700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:5-smc-1778056500-SELL",
@@ -9161,7 +11114,12 @@
           "zoneLow": 4675.875,
           "zoneHigh": 4676.645,
           "c1Time": 1778056500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1788153300-BUY",
@@ -9182,7 +11140,12 @@
           "zoneLow": 4418.885,
           "zoneHigh": 4427.015,
           "c1Time": 1788153300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "XAUUSD:15-smc-1774923300-SELL",
@@ -9203,7 +11166,12 @@
           "zoneLow": 4592.355,
           "zoneHigh": 4595.515,
           "c1Time": 1774923300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ]
     },
@@ -9436,6 +11404,11 @@
         "zoneHigh": 4427.015,
         "c1Time": 1788153300,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -9459,6 +11432,11 @@
         "zoneHigh": 4691.848,
         "c1Time": 1778114700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -9482,6 +11460,11 @@
         "zoneHigh": 4676.645,
         "c1Time": 1778056500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -9505,6 +11488,11 @@
         "zoneHigh": 4595.515,
         "c1Time": 1774923300,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -9528,6 +11516,11 @@
         "zoneHigh": 5226.095,
         "c1Time": 1773166500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -9551,6 +11544,11 @@
         "zoneHigh": 5136.635,
         "c1Time": 1772538600,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -9574,6 +11572,11 @@
         "zoneHigh": 4659.198,
         "c1Time": 1770005700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -9597,6 +11600,11 @@
         "zoneHigh": 4080.225,
         "c1Time": 1762770600,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -9620,6 +11628,11 @@
         "zoneHigh": 4062.905,
         "c1Time": 1761093900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -9643,6 +11656,11 @@
         "zoneHigh": 3659.398,
         "c1Time": 1758147000,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -9666,6 +11684,11 @@
         "zoneHigh": 3328.495,
         "c1Time": 1749224100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -9689,6 +11712,11 @@
         "zoneHigh": 3280.905,
         "c1Time": 1745419200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -9712,6 +11740,11 @@
         "zoneHigh": 3333.305,
         "c1Time": 1745363100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -9735,6 +11768,11 @@
         "zoneHigh": 3340.795,
         "c1Time": 1745367300,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -9758,6 +11796,11 @@
         "zoneHigh": 3124.49,
         "c1Time": 1744263900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -9781,6 +11824,11 @@
         "zoneHigh": 2630.505,
         "c1Time": 1736154000,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -9804,6 +11852,11 @@
         "zoneHigh": 2650.058,
         "c1Time": 1732720500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -9827,6 +11880,11 @@
         "zoneHigh": 2651.738,
         "c1Time": 1732698600,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -9850,6 +11908,11 @@
         "zoneHigh": 2635.695,
         "c1Time": 1732015800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       },
@@ -9873,9 +11936,28 @@
         "zoneHigh": 2417.245,
         "c1Time": 1721375700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "XAUUSD",
         "policy": "tp1"
       }
-    ]
+    ],
+    "calibration": {
+      "byLevel": {},
+      "byMacro": {
+        "neutre": {
+          "n": 20,
+          "winRate": 0.25,
+          "expectancyR": -0.17,
+          "ciR": [
+            -0.84,
+            0.73
+          ]
+        }
+      }
+    }
   }
 }

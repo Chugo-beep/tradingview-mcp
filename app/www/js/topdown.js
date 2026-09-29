@@ -17,7 +17,7 @@
  * affichée dans l'application).
  * Module ES pur (navigateur, APK, Node).
  */
-import { normalizeCandles, atrSeries, TF_SECONDS } from './engine.js';
+import { normalizeCandles, atrSeries, TF_SECONDS, lastClosedIndex } from './engine.js';
 import { structureEvents } from './smc.js';
 
 /** UT supérieures lues pour chaque UT d'OB, de la plus proche à la plus haute. */
@@ -56,17 +56,17 @@ const bear = (c) => c.close < c.open;
 const body = (c) => Math.abs(c.close - c.open);
 const round = (v, d = 5) => (v == null ? v : Math.round(v * 10 ** d) / 10 ** d);
 
-/** Index de la dernière bougie entièrement clôturée à l'instant t (−1 si aucune). */
-function lastClosedIdx(c, step, t) {
-  let lo = 0, hi = c.length - 1, idx = -1;
-  while (lo <= hi) { const m = (lo + hi) >> 1; if (c[m].time + step <= t) { idx = m; lo = m + 1; } else hi = m - 1; }
-  return idx;
-}
 /** Index de la bougie qui commence à `t` ou juste avant. */
 function idxAtTime(c, t) {
   let lo = 0, hi = c.length - 1, idx = -1;
   while (lo <= hi) { const m = (lo + hi) >> 1; if (c[m].time <= t) { idx = m; lo = m + 1; } else hi = m - 1; }
   return idx;
+}
+/** Dernier POI formé au plus tard à l'index `idx` (POI triés par formation, recherche binaire). */
+function lastPoiIdx(pois, idx) {
+  let lo = 0, hi = pois.length - 1, k = -1;
+  while (lo <= hi) { const m = (lo + hi) >> 1; if (pois[m].formedIdx <= idx) { k = m; lo = m + 1; } else hi = m - 1; }
+  return k;
 }
 /** Dernier événement de structure dont la cassure est clôturée à l'index `idx` (recherche binaire). */
 function lastEventIdx(events, idx) {
@@ -114,7 +114,7 @@ function invalidBefore(h, p, idx) {
 
 /** Lecture d'une UT supérieure à l'instant t pour un OB [low, high] de direction `dir`. */
 function readHtf(h, t, dir, low, high, o) {
-  const idx = lastClosedIdx(h.c, h.step, t);
+  const idx = lastClosedIndex(h.c, h.tf, t); // clôture exacte des mois (engine.js)
   if (idx < 5) return null;
   const k = lastEventIdx(h.events, idx);
   const ev = k >= 0 ? h.events[k] : null;
@@ -133,9 +133,8 @@ function readHtf(h, t, dir, low, high, o) {
   // POI HTF de même sens, formé avant t, non invalidé, qui chevauche l'OB
   let poi = null;
   const minIdx = idx - o.poiLookback;
-  for (let j = h.pois.length - 1; j >= 0; j--) {
+  for (let j = lastPoiIdx(h.pois, idx); j >= 0; j--) {
     const p = h.pois[j];
-    if (p.formedIdx > idx) continue;
     if (p.formedIdx < minIdx) break;
     if (p.dir !== dir || p.high < low || p.low > high) continue;
     if (invalidBefore(h, p, idx)) continue;
@@ -160,18 +159,21 @@ export function evaluateTopdown(z, prepared, nowT, o = TOPDOWN_DEFAULTS) {
   const dir = z.direction;
   const t = z.firstTouch?.time ?? nowT;
   const chain = [];
-  for (const tf of TOPDOWN_CHAIN[z.timeframe] || []) {
+  (TOPDOWN_CHAIN[z.timeframe] || []).forEach((tf, rank) => {
     const h = prepared[tf];
-    if (!h) continue;
+    if (!h) return;
     const r = readHtf(h, t, dir, z.zoneLow, z.zoneHigh, o);
-    if (r) chain.push(r);
-  }
+    // rang dans la chaîne (0 = UT la plus proche) : le poids ne dépend pas des UT absentes
+    if (r) chain.push({ ...r, rank });
+  });
   // structure locale (UT de l'OB) entre la formation de l'OB et la décision
   const L = prepared[z.timeframe];
   let localBos = null, counter = null;
   if (L) {
     const c1 = idxAtTime(L.c, z.c1Time);
-    const dec = z.firstTouch ? idxAtTime(L.c, z.firstTouch.time) - 1 : L.c.length - 1;
+    // décision : dernière bougie close AVANT l'ouverture de la bougie de contact (même si celle-ci est
+    // la bougie en cours, absente de L.c qui ne garde que les bougies closes)
+    const dec = z.firstTouch ? idxAtTime(L.c, z.firstTouch.time - 1) : L.c.length - 1;
     for (const e of L.events) {
       if (e.breakIdx <= c1 || e.breakIdx > dec) continue;
       if (e.dir === dir) { if (!localBos) localBos = { kind: e.choch ? 'CHoCH' : 'BOS', level: round(e.level), time: L.c[e.breakIdx].time }; }
@@ -183,7 +185,7 @@ export function evaluateTopdown(z, prepared, nowT, o = TOPDOWN_DEFAULTS) {
   const displacement = (gapAtr != null && gapAtr >= o.strongGapAtr) || (z.atr && c2Body != null && c2Body >= o.displacementAtr * z.atr);
 
   // score pondéré
-  const w = chain.map((_, i) => CHAIN_WEIGHTS[i] ?? 2);
+  const w = chain.map((r) => CHAIN_WEIGHTS[r.rank] ?? 2);
   const sumW = w.reduce((a, b) => a + b, 0);
   const share = (pred) => (sumW ? chain.reduce((s, r, i) => s + (pred(r) ? w[i] : 0), 0) / sumW : 0);
   const trendShare = share((r) => r.aligned && !r.chochAgainst);

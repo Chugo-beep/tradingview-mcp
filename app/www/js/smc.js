@@ -21,7 +21,7 @@
  * Les setups sont renvoyés sous la forme des « zones » du reste de l'application (agents, backtest,
  * classement, interface), avec le détail dans `zone.smc`.
  */
-import { normalizeCandles, atrSeries, TF_SECONDS, STATUS, categoryOf, sessionOfTime, detectZones } from './engine.js';
+import { normalizeCandles, atrSeries, TF_SECONDS, STATUS, categoryOf, sessionOfTime, detectZones, closeTimeOf, lastClosedIndex } from './engine.js';
 
 export const SMC_DEFAULTS = {
   htfTfs: ['D', 'W', 'M'],   // POI HTF
@@ -94,12 +94,8 @@ export function structureEvents(c, k = 2) {
   return { events, highs, lows };
 }
 
-/** Index de la dernière bougie de `c` entièrement clôturée à l'instant `t` (−1 si aucune). */
-function lastClosedIdx(c, step, t) {
-  let lo = 0, hi = c.length - 1, idx = -1;
-  while (lo <= hi) { const m = (lo + hi) >> 1; if (c[m].time + step <= t) { idx = m; lo = m + 1; } else hi = m - 1; }
-  return idx;
-}
+/** Index de la dernière bougie entièrement clôturée à l'instant `t` (−1 si aucune) — clôture exacte des mois (engine.js). */
+const lastClosedIdx = (h, t) => lastClosedIndex(h.c, h.tf, t);
 
 /**
  * Biais et Fibonacci HTF connus à l'instant t : dernière cassure de structure clôturée, jambe
@@ -107,7 +103,7 @@ function lastClosedIdx(c, step, t) {
  * Niveau 0 = bas du range, 1 = haut (Premium au-dessus de 0,5, Discount en dessous).
  */
 export function fibAt(htf, t) {
-  const idx = lastClosedIdx(htf.c, htf.step, t);
+  const idx = lastClosedIdx(htf, t);
   if (idx < 0) return null;
   let ev = null;
   for (const e of htf.events) { if (e.breakIdx <= idx) ev = e; else break; }
@@ -131,7 +127,7 @@ function prep(raw, tf, atrPeriod) {
 
 /** POI HTF (OB et FVG) d'une UT, avec leur premier contact et leur invalidation. */
 export function htfPois(h, o, marketId) {
-  const { c, atr, tf, step } = h;
+  const { c, atr, tf } = h;
   const pois = [];
   const n = c.length;
   const from = Math.max(1, n - o.poiLookbackBars);
@@ -168,9 +164,9 @@ export function htfPois(h, o, marketId) {
     }
     out.push({
       ...p, tf, id: `${tf}:${p.kind}:${p.dir}:${c[p.formedIdx].time}:${round(p.low, 3)}`,
-      formedTime: c[p.formedIdx].time + step,
+      formedTime: closeTimeOf(c, p.formedIdx, tf),
       touchTime: touchIdx != null ? c[touchIdx].time : null,
-      invalidTime: invalidIdx != null ? c[invalidIdx].time + step : null,
+      invalidTime: invalidIdx != null ? closeTimeOf(c, invalidIdx, tf) : null,
       mitigated: touchIdx != null,
     });
   }
@@ -346,7 +342,7 @@ export function detectSmcSetups(candlesByTf, opts = {}) {
       if (!(R > 0)) continue;
       const confTime = c[pick.confIdx].time + L.step; // clôture de la bougie de confirmation
       // TP2 : liquidité majeure 1D (swing non pris ou FVG 1D opposé), connue à la confirmation
-      const dIdx = lastClosedIdx(dHtf.c, dHtf.step, confTime);
+      const dIdx = lastClosedIdx(dHtf, confTime);
       const t2 = liquidityTargets(dHtf, dIdx, poi.dir, entry, o, { equal: false, fvg: true });
       let tp2 = t2[0]?.level ?? null;
       let tp2Kind = t2[0]?.kind ? `${t2[0].kind} 1D` : null;
@@ -355,7 +351,7 @@ export function detectSmcSetups(candlesByTf, opts = {}) {
       // TP1 : prochaine liquidité LTF 15m (sommets/creux égaux, FVG opposé, swing non pris)
       let tp1 = null, tp1Kind = null;
       if (liqH) {
-        const lIdx = lastClosedIdx(liqH.c, liqH.step, confTime);
+        const lIdx = lastClosedIdx(liqH, confTime);
         const t1 = liquidityTargets(liqH, lIdx, poi.dir, entry, o).filter((x) => (buy ? x.level < tp2 : x.level > tp2) && Math.abs(x.level - entry) >= o.minTp1R * R);
         if (t1.length) { tp1 = t1[0].level; tp1Kind = `${t1[0].kind === 'egaux' ? 'sommets/creux égaux' : t1[0].kind} 15m`; }
       }

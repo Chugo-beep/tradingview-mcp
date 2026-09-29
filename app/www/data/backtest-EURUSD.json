@@ -5,7 +5,7 @@
   "strategy": "smc",
   "from": "2019-01-01",
   "to": "2026-09-29",
-  "generatedAt": "2026-09-29T19:52:35.799Z",
+  "generatedAt": "2026-09-29T21:12:14.720Z",
   "bars1m": 2873033,
   "synthetic": false,
   "full": {
@@ -54,7 +54,12 @@
           "zoneLow": 1.1055,
           "zoneHigh": 1.10738,
           "c1Time": 1585290600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1585249800-SELL",
@@ -75,7 +80,12 @@
           "zoneLow": 1.10375,
           "zoneHigh": 1.1039,
           "c1Time": 1585249800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1601919900-SELL",
@@ -96,7 +106,12 @@
           "zoneLow": 1.17855,
           "zoneHigh": 1.17886,
           "c1Time": 1601919900,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1620904500-BUY",
@@ -117,7 +132,12 @@
           "zoneLow": 1.20632,
           "zoneHigh": 1.20675,
           "c1Time": 1620904500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1620896400-BUY",
@@ -138,7 +158,12 @@
           "zoneLow": 1.20568,
           "zoneHigh": 1.20611,
           "c1Time": 1620896400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "défavorable",
+          "macroBias": -0.65
         },
         {
           "id": "EURUSD:15-smc-1629764100-SELL",
@@ -159,7 +184,12 @@
           "zoneLow": 1.17434,
           "zoneHigh": 1.17473,
           "c1Time": 1629764100,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1629731400-SELL",
@@ -180,7 +210,12 @@
           "zoneLow": 1.17363,
           "zoneHigh": 1.17367,
           "c1Time": 1629731400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1675415700-BUY",
@@ -201,7 +236,12 @@
           "zoneLow": 1.09071,
           "zoneHigh": 1.09072,
           "c1Time": 1675415700,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1702538100-SELL",
@@ -222,7 +262,12 @@
           "zoneLow": 1.08979,
           "zoneHigh": 1.0902,
           "c1Time": 1702538100,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1703868300-BUY",
@@ -243,7 +288,12 @@
           "zoneLow": 1.10551,
           "zoneHigh": 1.10555,
           "c1Time": 1703868300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1703846100-BUY",
@@ -264,7 +314,12 @@
           "zoneLow": 1.10564,
           "zoneHigh": 1.10573,
           "c1Time": 1703846100,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1729866900-SELL",
@@ -285,7 +340,12 @@
           "zoneLow": 1.08304,
           "zoneHigh": 1.08345,
           "c1Time": 1729866900,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1732518000-SELL",
@@ -306,7 +366,12 @@
           "zoneLow": 1.04836,
           "zoneHigh": 1.04846,
           "c1Time": 1732518000,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1754525700-SELL",
@@ -327,7 +392,12 @@
           "zoneLow": 1.16578,
           "zoneHigh": 1.1661,
           "c1Time": 1754525700,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1754481600-SELL",
@@ -348,7 +418,12 @@
           "zoneLow": 1.16075,
           "zoneHigh": 1.16107,
           "c1Time": 1754481600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1773136800-SELL",
@@ -369,7 +444,12 @@
           "zoneLow": 1.16516,
           "zoneHigh": 1.16521,
           "c1Time": 1773136800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1773132900-SELL",
@@ -390,7 +470,12 @@
           "zoneLow": 1.1655,
           "zoneHigh": 1.16598,
           "c1Time": 1773132900,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1551435300-BUY",
@@ -411,7 +496,12 @@
           "zoneLow": 1.13613,
           "zoneHigh": 1.13617,
           "c1Time": 1551435300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1556709300-SELL",
@@ -432,7 +522,12 @@
           "zoneLow": 1.12351,
           "zoneHigh": 1.12388,
           "c1Time": 1556709300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1564987500-SELL",
@@ -453,7 +548,12 @@
           "zoneLow": 1.11235,
           "zoneHigh": 1.11306,
           "c1Time": 1564987500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1564970400-SELL",
@@ -474,7 +574,12 @@
           "zoneLow": 1.11217,
           "zoneHigh": 1.11302,
           "c1Time": 1564970400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1570118400-SELL",
@@ -495,7 +600,12 @@
           "zoneLow": 1.09902,
           "zoneHigh": 1.09906,
           "c1Time": 1570118400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1588747800-BUY",
@@ -516,7 +626,12 @@
           "zoneLow": 1.08176,
           "zoneHigh": 1.08285,
           "c1Time": 1588747800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1609448400-BUY",
@@ -537,7 +652,12 @@
           "zoneLow": 1.2213,
           "zoneHigh": 1.22182,
           "c1Time": 1609448400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1609449000-BUY",
@@ -558,7 +678,12 @@
           "zoneLow": 1.2213,
           "zoneHigh": 1.22159,
           "c1Time": 1609449000,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1612868400-SELL",
@@ -579,7 +704,12 @@
           "zoneLow": 1.21046,
           "zoneHigh": 1.21132,
           "c1Time": 1612868400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "défavorable",
+          "macroBias": 0.6
         },
         {
           "id": "EURUSD:15-smc-1617323400-SELL",
@@ -600,7 +730,12 @@
           "zoneLow": 1.17772,
           "zoneHigh": 1.1784,
           "c1Time": 1617323400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1628269500-BUY",
@@ -621,7 +756,12 @@
           "zoneLow": 1.17564,
           "zoneHigh": 1.17575,
           "c1Time": 1628269500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1648642500-SELL",
@@ -642,7 +782,12 @@
           "zoneLow": 1.11346,
           "zoneHigh": 1.11471,
           "c1Time": 1648642500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1648641600-SELL",
@@ -663,7 +808,12 @@
           "zoneLow": 1.114,
           "zoneHigh": 1.11403,
           "c1Time": 1648641600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1658967300-SELL",
@@ -684,7 +834,12 @@
           "zoneLow": 1.02021,
           "zoneHigh": 1.02064,
           "c1Time": 1658967300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1673255700-SELL",
@@ -705,7 +860,12 @@
           "zoneLow": 1.06811,
           "zoneHigh": 1.06878,
           "c1Time": 1673255700,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1673249400-SELL",
@@ -726,7 +886,12 @@
           "zoneLow": 1.06795,
           "zoneHigh": 1.06872,
           "c1Time": 1673249400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1687506600-BUY",
@@ -747,7 +912,12 @@
           "zoneLow": 1.08669,
           "zoneHigh": 1.0867,
           "c1Time": 1687506600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1696589400-SELL",
@@ -768,7 +938,12 @@
           "zoneLow": 1.05588,
           "zoneHigh": 1.05608,
           "c1Time": 1696589400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1725367500-BUY",
@@ -789,7 +964,12 @@
           "zoneLow": 1.10396,
           "zoneHigh": 1.10456,
           "c1Time": 1725367500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1725366900-BUY",
@@ -810,7 +990,12 @@
           "zoneLow": 1.10396,
           "zoneHigh": 1.10431,
           "c1Time": 1725366900,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1730307600-SELL",
@@ -831,7 +1016,12 @@
           "zoneLow": 1.0861,
           "zoneHigh": 1.08637,
           "c1Time": 1730307600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1736165400-SELL",
@@ -852,7 +1042,12 @@
           "zoneLow": 1.04183,
           "zoneHigh": 1.04215,
           "c1Time": 1736165400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1743639300-SELL",
@@ -873,7 +1068,12 @@
           "zoneLow": 1.08915,
           "zoneHigh": 1.08965,
           "c1Time": 1743639300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1750303800-BUY",
@@ -894,7 +1094,12 @@
           "zoneLow": 1.14572,
           "zoneHigh": 1.146,
           "c1Time": 1750303800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1753752600-BUY",
@@ -915,7 +1120,12 @@
           "zoneLow": 1.15896,
           "zoneHigh": 1.15908,
           "c1Time": 1753752600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1753712700-BUY",
@@ -936,7 +1146,12 @@
           "zoneLow": 1.16309,
           "zoneHigh": 1.16361,
           "c1Time": 1753712700,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1760683500-SELL",
@@ -957,7 +1172,12 @@
           "zoneLow": 1.1716,
           "zoneHigh": 1.17186,
           "c1Time": 1760683500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1771513500-BUY",
@@ -978,7 +1198,12 @@
           "zoneLow": 1.17526,
           "zoneHigh": 1.17587,
           "c1Time": 1771513500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1775057400-SELL",
@@ -999,7 +1224,12 @@
           "zoneLow": 1.16115,
           "zoneHigh": 1.16143,
           "c1Time": 1775057400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1774980000-SELL",
@@ -1020,7 +1250,12 @@
           "zoneLow": 1.15437,
           "zoneHigh": 1.155,
           "c1Time": 1774980000,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1781484300-SELL",
@@ -1041,7 +1276,12 @@
           "zoneLow": 1.1606,
           "zoneHigh": 1.1607,
           "c1Time": 1781484300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1781476200-SELL",
@@ -1062,7 +1302,12 @@
           "zoneLow": 1.16114,
           "zoneHigh": 1.16118,
           "c1Time": 1781476200,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1725642900-BUY",
@@ -1083,7 +1328,12 @@
           "zoneLow": 1.10752,
           "zoneHigh": 1.10798,
           "c1Time": 1725642900,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1584451800-BUY",
@@ -1104,7 +1354,12 @@
           "zoneLow": 1.09779,
           "zoneHigh": 1.09829,
           "c1Time": 1584451800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1664882100-SELL",
@@ -1125,7 +1380,12 @@
           "zoneLow": 0.98884,
           "zoneHigh": 0.98912,
           "c1Time": 1664882100,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1664874300-SELL",
@@ -1146,7 +1406,12 @@
           "zoneLow": 0.98731,
           "zoneHigh": 0.98779,
           "c1Time": 1664874300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1770076800-BUY",
@@ -1167,7 +1432,12 @@
           "zoneLow": 1.17882,
           "zoneHigh": 1.17917,
           "c1Time": 1770076800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1770042600-BUY",
@@ -1188,7 +1458,12 @@
           "zoneLow": 1.18088,
           "zoneHigh": 1.18103,
           "c1Time": 1770042600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1556635500-SELL",
@@ -1209,7 +1484,12 @@
           "zoneLow": 1.1216,
           "zoneHigh": 1.12199,
           "c1Time": 1556635500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1567685400-SELL",
@@ -1230,7 +1510,12 @@
           "zoneLow": 1.10609,
           "zoneHigh": 1.10621,
           "c1Time": 1567685400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ],
       "keep": [
@@ -1253,7 +1538,12 @@
           "zoneLow": 1.1055,
           "zoneHigh": 1.10738,
           "c1Time": 1585290600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1585249800-SELL",
@@ -1274,7 +1564,12 @@
           "zoneLow": 1.10375,
           "zoneHigh": 1.1039,
           "c1Time": 1585249800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1601919900-SELL",
@@ -1295,7 +1590,12 @@
           "zoneLow": 1.17855,
           "zoneHigh": 1.17886,
           "c1Time": 1601919900,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1620904500-BUY",
@@ -1316,7 +1616,12 @@
           "zoneLow": 1.20632,
           "zoneHigh": 1.20675,
           "c1Time": 1620904500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1620896400-BUY",
@@ -1337,7 +1642,12 @@
           "zoneLow": 1.20568,
           "zoneHigh": 1.20611,
           "c1Time": 1620896400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "défavorable",
+          "macroBias": -0.65
         },
         {
           "id": "EURUSD:15-smc-1629764100-SELL",
@@ -1358,7 +1668,12 @@
           "zoneLow": 1.17434,
           "zoneHigh": 1.17473,
           "c1Time": 1629764100,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1629731400-SELL",
@@ -1379,7 +1694,12 @@
           "zoneLow": 1.17363,
           "zoneHigh": 1.17367,
           "c1Time": 1629731400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1675415700-BUY",
@@ -1400,7 +1720,12 @@
           "zoneLow": 1.09071,
           "zoneHigh": 1.09072,
           "c1Time": 1675415700,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1702538100-SELL",
@@ -1421,7 +1746,12 @@
           "zoneLow": 1.08979,
           "zoneHigh": 1.0902,
           "c1Time": 1702538100,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1703868300-BUY",
@@ -1442,7 +1772,12 @@
           "zoneLow": 1.10551,
           "zoneHigh": 1.10555,
           "c1Time": 1703868300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1703846100-BUY",
@@ -1463,7 +1798,12 @@
           "zoneLow": 1.10564,
           "zoneHigh": 1.10573,
           "c1Time": 1703846100,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1729866900-SELL",
@@ -1484,7 +1824,12 @@
           "zoneLow": 1.08304,
           "zoneHigh": 1.08345,
           "c1Time": 1729866900,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1732518000-SELL",
@@ -1505,7 +1850,12 @@
           "zoneLow": 1.04836,
           "zoneHigh": 1.04846,
           "c1Time": 1732518000,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1754525700-SELL",
@@ -1526,7 +1876,12 @@
           "zoneLow": 1.16578,
           "zoneHigh": 1.1661,
           "c1Time": 1754525700,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1754481600-SELL",
@@ -1547,7 +1902,12 @@
           "zoneLow": 1.16075,
           "zoneHigh": 1.16107,
           "c1Time": 1754481600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1773136800-SELL",
@@ -1568,7 +1928,12 @@
           "zoneLow": 1.16516,
           "zoneHigh": 1.16521,
           "c1Time": 1773136800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1773132900-SELL",
@@ -1589,7 +1954,12 @@
           "zoneLow": 1.1655,
           "zoneHigh": 1.16598,
           "c1Time": 1773132900,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1551435300-BUY",
@@ -1610,7 +1980,12 @@
           "zoneLow": 1.13613,
           "zoneHigh": 1.13617,
           "c1Time": 1551435300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1556709300-SELL",
@@ -1631,7 +2006,12 @@
           "zoneLow": 1.12351,
           "zoneHigh": 1.12388,
           "c1Time": 1556709300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1564987500-SELL",
@@ -1652,7 +2032,12 @@
           "zoneLow": 1.11235,
           "zoneHigh": 1.11306,
           "c1Time": 1564987500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1564970400-SELL",
@@ -1673,7 +2058,12 @@
           "zoneLow": 1.11217,
           "zoneHigh": 1.11302,
           "c1Time": 1564970400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1570118400-SELL",
@@ -1694,7 +2084,12 @@
           "zoneLow": 1.09902,
           "zoneHigh": 1.09906,
           "c1Time": 1570118400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1588747800-BUY",
@@ -1715,7 +2110,12 @@
           "zoneLow": 1.08176,
           "zoneHigh": 1.08285,
           "c1Time": 1588747800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1609448400-BUY",
@@ -1736,7 +2136,12 @@
           "zoneLow": 1.2213,
           "zoneHigh": 1.22182,
           "c1Time": 1609448400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1609449000-BUY",
@@ -1757,7 +2162,12 @@
           "zoneLow": 1.2213,
           "zoneHigh": 1.22159,
           "c1Time": 1609449000,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1612868400-SELL",
@@ -1778,7 +2188,12 @@
           "zoneLow": 1.21046,
           "zoneHigh": 1.21132,
           "c1Time": 1612868400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "défavorable",
+          "macroBias": 0.6
         },
         {
           "id": "EURUSD:15-smc-1617323400-SELL",
@@ -1799,7 +2214,12 @@
           "zoneLow": 1.17772,
           "zoneHigh": 1.1784,
           "c1Time": 1617323400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1628269500-BUY",
@@ -1820,7 +2240,12 @@
           "zoneLow": 1.17564,
           "zoneHigh": 1.17575,
           "c1Time": 1628269500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1648642500-SELL",
@@ -1841,7 +2266,12 @@
           "zoneLow": 1.11346,
           "zoneHigh": 1.11471,
           "c1Time": 1648642500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1648641600-SELL",
@@ -1862,7 +2292,12 @@
           "zoneLow": 1.114,
           "zoneHigh": 1.11403,
           "c1Time": 1648641600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1658967300-SELL",
@@ -1883,7 +2318,12 @@
           "zoneLow": 1.02021,
           "zoneHigh": 1.02064,
           "c1Time": 1658967300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1673255700-SELL",
@@ -1904,7 +2344,12 @@
           "zoneLow": 1.06811,
           "zoneHigh": 1.06878,
           "c1Time": 1673255700,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1673249400-SELL",
@@ -1925,7 +2370,12 @@
           "zoneLow": 1.06795,
           "zoneHigh": 1.06872,
           "c1Time": 1673249400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1687506600-BUY",
@@ -1946,7 +2396,12 @@
           "zoneLow": 1.08669,
           "zoneHigh": 1.0867,
           "c1Time": 1687506600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1696589400-SELL",
@@ -1967,7 +2422,12 @@
           "zoneLow": 1.05588,
           "zoneHigh": 1.05608,
           "c1Time": 1696589400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1725367500-BUY",
@@ -1988,7 +2448,12 @@
           "zoneLow": 1.10396,
           "zoneHigh": 1.10456,
           "c1Time": 1725367500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1725366900-BUY",
@@ -2009,7 +2474,12 @@
           "zoneLow": 1.10396,
           "zoneHigh": 1.10431,
           "c1Time": 1725366900,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1730307600-SELL",
@@ -2030,7 +2500,12 @@
           "zoneLow": 1.0861,
           "zoneHigh": 1.08637,
           "c1Time": 1730307600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1736165400-SELL",
@@ -2051,7 +2526,12 @@
           "zoneLow": 1.04183,
           "zoneHigh": 1.04215,
           "c1Time": 1736165400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1743639300-SELL",
@@ -2072,7 +2552,12 @@
           "zoneLow": 1.08915,
           "zoneHigh": 1.08965,
           "c1Time": 1743639300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1750303800-BUY",
@@ -2093,7 +2578,12 @@
           "zoneLow": 1.14572,
           "zoneHigh": 1.146,
           "c1Time": 1750303800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1753752600-BUY",
@@ -2114,7 +2604,12 @@
           "zoneLow": 1.15896,
           "zoneHigh": 1.15908,
           "c1Time": 1753752600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1753712700-BUY",
@@ -2135,7 +2630,12 @@
           "zoneLow": 1.16309,
           "zoneHigh": 1.16361,
           "c1Time": 1753712700,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1760683500-SELL",
@@ -2156,7 +2656,12 @@
           "zoneLow": 1.1716,
           "zoneHigh": 1.17186,
           "c1Time": 1760683500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1771513500-BUY",
@@ -2177,7 +2682,12 @@
           "zoneLow": 1.17526,
           "zoneHigh": 1.17587,
           "c1Time": 1771513500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1775057400-SELL",
@@ -2198,7 +2708,12 @@
           "zoneLow": 1.16115,
           "zoneHigh": 1.16143,
           "c1Time": 1775057400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1774980000-SELL",
@@ -2219,7 +2734,12 @@
           "zoneLow": 1.15437,
           "zoneHigh": 1.155,
           "c1Time": 1774980000,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1781484300-SELL",
@@ -2240,7 +2760,12 @@
           "zoneLow": 1.1606,
           "zoneHigh": 1.1607,
           "c1Time": 1781484300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1781476200-SELL",
@@ -2261,7 +2786,12 @@
           "zoneLow": 1.16114,
           "zoneHigh": 1.16118,
           "c1Time": 1781476200,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1725642900-BUY",
@@ -2282,7 +2812,12 @@
           "zoneLow": 1.10752,
           "zoneHigh": 1.10798,
           "c1Time": 1725642900,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1584451800-BUY",
@@ -2303,7 +2838,12 @@
           "zoneLow": 1.09779,
           "zoneHigh": 1.09829,
           "c1Time": 1584451800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1664882100-SELL",
@@ -2324,7 +2864,12 @@
           "zoneLow": 0.98884,
           "zoneHigh": 0.98912,
           "c1Time": 1664882100,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1664874300-SELL",
@@ -2345,7 +2890,12 @@
           "zoneLow": 0.98731,
           "zoneHigh": 0.98779,
           "c1Time": 1664874300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1770076800-BUY",
@@ -2366,7 +2916,12 @@
           "zoneLow": 1.17882,
           "zoneHigh": 1.17917,
           "c1Time": 1770076800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1770042600-BUY",
@@ -2387,7 +2942,12 @@
           "zoneLow": 1.18088,
           "zoneHigh": 1.18103,
           "c1Time": 1770042600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1556635500-SELL",
@@ -2408,7 +2968,12 @@
           "zoneLow": 1.1216,
           "zoneHigh": 1.12199,
           "c1Time": 1556635500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1567685400-SELL",
@@ -2429,7 +2994,12 @@
           "zoneLow": 1.10609,
           "zoneHigh": 1.10621,
           "c1Time": 1567685400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ]
     },
@@ -2810,6 +3380,11 @@
         "zoneHigh": 1.1607,
         "c1Time": 1781484300,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -2833,6 +3408,11 @@
         "zoneHigh": 1.16118,
         "c1Time": 1781476200,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -2856,6 +3436,11 @@
         "zoneHigh": 1.16143,
         "c1Time": 1775057400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -2879,6 +3464,11 @@
         "zoneHigh": 1.155,
         "c1Time": 1774980000,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -2902,6 +3492,11 @@
         "zoneHigh": 1.16521,
         "c1Time": 1773136800,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -2925,6 +3520,11 @@
         "zoneHigh": 1.16598,
         "c1Time": 1773132900,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -2948,6 +3548,11 @@
         "zoneHigh": 1.17587,
         "c1Time": 1771513500,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -2971,6 +3576,11 @@
         "zoneHigh": 1.17917,
         "c1Time": 1770076800,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -2994,6 +3604,11 @@
         "zoneHigh": 1.18103,
         "c1Time": 1770042600,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3017,6 +3632,11 @@
         "zoneHigh": 1.17186,
         "c1Time": 1760683500,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3040,6 +3660,11 @@
         "zoneHigh": 1.1661,
         "c1Time": 1754525700,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3063,6 +3688,11 @@
         "zoneHigh": 1.16107,
         "c1Time": 1754481600,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3086,6 +3716,11 @@
         "zoneHigh": 1.15908,
         "c1Time": 1753752600,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3109,6 +3744,11 @@
         "zoneHigh": 1.16361,
         "c1Time": 1753712700,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3132,6 +3772,11 @@
         "zoneHigh": 1.146,
         "c1Time": 1750303800,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3155,6 +3800,11 @@
         "zoneHigh": 1.08965,
         "c1Time": 1743639300,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3178,6 +3828,11 @@
         "zoneHigh": 1.04215,
         "c1Time": 1736165400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3201,6 +3856,11 @@
         "zoneHigh": 1.04846,
         "c1Time": 1732518000,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3224,6 +3884,11 @@
         "zoneHigh": 1.08637,
         "c1Time": 1730307600,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3247,6 +3912,11 @@
         "zoneHigh": 1.08345,
         "c1Time": 1729866900,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3270,6 +3940,11 @@
         "zoneHigh": 1.10798,
         "c1Time": 1725642900,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3293,6 +3968,11 @@
         "zoneHigh": 1.10456,
         "c1Time": 1725367500,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3316,6 +3996,11 @@
         "zoneHigh": 1.10431,
         "c1Time": 1725366900,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3339,6 +4024,11 @@
         "zoneHigh": 1.10555,
         "c1Time": 1703868300,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3362,6 +4052,11 @@
         "zoneHigh": 1.10573,
         "c1Time": 1703846100,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3385,6 +4080,11 @@
         "zoneHigh": 1.0902,
         "c1Time": 1702538100,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3408,6 +4108,11 @@
         "zoneHigh": 1.05608,
         "c1Time": 1696589400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3431,6 +4136,11 @@
         "zoneHigh": 1.0867,
         "c1Time": 1687506600,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3454,6 +4164,11 @@
         "zoneHigh": 1.09072,
         "c1Time": 1675415700,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3477,6 +4192,11 @@
         "zoneHigh": 1.06878,
         "c1Time": 1673255700,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3500,6 +4220,11 @@
         "zoneHigh": 1.06872,
         "c1Time": 1673249400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3523,6 +4248,11 @@
         "zoneHigh": 0.98912,
         "c1Time": 1664882100,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3546,6 +4276,11 @@
         "zoneHigh": 0.98779,
         "c1Time": 1664874300,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3569,6 +4304,11 @@
         "zoneHigh": 1.02064,
         "c1Time": 1658967300,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3592,6 +4332,11 @@
         "zoneHigh": 1.11471,
         "c1Time": 1648642500,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3615,6 +4360,11 @@
         "zoneHigh": 1.11403,
         "c1Time": 1648641600,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3638,6 +4388,11 @@
         "zoneHigh": 1.17473,
         "c1Time": 1629764100,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3661,6 +4416,11 @@
         "zoneHigh": 1.17367,
         "c1Time": 1629731400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3684,6 +4444,11 @@
         "zoneHigh": 1.17575,
         "c1Time": 1628269500,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3707,6 +4472,11 @@
         "zoneHigh": 1.20675,
         "c1Time": 1620904500,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3730,6 +4500,11 @@
         "zoneHigh": 1.20611,
         "c1Time": 1620896400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "défavorable",
+        "macroBias": -0.65,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3753,6 +4528,11 @@
         "zoneHigh": 1.1784,
         "c1Time": 1617323400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3776,6 +4556,11 @@
         "zoneHigh": 1.21132,
         "c1Time": 1612868400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "défavorable",
+        "macroBias": 0.6,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3799,6 +4584,11 @@
         "zoneHigh": 1.22159,
         "c1Time": 1609449000,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3822,6 +4612,11 @@
         "zoneHigh": 1.22182,
         "c1Time": 1609448400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3845,6 +4640,11 @@
         "zoneHigh": 1.17886,
         "c1Time": 1601919900,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3868,6 +4668,11 @@
         "zoneHigh": 1.08285,
         "c1Time": 1588747800,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3891,6 +4696,11 @@
         "zoneHigh": 1.10738,
         "c1Time": 1585290600,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3914,6 +4724,11 @@
         "zoneHigh": 1.1039,
         "c1Time": 1585249800,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3937,6 +4752,11 @@
         "zoneHigh": 1.09829,
         "c1Time": 1584451800,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3960,6 +4780,11 @@
         "zoneHigh": 1.09906,
         "c1Time": 1570118400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -3983,6 +4808,11 @@
         "zoneHigh": 1.10621,
         "c1Time": 1567685400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -4006,6 +4836,11 @@
         "zoneHigh": 1.11306,
         "c1Time": 1564987500,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -4029,6 +4864,11 @@
         "zoneHigh": 1.11302,
         "c1Time": 1564970400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -4052,6 +4892,11 @@
         "zoneHigh": 1.12388,
         "c1Time": 1556709300,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -4075,6 +4920,11 @@
         "zoneHigh": 1.12199,
         "c1Time": 1556635500,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -4098,10 +4948,38 @@
         "zoneHigh": 1.13617,
         "c1Time": 1551435300,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       }
-    ]
+    ],
+    "calibration": {
+      "byLevel": {},
+      "byMacro": {
+        "neutre": {
+          "n": 55,
+          "winRate": 0.309,
+          "expectancyR": 0.05,
+          "ciR": [
+            -0.52,
+            0.68
+          ]
+        },
+        "défavorable": {
+          "n": 2,
+          "winRate": 1,
+          "expectancyR": 0.61,
+          "ciR": [
+            0.58,
+            0.64
+          ]
+        }
+      }
+    }
   },
   "inSample": {
     "market": "EURUSD",
@@ -4149,7 +5027,12 @@
           "zoneLow": 1.1055,
           "zoneHigh": 1.10738,
           "c1Time": 1585290600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1585249800-SELL",
@@ -4170,7 +5053,12 @@
           "zoneLow": 1.10375,
           "zoneHigh": 1.1039,
           "c1Time": 1585249800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1601919900-SELL",
@@ -4191,7 +5079,12 @@
           "zoneLow": 1.17855,
           "zoneHigh": 1.17886,
           "c1Time": 1601919900,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1620904500-BUY",
@@ -4212,7 +5105,12 @@
           "zoneLow": 1.20632,
           "zoneHigh": 1.20675,
           "c1Time": 1620904500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1620896400-BUY",
@@ -4233,7 +5131,12 @@
           "zoneLow": 1.20568,
           "zoneHigh": 1.20611,
           "c1Time": 1620896400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "défavorable",
+          "macroBias": -0.65
         },
         {
           "id": "EURUSD:15-smc-1629764100-SELL",
@@ -4254,7 +5157,12 @@
           "zoneLow": 1.17434,
           "zoneHigh": 1.17473,
           "c1Time": 1629764100,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1629731400-SELL",
@@ -4275,7 +5183,12 @@
           "zoneLow": 1.17363,
           "zoneHigh": 1.17367,
           "c1Time": 1629731400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1675415700-BUY",
@@ -4296,7 +5209,12 @@
           "zoneLow": 1.09071,
           "zoneHigh": 1.09072,
           "c1Time": 1675415700,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1702538100-SELL",
@@ -4317,7 +5235,12 @@
           "zoneLow": 1.08979,
           "zoneHigh": 1.0902,
           "c1Time": 1702538100,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1703868300-BUY",
@@ -4338,7 +5261,12 @@
           "zoneLow": 1.10551,
           "zoneHigh": 1.10555,
           "c1Time": 1703868300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1703846100-BUY",
@@ -4359,7 +5287,12 @@
           "zoneLow": 1.10564,
           "zoneHigh": 1.10573,
           "c1Time": 1703846100,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1551435300-BUY",
@@ -4380,7 +5313,12 @@
           "zoneLow": 1.13613,
           "zoneHigh": 1.13617,
           "c1Time": 1551435300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1556709300-SELL",
@@ -4401,7 +5339,12 @@
           "zoneLow": 1.12351,
           "zoneHigh": 1.12388,
           "c1Time": 1556709300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1564987500-SELL",
@@ -4422,7 +5365,12 @@
           "zoneLow": 1.11235,
           "zoneHigh": 1.11306,
           "c1Time": 1564987500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1564970400-SELL",
@@ -4443,7 +5391,12 @@
           "zoneLow": 1.11217,
           "zoneHigh": 1.11302,
           "c1Time": 1564970400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1570118400-SELL",
@@ -4464,7 +5417,12 @@
           "zoneLow": 1.09902,
           "zoneHigh": 1.09906,
           "c1Time": 1570118400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1588747800-BUY",
@@ -4485,7 +5443,12 @@
           "zoneLow": 1.08176,
           "zoneHigh": 1.08285,
           "c1Time": 1588747800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1609448400-BUY",
@@ -4506,7 +5469,12 @@
           "zoneLow": 1.2213,
           "zoneHigh": 1.22182,
           "c1Time": 1609448400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1609449000-BUY",
@@ -4527,7 +5495,12 @@
           "zoneLow": 1.2213,
           "zoneHigh": 1.22159,
           "c1Time": 1609449000,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1612868400-SELL",
@@ -4548,7 +5521,12 @@
           "zoneLow": 1.21046,
           "zoneHigh": 1.21132,
           "c1Time": 1612868400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "défavorable",
+          "macroBias": 0.6
         },
         {
           "id": "EURUSD:15-smc-1617323400-SELL",
@@ -4569,7 +5547,12 @@
           "zoneLow": 1.17772,
           "zoneHigh": 1.1784,
           "c1Time": 1617323400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1628269500-BUY",
@@ -4590,7 +5573,12 @@
           "zoneLow": 1.17564,
           "zoneHigh": 1.17575,
           "c1Time": 1628269500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1648642500-SELL",
@@ -4611,7 +5599,12 @@
           "zoneLow": 1.11346,
           "zoneHigh": 1.11471,
           "c1Time": 1648642500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1648641600-SELL",
@@ -4632,7 +5625,12 @@
           "zoneLow": 1.114,
           "zoneHigh": 1.11403,
           "c1Time": 1648641600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1658967300-SELL",
@@ -4653,7 +5651,12 @@
           "zoneLow": 1.02021,
           "zoneHigh": 1.02064,
           "c1Time": 1658967300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1673255700-SELL",
@@ -4674,7 +5677,12 @@
           "zoneLow": 1.06811,
           "zoneHigh": 1.06878,
           "c1Time": 1673255700,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1673249400-SELL",
@@ -4695,7 +5703,12 @@
           "zoneLow": 1.06795,
           "zoneHigh": 1.06872,
           "c1Time": 1673249400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1687506600-BUY",
@@ -4716,7 +5729,12 @@
           "zoneLow": 1.08669,
           "zoneHigh": 1.0867,
           "c1Time": 1687506600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1696589400-SELL",
@@ -4737,7 +5755,12 @@
           "zoneLow": 1.05588,
           "zoneHigh": 1.05608,
           "c1Time": 1696589400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1584451800-BUY",
@@ -4758,7 +5781,12 @@
           "zoneLow": 1.09779,
           "zoneHigh": 1.09829,
           "c1Time": 1584451800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1664882100-SELL",
@@ -4779,7 +5807,12 @@
           "zoneLow": 0.98884,
           "zoneHigh": 0.98912,
           "c1Time": 1664882100,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1664874300-SELL",
@@ -4800,7 +5833,12 @@
           "zoneLow": 0.98731,
           "zoneHigh": 0.98779,
           "c1Time": 1664874300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1556635500-SELL",
@@ -4821,7 +5859,12 @@
           "zoneLow": 1.1216,
           "zoneHigh": 1.12199,
           "c1Time": 1556635500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1567685400-SELL",
@@ -4842,7 +5885,12 @@
           "zoneLow": 1.10609,
           "zoneHigh": 1.10621,
           "c1Time": 1567685400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ],
       "keep": [
@@ -4865,7 +5913,12 @@
           "zoneLow": 1.1055,
           "zoneHigh": 1.10738,
           "c1Time": 1585290600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1585249800-SELL",
@@ -4886,7 +5939,12 @@
           "zoneLow": 1.10375,
           "zoneHigh": 1.1039,
           "c1Time": 1585249800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1601919900-SELL",
@@ -4907,7 +5965,12 @@
           "zoneLow": 1.17855,
           "zoneHigh": 1.17886,
           "c1Time": 1601919900,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1620904500-BUY",
@@ -4928,7 +5991,12 @@
           "zoneLow": 1.20632,
           "zoneHigh": 1.20675,
           "c1Time": 1620904500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1620896400-BUY",
@@ -4949,7 +6017,12 @@
           "zoneLow": 1.20568,
           "zoneHigh": 1.20611,
           "c1Time": 1620896400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "défavorable",
+          "macroBias": -0.65
         },
         {
           "id": "EURUSD:15-smc-1629764100-SELL",
@@ -4970,7 +6043,12 @@
           "zoneLow": 1.17434,
           "zoneHigh": 1.17473,
           "c1Time": 1629764100,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1629731400-SELL",
@@ -4991,7 +6069,12 @@
           "zoneLow": 1.17363,
           "zoneHigh": 1.17367,
           "c1Time": 1629731400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1675415700-BUY",
@@ -5012,7 +6095,12 @@
           "zoneLow": 1.09071,
           "zoneHigh": 1.09072,
           "c1Time": 1675415700,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1702538100-SELL",
@@ -5033,7 +6121,12 @@
           "zoneLow": 1.08979,
           "zoneHigh": 1.0902,
           "c1Time": 1702538100,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1703868300-BUY",
@@ -5054,7 +6147,12 @@
           "zoneLow": 1.10551,
           "zoneHigh": 1.10555,
           "c1Time": 1703868300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1703846100-BUY",
@@ -5075,7 +6173,12 @@
           "zoneLow": 1.10564,
           "zoneHigh": 1.10573,
           "c1Time": 1703846100,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1551435300-BUY",
@@ -5096,7 +6199,12 @@
           "zoneLow": 1.13613,
           "zoneHigh": 1.13617,
           "c1Time": 1551435300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1556709300-SELL",
@@ -5117,7 +6225,12 @@
           "zoneLow": 1.12351,
           "zoneHigh": 1.12388,
           "c1Time": 1556709300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1564987500-SELL",
@@ -5138,7 +6251,12 @@
           "zoneLow": 1.11235,
           "zoneHigh": 1.11306,
           "c1Time": 1564987500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1564970400-SELL",
@@ -5159,7 +6277,12 @@
           "zoneLow": 1.11217,
           "zoneHigh": 1.11302,
           "c1Time": 1564970400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1570118400-SELL",
@@ -5180,7 +6303,12 @@
           "zoneLow": 1.09902,
           "zoneHigh": 1.09906,
           "c1Time": 1570118400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1588747800-BUY",
@@ -5201,7 +6329,12 @@
           "zoneLow": 1.08176,
           "zoneHigh": 1.08285,
           "c1Time": 1588747800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1609448400-BUY",
@@ -5222,7 +6355,12 @@
           "zoneLow": 1.2213,
           "zoneHigh": 1.22182,
           "c1Time": 1609448400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1609449000-BUY",
@@ -5243,7 +6381,12 @@
           "zoneLow": 1.2213,
           "zoneHigh": 1.22159,
           "c1Time": 1609449000,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1612868400-SELL",
@@ -5264,7 +6407,12 @@
           "zoneLow": 1.21046,
           "zoneHigh": 1.21132,
           "c1Time": 1612868400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "défavorable",
+          "macroBias": 0.6
         },
         {
           "id": "EURUSD:15-smc-1617323400-SELL",
@@ -5285,7 +6433,12 @@
           "zoneLow": 1.17772,
           "zoneHigh": 1.1784,
           "c1Time": 1617323400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1628269500-BUY",
@@ -5306,7 +6459,12 @@
           "zoneLow": 1.17564,
           "zoneHigh": 1.17575,
           "c1Time": 1628269500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1648642500-SELL",
@@ -5327,7 +6485,12 @@
           "zoneLow": 1.11346,
           "zoneHigh": 1.11471,
           "c1Time": 1648642500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1648641600-SELL",
@@ -5348,7 +6511,12 @@
           "zoneLow": 1.114,
           "zoneHigh": 1.11403,
           "c1Time": 1648641600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1658967300-SELL",
@@ -5369,7 +6537,12 @@
           "zoneLow": 1.02021,
           "zoneHigh": 1.02064,
           "c1Time": 1658967300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1673255700-SELL",
@@ -5390,7 +6563,12 @@
           "zoneLow": 1.06811,
           "zoneHigh": 1.06878,
           "c1Time": 1673255700,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1673249400-SELL",
@@ -5411,7 +6589,12 @@
           "zoneLow": 1.06795,
           "zoneHigh": 1.06872,
           "c1Time": 1673249400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1687506600-BUY",
@@ -5432,7 +6615,12 @@
           "zoneLow": 1.08669,
           "zoneHigh": 1.0867,
           "c1Time": 1687506600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1696589400-SELL",
@@ -5453,7 +6641,12 @@
           "zoneLow": 1.05588,
           "zoneHigh": 1.05608,
           "c1Time": 1696589400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1584451800-BUY",
@@ -5474,7 +6667,12 @@
           "zoneLow": 1.09779,
           "zoneHigh": 1.09829,
           "c1Time": 1584451800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1664882100-SELL",
@@ -5495,7 +6693,12 @@
           "zoneLow": 0.98884,
           "zoneHigh": 0.98912,
           "c1Time": 1664882100,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1664874300-SELL",
@@ -5516,7 +6719,12 @@
           "zoneLow": 0.98731,
           "zoneHigh": 0.98779,
           "c1Time": 1664874300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1556635500-SELL",
@@ -5537,7 +6745,12 @@
           "zoneLow": 1.1216,
           "zoneHigh": 1.12199,
           "c1Time": 1556635500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1567685400-SELL",
@@ -5558,7 +6771,12 @@
           "zoneLow": 1.10609,
           "zoneHigh": 1.10621,
           "c1Time": 1567685400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ]
     },
@@ -5847,6 +7065,11 @@
         "zoneHigh": 1.10555,
         "c1Time": 1703868300,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -5870,6 +7093,11 @@
         "zoneHigh": 1.10573,
         "c1Time": 1703846100,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -5893,6 +7121,11 @@
         "zoneHigh": 1.0902,
         "c1Time": 1702538100,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -5916,6 +7149,11 @@
         "zoneHigh": 1.05608,
         "c1Time": 1696589400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -5939,6 +7177,11 @@
         "zoneHigh": 1.0867,
         "c1Time": 1687506600,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -5962,6 +7205,11 @@
         "zoneHigh": 1.09072,
         "c1Time": 1675415700,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -5985,6 +7233,11 @@
         "zoneHigh": 1.06878,
         "c1Time": 1673255700,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6008,6 +7261,11 @@
         "zoneHigh": 1.06872,
         "c1Time": 1673249400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6031,6 +7289,11 @@
         "zoneHigh": 0.98912,
         "c1Time": 1664882100,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6054,6 +7317,11 @@
         "zoneHigh": 0.98779,
         "c1Time": 1664874300,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6077,6 +7345,11 @@
         "zoneHigh": 1.02064,
         "c1Time": 1658967300,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6100,6 +7373,11 @@
         "zoneHigh": 1.11471,
         "c1Time": 1648642500,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6123,6 +7401,11 @@
         "zoneHigh": 1.11403,
         "c1Time": 1648641600,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6146,6 +7429,11 @@
         "zoneHigh": 1.17473,
         "c1Time": 1629764100,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6169,6 +7457,11 @@
         "zoneHigh": 1.17367,
         "c1Time": 1629731400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6192,6 +7485,11 @@
         "zoneHigh": 1.17575,
         "c1Time": 1628269500,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6215,6 +7513,11 @@
         "zoneHigh": 1.20675,
         "c1Time": 1620904500,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6238,6 +7541,11 @@
         "zoneHigh": 1.20611,
         "c1Time": 1620896400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "défavorable",
+        "macroBias": -0.65,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6261,6 +7569,11 @@
         "zoneHigh": 1.1784,
         "c1Time": 1617323400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6284,6 +7597,11 @@
         "zoneHigh": 1.21132,
         "c1Time": 1612868400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "défavorable",
+        "macroBias": 0.6,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6307,6 +7625,11 @@
         "zoneHigh": 1.22159,
         "c1Time": 1609449000,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6330,6 +7653,11 @@
         "zoneHigh": 1.22182,
         "c1Time": 1609448400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6353,6 +7681,11 @@
         "zoneHigh": 1.17886,
         "c1Time": 1601919900,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6376,6 +7709,11 @@
         "zoneHigh": 1.08285,
         "c1Time": 1588747800,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6399,6 +7737,11 @@
         "zoneHigh": 1.10738,
         "c1Time": 1585290600,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6422,6 +7765,11 @@
         "zoneHigh": 1.1039,
         "c1Time": 1585249800,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6445,6 +7793,11 @@
         "zoneHigh": 1.09829,
         "c1Time": 1584451800,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6468,6 +7821,11 @@
         "zoneHigh": 1.09906,
         "c1Time": 1570118400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6491,6 +7849,11 @@
         "zoneHigh": 1.10621,
         "c1Time": 1567685400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6514,6 +7877,11 @@
         "zoneHigh": 1.11306,
         "c1Time": 1564987500,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6537,6 +7905,11 @@
         "zoneHigh": 1.11302,
         "c1Time": 1564970400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6560,6 +7933,11 @@
         "zoneHigh": 1.12388,
         "c1Time": 1556709300,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6583,6 +7961,11 @@
         "zoneHigh": 1.12199,
         "c1Time": 1556635500,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -6606,10 +7989,38 @@
         "zoneHigh": 1.13617,
         "c1Time": 1551435300,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       }
-    ]
+    ],
+    "calibration": {
+      "byLevel": {},
+      "byMacro": {
+        "neutre": {
+          "n": 32,
+          "winRate": 0.25,
+          "expectancyR": 0.1,
+          "ciR": [
+            -0.77,
+            1.2
+          ]
+        },
+        "défavorable": {
+          "n": 2,
+          "winRate": 1,
+          "expectancyR": 0.61,
+          "ciR": [
+            0.58,
+            0.64
+          ]
+        }
+      }
+    }
   },
   "outOfSample": {
     "market": "EURUSD",
@@ -6657,7 +8068,12 @@
           "zoneLow": 1.08304,
           "zoneHigh": 1.08345,
           "c1Time": 1729866900,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1732518000-SELL",
@@ -6678,7 +8094,12 @@
           "zoneLow": 1.04836,
           "zoneHigh": 1.04846,
           "c1Time": 1732518000,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1754525700-SELL",
@@ -6699,7 +8120,12 @@
           "zoneLow": 1.16578,
           "zoneHigh": 1.1661,
           "c1Time": 1754525700,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1754481600-SELL",
@@ -6720,7 +8146,12 @@
           "zoneLow": 1.16075,
           "zoneHigh": 1.16107,
           "c1Time": 1754481600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1773136800-SELL",
@@ -6741,7 +8172,12 @@
           "zoneLow": 1.16516,
           "zoneHigh": 1.16521,
           "c1Time": 1773136800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1773132900-SELL",
@@ -6762,7 +8198,12 @@
           "zoneLow": 1.1655,
           "zoneHigh": 1.16598,
           "c1Time": 1773132900,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1725367500-BUY",
@@ -6783,7 +8224,12 @@
           "zoneLow": 1.10396,
           "zoneHigh": 1.10456,
           "c1Time": 1725367500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1725366900-BUY",
@@ -6804,7 +8250,12 @@
           "zoneLow": 1.10396,
           "zoneHigh": 1.10431,
           "c1Time": 1725366900,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1730307600-SELL",
@@ -6825,7 +8276,12 @@
           "zoneLow": 1.0861,
           "zoneHigh": 1.08637,
           "c1Time": 1730307600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1736165400-SELL",
@@ -6846,7 +8302,12 @@
           "zoneLow": 1.04183,
           "zoneHigh": 1.04215,
           "c1Time": 1736165400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1743639300-SELL",
@@ -6867,7 +8328,12 @@
           "zoneLow": 1.08915,
           "zoneHigh": 1.08965,
           "c1Time": 1743639300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1750303800-BUY",
@@ -6888,7 +8354,12 @@
           "zoneLow": 1.14572,
           "zoneHigh": 1.146,
           "c1Time": 1750303800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1753752600-BUY",
@@ -6909,7 +8380,12 @@
           "zoneLow": 1.15896,
           "zoneHigh": 1.15908,
           "c1Time": 1753752600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1753712700-BUY",
@@ -6930,7 +8406,12 @@
           "zoneLow": 1.16309,
           "zoneHigh": 1.16361,
           "c1Time": 1753712700,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1760683500-SELL",
@@ -6951,7 +8432,12 @@
           "zoneLow": 1.1716,
           "zoneHigh": 1.17186,
           "c1Time": 1760683500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1771513500-BUY",
@@ -6972,7 +8458,12 @@
           "zoneLow": 1.17526,
           "zoneHigh": 1.17587,
           "c1Time": 1771513500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1775057400-SELL",
@@ -6993,7 +8484,12 @@
           "zoneLow": 1.16115,
           "zoneHigh": 1.16143,
           "c1Time": 1775057400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1774980000-SELL",
@@ -7014,7 +8510,12 @@
           "zoneLow": 1.15437,
           "zoneHigh": 1.155,
           "c1Time": 1774980000,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1781484300-SELL",
@@ -7035,7 +8536,12 @@
           "zoneLow": 1.1606,
           "zoneHigh": 1.1607,
           "c1Time": 1781484300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1781476200-SELL",
@@ -7056,7 +8562,12 @@
           "zoneLow": 1.16114,
           "zoneHigh": 1.16118,
           "c1Time": 1781476200,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1725642900-BUY",
@@ -7077,7 +8588,12 @@
           "zoneLow": 1.10752,
           "zoneHigh": 1.10798,
           "c1Time": 1725642900,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1770076800-BUY",
@@ -7098,7 +8614,12 @@
           "zoneLow": 1.17882,
           "zoneHigh": 1.17917,
           "c1Time": 1770076800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1770042600-BUY",
@@ -7119,7 +8640,12 @@
           "zoneLow": 1.18088,
           "zoneHigh": 1.18103,
           "c1Time": 1770042600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ],
       "keep": [
@@ -7142,7 +8668,12 @@
           "zoneLow": 1.08304,
           "zoneHigh": 1.08345,
           "c1Time": 1729866900,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1732518000-SELL",
@@ -7163,7 +8694,12 @@
           "zoneLow": 1.04836,
           "zoneHigh": 1.04846,
           "c1Time": 1732518000,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1754525700-SELL",
@@ -7184,7 +8720,12 @@
           "zoneLow": 1.16578,
           "zoneHigh": 1.1661,
           "c1Time": 1754525700,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1754481600-SELL",
@@ -7205,7 +8746,12 @@
           "zoneLow": 1.16075,
           "zoneHigh": 1.16107,
           "c1Time": 1754481600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1773136800-SELL",
@@ -7226,7 +8772,12 @@
           "zoneLow": 1.16516,
           "zoneHigh": 1.16521,
           "c1Time": 1773136800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1773132900-SELL",
@@ -7247,7 +8798,12 @@
           "zoneLow": 1.1655,
           "zoneHigh": 1.16598,
           "c1Time": 1773132900,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1725367500-BUY",
@@ -7268,7 +8824,12 @@
           "zoneLow": 1.10396,
           "zoneHigh": 1.10456,
           "c1Time": 1725367500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1725366900-BUY",
@@ -7289,7 +8850,12 @@
           "zoneLow": 1.10396,
           "zoneHigh": 1.10431,
           "c1Time": 1725366900,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1730307600-SELL",
@@ -7310,7 +8876,12 @@
           "zoneLow": 1.0861,
           "zoneHigh": 1.08637,
           "c1Time": 1730307600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1736165400-SELL",
@@ -7331,7 +8902,12 @@
           "zoneLow": 1.04183,
           "zoneHigh": 1.04215,
           "c1Time": 1736165400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1743639300-SELL",
@@ -7352,7 +8928,12 @@
           "zoneLow": 1.08915,
           "zoneHigh": 1.08965,
           "c1Time": 1743639300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1750303800-BUY",
@@ -7373,7 +8954,12 @@
           "zoneLow": 1.14572,
           "zoneHigh": 1.146,
           "c1Time": 1750303800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1753752600-BUY",
@@ -7394,7 +8980,12 @@
           "zoneLow": 1.15896,
           "zoneHigh": 1.15908,
           "c1Time": 1753752600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1753712700-BUY",
@@ -7415,7 +9006,12 @@
           "zoneLow": 1.16309,
           "zoneHigh": 1.16361,
           "c1Time": 1753712700,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1760683500-SELL",
@@ -7436,7 +9032,12 @@
           "zoneLow": 1.1716,
           "zoneHigh": 1.17186,
           "c1Time": 1760683500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1771513500-BUY",
@@ -7457,7 +9058,12 @@
           "zoneLow": 1.17526,
           "zoneHigh": 1.17587,
           "c1Time": 1771513500,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1775057400-SELL",
@@ -7478,7 +9084,12 @@
           "zoneLow": 1.16115,
           "zoneHigh": 1.16143,
           "c1Time": 1775057400,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1774980000-SELL",
@@ -7499,7 +9110,12 @@
           "zoneLow": 1.15437,
           "zoneHigh": 1.155,
           "c1Time": 1774980000,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1781484300-SELL",
@@ -7520,7 +9136,12 @@
           "zoneLow": 1.1606,
           "zoneHigh": 1.1607,
           "c1Time": 1781484300,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1781476200-SELL",
@@ -7541,7 +9162,12 @@
           "zoneLow": 1.16114,
           "zoneHigh": 1.16118,
           "c1Time": 1781476200,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1725642900-BUY",
@@ -7562,7 +9188,12 @@
           "zoneLow": 1.10752,
           "zoneHigh": 1.10798,
           "c1Time": 1725642900,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:15-smc-1770076800-BUY",
@@ -7583,7 +9214,12 @@
           "zoneLow": 1.17882,
           "zoneHigh": 1.17917,
           "c1Time": 1770076800,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "EURUSD:5-smc-1770042600-BUY",
@@ -7604,7 +9240,12 @@
           "zoneLow": 1.18088,
           "zoneHigh": 1.18103,
           "c1Time": 1770042600,
-          "costPips": 1
+          "costPips": 1,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ]
     },
@@ -7849,6 +9490,11 @@
         "zoneHigh": 1.1607,
         "c1Time": 1781484300,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -7872,6 +9518,11 @@
         "zoneHigh": 1.16118,
         "c1Time": 1781476200,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -7895,6 +9546,11 @@
         "zoneHigh": 1.16143,
         "c1Time": 1775057400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -7918,6 +9574,11 @@
         "zoneHigh": 1.155,
         "c1Time": 1774980000,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -7941,6 +9602,11 @@
         "zoneHigh": 1.16521,
         "c1Time": 1773136800,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -7964,6 +9630,11 @@
         "zoneHigh": 1.16598,
         "c1Time": 1773132900,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -7987,6 +9658,11 @@
         "zoneHigh": 1.17587,
         "c1Time": 1771513500,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -8010,6 +9686,11 @@
         "zoneHigh": 1.17917,
         "c1Time": 1770076800,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -8033,6 +9714,11 @@
         "zoneHigh": 1.18103,
         "c1Time": 1770042600,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -8056,6 +9742,11 @@
         "zoneHigh": 1.17186,
         "c1Time": 1760683500,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -8079,6 +9770,11 @@
         "zoneHigh": 1.1661,
         "c1Time": 1754525700,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -8102,6 +9798,11 @@
         "zoneHigh": 1.16107,
         "c1Time": 1754481600,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -8125,6 +9826,11 @@
         "zoneHigh": 1.15908,
         "c1Time": 1753752600,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -8148,6 +9854,11 @@
         "zoneHigh": 1.16361,
         "c1Time": 1753712700,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -8171,6 +9882,11 @@
         "zoneHigh": 1.146,
         "c1Time": 1750303800,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -8194,6 +9910,11 @@
         "zoneHigh": 1.08965,
         "c1Time": 1743639300,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -8217,6 +9938,11 @@
         "zoneHigh": 1.04215,
         "c1Time": 1736165400,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -8240,6 +9966,11 @@
         "zoneHigh": 1.04846,
         "c1Time": 1732518000,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -8263,6 +9994,11 @@
         "zoneHigh": 1.08637,
         "c1Time": 1730307600,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -8286,6 +10022,11 @@
         "zoneHigh": 1.08345,
         "c1Time": 1729866900,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -8309,6 +10050,11 @@
         "zoneHigh": 1.10798,
         "c1Time": 1725642900,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -8332,6 +10078,11 @@
         "zoneHigh": 1.10456,
         "c1Time": 1725367500,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       },
@@ -8355,9 +10106,28 @@
         "zoneHigh": 1.10431,
         "c1Time": 1725366900,
         "costPips": 1,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "EURUSD",
         "policy": "tp1"
       }
-    ]
+    ],
+    "calibration": {
+      "byLevel": {},
+      "byMacro": {
+        "neutre": {
+          "n": 23,
+          "winRate": 0.391,
+          "expectancyR": -0.02,
+          "ciR": [
+            -0.57,
+            0.59
+          ]
+        }
+      }
+    }
   }
 }

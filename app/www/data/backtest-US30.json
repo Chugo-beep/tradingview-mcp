@@ -5,7 +5,7 @@
   "strategy": "smc",
   "from": "2019-01-01",
   "to": "2026-09-29",
-  "generatedAt": "2026-09-29T19:52:26.475Z",
+  "generatedAt": "2026-09-29T21:12:05.297Z",
   "bars1m": 2484433,
   "synthetic": false,
   "full": {
@@ -54,7 +54,12 @@
           "zoneLow": 25904.669,
           "zoneHigh": 25913.67,
           "c1Time": 1552670400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "défavorable",
+          "macroBias": 0.477
         },
         {
           "id": "US30:5-smc-1570465500-SELL",
@@ -75,7 +80,12 @@
           "zoneLow": 26575.67,
           "zoneHigh": 26589.169,
           "c1Time": 1570465500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1589773800-SELL",
@@ -96,7 +106,12 @@
           "zoneLow": 23882.7,
           "zoneHigh": 23885.28,
           "c1Time": 1589773800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1592450100-BUY",
@@ -117,7 +132,12 @@
           "zoneLow": 25836.74,
           "zoneHigh": 25884.27,
           "c1Time": 1592450100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1624546200-SELL",
@@ -138,7 +158,12 @@
           "zoneLow": 34141.499,
           "zoneHigh": 34152.209,
           "c1Time": 1624546200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1633589100-SELL",
@@ -159,7 +184,12 @@
           "zoneLow": 34580.999,
           "zoneHigh": 34589.259,
           "c1Time": 1633589100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1633576200-SELL",
@@ -180,7 +210,12 @@
           "zoneLow": 34570.199,
           "zoneHigh": 34580.749,
           "c1Time": 1633576200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1638884700-SELL",
@@ -201,7 +236,12 @@
           "zoneLow": 35572.599,
           "zoneHigh": 35595.577,
           "c1Time": 1638884700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1661238900-BUY",
@@ -222,7 +262,12 @@
           "zoneLow": 32958.999,
           "zoneHigh": 32998.299,
           "c1Time": 1661238900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1674834300-SELL",
@@ -243,7 +288,12 @@
           "zoneLow": 33972.759,
           "zoneHigh": 34122.777,
           "c1Time": 1674834300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1674832800-SELL",
@@ -264,7 +314,12 @@
           "zoneLow": 34049.217,
           "zoneHigh": 34062.229,
           "c1Time": 1674832800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1680183900-SELL",
@@ -285,7 +340,12 @@
           "zoneLow": 32864.199,
           "zoneHigh": 32895.299,
           "c1Time": 1680183900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1680178800-SELL",
@@ -306,7 +366,12 @@
           "zoneLow": 32897.999,
           "zoneHigh": 32912.037,
           "c1Time": 1680178800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1717402500-BUY",
@@ -327,7 +392,12 @@
           "zoneLow": 38661.075,
           "zoneHigh": 38668.015,
           "c1Time": 1717402500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1726225800-SELL",
@@ -348,7 +418,12 @@
           "zoneLow": 41177.597,
           "zoneHigh": 41181.097,
           "c1Time": 1726225800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "défavorable",
+          "macroBias": 0.88
         },
         {
           "id": "US30:5-smc-1729708500-BUY",
@@ -369,7 +444,12 @@
           "zoneLow": 42370.675,
           "zoneHigh": 42422.139,
           "c1Time": 1729708500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1744247700-SELL",
@@ -390,7 +470,12 @@
           "zoneLow": 40667.563,
           "zoneHigh": 40684.063,
           "c1Time": 1744247700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1748268900-SELL",
@@ -411,7 +496,12 @@
           "zoneLow": 42043.739,
           "zoneHigh": 42048.715,
           "c1Time": 1748268900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1748249400-SELL",
@@ -432,7 +522,12 @@
           "zoneLow": 42079.015,
           "zoneHigh": 42079.087,
           "c1Time": 1748249400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1559825100-SELL",
@@ -453,7 +548,12 @@
           "zoneLow": 25590.069,
           "zoneHigh": 25600.07,
           "c1Time": 1559825100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1559814600-SELL",
@@ -474,7 +574,12 @@
           "zoneLow": 25614.07,
           "zoneHigh": 25619.57,
           "c1Time": 1559814600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1579799400-BUY",
@@ -495,7 +600,12 @@
           "zoneLow": 29018.97,
           "zoneHigh": 29034.49,
           "c1Time": 1579799400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1588338000-BUY",
@@ -516,7 +626,12 @@
           "zoneLow": 23873.01,
           "zoneHigh": 23914.53,
           "c1Time": 1588338000,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1588333200-BUY",
@@ -537,7 +652,12 @@
           "zoneLow": 23857.01,
           "zoneHigh": 23859.57,
           "c1Time": 1588333200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1612298700-SELL",
@@ -558,7 +678,12 @@
           "zoneLow": 30762.269,
           "zoneHigh": 30789.499,
           "c1Time": 1612298700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1612286400-SELL",
@@ -579,7 +704,12 @@
           "zoneLow": 30815.279,
           "zoneHigh": 30824.229,
           "c1Time": 1612286400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1618984800-BUY",
@@ -600,7 +730,12 @@
           "zoneLow": 33734.219,
           "zoneHigh": 33778.789,
           "c1Time": 1618984800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1623110400-BUY",
@@ -621,7 +756,12 @@
           "zoneLow": 34601.729,
           "zoneHigh": 34617.729,
           "c1Time": 1623110400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1674115200-BUY",
@@ -642,7 +782,12 @@
           "zoneLow": 33191.249,
           "zoneHigh": 33206.749,
           "c1Time": 1674115200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "favorable",
+          "macroBias": 5.747
         },
         {
           "id": "US30:5-smc-1690487700-BUY",
@@ -663,7 +808,12 @@
           "zoneLow": 35252.299,
           "zoneHigh": 35259.199,
           "c1Time": 1690487700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1691435400-SELL",
@@ -684,7 +834,12 @@
           "zoneLow": 35463.499,
           "zoneHigh": 35464.199,
           "c1Time": 1691435400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1694440200-SELL",
@@ -705,7 +860,12 @@
           "zoneLow": 34708.499,
           "zoneHigh": 34728.199,
           "c1Time": 1694440200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1698710400-SELL",
@@ -726,7 +886,12 @@
           "zoneLow": 32937.699,
           "zoneHigh": 32945.799,
           "c1Time": 1698710400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1709839800-SELL",
@@ -747,7 +912,12 @@
           "zoneLow": 38807.739,
           "zoneHigh": 38841.215,
           "c1Time": 1709839800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1709826900-SELL",
@@ -768,7 +938,12 @@
           "zoneLow": 38881.499,
           "zoneHigh": 38886.787,
           "c1Time": 1709826900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1722563100-BUY",
@@ -789,7 +964,12 @@
           "zoneLow": 40201.287,
           "zoneHigh": 40201.299,
           "c1Time": 1722563100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1722540600-BUY",
@@ -810,7 +990,12 @@
           "zoneLow": 40191.287,
           "zoneHigh": 40194.787,
           "c1Time": 1722540600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1756841400-BUY",
@@ -831,7 +1016,12 @@
           "zoneLow": 45094.563,
           "zoneHigh": 45152.459,
           "c1Time": 1756841400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1758809100-BUY",
@@ -852,7 +1042,12 @@
           "zoneLow": 45936.199,
           "zoneHigh": 45991.199,
           "c1Time": 1758809100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1760470200-SELL",
@@ -873,7 +1068,12 @@
           "zoneLow": 46432.987,
           "zoneHigh": 46437.903,
           "c1Time": 1760470200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1760466900-SELL",
@@ -894,7 +1094,12 @@
           "zoneLow": 46473.963,
           "zoneHigh": 46502.999,
           "c1Time": 1760466900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1777568400-SELL",
@@ -915,7 +1120,12 @@
           "zoneLow": 49558.299,
           "zoneHigh": 49564.125,
           "c1Time": 1777568400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1783529100-BUY",
@@ -936,7 +1146,12 @@
           "zoneLow": 52247.763,
           "zoneHigh": 52274.251,
           "c1Time": 1783529100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1784916900-SELL",
@@ -957,7 +1172,12 @@
           "zoneLow": 51950.563,
           "zoneHigh": 52019.051,
           "c1Time": 1784916900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1626866100-SELL",
@@ -978,7 +1198,12 @@
           "zoneLow": 34671.599,
           "zoneHigh": 34678.999,
           "c1Time": 1626866100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1626865500-SELL",
@@ -999,7 +1224,12 @@
           "zoneLow": 34672.089,
           "zoneHigh": 34682.029,
           "c1Time": 1626865500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1643611500-SELL",
@@ -1020,7 +1250,12 @@
           "zoneLow": 34781.259,
           "zoneHigh": 34787.789,
           "c1Time": 1643611500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1643603400-SELL",
@@ -1041,7 +1276,12 @@
           "zoneLow": 34789.299,
           "zoneHigh": 34792.259,
           "c1Time": 1643603400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1559711700-SELL",
@@ -1062,7 +1302,12 @@
           "zoneLow": 25378.969,
           "zoneHigh": 25391.969,
           "c1Time": 1559711700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1559664000-SELL",
@@ -1083,7 +1328,12 @@
           "zoneLow": 25236.669,
           "zoneHigh": 25254.17,
           "c1Time": 1559664000,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1620746100-BUY",
@@ -1104,7 +1354,12 @@
           "zoneLow": 34117.789,
           "zoneHigh": 34182.789,
           "c1Time": 1620746100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1624644600-SELL",
@@ -1125,7 +1380,12 @@
           "zoneLow": 34431.999,
           "zoneHigh": 34433.219,
           "c1Time": 1624644600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1679497200-SELL",
@@ -1146,7 +1406,12 @@
           "zoneLow": 32573.217,
           "zoneHigh": 32578.229,
           "c1Time": 1679497200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1717054200-BUY",
@@ -1167,7 +1432,12 @@
           "zoneLow": 38047.751,
           "zoneHigh": 38077.775,
           "c1Time": 1717054200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ],
       "keep": [
@@ -1190,7 +1460,12 @@
           "zoneLow": 25904.669,
           "zoneHigh": 25913.67,
           "c1Time": 1552670400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "défavorable",
+          "macroBias": 0.477
         },
         {
           "id": "US30:5-smc-1570465500-SELL",
@@ -1211,7 +1486,12 @@
           "zoneLow": 26575.67,
           "zoneHigh": 26589.169,
           "c1Time": 1570465500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1589773800-SELL",
@@ -1232,7 +1512,12 @@
           "zoneLow": 23882.7,
           "zoneHigh": 23885.28,
           "c1Time": 1589773800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1592450100-BUY",
@@ -1253,7 +1538,12 @@
           "zoneLow": 25836.74,
           "zoneHigh": 25884.27,
           "c1Time": 1592450100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1624546200-SELL",
@@ -1274,7 +1564,12 @@
           "zoneLow": 34141.499,
           "zoneHigh": 34152.209,
           "c1Time": 1624546200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1633589100-SELL",
@@ -1295,7 +1590,12 @@
           "zoneLow": 34580.999,
           "zoneHigh": 34589.259,
           "c1Time": 1633589100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1633576200-SELL",
@@ -1316,7 +1616,12 @@
           "zoneLow": 34570.199,
           "zoneHigh": 34580.749,
           "c1Time": 1633576200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1638884700-SELL",
@@ -1337,7 +1642,12 @@
           "zoneLow": 35572.599,
           "zoneHigh": 35595.577,
           "c1Time": 1638884700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1661238900-BUY",
@@ -1358,7 +1668,12 @@
           "zoneLow": 32958.999,
           "zoneHigh": 32998.299,
           "c1Time": 1661238900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1674834300-SELL",
@@ -1379,7 +1694,12 @@
           "zoneLow": 33972.759,
           "zoneHigh": 34122.777,
           "c1Time": 1674834300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1674832800-SELL",
@@ -1400,7 +1720,12 @@
           "zoneLow": 34049.217,
           "zoneHigh": 34062.229,
           "c1Time": 1674832800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1680183900-SELL",
@@ -1421,7 +1746,12 @@
           "zoneLow": 32864.199,
           "zoneHigh": 32895.299,
           "c1Time": 1680183900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1680178800-SELL",
@@ -1442,7 +1772,12 @@
           "zoneLow": 32897.999,
           "zoneHigh": 32912.037,
           "c1Time": 1680178800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1717402500-BUY",
@@ -1463,7 +1798,12 @@
           "zoneLow": 38661.075,
           "zoneHigh": 38668.015,
           "c1Time": 1717402500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1726225800-SELL",
@@ -1484,7 +1824,12 @@
           "zoneLow": 41177.597,
           "zoneHigh": 41181.097,
           "c1Time": 1726225800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "défavorable",
+          "macroBias": 0.88
         },
         {
           "id": "US30:5-smc-1729708500-BUY",
@@ -1505,7 +1850,12 @@
           "zoneLow": 42370.675,
           "zoneHigh": 42422.139,
           "c1Time": 1729708500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1744247700-SELL",
@@ -1526,7 +1876,12 @@
           "zoneLow": 40667.563,
           "zoneHigh": 40684.063,
           "c1Time": 1744247700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1748268900-SELL",
@@ -1547,7 +1902,12 @@
           "zoneLow": 42043.739,
           "zoneHigh": 42048.715,
           "c1Time": 1748268900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1748249400-SELL",
@@ -1568,7 +1928,12 @@
           "zoneLow": 42079.015,
           "zoneHigh": 42079.087,
           "c1Time": 1748249400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1559825100-SELL",
@@ -1589,7 +1954,12 @@
           "zoneLow": 25590.069,
           "zoneHigh": 25600.07,
           "c1Time": 1559825100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1559814600-SELL",
@@ -1610,7 +1980,12 @@
           "zoneLow": 25614.07,
           "zoneHigh": 25619.57,
           "c1Time": 1559814600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1579799400-BUY",
@@ -1631,7 +2006,12 @@
           "zoneLow": 29018.97,
           "zoneHigh": 29034.49,
           "c1Time": 1579799400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1588338000-BUY",
@@ -1652,7 +2032,12 @@
           "zoneLow": 23873.01,
           "zoneHigh": 23914.53,
           "c1Time": 1588338000,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1588333200-BUY",
@@ -1673,7 +2058,12 @@
           "zoneLow": 23857.01,
           "zoneHigh": 23859.57,
           "c1Time": 1588333200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1612298700-SELL",
@@ -1694,7 +2084,12 @@
           "zoneLow": 30762.269,
           "zoneHigh": 30789.499,
           "c1Time": 1612298700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1612286400-SELL",
@@ -1715,7 +2110,12 @@
           "zoneLow": 30815.279,
           "zoneHigh": 30824.229,
           "c1Time": 1612286400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1618984800-BUY",
@@ -1736,7 +2136,12 @@
           "zoneLow": 33734.219,
           "zoneHigh": 33778.789,
           "c1Time": 1618984800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1623110400-BUY",
@@ -1757,7 +2162,12 @@
           "zoneLow": 34601.729,
           "zoneHigh": 34617.729,
           "c1Time": 1623110400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1674115200-BUY",
@@ -1778,7 +2188,12 @@
           "zoneLow": 33191.249,
           "zoneHigh": 33206.749,
           "c1Time": 1674115200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "favorable",
+          "macroBias": 5.747
         },
         {
           "id": "US30:5-smc-1690487700-BUY",
@@ -1799,7 +2214,12 @@
           "zoneLow": 35252.299,
           "zoneHigh": 35259.199,
           "c1Time": 1690487700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1691435400-SELL",
@@ -1820,7 +2240,12 @@
           "zoneLow": 35463.499,
           "zoneHigh": 35464.199,
           "c1Time": 1691435400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1694440200-SELL",
@@ -1841,7 +2266,12 @@
           "zoneLow": 34708.499,
           "zoneHigh": 34728.199,
           "c1Time": 1694440200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1698710400-SELL",
@@ -1862,7 +2292,12 @@
           "zoneLow": 32937.699,
           "zoneHigh": 32945.799,
           "c1Time": 1698710400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1709839800-SELL",
@@ -1883,7 +2318,12 @@
           "zoneLow": 38807.739,
           "zoneHigh": 38841.215,
           "c1Time": 1709839800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1709826900-SELL",
@@ -1904,7 +2344,12 @@
           "zoneLow": 38881.499,
           "zoneHigh": 38886.787,
           "c1Time": 1709826900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1722563100-BUY",
@@ -1925,7 +2370,12 @@
           "zoneLow": 40201.287,
           "zoneHigh": 40201.299,
           "c1Time": 1722563100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1722540600-BUY",
@@ -1946,7 +2396,12 @@
           "zoneLow": 40191.287,
           "zoneHigh": 40194.787,
           "c1Time": 1722540600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1756841400-BUY",
@@ -1967,7 +2422,12 @@
           "zoneLow": 45094.563,
           "zoneHigh": 45152.459,
           "c1Time": 1756841400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1758809100-BUY",
@@ -1988,7 +2448,12 @@
           "zoneLow": 45936.199,
           "zoneHigh": 45991.199,
           "c1Time": 1758809100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1760470200-SELL",
@@ -2009,7 +2474,12 @@
           "zoneLow": 46432.987,
           "zoneHigh": 46437.903,
           "c1Time": 1760470200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1760466900-SELL",
@@ -2030,7 +2500,12 @@
           "zoneLow": 46473.963,
           "zoneHigh": 46502.999,
           "c1Time": 1760466900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1777568400-SELL",
@@ -2051,7 +2526,12 @@
           "zoneLow": 49558.299,
           "zoneHigh": 49564.125,
           "c1Time": 1777568400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1783529100-BUY",
@@ -2072,7 +2552,12 @@
           "zoneLow": 52247.763,
           "zoneHigh": 52274.251,
           "c1Time": 1783529100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1784916900-SELL",
@@ -2093,7 +2578,12 @@
           "zoneLow": 51950.563,
           "zoneHigh": 52019.051,
           "c1Time": 1784916900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1626866100-SELL",
@@ -2114,7 +2604,12 @@
           "zoneLow": 34671.599,
           "zoneHigh": 34678.999,
           "c1Time": 1626866100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1626865500-SELL",
@@ -2135,7 +2630,12 @@
           "zoneLow": 34672.089,
           "zoneHigh": 34682.029,
           "c1Time": 1626865500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1643611500-SELL",
@@ -2156,7 +2656,12 @@
           "zoneLow": 34781.259,
           "zoneHigh": 34787.789,
           "c1Time": 1643611500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1643603400-SELL",
@@ -2177,7 +2682,12 @@
           "zoneLow": 34789.299,
           "zoneHigh": 34792.259,
           "c1Time": 1643603400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1559711700-SELL",
@@ -2198,7 +2708,12 @@
           "zoneLow": 25378.969,
           "zoneHigh": 25391.969,
           "c1Time": 1559711700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1559664000-SELL",
@@ -2219,7 +2734,12 @@
           "zoneLow": 25236.669,
           "zoneHigh": 25254.17,
           "c1Time": 1559664000,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1620746100-BUY",
@@ -2240,7 +2760,12 @@
           "zoneLow": 34117.789,
           "zoneHigh": 34182.789,
           "c1Time": 1620746100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1624644600-SELL",
@@ -2261,7 +2786,12 @@
           "zoneLow": 34431.999,
           "zoneHigh": 34433.219,
           "c1Time": 1624644600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1679497200-SELL",
@@ -2282,7 +2812,12 @@
           "zoneLow": 32573.217,
           "zoneHigh": 32578.229,
           "c1Time": 1679497200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1717054200-BUY",
@@ -2303,7 +2838,12 @@
           "zoneLow": 38047.751,
           "zoneHigh": 38077.775,
           "c1Time": 1717054200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ]
     },
@@ -2672,6 +3212,11 @@
         "zoneHigh": 52019.051,
         "c1Time": 1784916900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -2695,6 +3240,11 @@
         "zoneHigh": 52274.251,
         "c1Time": 1783529100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -2718,6 +3268,11 @@
         "zoneHigh": 49564.125,
         "c1Time": 1777568400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -2741,6 +3296,11 @@
         "zoneHigh": 46437.903,
         "c1Time": 1760470200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -2764,6 +3324,11 @@
         "zoneHigh": 46502.999,
         "c1Time": 1760466900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -2787,6 +3352,11 @@
         "zoneHigh": 45991.199,
         "c1Time": 1758809100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -2810,6 +3380,11 @@
         "zoneHigh": 45152.459,
         "c1Time": 1756841400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -2833,6 +3408,11 @@
         "zoneHigh": 42048.715,
         "c1Time": 1748268900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -2856,6 +3436,11 @@
         "zoneHigh": 42079.087,
         "c1Time": 1748249400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -2879,6 +3464,11 @@
         "zoneHigh": 40684.063,
         "c1Time": 1744247700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -2902,6 +3492,11 @@
         "zoneHigh": 42422.139,
         "c1Time": 1729708500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -2925,6 +3520,11 @@
         "zoneHigh": 41181.097,
         "c1Time": 1726225800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "défavorable",
+        "macroBias": 0.88,
         "market": "US30",
         "policy": "tp1"
       },
@@ -2948,6 +3548,11 @@
         "zoneHigh": 40194.787,
         "c1Time": 1722540600,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -2971,6 +3576,11 @@
         "zoneHigh": 40201.299,
         "c1Time": 1722563100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -2994,6 +3604,11 @@
         "zoneHigh": 38668.015,
         "c1Time": 1717402500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3017,6 +3632,11 @@
         "zoneHigh": 38077.775,
         "c1Time": 1717054200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3040,6 +3660,11 @@
         "zoneHigh": 38886.787,
         "c1Time": 1709826900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3063,6 +3688,11 @@
         "zoneHigh": 38841.215,
         "c1Time": 1709839800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3086,6 +3716,11 @@
         "zoneHigh": 32945.799,
         "c1Time": 1698710400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3109,6 +3744,11 @@
         "zoneHigh": 34728.199,
         "c1Time": 1694440200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3132,6 +3772,11 @@
         "zoneHigh": 35464.199,
         "c1Time": 1691435400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3155,6 +3800,11 @@
         "zoneHigh": 35259.199,
         "c1Time": 1690487700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3178,6 +3828,11 @@
         "zoneHigh": 32895.299,
         "c1Time": 1680183900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3201,6 +3856,11 @@
         "zoneHigh": 32912.037,
         "c1Time": 1680178800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3224,6 +3884,11 @@
         "zoneHigh": 32578.229,
         "c1Time": 1679497200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3247,6 +3912,11 @@
         "zoneHigh": 34062.229,
         "c1Time": 1674832800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3270,6 +3940,11 @@
         "zoneHigh": 34122.777,
         "c1Time": 1674834300,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3293,6 +3968,11 @@
         "zoneHigh": 33206.749,
         "c1Time": 1674115200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "favorable",
+        "macroBias": 5.747,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3316,6 +3996,11 @@
         "zoneHigh": 32998.299,
         "c1Time": 1661238900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3339,6 +4024,11 @@
         "zoneHigh": 34787.789,
         "c1Time": 1643611500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3362,6 +4052,11 @@
         "zoneHigh": 34792.259,
         "c1Time": 1643603400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3385,6 +4080,11 @@
         "zoneHigh": 35595.577,
         "c1Time": 1638884700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3408,6 +4108,11 @@
         "zoneHigh": 34589.259,
         "c1Time": 1633589100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3431,6 +4136,11 @@
         "zoneHigh": 34580.749,
         "c1Time": 1633576200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3454,6 +4164,11 @@
         "zoneHigh": 34682.029,
         "c1Time": 1626865500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3477,6 +4192,11 @@
         "zoneHigh": 34678.999,
         "c1Time": 1626866100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3500,6 +4220,11 @@
         "zoneHigh": 34433.219,
         "c1Time": 1624644600,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3523,6 +4248,11 @@
         "zoneHigh": 34152.209,
         "c1Time": 1624546200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3546,6 +4276,11 @@
         "zoneHigh": 34617.729,
         "c1Time": 1623110400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3569,6 +4304,11 @@
         "zoneHigh": 34182.789,
         "c1Time": 1620746100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3592,6 +4332,11 @@
         "zoneHigh": 33778.789,
         "c1Time": 1618984800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3615,6 +4360,11 @@
         "zoneHigh": 30789.499,
         "c1Time": 1612298700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3638,6 +4388,11 @@
         "zoneHigh": 30824.229,
         "c1Time": 1612286400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3661,6 +4416,11 @@
         "zoneHigh": 25884.27,
         "c1Time": 1592450100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3684,6 +4444,11 @@
         "zoneHigh": 23885.28,
         "c1Time": 1589773800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3707,6 +4472,11 @@
         "zoneHigh": 23859.57,
         "c1Time": 1588333200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3730,6 +4500,11 @@
         "zoneHigh": 23914.53,
         "c1Time": 1588338000,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3753,6 +4528,11 @@
         "zoneHigh": 29034.49,
         "c1Time": 1579799400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3776,6 +4556,11 @@
         "zoneHigh": 26589.169,
         "c1Time": 1570465500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3799,6 +4584,11 @@
         "zoneHigh": 25600.07,
         "c1Time": 1559825100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3822,6 +4612,11 @@
         "zoneHigh": 25619.57,
         "c1Time": 1559814600,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3845,6 +4640,11 @@
         "zoneHigh": 25391.969,
         "c1Time": 1559711700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3868,6 +4668,11 @@
         "zoneHigh": 25254.17,
         "c1Time": 1559664000,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -3891,10 +4696,44 @@
         "zoneHigh": 25913.67,
         "c1Time": 1552670400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "défavorable",
+        "macroBias": 0.477,
         "market": "US30",
         "policy": "tp1"
       }
-    ]
+    ],
+    "calibration": {
+      "byLevel": {},
+      "byMacro": {
+        "défavorable": {
+          "n": 2,
+          "winRate": 0.5,
+          "expectancyR": 0.03,
+          "ciR": [
+            -1.12,
+            1.19
+          ]
+        },
+        "neutre": {
+          "n": 51,
+          "winRate": 0.392,
+          "expectancyR": -0.28,
+          "ciR": [
+            -0.57,
+            0.05
+          ]
+        },
+        "favorable": {
+          "n": 1,
+          "winRate": 0,
+          "expectancyR": -1.17,
+          "ciR": null
+        }
+      }
+    }
   },
   "inSample": {
     "market": "US30",
@@ -3942,7 +4781,12 @@
           "zoneLow": 25904.669,
           "zoneHigh": 25913.67,
           "c1Time": 1552670400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "défavorable",
+          "macroBias": 0.477
         },
         {
           "id": "US30:5-smc-1570465500-SELL",
@@ -3963,7 +4807,12 @@
           "zoneLow": 26575.67,
           "zoneHigh": 26589.169,
           "c1Time": 1570465500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1589773800-SELL",
@@ -3984,7 +4833,12 @@
           "zoneLow": 23882.7,
           "zoneHigh": 23885.28,
           "c1Time": 1589773800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1592450100-BUY",
@@ -4005,7 +4859,12 @@
           "zoneLow": 25836.74,
           "zoneHigh": 25884.27,
           "c1Time": 1592450100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1624546200-SELL",
@@ -4026,7 +4885,12 @@
           "zoneLow": 34141.499,
           "zoneHigh": 34152.209,
           "c1Time": 1624546200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1633589100-SELL",
@@ -4047,7 +4911,12 @@
           "zoneLow": 34580.999,
           "zoneHigh": 34589.259,
           "c1Time": 1633589100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1633576200-SELL",
@@ -4068,7 +4937,12 @@
           "zoneLow": 34570.199,
           "zoneHigh": 34580.749,
           "c1Time": 1633576200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1638884700-SELL",
@@ -4089,7 +4963,12 @@
           "zoneLow": 35572.599,
           "zoneHigh": 35595.577,
           "c1Time": 1638884700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1661238900-BUY",
@@ -4110,7 +4989,12 @@
           "zoneLow": 32958.999,
           "zoneHigh": 32998.299,
           "c1Time": 1661238900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1674834300-SELL",
@@ -4131,7 +5015,12 @@
           "zoneLow": 33972.759,
           "zoneHigh": 34122.777,
           "c1Time": 1674834300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1674832800-SELL",
@@ -4152,7 +5041,12 @@
           "zoneLow": 34049.217,
           "zoneHigh": 34062.229,
           "c1Time": 1674832800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1680183900-SELL",
@@ -4173,7 +5067,12 @@
           "zoneLow": 32864.199,
           "zoneHigh": 32895.299,
           "c1Time": 1680183900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1680178800-SELL",
@@ -4194,7 +5093,12 @@
           "zoneLow": 32897.999,
           "zoneHigh": 32912.037,
           "c1Time": 1680178800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1717402500-BUY",
@@ -4215,7 +5119,12 @@
           "zoneLow": 38661.075,
           "zoneHigh": 38668.015,
           "c1Time": 1717402500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1559825100-SELL",
@@ -4236,7 +5145,12 @@
           "zoneLow": 25590.069,
           "zoneHigh": 25600.07,
           "c1Time": 1559825100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1559814600-SELL",
@@ -4257,7 +5171,12 @@
           "zoneLow": 25614.07,
           "zoneHigh": 25619.57,
           "c1Time": 1559814600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1579799400-BUY",
@@ -4278,7 +5197,12 @@
           "zoneLow": 29018.97,
           "zoneHigh": 29034.49,
           "c1Time": 1579799400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1588338000-BUY",
@@ -4299,7 +5223,12 @@
           "zoneLow": 23873.01,
           "zoneHigh": 23914.53,
           "c1Time": 1588338000,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1588333200-BUY",
@@ -4320,7 +5249,12 @@
           "zoneLow": 23857.01,
           "zoneHigh": 23859.57,
           "c1Time": 1588333200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1612298700-SELL",
@@ -4341,7 +5275,12 @@
           "zoneLow": 30762.269,
           "zoneHigh": 30789.499,
           "c1Time": 1612298700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1612286400-SELL",
@@ -4362,7 +5301,12 @@
           "zoneLow": 30815.279,
           "zoneHigh": 30824.229,
           "c1Time": 1612286400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1618984800-BUY",
@@ -4383,7 +5327,12 @@
           "zoneLow": 33734.219,
           "zoneHigh": 33778.789,
           "c1Time": 1618984800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1623110400-BUY",
@@ -4404,7 +5353,12 @@
           "zoneLow": 34601.729,
           "zoneHigh": 34617.729,
           "c1Time": 1623110400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1674115200-BUY",
@@ -4425,7 +5379,12 @@
           "zoneLow": 33191.249,
           "zoneHigh": 33206.749,
           "c1Time": 1674115200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "favorable",
+          "macroBias": 5.747
         },
         {
           "id": "US30:5-smc-1690487700-BUY",
@@ -4446,7 +5405,12 @@
           "zoneLow": 35252.299,
           "zoneHigh": 35259.199,
           "c1Time": 1690487700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1691435400-SELL",
@@ -4467,7 +5431,12 @@
           "zoneLow": 35463.499,
           "zoneHigh": 35464.199,
           "c1Time": 1691435400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1694440200-SELL",
@@ -4488,7 +5457,12 @@
           "zoneLow": 34708.499,
           "zoneHigh": 34728.199,
           "c1Time": 1694440200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1698710400-SELL",
@@ -4509,7 +5483,12 @@
           "zoneLow": 32937.699,
           "zoneHigh": 32945.799,
           "c1Time": 1698710400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1709839800-SELL",
@@ -4530,7 +5509,12 @@
           "zoneLow": 38807.739,
           "zoneHigh": 38841.215,
           "c1Time": 1709839800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1709826900-SELL",
@@ -4551,7 +5535,12 @@
           "zoneLow": 38881.499,
           "zoneHigh": 38886.787,
           "c1Time": 1709826900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1626866100-SELL",
@@ -4572,7 +5561,12 @@
           "zoneLow": 34671.599,
           "zoneHigh": 34678.999,
           "c1Time": 1626866100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1626865500-SELL",
@@ -4593,7 +5587,12 @@
           "zoneLow": 34672.089,
           "zoneHigh": 34682.029,
           "c1Time": 1626865500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1643611500-SELL",
@@ -4614,7 +5613,12 @@
           "zoneLow": 34781.259,
           "zoneHigh": 34787.789,
           "c1Time": 1643611500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1643603400-SELL",
@@ -4635,7 +5639,12 @@
           "zoneLow": 34789.299,
           "zoneHigh": 34792.259,
           "c1Time": 1643603400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1559711700-SELL",
@@ -4656,7 +5665,12 @@
           "zoneLow": 25378.969,
           "zoneHigh": 25391.969,
           "c1Time": 1559711700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1559664000-SELL",
@@ -4677,7 +5691,12 @@
           "zoneLow": 25236.669,
           "zoneHigh": 25254.17,
           "c1Time": 1559664000,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1620746100-BUY",
@@ -4698,7 +5717,12 @@
           "zoneLow": 34117.789,
           "zoneHigh": 34182.789,
           "c1Time": 1620746100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1624644600-SELL",
@@ -4719,7 +5743,12 @@
           "zoneLow": 34431.999,
           "zoneHigh": 34433.219,
           "c1Time": 1624644600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1679497200-SELL",
@@ -4740,7 +5769,12 @@
           "zoneLow": 32573.217,
           "zoneHigh": 32578.229,
           "c1Time": 1679497200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1717054200-BUY",
@@ -4761,7 +5795,12 @@
           "zoneLow": 38047.751,
           "zoneHigh": 38077.775,
           "c1Time": 1717054200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ],
       "keep": [
@@ -4784,7 +5823,12 @@
           "zoneLow": 25904.669,
           "zoneHigh": 25913.67,
           "c1Time": 1552670400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "défavorable",
+          "macroBias": 0.477
         },
         {
           "id": "US30:5-smc-1570465500-SELL",
@@ -4805,7 +5849,12 @@
           "zoneLow": 26575.67,
           "zoneHigh": 26589.169,
           "c1Time": 1570465500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1589773800-SELL",
@@ -4826,7 +5875,12 @@
           "zoneLow": 23882.7,
           "zoneHigh": 23885.28,
           "c1Time": 1589773800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1592450100-BUY",
@@ -4847,7 +5901,12 @@
           "zoneLow": 25836.74,
           "zoneHigh": 25884.27,
           "c1Time": 1592450100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1624546200-SELL",
@@ -4868,7 +5927,12 @@
           "zoneLow": 34141.499,
           "zoneHigh": 34152.209,
           "c1Time": 1624546200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1633589100-SELL",
@@ -4889,7 +5953,12 @@
           "zoneLow": 34580.999,
           "zoneHigh": 34589.259,
           "c1Time": 1633589100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1633576200-SELL",
@@ -4910,7 +5979,12 @@
           "zoneLow": 34570.199,
           "zoneHigh": 34580.749,
           "c1Time": 1633576200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1638884700-SELL",
@@ -4931,7 +6005,12 @@
           "zoneLow": 35572.599,
           "zoneHigh": 35595.577,
           "c1Time": 1638884700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1661238900-BUY",
@@ -4952,7 +6031,12 @@
           "zoneLow": 32958.999,
           "zoneHigh": 32998.299,
           "c1Time": 1661238900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1674834300-SELL",
@@ -4973,7 +6057,12 @@
           "zoneLow": 33972.759,
           "zoneHigh": 34122.777,
           "c1Time": 1674834300,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1674832800-SELL",
@@ -4994,7 +6083,12 @@
           "zoneLow": 34049.217,
           "zoneHigh": 34062.229,
           "c1Time": 1674832800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1680183900-SELL",
@@ -5015,7 +6109,12 @@
           "zoneLow": 32864.199,
           "zoneHigh": 32895.299,
           "c1Time": 1680183900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1680178800-SELL",
@@ -5036,7 +6135,12 @@
           "zoneLow": 32897.999,
           "zoneHigh": 32912.037,
           "c1Time": 1680178800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1717402500-BUY",
@@ -5057,7 +6161,12 @@
           "zoneLow": 38661.075,
           "zoneHigh": 38668.015,
           "c1Time": 1717402500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1559825100-SELL",
@@ -5078,7 +6187,12 @@
           "zoneLow": 25590.069,
           "zoneHigh": 25600.07,
           "c1Time": 1559825100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1559814600-SELL",
@@ -5099,7 +6213,12 @@
           "zoneLow": 25614.07,
           "zoneHigh": 25619.57,
           "c1Time": 1559814600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1579799400-BUY",
@@ -5120,7 +6239,12 @@
           "zoneLow": 29018.97,
           "zoneHigh": 29034.49,
           "c1Time": 1579799400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1588338000-BUY",
@@ -5141,7 +6265,12 @@
           "zoneLow": 23873.01,
           "zoneHigh": 23914.53,
           "c1Time": 1588338000,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1588333200-BUY",
@@ -5162,7 +6291,12 @@
           "zoneLow": 23857.01,
           "zoneHigh": 23859.57,
           "c1Time": 1588333200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1612298700-SELL",
@@ -5183,7 +6317,12 @@
           "zoneLow": 30762.269,
           "zoneHigh": 30789.499,
           "c1Time": 1612298700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1612286400-SELL",
@@ -5204,7 +6343,12 @@
           "zoneLow": 30815.279,
           "zoneHigh": 30824.229,
           "c1Time": 1612286400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1618984800-BUY",
@@ -5225,7 +6369,12 @@
           "zoneLow": 33734.219,
           "zoneHigh": 33778.789,
           "c1Time": 1618984800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1623110400-BUY",
@@ -5246,7 +6395,12 @@
           "zoneLow": 34601.729,
           "zoneHigh": 34617.729,
           "c1Time": 1623110400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1674115200-BUY",
@@ -5267,7 +6421,12 @@
           "zoneLow": 33191.249,
           "zoneHigh": 33206.749,
           "c1Time": 1674115200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "favorable",
+          "macroBias": 5.747
         },
         {
           "id": "US30:5-smc-1690487700-BUY",
@@ -5288,7 +6447,12 @@
           "zoneLow": 35252.299,
           "zoneHigh": 35259.199,
           "c1Time": 1690487700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1691435400-SELL",
@@ -5309,7 +6473,12 @@
           "zoneLow": 35463.499,
           "zoneHigh": 35464.199,
           "c1Time": 1691435400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1694440200-SELL",
@@ -5330,7 +6499,12 @@
           "zoneLow": 34708.499,
           "zoneHigh": 34728.199,
           "c1Time": 1694440200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1698710400-SELL",
@@ -5351,7 +6525,12 @@
           "zoneLow": 32937.699,
           "zoneHigh": 32945.799,
           "c1Time": 1698710400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1709839800-SELL",
@@ -5372,7 +6551,12 @@
           "zoneLow": 38807.739,
           "zoneHigh": 38841.215,
           "c1Time": 1709839800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1709826900-SELL",
@@ -5393,7 +6577,12 @@
           "zoneLow": 38881.499,
           "zoneHigh": 38886.787,
           "c1Time": 1709826900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1626866100-SELL",
@@ -5414,7 +6603,12 @@
           "zoneLow": 34671.599,
           "zoneHigh": 34678.999,
           "c1Time": 1626866100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1626865500-SELL",
@@ -5435,7 +6629,12 @@
           "zoneLow": 34672.089,
           "zoneHigh": 34682.029,
           "c1Time": 1626865500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1643611500-SELL",
@@ -5456,7 +6655,12 @@
           "zoneLow": 34781.259,
           "zoneHigh": 34787.789,
           "c1Time": 1643611500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1643603400-SELL",
@@ -5477,7 +6681,12 @@
           "zoneLow": 34789.299,
           "zoneHigh": 34792.259,
           "c1Time": 1643603400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1559711700-SELL",
@@ -5498,7 +6707,12 @@
           "zoneLow": 25378.969,
           "zoneHigh": 25391.969,
           "c1Time": 1559711700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1559664000-SELL",
@@ -5519,7 +6733,12 @@
           "zoneLow": 25236.669,
           "zoneHigh": 25254.17,
           "c1Time": 1559664000,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1620746100-BUY",
@@ -5540,7 +6759,12 @@
           "zoneLow": 34117.789,
           "zoneHigh": 34182.789,
           "c1Time": 1620746100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1624644600-SELL",
@@ -5561,7 +6785,12 @@
           "zoneLow": 34431.999,
           "zoneHigh": 34433.219,
           "c1Time": 1624644600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1679497200-SELL",
@@ -5582,7 +6811,12 @@
           "zoneLow": 32573.217,
           "zoneHigh": 32578.229,
           "c1Time": 1679497200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1717054200-BUY",
@@ -5603,7 +6837,12 @@
           "zoneLow": 38047.751,
           "zoneHigh": 38077.775,
           "c1Time": 1717054200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ]
     },
@@ -5916,6 +7155,11 @@
         "zoneHigh": 38668.015,
         "c1Time": 1717402500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -5939,6 +7183,11 @@
         "zoneHigh": 38077.775,
         "c1Time": 1717054200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -5962,6 +7211,11 @@
         "zoneHigh": 38886.787,
         "c1Time": 1709826900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -5985,6 +7239,11 @@
         "zoneHigh": 38841.215,
         "c1Time": 1709839800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6008,6 +7267,11 @@
         "zoneHigh": 32945.799,
         "c1Time": 1698710400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6031,6 +7295,11 @@
         "zoneHigh": 34728.199,
         "c1Time": 1694440200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6054,6 +7323,11 @@
         "zoneHigh": 35464.199,
         "c1Time": 1691435400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6077,6 +7351,11 @@
         "zoneHigh": 35259.199,
         "c1Time": 1690487700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6100,6 +7379,11 @@
         "zoneHigh": 32895.299,
         "c1Time": 1680183900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6123,6 +7407,11 @@
         "zoneHigh": 32912.037,
         "c1Time": 1680178800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6146,6 +7435,11 @@
         "zoneHigh": 32578.229,
         "c1Time": 1679497200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6169,6 +7463,11 @@
         "zoneHigh": 34062.229,
         "c1Time": 1674832800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6192,6 +7491,11 @@
         "zoneHigh": 34122.777,
         "c1Time": 1674834300,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6215,6 +7519,11 @@
         "zoneHigh": 33206.749,
         "c1Time": 1674115200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "favorable",
+        "macroBias": 5.747,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6238,6 +7547,11 @@
         "zoneHigh": 32998.299,
         "c1Time": 1661238900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6261,6 +7575,11 @@
         "zoneHigh": 34787.789,
         "c1Time": 1643611500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6284,6 +7603,11 @@
         "zoneHigh": 34792.259,
         "c1Time": 1643603400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6307,6 +7631,11 @@
         "zoneHigh": 35595.577,
         "c1Time": 1638884700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6330,6 +7659,11 @@
         "zoneHigh": 34589.259,
         "c1Time": 1633589100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6353,6 +7687,11 @@
         "zoneHigh": 34580.749,
         "c1Time": 1633576200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6376,6 +7715,11 @@
         "zoneHigh": 34682.029,
         "c1Time": 1626865500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6399,6 +7743,11 @@
         "zoneHigh": 34678.999,
         "c1Time": 1626866100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6422,6 +7771,11 @@
         "zoneHigh": 34433.219,
         "c1Time": 1624644600,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6445,6 +7799,11 @@
         "zoneHigh": 34152.209,
         "c1Time": 1624546200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6468,6 +7827,11 @@
         "zoneHigh": 34617.729,
         "c1Time": 1623110400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6491,6 +7855,11 @@
         "zoneHigh": 34182.789,
         "c1Time": 1620746100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6514,6 +7883,11 @@
         "zoneHigh": 33778.789,
         "c1Time": 1618984800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6537,6 +7911,11 @@
         "zoneHigh": 30789.499,
         "c1Time": 1612298700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6560,6 +7939,11 @@
         "zoneHigh": 30824.229,
         "c1Time": 1612286400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6583,6 +7967,11 @@
         "zoneHigh": 25884.27,
         "c1Time": 1592450100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6606,6 +7995,11 @@
         "zoneHigh": 23885.28,
         "c1Time": 1589773800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6629,6 +8023,11 @@
         "zoneHigh": 23859.57,
         "c1Time": 1588333200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6652,6 +8051,11 @@
         "zoneHigh": 23914.53,
         "c1Time": 1588338000,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6675,6 +8079,11 @@
         "zoneHigh": 29034.49,
         "c1Time": 1579799400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6698,6 +8107,11 @@
         "zoneHigh": 26589.169,
         "c1Time": 1570465500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6721,6 +8135,11 @@
         "zoneHigh": 25600.07,
         "c1Time": 1559825100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6744,6 +8163,11 @@
         "zoneHigh": 25619.57,
         "c1Time": 1559814600,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6767,6 +8191,11 @@
         "zoneHigh": 25391.969,
         "c1Time": 1559711700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6790,6 +8219,11 @@
         "zoneHigh": 25254.17,
         "c1Time": 1559664000,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -6813,10 +8247,41 @@
         "zoneHigh": 25913.67,
         "c1Time": 1552670400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "défavorable",
+        "macroBias": 0.477,
         "market": "US30",
         "policy": "tp1"
       }
-    ]
+    ],
+    "calibration": {
+      "byLevel": {},
+      "byMacro": {
+        "défavorable": {
+          "n": 1,
+          "winRate": 1,
+          "expectancyR": 1.19,
+          "ciR": null
+        },
+        "neutre": {
+          "n": 38,
+          "winRate": 0.395,
+          "expectancyR": -0.3,
+          "ciR": [
+            -0.61,
+            0
+          ]
+        },
+        "favorable": {
+          "n": 1,
+          "winRate": 0,
+          "expectancyR": -1.17,
+          "ciR": null
+        }
+      }
+    }
   },
   "outOfSample": {
     "market": "US30",
@@ -6864,7 +8329,12 @@
           "zoneLow": 41177.597,
           "zoneHigh": 41181.097,
           "c1Time": 1726225800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "défavorable",
+          "macroBias": 0.88
         },
         {
           "id": "US30:5-smc-1729708500-BUY",
@@ -6885,7 +8355,12 @@
           "zoneLow": 42370.675,
           "zoneHigh": 42422.139,
           "c1Time": 1729708500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1744247700-SELL",
@@ -6906,7 +8381,12 @@
           "zoneLow": 40667.563,
           "zoneHigh": 40684.063,
           "c1Time": 1744247700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1748268900-SELL",
@@ -6927,7 +8407,12 @@
           "zoneLow": 42043.739,
           "zoneHigh": 42048.715,
           "c1Time": 1748268900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1748249400-SELL",
@@ -6948,7 +8433,12 @@
           "zoneLow": 42079.015,
           "zoneHigh": 42079.087,
           "c1Time": 1748249400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1722563100-BUY",
@@ -6969,7 +8459,12 @@
           "zoneLow": 40201.287,
           "zoneHigh": 40201.299,
           "c1Time": 1722563100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1722540600-BUY",
@@ -6990,7 +8485,12 @@
           "zoneLow": 40191.287,
           "zoneHigh": 40194.787,
           "c1Time": 1722540600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1756841400-BUY",
@@ -7011,7 +8511,12 @@
           "zoneLow": 45094.563,
           "zoneHigh": 45152.459,
           "c1Time": 1756841400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1758809100-BUY",
@@ -7032,7 +8537,12 @@
           "zoneLow": 45936.199,
           "zoneHigh": 45991.199,
           "c1Time": 1758809100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1760470200-SELL",
@@ -7053,7 +8563,12 @@
           "zoneLow": 46432.987,
           "zoneHigh": 46437.903,
           "c1Time": 1760470200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1760466900-SELL",
@@ -7074,7 +8589,12 @@
           "zoneLow": 46473.963,
           "zoneHigh": 46502.999,
           "c1Time": 1760466900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1777568400-SELL",
@@ -7095,7 +8615,12 @@
           "zoneLow": 49558.299,
           "zoneHigh": 49564.125,
           "c1Time": 1777568400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1783529100-BUY",
@@ -7116,7 +8641,12 @@
           "zoneLow": 52247.763,
           "zoneHigh": 52274.251,
           "c1Time": 1783529100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1784916900-SELL",
@@ -7137,7 +8667,12 @@
           "zoneLow": 51950.563,
           "zoneHigh": 52019.051,
           "c1Time": 1784916900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ],
       "keep": [
@@ -7160,7 +8695,12 @@
           "zoneLow": 41177.597,
           "zoneHigh": 41181.097,
           "c1Time": 1726225800,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "défavorable",
+          "macroBias": 0.88
         },
         {
           "id": "US30:5-smc-1729708500-BUY",
@@ -7181,7 +8721,12 @@
           "zoneLow": 42370.675,
           "zoneHigh": 42422.139,
           "c1Time": 1729708500,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1744247700-SELL",
@@ -7202,7 +8747,12 @@
           "zoneLow": 40667.563,
           "zoneHigh": 40684.063,
           "c1Time": 1744247700,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1748268900-SELL",
@@ -7223,7 +8773,12 @@
           "zoneLow": 42043.739,
           "zoneHigh": 42048.715,
           "c1Time": 1748268900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1748249400-SELL",
@@ -7244,7 +8799,12 @@
           "zoneLow": 42079.015,
           "zoneHigh": 42079.087,
           "c1Time": 1748249400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1722563100-BUY",
@@ -7265,7 +8825,12 @@
           "zoneLow": 40201.287,
           "zoneHigh": 40201.299,
           "c1Time": 1722563100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1722540600-BUY",
@@ -7286,7 +8851,12 @@
           "zoneLow": 40191.287,
           "zoneHigh": 40194.787,
           "c1Time": 1722540600,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1756841400-BUY",
@@ -7307,7 +8877,12 @@
           "zoneLow": 45094.563,
           "zoneHigh": 45152.459,
           "c1Time": 1756841400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1758809100-BUY",
@@ -7328,7 +8903,12 @@
           "zoneLow": 45936.199,
           "zoneHigh": 45991.199,
           "c1Time": 1758809100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1760470200-SELL",
@@ -7349,7 +8929,12 @@
           "zoneLow": 46432.987,
           "zoneHigh": 46437.903,
           "c1Time": 1760470200,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:5-smc-1760466900-SELL",
@@ -7370,7 +8955,12 @@
           "zoneLow": 46473.963,
           "zoneHigh": 46502.999,
           "c1Time": 1760466900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1777568400-SELL",
@@ -7391,7 +8981,12 @@
           "zoneLow": 49558.299,
           "zoneHigh": 49564.125,
           "c1Time": 1777568400,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1783529100-BUY",
@@ -7412,7 +9007,12 @@
           "zoneLow": 52247.763,
           "zoneHigh": 52274.251,
           "c1Time": 1783529100,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "US30:15-smc-1784916900-SELL",
@@ -7433,7 +9033,12 @@
           "zoneLow": 51950.563,
           "zoneHigh": 52019.051,
           "c1Time": 1784916900,
-          "costPips": 3
+          "costPips": 3,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ]
     },
@@ -7642,6 +9247,11 @@
         "zoneHigh": 52019.051,
         "c1Time": 1784916900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -7665,6 +9275,11 @@
         "zoneHigh": 52274.251,
         "c1Time": 1783529100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -7688,6 +9303,11 @@
         "zoneHigh": 49564.125,
         "c1Time": 1777568400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -7711,6 +9331,11 @@
         "zoneHigh": 46437.903,
         "c1Time": 1760470200,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -7734,6 +9359,11 @@
         "zoneHigh": 46502.999,
         "c1Time": 1760466900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -7757,6 +9387,11 @@
         "zoneHigh": 45991.199,
         "c1Time": 1758809100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -7780,6 +9415,11 @@
         "zoneHigh": 45152.459,
         "c1Time": 1756841400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -7803,6 +9443,11 @@
         "zoneHigh": 42048.715,
         "c1Time": 1748268900,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -7826,6 +9471,11 @@
         "zoneHigh": 42079.087,
         "c1Time": 1748249400,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -7849,6 +9499,11 @@
         "zoneHigh": 40684.063,
         "c1Time": 1744247700,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -7872,6 +9527,11 @@
         "zoneHigh": 42422.139,
         "c1Time": 1729708500,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -7895,6 +9555,11 @@
         "zoneHigh": 41181.097,
         "c1Time": 1726225800,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "défavorable",
+        "macroBias": 0.88,
         "market": "US30",
         "policy": "tp1"
       },
@@ -7918,6 +9583,11 @@
         "zoneHigh": 40194.787,
         "c1Time": 1722540600,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       },
@@ -7941,9 +9611,34 @@
         "zoneHigh": 40201.299,
         "c1Time": 1722563100,
         "costPips": 3,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "US30",
         "policy": "tp1"
       }
-    ]
+    ],
+    "calibration": {
+      "byLevel": {},
+      "byMacro": {
+        "défavorable": {
+          "n": 1,
+          "winRate": 0,
+          "expectancyR": -1.12,
+          "ciR": null
+        },
+        "neutre": {
+          "n": 13,
+          "winRate": 0.385,
+          "expectancyR": -0.2,
+          "ciR": [
+            -0.99,
+            0.65
+          ]
+        }
+      }
+    }
   }
 }

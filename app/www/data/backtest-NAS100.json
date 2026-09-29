@@ -5,7 +5,7 @@
   "strategy": "smc",
   "from": "2019-01-01",
   "to": "2026-09-29",
-  "generatedAt": "2026-09-29T19:52:19.178Z",
+  "generatedAt": "2026-09-29T21:11:57.403Z",
   "bars1m": 2647343,
   "synthetic": false,
   "full": {
@@ -54,7 +54,12 @@
           "zoneLow": 7594.06,
           "zoneHigh": 7594.959,
           "c1Time": 1561507200,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1570169700-SELL",
@@ -75,7 +80,12 @@
           "zoneLow": 7648.959,
           "zoneHigh": 7653.56,
           "c1Time": 1570169700,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1614043800-BUY",
@@ -96,7 +106,12 @@
           "zoneLow": 13226.489,
           "zoneHigh": 13252.589,
           "c1Time": 1614043800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1614215100-SELL",
@@ -117,7 +132,12 @@
           "zoneLow": 13309.109,
           "zoneHigh": 13319.819,
           "c1Time": 1614215100,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1633619700-SELL",
@@ -138,7 +158,12 @@
           "zoneLow": 14983.689,
           "zoneHigh": 14986.449,
           "c1Time": 1633619700,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1633608300-SELL",
@@ -159,7 +184,12 @@
           "zoneLow": 14948.139,
           "zoneHigh": 14960.797,
           "c1Time": 1633608300,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1639619100-SELL",
@@ -180,7 +210,12 @@
           "zoneLow": 16300.719,
           "zoneHigh": 16317.599,
           "c1Time": 1639619100,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "favorable",
+          "macroBias": -5.985
         },
         {
           "id": "NAS100:5-smc-1639612800-SELL",
@@ -201,7 +236,12 @@
           "zoneLow": 16319.899,
           "zoneHigh": 16324.489,
           "c1Time": 1639612800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "favorable",
+          "macroBias": -5.675
         },
         {
           "id": "NAS100:15-smc-1646123400-SELL",
@@ -222,7 +262,12 @@
           "zoneLow": 14254.579,
           "zoneHigh": 14267.139,
           "c1Time": 1646123400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1660926900-BUY",
@@ -243,7 +288,12 @@
           "zoneLow": 13247.549,
           "zoneHigh": 13262.099,
           "c1Time": 1660926900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1666224900-BUY",
@@ -264,7 +314,12 @@
           "zoneLow": 11041.209,
           "zoneHigh": 11041.869,
           "c1Time": 1666224900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1666202400-BUY",
@@ -285,7 +340,12 @@
           "zoneLow": 11023.009,
           "zoneHigh": 11045.789,
           "c1Time": 1666202400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1691053200-BUY",
@@ -306,7 +366,12 @@
           "zoneLow": 15267.459,
           "zoneHigh": 15302.609,
           "c1Time": 1691053200,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1690994100-BUY",
@@ -327,7 +392,12 @@
           "zoneLow": 15345.599,
           "zoneHigh": 15354.589,
           "c1Time": 1690994100,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1717584300-SELL",
@@ -348,7 +418,12 @@
           "zoneLow": 18735.865,
           "zoneHigh": 18738.721,
           "c1Time": 1717584300,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1719279900-BUY",
@@ -369,7 +444,12 @@
           "zoneLow": 19489.519,
           "zoneHigh": 19499.542,
           "c1Time": 1719279900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1719259800-BUY",
@@ -390,7 +470,12 @@
           "zoneLow": 19481.975,
           "zoneHigh": 19482.565,
           "c1Time": 1719259800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1782386100-SELL",
@@ -411,7 +496,12 @@
           "zoneLow": 29841.109,
           "zoneHigh": 29876.52,
           "c1Time": 1782386100,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1782375300-SELL",
@@ -432,7 +522,12 @@
           "zoneLow": 29885.821,
           "zoneHigh": 29887.531,
           "c1Time": 1782375300,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1549593900-BUY",
@@ -453,7 +548,12 @@
           "zoneLow": 6865.07,
           "zoneHigh": 6866.47,
           "c1Time": 1549593900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1549585500-BUY",
@@ -474,7 +574,12 @@
           "zoneLow": 6880.57,
           "zoneHigh": 6883.069,
           "c1Time": 1549585500,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1568597700-BUY",
@@ -495,7 +600,12 @@
           "zoneLow": 7781.57,
           "zoneHigh": 7789.07,
           "c1Time": 1568597700,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1592184600-BUY",
@@ -516,7 +626,12 @@
           "zoneLow": 9559.9,
           "zoneHigh": 9569.07,
           "c1Time": 1592184600,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1591986600-BUY",
@@ -537,7 +652,12 @@
           "zoneLow": 9530.85,
           "zoneHigh": 9566.41,
           "c1Time": 1591986600,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "défavorable",
+          "macroBias": -2.773
         },
         {
           "id": "NAS100:15-smc-1610474400-BUY",
@@ -558,7 +678,12 @@
           "zoneLow": 12840.089,
           "zoneHigh": 12849.939,
           "c1Time": 1610474400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1615469400-SELL",
@@ -579,7 +704,12 @@
           "zoneLow": 12982.067,
           "zoneHigh": 12987.599,
           "c1Time": 1615469400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1615464000-SELL",
@@ -600,7 +730,12 @@
           "zoneLow": 12973.839,
           "zoneHigh": 12988.709,
           "c1Time": 1615464000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1637667900-BUY",
@@ -621,7 +756,12 @@
           "zoneLow": 16317.899,
           "zoneHigh": 16328.329,
           "c1Time": 1637667900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1637660400-BUY",
@@ -642,7 +782,12 @@
           "zoneLow": 16305.609,
           "zoneHigh": 16308.829,
           "c1Time": 1637660400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1678075800-SELL",
@@ -663,7 +808,12 @@
           "zoneLow": 12338.309,
           "zoneHigh": 12340.369,
           "c1Time": 1678075800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1701366000-BUY",
@@ -684,7 +834,12 @@
           "zoneLow": 15839.999,
           "zoneHigh": 15847.969,
           "c1Time": 1701366000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1704918000-SELL",
@@ -705,7 +860,12 @@
           "zoneLow": 16815.089,
           "zoneHigh": 16828.389,
           "c1Time": 1704918000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1706860800-SELL",
@@ -726,7 +886,12 @@
           "zoneLow": 17509.976,
           "zoneHigh": 17516.899,
           "c1Time": 1706860800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1707837600-BUY",
@@ -747,7 +912,12 @@
           "zoneLow": 17598.597,
           "zoneHigh": 17602.331,
           "c1Time": 1707837600,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1735200900-SELL",
@@ -768,7 +938,12 @@
           "zoneLow": 21800.454,
           "zoneHigh": 21827.52,
           "c1Time": 1735200900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1754010000-BUY",
@@ -789,7 +964,12 @@
           "zoneLow": 23141.01,
           "zoneHigh": 23142.343,
           "c1Time": 1754010000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1782849300-SELL",
@@ -810,7 +990,12 @@
           "zoneLow": 30264.697,
           "zoneHigh": 30316.675,
           "c1Time": 1782849300,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1783642500-SELL",
@@ -831,7 +1016,12 @@
           "zoneLow": 29691.402,
           "zoneHigh": 29715.325,
           "c1Time": 1783642500,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1783621200-SELL",
@@ -852,7 +1042,12 @@
           "zoneLow": 29748.219,
           "zoneHigh": 29752.765,
           "c1Time": 1783621200,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1787654400-SELL",
@@ -873,7 +1068,12 @@
           "zoneLow": 29302.797,
           "zoneHigh": 29332.309,
           "c1Time": 1787654400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1580278500-SELL",
@@ -894,7 +1094,12 @@
           "zoneLow": 9125.97,
           "zoneHigh": 9129.89,
           "c1Time": 1580278500,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1754379000-SELL",
@@ -915,7 +1120,12 @@
           "zoneLow": 23244.887,
           "zoneHigh": 23256.454,
           "c1Time": 1754379000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1565746200-SELL",
@@ -936,7 +1146,12 @@
           "zoneLow": 7730.97,
           "zoneHigh": 7752.86,
           "c1Time": 1565746200,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1643679000-SELL",
@@ -957,7 +1172,12 @@
           "zoneLow": 14882.519,
           "zoneHigh": 14897.159,
           "c1Time": 1643679000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1723470300-SELL",
@@ -978,7 +1198,12 @@
           "zoneLow": 18491.599,
           "zoneHigh": 18534.009,
           "c1Time": 1723470300,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1723451700-SELL",
@@ -999,7 +1224,12 @@
           "zoneLow": 18569.509,
           "zoneHigh": 18572.164,
           "c1Time": 1723451700,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1691050800-BUY",
@@ -1020,7 +1250,12 @@
           "zoneLow": 15267.009,
           "zoneHigh": 15288.369,
           "c1Time": 1691050800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1698933900-SELL",
@@ -1041,7 +1276,12 @@
           "zoneLow": 14828.829,
           "zoneHigh": 14849.709,
           "c1Time": 1698933900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1774266300-SELL",
@@ -1062,7 +1302,12 @@
           "zoneLow": 24331,
           "zoneHigh": 24382.599,
           "c1Time": 1774266300,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ],
       "keep": [
@@ -1085,7 +1330,12 @@
           "zoneLow": 7594.06,
           "zoneHigh": 7594.959,
           "c1Time": 1561507200,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1570169700-SELL",
@@ -1106,7 +1356,12 @@
           "zoneLow": 7648.959,
           "zoneHigh": 7653.56,
           "c1Time": 1570169700,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1614043800-BUY",
@@ -1127,7 +1382,12 @@
           "zoneLow": 13226.489,
           "zoneHigh": 13252.589,
           "c1Time": 1614043800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1614215100-SELL",
@@ -1148,7 +1408,12 @@
           "zoneLow": 13309.109,
           "zoneHigh": 13319.819,
           "c1Time": 1614215100,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1633619700-SELL",
@@ -1169,7 +1434,12 @@
           "zoneLow": 14983.689,
           "zoneHigh": 14986.449,
           "c1Time": 1633619700,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1633608300-SELL",
@@ -1190,7 +1460,12 @@
           "zoneLow": 14948.139,
           "zoneHigh": 14960.797,
           "c1Time": 1633608300,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1639619100-SELL",
@@ -1211,7 +1486,12 @@
           "zoneLow": 16300.719,
           "zoneHigh": 16317.599,
           "c1Time": 1639619100,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "favorable",
+          "macroBias": -5.985
         },
         {
           "id": "NAS100:5-smc-1639612800-SELL",
@@ -1232,7 +1512,12 @@
           "zoneLow": 16319.899,
           "zoneHigh": 16324.489,
           "c1Time": 1639612800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "favorable",
+          "macroBias": -5.675
         },
         {
           "id": "NAS100:15-smc-1646123400-SELL",
@@ -1253,7 +1538,12 @@
           "zoneLow": 14254.579,
           "zoneHigh": 14267.139,
           "c1Time": 1646123400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1660926900-BUY",
@@ -1274,7 +1564,12 @@
           "zoneLow": 13247.549,
           "zoneHigh": 13262.099,
           "c1Time": 1660926900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1666224900-BUY",
@@ -1295,7 +1590,12 @@
           "zoneLow": 11041.209,
           "zoneHigh": 11041.869,
           "c1Time": 1666224900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1666202400-BUY",
@@ -1316,7 +1616,12 @@
           "zoneLow": 11023.009,
           "zoneHigh": 11045.789,
           "c1Time": 1666202400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1691053200-BUY",
@@ -1337,7 +1642,12 @@
           "zoneLow": 15267.459,
           "zoneHigh": 15302.609,
           "c1Time": 1691053200,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1690994100-BUY",
@@ -1358,7 +1668,12 @@
           "zoneLow": 15345.599,
           "zoneHigh": 15354.589,
           "c1Time": 1690994100,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1717584300-SELL",
@@ -1379,7 +1694,12 @@
           "zoneLow": 18735.865,
           "zoneHigh": 18738.721,
           "c1Time": 1717584300,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1719279900-BUY",
@@ -1400,7 +1720,12 @@
           "zoneLow": 19489.519,
           "zoneHigh": 19499.542,
           "c1Time": 1719279900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1719259800-BUY",
@@ -1421,7 +1746,12 @@
           "zoneLow": 19481.975,
           "zoneHigh": 19482.565,
           "c1Time": 1719259800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1782386100-SELL",
@@ -1442,7 +1772,12 @@
           "zoneLow": 29841.109,
           "zoneHigh": 29876.52,
           "c1Time": 1782386100,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1782375300-SELL",
@@ -1463,7 +1798,12 @@
           "zoneLow": 29885.821,
           "zoneHigh": 29887.531,
           "c1Time": 1782375300,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1549593900-BUY",
@@ -1484,7 +1824,12 @@
           "zoneLow": 6865.07,
           "zoneHigh": 6866.47,
           "c1Time": 1549593900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1549585500-BUY",
@@ -1505,7 +1850,12 @@
           "zoneLow": 6880.57,
           "zoneHigh": 6883.069,
           "c1Time": 1549585500,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1568597700-BUY",
@@ -1526,7 +1876,12 @@
           "zoneLow": 7781.57,
           "zoneHigh": 7789.07,
           "c1Time": 1568597700,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1592184600-BUY",
@@ -1547,7 +1902,12 @@
           "zoneLow": 9559.9,
           "zoneHigh": 9569.07,
           "c1Time": 1592184600,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1591986600-BUY",
@@ -1568,7 +1928,12 @@
           "zoneLow": 9530.85,
           "zoneHigh": 9566.41,
           "c1Time": 1591986600,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "défavorable",
+          "macroBias": -2.773
         },
         {
           "id": "NAS100:15-smc-1610474400-BUY",
@@ -1589,7 +1954,12 @@
           "zoneLow": 12840.089,
           "zoneHigh": 12849.939,
           "c1Time": 1610474400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1615469400-SELL",
@@ -1610,7 +1980,12 @@
           "zoneLow": 12982.067,
           "zoneHigh": 12987.599,
           "c1Time": 1615469400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1615464000-SELL",
@@ -1631,7 +2006,12 @@
           "zoneLow": 12973.839,
           "zoneHigh": 12988.709,
           "c1Time": 1615464000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1637667900-BUY",
@@ -1652,7 +2032,12 @@
           "zoneLow": 16317.899,
           "zoneHigh": 16328.329,
           "c1Time": 1637667900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1637660400-BUY",
@@ -1673,7 +2058,12 @@
           "zoneLow": 16305.609,
           "zoneHigh": 16308.829,
           "c1Time": 1637660400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1678075800-SELL",
@@ -1694,7 +2084,12 @@
           "zoneLow": 12338.309,
           "zoneHigh": 12340.369,
           "c1Time": 1678075800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1701366000-BUY",
@@ -1715,7 +2110,12 @@
           "zoneLow": 15839.999,
           "zoneHigh": 15847.969,
           "c1Time": 1701366000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1704918000-SELL",
@@ -1736,7 +2136,12 @@
           "zoneLow": 16815.089,
           "zoneHigh": 16828.389,
           "c1Time": 1704918000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1706860800-SELL",
@@ -1757,7 +2162,12 @@
           "zoneLow": 17509.976,
           "zoneHigh": 17516.899,
           "c1Time": 1706860800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1707837600-BUY",
@@ -1778,7 +2188,12 @@
           "zoneLow": 17598.597,
           "zoneHigh": 17602.331,
           "c1Time": 1707837600,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1735200900-SELL",
@@ -1799,7 +2214,12 @@
           "zoneLow": 21800.454,
           "zoneHigh": 21827.52,
           "c1Time": 1735200900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1754010000-BUY",
@@ -1820,7 +2240,12 @@
           "zoneLow": 23141.01,
           "zoneHigh": 23142.343,
           "c1Time": 1754010000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1782849300-SELL",
@@ -1841,7 +2266,12 @@
           "zoneLow": 30264.697,
           "zoneHigh": 30316.675,
           "c1Time": 1782849300,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1783642500-SELL",
@@ -1862,7 +2292,12 @@
           "zoneLow": 29691.402,
           "zoneHigh": 29715.325,
           "c1Time": 1783642500,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1783621200-SELL",
@@ -1883,7 +2318,12 @@
           "zoneLow": 29748.219,
           "zoneHigh": 29752.765,
           "c1Time": 1783621200,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1787654400-SELL",
@@ -1904,7 +2344,12 @@
           "zoneLow": 29302.797,
           "zoneHigh": 29332.309,
           "c1Time": 1787654400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1580278500-SELL",
@@ -1925,7 +2370,12 @@
           "zoneLow": 9125.97,
           "zoneHigh": 9129.89,
           "c1Time": 1580278500,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1754379000-SELL",
@@ -1946,7 +2396,12 @@
           "zoneLow": 23244.887,
           "zoneHigh": 23256.454,
           "c1Time": 1754379000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1565746200-SELL",
@@ -1967,7 +2422,12 @@
           "zoneLow": 7730.97,
           "zoneHigh": 7752.86,
           "c1Time": 1565746200,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1643679000-SELL",
@@ -1988,7 +2448,12 @@
           "zoneLow": 14882.519,
           "zoneHigh": 14897.159,
           "c1Time": 1643679000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1723470300-SELL",
@@ -2009,7 +2474,12 @@
           "zoneLow": 18491.599,
           "zoneHigh": 18534.009,
           "c1Time": 1723470300,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1723451700-SELL",
@@ -2030,7 +2500,12 @@
           "zoneLow": 18569.509,
           "zoneHigh": 18572.164,
           "c1Time": 1723451700,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1691050800-BUY",
@@ -2051,7 +2526,12 @@
           "zoneLow": 15267.009,
           "zoneHigh": 15288.369,
           "c1Time": 1691050800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1698933900-SELL",
@@ -2072,7 +2552,12 @@
           "zoneLow": 14828.829,
           "zoneHigh": 14849.709,
           "c1Time": 1698933900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1774266300-SELL",
@@ -2093,7 +2578,12 @@
           "zoneLow": 24331,
           "zoneHigh": 24382.599,
           "c1Time": 1774266300,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ]
     },
@@ -2442,6 +2932,11 @@
         "zoneHigh": 29332.309,
         "c1Time": 1787654400,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2465,6 +2960,11 @@
         "zoneHigh": 29752.765,
         "c1Time": 1783621200,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2488,6 +2988,11 @@
         "zoneHigh": 29715.325,
         "c1Time": 1783642500,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2511,6 +3016,11 @@
         "zoneHigh": 30316.675,
         "c1Time": 1782849300,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2534,6 +3044,11 @@
         "zoneHigh": 29887.531,
         "c1Time": 1782375300,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2557,6 +3072,11 @@
         "zoneHigh": 29876.52,
         "c1Time": 1782386100,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2580,6 +3100,11 @@
         "zoneHigh": 24382.599,
         "c1Time": 1774266300,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2603,6 +3128,11 @@
         "zoneHigh": 23256.454,
         "c1Time": 1754379000,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2626,6 +3156,11 @@
         "zoneHigh": 23142.343,
         "c1Time": 1754010000,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2649,6 +3184,11 @@
         "zoneHigh": 21827.52,
         "c1Time": 1735200900,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2672,6 +3212,11 @@
         "zoneHigh": 18534.009,
         "c1Time": 1723470300,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2695,6 +3240,11 @@
         "zoneHigh": 18572.164,
         "c1Time": 1723451700,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2718,6 +3268,11 @@
         "zoneHigh": 19482.565,
         "c1Time": 1719259800,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2741,6 +3296,11 @@
         "zoneHigh": 19499.542,
         "c1Time": 1719279900,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2764,6 +3324,11 @@
         "zoneHigh": 18738.721,
         "c1Time": 1717584300,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2787,6 +3352,11 @@
         "zoneHigh": 17602.331,
         "c1Time": 1707837600,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2810,6 +3380,11 @@
         "zoneHigh": 17516.899,
         "c1Time": 1706860800,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2833,6 +3408,11 @@
         "zoneHigh": 16828.389,
         "c1Time": 1704918000,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2856,6 +3436,11 @@
         "zoneHigh": 15847.969,
         "c1Time": 1701366000,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2879,6 +3464,11 @@
         "zoneHigh": 14849.709,
         "c1Time": 1698933900,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2902,6 +3492,11 @@
         "zoneHigh": 15302.609,
         "c1Time": 1691053200,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2925,6 +3520,11 @@
         "zoneHigh": 15288.369,
         "c1Time": 1691050800,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2948,6 +3548,11 @@
         "zoneHigh": 15354.589,
         "c1Time": 1690994100,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2971,6 +3576,11 @@
         "zoneHigh": 12340.369,
         "c1Time": 1678075800,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -2994,6 +3604,11 @@
         "zoneHigh": 11041.869,
         "c1Time": 1666224900,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3017,6 +3632,11 @@
         "zoneHigh": 11045.789,
         "c1Time": 1666202400,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3040,6 +3660,11 @@
         "zoneHigh": 13262.099,
         "c1Time": 1660926900,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3063,6 +3688,11 @@
         "zoneHigh": 14267.139,
         "c1Time": 1646123400,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3086,6 +3716,11 @@
         "zoneHigh": 14897.159,
         "c1Time": 1643679000,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3109,6 +3744,11 @@
         "zoneHigh": 16324.489,
         "c1Time": 1639612800,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "favorable",
+        "macroBias": -5.675,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3132,6 +3772,11 @@
         "zoneHigh": 16317.599,
         "c1Time": 1639619100,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "favorable",
+        "macroBias": -5.985,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3155,6 +3800,11 @@
         "zoneHigh": 16308.829,
         "c1Time": 1637660400,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3178,6 +3828,11 @@
         "zoneHigh": 16328.329,
         "c1Time": 1637667900,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3201,6 +3856,11 @@
         "zoneHigh": 14986.449,
         "c1Time": 1633619700,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3224,6 +3884,11 @@
         "zoneHigh": 14960.797,
         "c1Time": 1633608300,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3247,6 +3912,11 @@
         "zoneHigh": 12987.599,
         "c1Time": 1615469400,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3270,6 +3940,11 @@
         "zoneHigh": 12988.709,
         "c1Time": 1615464000,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3293,6 +3968,11 @@
         "zoneHigh": 13319.819,
         "c1Time": 1614215100,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3316,6 +3996,11 @@
         "zoneHigh": 13252.589,
         "c1Time": 1614043800,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3339,6 +4024,11 @@
         "zoneHigh": 12849.939,
         "c1Time": 1610474400,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3362,6 +4052,11 @@
         "zoneHigh": 9569.07,
         "c1Time": 1592184600,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3385,6 +4080,11 @@
         "zoneHigh": 9566.41,
         "c1Time": 1591986600,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "défavorable",
+        "macroBias": -2.773,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3408,6 +4108,11 @@
         "zoneHigh": 9129.89,
         "c1Time": 1580278500,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3431,6 +4136,11 @@
         "zoneHigh": 7653.56,
         "c1Time": 1570169700,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3454,6 +4164,11 @@
         "zoneHigh": 7789.07,
         "c1Time": 1568597700,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3477,6 +4192,11 @@
         "zoneHigh": 7752.86,
         "c1Time": 1565746200,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3500,6 +4220,11 @@
         "zoneHigh": 7594.959,
         "c1Time": 1561507200,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3523,6 +4248,11 @@
         "zoneHigh": 6866.47,
         "c1Time": 1549593900,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -3546,10 +4276,44 @@
         "zoneHigh": 6883.069,
         "c1Time": 1549585500,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       }
-    ]
+    ],
+    "calibration": {
+      "byLevel": {},
+      "byMacro": {
+        "neutre": {
+          "n": 46,
+          "winRate": 0.37,
+          "expectancyR": 0.77,
+          "ciR": [
+            -0.1,
+            1.74
+          ]
+        },
+        "favorable": {
+          "n": 2,
+          "winRate": 0,
+          "expectancyR": -1.1,
+          "ciR": [
+            -1.13,
+            -1.07
+          ]
+        },
+        "défavorable": {
+          "n": 1,
+          "winRate": 0,
+          "expectancyR": -1.16,
+          "ciR": null
+        }
+      }
+    }
   },
   "inSample": {
     "market": "NAS100",
@@ -3597,7 +4361,12 @@
           "zoneLow": 7594.06,
           "zoneHigh": 7594.959,
           "c1Time": 1561507200,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1570169700-SELL",
@@ -3618,7 +4387,12 @@
           "zoneLow": 7648.959,
           "zoneHigh": 7653.56,
           "c1Time": 1570169700,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1614043800-BUY",
@@ -3639,7 +4413,12 @@
           "zoneLow": 13226.489,
           "zoneHigh": 13252.589,
           "c1Time": 1614043800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1614215100-SELL",
@@ -3660,7 +4439,12 @@
           "zoneLow": 13309.109,
           "zoneHigh": 13319.819,
           "c1Time": 1614215100,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1633619700-SELL",
@@ -3681,7 +4465,12 @@
           "zoneLow": 14983.689,
           "zoneHigh": 14986.449,
           "c1Time": 1633619700,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1633608300-SELL",
@@ -3702,7 +4491,12 @@
           "zoneLow": 14948.139,
           "zoneHigh": 14960.797,
           "c1Time": 1633608300,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1639619100-SELL",
@@ -3723,7 +4517,12 @@
           "zoneLow": 16300.719,
           "zoneHigh": 16317.599,
           "c1Time": 1639619100,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "favorable",
+          "macroBias": -5.985
         },
         {
           "id": "NAS100:5-smc-1639612800-SELL",
@@ -3744,7 +4543,12 @@
           "zoneLow": 16319.899,
           "zoneHigh": 16324.489,
           "c1Time": 1639612800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "favorable",
+          "macroBias": -5.675
         },
         {
           "id": "NAS100:15-smc-1646123400-SELL",
@@ -3765,7 +4569,12 @@
           "zoneLow": 14254.579,
           "zoneHigh": 14267.139,
           "c1Time": 1646123400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1660926900-BUY",
@@ -3786,7 +4595,12 @@
           "zoneLow": 13247.549,
           "zoneHigh": 13262.099,
           "c1Time": 1660926900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1666224900-BUY",
@@ -3807,7 +4621,12 @@
           "zoneLow": 11041.209,
           "zoneHigh": 11041.869,
           "c1Time": 1666224900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1666202400-BUY",
@@ -3828,7 +4647,12 @@
           "zoneLow": 11023.009,
           "zoneHigh": 11045.789,
           "c1Time": 1666202400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1691053200-BUY",
@@ -3849,7 +4673,12 @@
           "zoneLow": 15267.459,
           "zoneHigh": 15302.609,
           "c1Time": 1691053200,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1690994100-BUY",
@@ -3870,7 +4699,12 @@
           "zoneLow": 15345.599,
           "zoneHigh": 15354.589,
           "c1Time": 1690994100,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1549593900-BUY",
@@ -3891,7 +4725,12 @@
           "zoneLow": 6865.07,
           "zoneHigh": 6866.47,
           "c1Time": 1549593900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1549585500-BUY",
@@ -3912,7 +4751,12 @@
           "zoneLow": 6880.57,
           "zoneHigh": 6883.069,
           "c1Time": 1549585500,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1568597700-BUY",
@@ -3933,7 +4777,12 @@
           "zoneLow": 7781.57,
           "zoneHigh": 7789.07,
           "c1Time": 1568597700,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1592184600-BUY",
@@ -3954,7 +4803,12 @@
           "zoneLow": 9559.9,
           "zoneHigh": 9569.07,
           "c1Time": 1592184600,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1591986600-BUY",
@@ -3975,7 +4829,12 @@
           "zoneLow": 9530.85,
           "zoneHigh": 9566.41,
           "c1Time": 1591986600,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "défavorable",
+          "macroBias": -2.773
         },
         {
           "id": "NAS100:15-smc-1610474400-BUY",
@@ -3996,7 +4855,12 @@
           "zoneLow": 12840.089,
           "zoneHigh": 12849.939,
           "c1Time": 1610474400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1615469400-SELL",
@@ -4017,7 +4881,12 @@
           "zoneLow": 12982.067,
           "zoneHigh": 12987.599,
           "c1Time": 1615469400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1615464000-SELL",
@@ -4038,7 +4907,12 @@
           "zoneLow": 12973.839,
           "zoneHigh": 12988.709,
           "c1Time": 1615464000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1637667900-BUY",
@@ -4059,7 +4933,12 @@
           "zoneLow": 16317.899,
           "zoneHigh": 16328.329,
           "c1Time": 1637667900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1637660400-BUY",
@@ -4080,7 +4959,12 @@
           "zoneLow": 16305.609,
           "zoneHigh": 16308.829,
           "c1Time": 1637660400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1678075800-SELL",
@@ -4101,7 +4985,12 @@
           "zoneLow": 12338.309,
           "zoneHigh": 12340.369,
           "c1Time": 1678075800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1701366000-BUY",
@@ -4122,7 +5011,12 @@
           "zoneLow": 15839.999,
           "zoneHigh": 15847.969,
           "c1Time": 1701366000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1704918000-SELL",
@@ -4143,7 +5037,12 @@
           "zoneLow": 16815.089,
           "zoneHigh": 16828.389,
           "c1Time": 1704918000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1706860800-SELL",
@@ -4164,7 +5063,12 @@
           "zoneLow": 17509.976,
           "zoneHigh": 17516.899,
           "c1Time": 1706860800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1707837600-BUY",
@@ -4185,7 +5089,12 @@
           "zoneLow": 17598.597,
           "zoneHigh": 17602.331,
           "c1Time": 1707837600,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1580278500-SELL",
@@ -4206,7 +5115,12 @@
           "zoneLow": 9125.97,
           "zoneHigh": 9129.89,
           "c1Time": 1580278500,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1565746200-SELL",
@@ -4227,7 +5141,12 @@
           "zoneLow": 7730.97,
           "zoneHigh": 7752.86,
           "c1Time": 1565746200,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1643679000-SELL",
@@ -4248,7 +5167,12 @@
           "zoneLow": 14882.519,
           "zoneHigh": 14897.159,
           "c1Time": 1643679000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1691050800-BUY",
@@ -4269,7 +5193,12 @@
           "zoneLow": 15267.009,
           "zoneHigh": 15288.369,
           "c1Time": 1691050800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1698933900-SELL",
@@ -4290,7 +5219,12 @@
           "zoneLow": 14828.829,
           "zoneHigh": 14849.709,
           "c1Time": 1698933900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ],
       "keep": [
@@ -4313,7 +5247,12 @@
           "zoneLow": 7594.06,
           "zoneHigh": 7594.959,
           "c1Time": 1561507200,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1570169700-SELL",
@@ -4334,7 +5273,12 @@
           "zoneLow": 7648.959,
           "zoneHigh": 7653.56,
           "c1Time": 1570169700,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1614043800-BUY",
@@ -4355,7 +5299,12 @@
           "zoneLow": 13226.489,
           "zoneHigh": 13252.589,
           "c1Time": 1614043800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1614215100-SELL",
@@ -4376,7 +5325,12 @@
           "zoneLow": 13309.109,
           "zoneHigh": 13319.819,
           "c1Time": 1614215100,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1633619700-SELL",
@@ -4397,7 +5351,12 @@
           "zoneLow": 14983.689,
           "zoneHigh": 14986.449,
           "c1Time": 1633619700,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1633608300-SELL",
@@ -4418,7 +5377,12 @@
           "zoneLow": 14948.139,
           "zoneHigh": 14960.797,
           "c1Time": 1633608300,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1639619100-SELL",
@@ -4439,7 +5403,12 @@
           "zoneLow": 16300.719,
           "zoneHigh": 16317.599,
           "c1Time": 1639619100,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "favorable",
+          "macroBias": -5.985
         },
         {
           "id": "NAS100:5-smc-1639612800-SELL",
@@ -4460,7 +5429,12 @@
           "zoneLow": 16319.899,
           "zoneHigh": 16324.489,
           "c1Time": 1639612800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "favorable",
+          "macroBias": -5.675
         },
         {
           "id": "NAS100:15-smc-1646123400-SELL",
@@ -4481,7 +5455,12 @@
           "zoneLow": 14254.579,
           "zoneHigh": 14267.139,
           "c1Time": 1646123400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1660926900-BUY",
@@ -4502,7 +5481,12 @@
           "zoneLow": 13247.549,
           "zoneHigh": 13262.099,
           "c1Time": 1660926900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1666224900-BUY",
@@ -4523,7 +5507,12 @@
           "zoneLow": 11041.209,
           "zoneHigh": 11041.869,
           "c1Time": 1666224900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1666202400-BUY",
@@ -4544,7 +5533,12 @@
           "zoneLow": 11023.009,
           "zoneHigh": 11045.789,
           "c1Time": 1666202400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1691053200-BUY",
@@ -4565,7 +5559,12 @@
           "zoneLow": 15267.459,
           "zoneHigh": 15302.609,
           "c1Time": 1691053200,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1690994100-BUY",
@@ -4586,7 +5585,12 @@
           "zoneLow": 15345.599,
           "zoneHigh": 15354.589,
           "c1Time": 1690994100,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1549593900-BUY",
@@ -4607,7 +5611,12 @@
           "zoneLow": 6865.07,
           "zoneHigh": 6866.47,
           "c1Time": 1549593900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1549585500-BUY",
@@ -4628,7 +5637,12 @@
           "zoneLow": 6880.57,
           "zoneHigh": 6883.069,
           "c1Time": 1549585500,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1568597700-BUY",
@@ -4649,7 +5663,12 @@
           "zoneLow": 7781.57,
           "zoneHigh": 7789.07,
           "c1Time": 1568597700,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1592184600-BUY",
@@ -4670,7 +5689,12 @@
           "zoneLow": 9559.9,
           "zoneHigh": 9569.07,
           "c1Time": 1592184600,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1591986600-BUY",
@@ -4691,7 +5715,12 @@
           "zoneLow": 9530.85,
           "zoneHigh": 9566.41,
           "c1Time": 1591986600,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "défavorable",
+          "macroBias": -2.773
         },
         {
           "id": "NAS100:15-smc-1610474400-BUY",
@@ -4712,7 +5741,12 @@
           "zoneLow": 12840.089,
           "zoneHigh": 12849.939,
           "c1Time": 1610474400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1615469400-SELL",
@@ -4733,7 +5767,12 @@
           "zoneLow": 12982.067,
           "zoneHigh": 12987.599,
           "c1Time": 1615469400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1615464000-SELL",
@@ -4754,7 +5793,12 @@
           "zoneLow": 12973.839,
           "zoneHigh": 12988.709,
           "c1Time": 1615464000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1637667900-BUY",
@@ -4775,7 +5819,12 @@
           "zoneLow": 16317.899,
           "zoneHigh": 16328.329,
           "c1Time": 1637667900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1637660400-BUY",
@@ -4796,7 +5845,12 @@
           "zoneLow": 16305.609,
           "zoneHigh": 16308.829,
           "c1Time": 1637660400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1678075800-SELL",
@@ -4817,7 +5871,12 @@
           "zoneLow": 12338.309,
           "zoneHigh": 12340.369,
           "c1Time": 1678075800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1701366000-BUY",
@@ -4838,7 +5897,12 @@
           "zoneLow": 15839.999,
           "zoneHigh": 15847.969,
           "c1Time": 1701366000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1704918000-SELL",
@@ -4859,7 +5923,12 @@
           "zoneLow": 16815.089,
           "zoneHigh": 16828.389,
           "c1Time": 1704918000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1706860800-SELL",
@@ -4880,7 +5949,12 @@
           "zoneLow": 17509.976,
           "zoneHigh": 17516.899,
           "c1Time": 1706860800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1707837600-BUY",
@@ -4901,7 +5975,12 @@
           "zoneLow": 17598.597,
           "zoneHigh": 17602.331,
           "c1Time": 1707837600,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1580278500-SELL",
@@ -4922,7 +6001,12 @@
           "zoneLow": 9125.97,
           "zoneHigh": 9129.89,
           "c1Time": 1580278500,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1565746200-SELL",
@@ -4943,7 +6027,12 @@
           "zoneLow": 7730.97,
           "zoneHigh": 7752.86,
           "c1Time": 1565746200,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1643679000-SELL",
@@ -4964,7 +6053,12 @@
           "zoneLow": 14882.519,
           "zoneHigh": 14897.159,
           "c1Time": 1643679000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1691050800-BUY",
@@ -4985,7 +6079,12 @@
           "zoneLow": 15267.009,
           "zoneHigh": 15288.369,
           "c1Time": 1691050800,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1698933900-SELL",
@@ -5006,7 +6105,12 @@
           "zoneLow": 14828.829,
           "zoneHigh": 14849.709,
           "c1Time": 1698933900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ]
     },
@@ -5295,6 +6399,11 @@
         "zoneHigh": 17602.331,
         "c1Time": 1707837600,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5318,6 +6427,11 @@
         "zoneHigh": 17516.899,
         "c1Time": 1706860800,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5341,6 +6455,11 @@
         "zoneHigh": 16828.389,
         "c1Time": 1704918000,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5364,6 +6483,11 @@
         "zoneHigh": 15847.969,
         "c1Time": 1701366000,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5387,6 +6511,11 @@
         "zoneHigh": 14849.709,
         "c1Time": 1698933900,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5410,6 +6539,11 @@
         "zoneHigh": 15302.609,
         "c1Time": 1691053200,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5433,6 +6567,11 @@
         "zoneHigh": 15288.369,
         "c1Time": 1691050800,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5456,6 +6595,11 @@
         "zoneHigh": 15354.589,
         "c1Time": 1690994100,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5479,6 +6623,11 @@
         "zoneHigh": 12340.369,
         "c1Time": 1678075800,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5502,6 +6651,11 @@
         "zoneHigh": 11041.869,
         "c1Time": 1666224900,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5525,6 +6679,11 @@
         "zoneHigh": 11045.789,
         "c1Time": 1666202400,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5548,6 +6707,11 @@
         "zoneHigh": 13262.099,
         "c1Time": 1660926900,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5571,6 +6735,11 @@
         "zoneHigh": 14267.139,
         "c1Time": 1646123400,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5594,6 +6763,11 @@
         "zoneHigh": 14897.159,
         "c1Time": 1643679000,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5617,6 +6791,11 @@
         "zoneHigh": 16324.489,
         "c1Time": 1639612800,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "favorable",
+        "macroBias": -5.675,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5640,6 +6819,11 @@
         "zoneHigh": 16317.599,
         "c1Time": 1639619100,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "favorable",
+        "macroBias": -5.985,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5663,6 +6847,11 @@
         "zoneHigh": 16308.829,
         "c1Time": 1637660400,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5686,6 +6875,11 @@
         "zoneHigh": 16328.329,
         "c1Time": 1637667900,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5709,6 +6903,11 @@
         "zoneHigh": 14986.449,
         "c1Time": 1633619700,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5732,6 +6931,11 @@
         "zoneHigh": 14960.797,
         "c1Time": 1633608300,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5755,6 +6959,11 @@
         "zoneHigh": 12987.599,
         "c1Time": 1615469400,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5778,6 +6987,11 @@
         "zoneHigh": 12988.709,
         "c1Time": 1615464000,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5801,6 +7015,11 @@
         "zoneHigh": 13319.819,
         "c1Time": 1614215100,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5824,6 +7043,11 @@
         "zoneHigh": 13252.589,
         "c1Time": 1614043800,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5847,6 +7071,11 @@
         "zoneHigh": 12849.939,
         "c1Time": 1610474400,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5870,6 +7099,11 @@
         "zoneHigh": 9569.07,
         "c1Time": 1592184600,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5893,6 +7127,11 @@
         "zoneHigh": 9566.41,
         "c1Time": 1591986600,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "défavorable",
+        "macroBias": -2.773,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5916,6 +7155,11 @@
         "zoneHigh": 9129.89,
         "c1Time": 1580278500,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5939,6 +7183,11 @@
         "zoneHigh": 7653.56,
         "c1Time": 1570169700,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5962,6 +7211,11 @@
         "zoneHigh": 7789.07,
         "c1Time": 1568597700,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -5985,6 +7239,11 @@
         "zoneHigh": 7752.86,
         "c1Time": 1565746200,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -6008,6 +7267,11 @@
         "zoneHigh": 7594.959,
         "c1Time": 1561507200,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -6031,6 +7295,11 @@
         "zoneHigh": 6866.47,
         "c1Time": 1549593900,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -6054,10 +7323,44 @@
         "zoneHigh": 6883.069,
         "c1Time": 1549585500,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       }
-    ]
+    ],
+    "calibration": {
+      "byLevel": {},
+      "byMacro": {
+        "neutre": {
+          "n": 31,
+          "winRate": 0.387,
+          "expectancyR": 0.45,
+          "ciR": [
+            -0.43,
+            1.71
+          ]
+        },
+        "favorable": {
+          "n": 2,
+          "winRate": 0,
+          "expectancyR": -1.1,
+          "ciR": [
+            -1.13,
+            -1.07
+          ]
+        },
+        "défavorable": {
+          "n": 1,
+          "winRate": 0,
+          "expectancyR": -1.16,
+          "ciR": null
+        }
+      }
+    }
   },
   "outOfSample": {
     "market": "NAS100",
@@ -6105,7 +7408,12 @@
           "zoneLow": 29841.109,
           "zoneHigh": 29876.52,
           "c1Time": 1782386100,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1782375300-SELL",
@@ -6126,7 +7434,12 @@
           "zoneLow": 29885.821,
           "zoneHigh": 29887.531,
           "c1Time": 1782375300,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1735200900-SELL",
@@ -6147,7 +7460,12 @@
           "zoneLow": 21800.454,
           "zoneHigh": 21827.52,
           "c1Time": 1735200900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1754010000-BUY",
@@ -6168,7 +7486,12 @@
           "zoneLow": 23141.01,
           "zoneHigh": 23142.343,
           "c1Time": 1754010000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1782849300-SELL",
@@ -6189,7 +7512,12 @@
           "zoneLow": 30264.697,
           "zoneHigh": 30316.675,
           "c1Time": 1782849300,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1783642500-SELL",
@@ -6210,7 +7538,12 @@
           "zoneLow": 29691.402,
           "zoneHigh": 29715.325,
           "c1Time": 1783642500,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1783621200-SELL",
@@ -6231,7 +7564,12 @@
           "zoneLow": 29748.219,
           "zoneHigh": 29752.765,
           "c1Time": 1783621200,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1787654400-SELL",
@@ -6252,7 +7590,12 @@
           "zoneLow": 29302.797,
           "zoneHigh": 29332.309,
           "c1Time": 1787654400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1754379000-SELL",
@@ -6273,7 +7616,12 @@
           "zoneLow": 23244.887,
           "zoneHigh": 23256.454,
           "c1Time": 1754379000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1774266300-SELL",
@@ -6294,7 +7642,12 @@
           "zoneLow": 24331,
           "zoneHigh": 24382.599,
           "c1Time": 1774266300,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ],
       "keep": [
@@ -6317,7 +7670,12 @@
           "zoneLow": 29841.109,
           "zoneHigh": 29876.52,
           "c1Time": 1782386100,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1782375300-SELL",
@@ -6338,7 +7696,12 @@
           "zoneLow": 29885.821,
           "zoneHigh": 29887.531,
           "c1Time": 1782375300,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1735200900-SELL",
@@ -6359,7 +7722,12 @@
           "zoneLow": 21800.454,
           "zoneHigh": 21827.52,
           "c1Time": 1735200900,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1754010000-BUY",
@@ -6380,7 +7748,12 @@
           "zoneLow": 23141.01,
           "zoneHigh": 23142.343,
           "c1Time": 1754010000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1782849300-SELL",
@@ -6401,7 +7774,12 @@
           "zoneLow": 30264.697,
           "zoneHigh": 30316.675,
           "c1Time": 1782849300,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1783642500-SELL",
@@ -6422,7 +7800,12 @@
           "zoneLow": 29691.402,
           "zoneHigh": 29715.325,
           "c1Time": 1783642500,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1783621200-SELL",
@@ -6443,7 +7826,12 @@
           "zoneLow": 29748.219,
           "zoneHigh": 29752.765,
           "c1Time": 1783621200,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1787654400-SELL",
@@ -6464,7 +7852,12 @@
           "zoneLow": 29302.797,
           "zoneHigh": 29332.309,
           "c1Time": 1787654400,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:15-smc-1754379000-SELL",
@@ -6485,7 +7878,12 @@
           "zoneLow": 23244.887,
           "zoneHigh": 23256.454,
           "c1Time": 1754379000,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         },
         {
           "id": "NAS100:5-smc-1774266300-SELL",
@@ -6506,7 +7904,12 @@
           "zoneLow": 24331,
           "zoneHigh": 24382.599,
           "c1Time": 1774266300,
-          "costPips": 1.5
+          "costPips": 1.5,
+          "rel": null,
+          "relScore": null,
+          "relParts": null,
+          "macro": "neutre",
+          "macroBias": 0
         }
       ]
     },
@@ -6699,6 +8102,11 @@
         "zoneHigh": 29332.309,
         "c1Time": 1787654400,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -6722,6 +8130,11 @@
         "zoneHigh": 29752.765,
         "c1Time": 1783621200,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -6745,6 +8158,11 @@
         "zoneHigh": 29715.325,
         "c1Time": 1783642500,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -6768,6 +8186,11 @@
         "zoneHigh": 30316.675,
         "c1Time": 1782849300,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -6791,6 +8214,11 @@
         "zoneHigh": 29887.531,
         "c1Time": 1782375300,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -6814,6 +8242,11 @@
         "zoneHigh": 29876.52,
         "c1Time": 1782386100,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -6837,6 +8270,11 @@
         "zoneHigh": 24382.599,
         "c1Time": 1774266300,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -6860,6 +8298,11 @@
         "zoneHigh": 23256.454,
         "c1Time": 1754379000,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -6883,6 +8326,11 @@
         "zoneHigh": 23142.343,
         "c1Time": 1754010000,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       },
@@ -6906,9 +8354,28 @@
         "zoneHigh": 21827.52,
         "c1Time": 1735200900,
         "costPips": 1.5,
+        "rel": null,
+        "relScore": null,
+        "relParts": null,
+        "macro": "neutre",
+        "macroBias": 0,
         "market": "NAS100",
         "policy": "tp1"
       }
-    ]
+    ],
+    "calibration": {
+      "byLevel": {},
+      "byMacro": {
+        "neutre": {
+          "n": 10,
+          "winRate": 0.4,
+          "expectancyR": 1.77,
+          "ciR": [
+            -0.48,
+            4.57
+          ]
+        }
+      }
+    }
   }
 }

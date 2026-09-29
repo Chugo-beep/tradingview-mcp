@@ -107,7 +107,7 @@ export function _ingest(rawList, nowMs = Date.now()) {
     const otherChanged = prev.major !== ev.major || prev.title !== ev.title || prev.forecast !== ev.forecast || prev.previous !== ev.previous || prev.unit !== ev.unit || prev.period !== ev.period;
     if (actualPublished || timeChanged || otherChanged) { state.events.set(ev.id, ev); state.eventSeq.set(ev.id, ++state.seq); changed = true; }
   }
-  // purge des événements sortis de la fenêtre (ex. plus vieux que J-1)
+  // purge des événements sortis de la fenêtre (plus vieux que J-40 ou au-delà de J+7)
   for (const [id, ev] of state.events) if (ev.t < lo || ev.t > hi) { state.events.delete(id); state.eventSeq.delete(id); changed = true; }
   if (changed) state.updatedAt = new Date(nowMs).toISOString();
   return { changed };

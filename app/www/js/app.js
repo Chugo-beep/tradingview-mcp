@@ -373,11 +373,16 @@ async function runOnce() {
  */
 /** Charge (une fois par marché) le rapport de backtest et en tire l'indicateur de confiance. */
 function ensureConfidence(marketId) {
-  if (!marketId || marketId in state.confidence) return;
+  if (!marketId) return;
+  const cur = state.confidence[marketId];
+  if (cur && !(cur.retryAt && Date.now() >= cur.retryAt)) return;
   state.confidence[marketId] = assessConfidence(null); // évite les requêtes en double
   backtestApi.get(state.settings, marketId, { serverAvailable: state.server })
     .then((res) => { state.confidence[marketId] = assessConfidence(res.report); renderPositions(); })
-    .catch(() => { /* rapport absent : la confiance reste « inconnue » */ });
+    .catch((e) => {
+      // aucun rapport pour ce marché : « inconnue » définitivement ; panne réseau / PC éteint : nouvel essai dans 10 min
+      if (!/Aucun backtest/i.test(String(e?.message || ''))) state.confidence[marketId] = { ...assessConfidence(null), retryAt: Date.now() + 600000 };
+    });
 }
 const confidenceOf = (marketId) => state.confidence[marketId] || assessConfidence(null);
 const confBadge = (c) => `<span class="conf-bt conf-${c.level}" title="${esc(c.reasons.join(' '))}">${esc(c.label)}</span>`;

@@ -98,7 +98,9 @@ export function macroState(events, marketId, model, nowT, opts = {}) {
     contributions.push({
       key: k, title: e.title, country: e.country, family: familyOf(e.title), t: e.t, actual: e.actual, forecast: e.forecast, previous: e.previous,
       z: z == null ? null : round(z, 2), revision: rev == null ? null : round(rev, 2),
-      reaction: s && z != null ? round(s.b60 * z, 2) : null, // réaction immédiate attendue (1 h), en mouvements typiques
+      // réaction immédiate attendue (1 h), en mouvements typiques ; null si aucune réaction à 1 h n'est mesurée
+      // pour cet indicateur (ex. PPI sur les indices : seul un effet persistant est mesuré)
+      reaction: s?.b60 && z != null ? round(s.b60 * z, 2) : null,
       contrib: round(contrib, 3), influential: !!s,
     });
   }
@@ -119,8 +121,9 @@ export function macroState(events, marketId, model, nowT, opts = {}) {
   }
   const packets = [];
   for (const [, list] of byPacket) {
-    if (list.length < 2) continue;
     const withReact = list.filter((c) => c.reaction != null);
+    // un « paquet » n'a de sens que si au moins deux de ses annonces ont une réaction mesurée sur ce marché
+    if (withReact.length < 2) continue;
     const net = withReact.reduce((s, c) => s + c.reaction, 0);
     const abs = withReact.reduce((s, c) => s + Math.abs(c.reaction), 0);
     packets.push({ t: list[0].t, country: list[0].country, titles: list.map((c) => c.title), net: round(net, 2), agreement: abs > 0 ? round(Math.abs(net) / abs, 2) : null });
@@ -142,7 +145,7 @@ export function macroState(events, marketId, model, nowT, opts = {}) {
     const expZ = leads.length ? leads.reduce((a, l) => a + l.expected, 0) / leads.length : null;
     upcoming.push({
       key: k, title: e.title, country: e.country, t: e.t, forecast: e.forecast,
-      typicalMove: s ? round(Math.abs(s.b60), 2) : null, // |réaction| typique pour une surprise de 1 σ
+      typicalMove: s?.b60 ? round(Math.abs(s.b60), 2) : null, // |réaction| typique pour une surprise de 1 σ
       leads, expectedZ: expZ == null ? null : round(expZ, 2),
       expectedDir: s && expZ != null && Math.abs(expZ * s.b60) >= 0.05 ? (expZ * s.b60 > 0 ? 'haussier' : 'baissier') : null,
     });

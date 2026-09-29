@@ -107,13 +107,24 @@ function newsResponse(url) {
 }
 
 /** GET /api/backtest?market=XAUUSD : rapport JSON du dernier backtest long terme (scripts/backtest-dukascopy.mjs), s'il existe. */
+const BACKTEST_SUMMARY_FIELDS = ['trades', 'winRate', 'expectancyR', 'ciR', 'profitFactor', 'maxDrawdownR', 'maxLosingStreak', 'verdict', 'randomPercentile', 'randomLabel', 'insufficient', 'calibration'];
+/** Statistiques de synthèse d'une période de backtest (sans historique de trades ni courbe). */
+export function backtestSummary(r) {
+  if (!r || typeof r !== 'object') return null;
+  return Object.fromEntries(BACKTEST_SUMMARY_FIELDS.filter((k) => k in r).map((k) => [k, r[k]]));
+}
+
 async function backtestResponse(url) {
   const marketRaw = url.searchParams.get('market');
   const market = marketRaw == null ? DEFAULT_MARKET : String(marketRaw).toUpperCase();
   if (!MARKET_IDS.includes(market)) throw Object.assign(new Error('Paramètre market invalide'), { status: 400 });
   try {
-    const raw = await readFile(join(WWW, 'data', `backtest-${market}.json`), 'utf8');
-    return { status: 200, body: { success: true, market, report: JSON.parse(raw) } };
+    const raw = JSON.parse(await readFile(join(WWW, 'data', `backtest-${market}.json`), 'utf8'));
+    // synthèse seulement (indicateur de confiance) : le rapport complet (~300 Ko, 400 trades détaillés)
+    // n'a pas à transiter vers chaque appareil ; il reste lisible dans www/data sur le PC.
+    const report = { market: raw.market, label: raw.label, strategy: raw.strategy, mode: raw.mode, from: raw.from, to: raw.to, generatedAt: raw.generatedAt, synthetic: raw.synthetic };
+    for (const part of ['full', 'inSample', 'outOfSample']) report[part] = backtestSummary(raw[part]);
+    return { status: 200, body: { success: true, market, report } };
   } catch {
     return { status: 404, body: { success: false, error: `Aucun backtest disponible pour ${market} : lance npm run backtest.` } };
   }
@@ -135,6 +146,21 @@ async function tvCandles(url) {
     body.candles = filtered;
   }
   return { status, body };
+}
+
+/**
+ * Journalise la cause réelle d'une erreur TradingView (le client ne reçoit qu'un message générique, A10)
+ * sans noyer le journal de sécurité : une ligne par message distinct, au plus toutes les 10 min pour un
+ * même message (sinon, pendant une panne, ~1 ligne / min chasserait les vrais événements de sécurité
+ * des 200 derniers affichés).
+ */
+const tvErrLog = { msg: null, at: 0 };
+export async function logTvError(e, now = Date.now()) {
+  const msg = String(e?.message || e).slice(0, 300);
+  if (msg === tvErrLog.msg && now - tvErrLog.at < 10 * 60000) return false;
+  tvErrLog.msg = msg; tvErrLog.at = now;
+  await sec.secLog('tv_error', { msg });
+  return true;
 }
 
 /** Message d'erreur sans détail interne (A10). */
@@ -221,7 +247,7 @@ async function localApi(req, res, url) {
   }
   if (p === '/api/tv/candles' && m === 'GET') {
     try { const { status, body } = await tvCandles(url); return send(res, status, body); }
-    catch (e) { if (e?.status) throw e; await sec.secLog('tv_error', { msg: String(e?.message || e).slice(0, 300) }); return send(res, 503, { success: false, error: tvErrorMessage(e) }); }
+    catch (e) { if (e?.status) throw e; await logTvError(e); return send(res, 503, { success: false, error: tvErrorMessage(e) }); }
   }
   if (p === '/api/news' && m === 'GET') {
     const { status, body } = newsResponse(url);
@@ -293,6 +319,8 @@ async function serveStatic(pathname, res) {
 const buckets = new Map();
 function rateLimited(key, max = 120, windowMs = 60000) {
   const now = Date.now();
+  // purge des compteurs expirés (la plus longue fenêtre est de 10 min) : la table ne grossit jamais indéfiniment
+  if (buckets.size > 1000) for (const [k, v] of buckets) if (now - v.at > 10 * 60000) buckets.delete(k);
   const b = buckets.get(key) || { n: 0, at: now };
   if (now - b.at > windowMs) { b.n = 0; b.at = now; }
   b.n++; buckets.set(key, b);
@@ -332,7 +360,7 @@ const remoteServer = http.createServer(async (req, res) => {
     if (!auth.ok) return out(auth.status, { error: auth.error });
     if (p === '/api/tv/candles' && m === 'GET') {
       try { const { status, body } = await tvCandles(url); return out(status, body); }
-      catch (e) { if (e?.status) throw e; await sec.secLog('tv_error', { msg: String(e?.message || e).slice(0, 300) }); return out(503, { success: false, error: tvErrorMessage(e) }); }
+      catch (e) { if (e?.status) throw e; await logTvError(e); return out(503, { success: false, error: tvErrorMessage(e) }); }
     }
     if (p === '/api/news' && m === 'GET') {
       const { status, body } = newsResponse(url);
@@ -382,12 +410,25 @@ export function start() {
     console.warn('\n' + '!'.repeat(70)); console.warn(warn); console.warn('!'.repeat(70) + '\n');
     sec.secLog('startup_insecure_no_tailscale', {});
   }
+  // Port déjà pris (serveur déjà lancé…) : message clair et arrêt. Sans ce gestionnaire, l'erreur était
+  // avalée par le filet « uncaughtException » et le processus restait vivant SANS port, tout en
+  // interrogeant TradingView (historique, annonces) en concurrence avec le vrai serveur.
+  const failListen = (port, what) => (e) => {
+    const msg = e?.code === 'EADDRINUSE'
+      ? `Le port ${port} (${what}) est déjà utilisé : XAUUSD Zones tourne probablement déjà. Utilise la fenêtre déjà ouverte, ou relance Demarrer.bat (il ouvre alors simplement l'application).`
+      : `Impossible d'ouvrir le port ${port} (${what}) : ${e?.message || e}`;
+    console.error(`\n${msg}\n`);
+    sec.secLog('listen_failed', { port, reason: e?.code || String(e?.message || e) }).finally(() => process.exit(1));
+  };
+  localServer.once('error', failListen(PORT, 'application PC'));
   localServer.listen(PORT, HOST, () => {
     const local = `http://localhost:${PORT}`;
     console.log(`XAUUSD Zones (PC) → ${local}`);
     if (OPEN) openBrowser(local);
+    startBackgroundTasks();
   });
   if (REMOTE) {
+    remoteServer.once('error', failListen(REMOTE_PORT, 'API téléphone'));
     remoteServer.listen(REMOTE_PORT, HOST, () => {
       console.log(`API téléphone → 127.0.0.1:${REMOTE_PORT} (publiée en HTTPS dans ton réseau Tailscale par acces-distant.bat)`);
       if (!process.argv.includes('--no-code')) {
@@ -397,6 +438,13 @@ export function start() {
       }
     });
   }
+}
+
+/** Tâches de fond, lancées une seule fois et seulement quand le port local est réellement ouvert. */
+let backgroundStarted = false;
+function startBackgroundTasks() {
+  if (backgroundStarted) return;
+  backgroundStarted = true;
   sec.secLog('server_started', { port: PORT, remotePort: REMOTE ? REMOTE_PORT : null });
   // Charge l'historique TradingView en tâche de fond (peu après le démarrage, puis toutes les 30 min) :
   // sans bloquer le démarrage du serveur, jamais superposé à un getCandles (verrou partagé dans tvfeed.js).

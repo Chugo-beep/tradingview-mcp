@@ -1,0 +1,10 @@
+{
+  "name": "tar",
+  "version": "7.5.22-compat.1",
+  "private": true,
+  "description": "Adaptateur : fournit tar 7.5.22 (vulnérabilités corrigées) à @capacitor/cli 6, qui attend l'API de tar 6 (import par défaut). Voir index.js. tar-patched (npm:tar@7.5.22) est déclaré dans les devDependencies de l'app : npm n'installe pas les dépendances d'un paquet local lié.",
+  "main": "index.js",
+  "peerDependencies": {
+    "tar-patched": "*"
+  }
+}

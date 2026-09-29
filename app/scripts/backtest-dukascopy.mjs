@@ -7,7 +7,8 @@
  *   node scripts/backtest-dukascopy.mjs --market XAUUSD --from 2023-01-01 --to 2026-09-01 --mode atr
  *   node scripts/backtest-dukascopy.mjs --market XAUUSD --synthetic   (marche aléatoire, sans réseau)
  *
- * `dukascopy-node` est une dépendance OPTIONNELLE (app/package.json) : sans elle, seul --synthetic
+ * `dukascopy-node` n'est PAS déclaré dans app/package.json (installé à la demande par backtest.bat :
+ * `npm install dukascopy-node --no-save`, pour ne pas alourdir la compilation de l'APK) : sans lui, seul --synthetic
  * fonctionne (utile pour tester le pipeline sans connexion aux serveurs Dukascopy).
  *
  * Sortie :
@@ -66,7 +67,7 @@ async function loadOneMinuteSeries() {
   } catch {
     fail(
       'Le paquet "dukascopy-node" n\'est pas installé (dépendance optionnelle). ' +
-      'Lance « npm install » à la racine de app/, ou utilise --synthetic pour tester le pipeline hors ligne.',
+      'Lance « npm install dukascopy-node --no-save » dans app/ (ou backtest.bat, qui le fait), ou utilise --synthetic pour tester le pipeline hors ligne.',
     );
   }
   console.log(`Téléchargement Dukascopy : ${instrument} du ${FROM} au ${TO} (1 minute)…`);
@@ -147,7 +148,9 @@ async function main() {
     csvRows.push([market.id, x.tf, x.dir, iso(x.fillTime), iso(x.t), x.fillPrice, x.exitPrice, x.exitKind || '', x.r]);
   }
   const csvFile = join(DATA_OUT, `backtest-${market.id}-trades.csv`);
-  await writeFile(csvFile, '﻿' + csvRows.map((r) => r.join(';')).join('\r\n'), 'utf8');
+  // CSV : BOM UTF-8 (accents lisibles dans Excel), champs échappés (séparateur ; guillemets, retours ligne)
+  const csvEsc = (v) => { const x = String(v ?? ''); return /[";\r\n]/.test(x) ? `"${x.replace(/"/g, '""')}"` : x; };
+  await writeFile(csvFile, '\ufeff' + csvRows.map((r) => r.map(csvEsc).join(';')).join('\r\n'), 'utf8');
 
   const lines = [];
   lines.push(`# Backtest ${market.label} (${MARKET_ID}) — ${FROM} → ${TO}`);
