@@ -166,7 +166,8 @@ with open(r'$prov', 'w', encoding='utf-8-sig') as f:
 
   Step 'Compilation de l''APK release (Gradle)'
   Push-Location android
-  cmd /c "gradlew.bat clean assembleRelease --console=plain > ..\build-android.log 2>&1"; $code = $LASTEXITCODE
+  # « .\ » explicite : sans lui, cmd ne trouve pas gradlew.bat si NoDefaultCurrentDirectoryInExePath est défini
+  cmd /c ".\gradlew.bat clean assembleRelease --console=plain > ..\build-android.log 2>&1"; $code = $LASTEXITCODE
   Get-Content ..\build-android.log -Tail 30 | ForEach-Object { Write-Host $_ }
   Pop-Location
   if ($code) { throw 'La compilation Gradle a échoué (voir ci-dessus).' }
